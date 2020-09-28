@@ -1,5 +1,5 @@
 %
-% EMP encoding in ASP
+% MEP encoding in ASP
 %
 
 #include <incmode>.
@@ -80,6 +80,25 @@ main_formula(F) :- formula(F), determines(_, _, F).
 main_formula(F) :- formula(F),  announces(_, _, F).
 main_formula(F) :- formula(F), goal(F).
 
+check_on_pointed(F) :- formula(F), executable(_,    F).
+check_on_pointed(F) :- formula(F),   observes(_, _, F).
+check_on_pointed(F) :- formula(F),   aware_of(_, _, F).
+check_on_pointed(F) :- formula(F),       goal(F).
+
+check_everywhere(F) :- formula(F), check_on_pointed(F).
+check_everywhere(F) :- formula(F),     causes(_, _, F).
+check_everywhere(F) :- formula(F), determines(_, _, F).
+check_everywhere(F) :- formula(F),  announces(_, _, F).
+
+check_everywhere(F ) :- check_everywhere(neg(F)),       formula(neg(F)),       formula(F ).
+check_everywhere(F1) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
+check_everywhere(F2) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
+check_everywhere(F1) :- check_everywhere( or(F1, F2)),  formula( or(F1, F2)),  formula(F1), formula(F2).
+check_everywhere(F2) :- check_everywhere( or(F1, F2)),  formula( or(F1, F2)),  formula(F1), formula(F2).
+
+check_everywhere(F ) :- check_everywhere(  b(AG , F )), formula(  b(AG , F )), formula(F ), agent(AG).
+check_everywhere(F ) :- check_everywhere(  c(AGS, F )), formula(  c(AGS, F )), formula(F ), agent_set(AGS).
+
 % Entailment of initially conditions. We use it to generate the initial state
 entails_init(P,  F    )          :-     holds(0, 0, P, F),                          initial_possibility(P), fluent(F), init_sf(F).
 entails_init(P, -F    )          :- not holds(0, 0, P, F),                          initial_possibility(P), fluent(F), init_sf(F).
@@ -111,22 +130,38 @@ not_entails(0, 0, P1, c(AGS, F)) :- not entails(0, 0, P2, F), reaches(0, 0, P1, 
 #program step(t).
 
 % entails/4: P entails the formula F
-entails(t, R, P,  F    )      :- t > 0, time(t),     holds(t, R, P, F),                          possible_world(t, R, P), fluent(F).
-entails(t, R, P, -F    )      :- t > 0, time(t), not holds(t, R, P, F),                          possible_world(t, R, P), fluent(F).
+entails(t, R, P,  F    )      :- t > 0, time(t),     holds(t, R, P, F),                          check_on_pw(t, R, P,  F),          possible_world(t, R, P), fluent(F).
+entails(t, R, P, -F    )      :- t > 0, time(t), not holds(t, R, P, F),                          check_on_pw(t, R, P, -F),          possible_world(t, R, P), fluent(F).
 
-entails(t, R, P, neg(F))      :- t > 0, time(t), not entails(t, R, P, F ),                       possible_world(t, R, P), formula(neg(F)),      formula(F).
-entails(t, R, P, and(F1, F2)) :- t > 0, time(t),     entails(t, R, P, F1), entails(t, R, P, F2), possible_world(t, R, P), formula(and(F1, F2)), formula(F1), formula(F2).
-entails(t, R, P,  or(F1, F2)) :- t > 0, time(t),     entails(t, R, P, F1),                       possible_world(t, R, P), formula( or(F1, F2)), formula(F1), formula(F2).
-entails(t, R, P,  or(F1, F2)) :- t > 0, time(t),                           entails(t, R, P, F2), possible_world(t, R, P), formula( or(F1, F2)), formula(F1), formula(F2).
+entails(t, R, P, neg(F))      :- t > 0, time(t), not entails(t, R, P, F ),                       check_on_pw(t, R, P, neg(F)),      possible_world(t, R, P), formula(neg(F)),      formula(F).
+entails(t, R, P, and(F1, F2)) :- t > 0, time(t),     entails(t, R, P, F1), entails(t, R, P, F2), check_on_pw(t, R, P, and(F1, F2)), possible_world(t, R, P), formula(and(F1, F2)), formula(F1), formula(F2).
+entails(t, R, P,  or(F1, F2)) :- t > 0, time(t),     entails(t, R, P, F1),                       check_on_pw(t, R, P,  or(F1, F2)), possible_world(t, R, P), formula( or(F1, F2)), formula(F1), formula(F2).
+entails(t, R, P,  or(F1, F2)) :- t > 0, time(t),                           entails(t, R, P, F2), check_on_pw(t, R, P,  or(F1, F2)), possible_world(t, R, P), formula( or(F1, F2)), formula(F1), formula(F2).
 
-entails(t, R, P,   b(AG , F)) :- t > 0, time(t), not not_entails(t, R, P, b(AG , F)),            possible_world(t, R, P), formula(b(AG , F)), formula(F), agent(AG).
-entails(t, R, P,   c(AGS, F)) :- t > 0, time(t), not not_entails(t, R, P, c(AGS, F)),            possible_world(t, R, P), formula(c(AGS, F)), formula(F), agent_set(AGS).
+entails(t, R, P,   b(AG , F)) :- t > 0, time(t), not not_entails(t, R, P, b(AG , F)),            check_on_pw(t, R, P, b(AG , F)),   possible_world(t, R, P), formula(b(AG , F)), formula(F), agent(AG).
+entails(t, R, P,   c(AGS, F)) :- t > 0, time(t), not not_entails(t, R, P, c(AGS, F)),            check_on_pw(t, R, P, c(AGS, F)),   possible_world(t, R, P), formula(c(AGS, F)), formula(F), agent_set(AGS).
 
-not_entails(t, R1, P1, b(AG , F)) :- t > 0, time(t), time(T2), T2 <= t, not entails(T2, R2, P2, F), believes(t, R1, P1, T2, R2, P2, AG),
+not_entails(t, R1, P1, b(AG , F)) :- t > 0, time(t), time(T2), T2 <= t, not entails(T2, R2, P2, F), check_on_pw(t, R1, P1, b(AG , F)), believes(t, R1, P1, T2, R2, P2, AG),
                                      possible_world(T1, R1, P1), possible_world(T2, R2, P2), formula(b(AG , F)), formula(F), agent(AG).
 
-not_entails(t, R1, P1, c(AGS, F)) :- t > 0, time(t), time(T2), T2 <= t, not entails(T2, R2, P2, F), reaches(t, R1, P1, T2, R2, P2, AGS),
+not_entails(t, R1, P1, c(AGS, F)) :- t > 0, time(t), time(T2), T2 <= t, not entails(T2, R2, P2, F), check_on_pw(t, R1, P1, c(AGS, F)), reaches(t, R1, P1, T2, R2, P2, AGS),
                                      possible_world(T1, R1, P1), possible_world(T2, R2, P2), formula(c(AGS, F)), formula(F), agent_set(AGS).
+
+
+check_on_pw(t , R , P , F ) :- t > 0, time(t), check_on_pointed(F),                       possible_world(t, R, P), pointed(t, R, P), formula(F).
+check_on_pw(t , R , P , F ) :- t > 0, time(t), check_everywhere(F),                       possible_world(t, R, P),                   formula(F).
+
+check_on_pw(t , R , P , F ) :- t > 0, check_on_pw(t, R, P, neg(F)),      possible_world(t, R, P), formula(neg(F)),      formula(F ).
+check_on_pw(t , R , P , F1) :- t > 0, check_on_pw(t, R, P, and(F1, F2)), possible_world(t, R, P), formula(and(F1, F2)), formula(F1), formula(F2).
+check_on_pw(t , R , P , F2) :- t > 0, check_on_pw(t, R, P, and(F1, F2)), possible_world(t, R, P), formula(and(F1, F2)), formula(F1), formula(F2).
+check_on_pw(t , R , P , F1) :- t > 0, check_on_pw(t, R, P,  or(F1, F2)), possible_world(t, R, P), formula( or(F1, F2)), formula(F1), formula(F2).
+check_on_pw(t , R , P , F2) :- t > 0, check_on_pw(t, R, P,  or(F1, F2)), possible_world(t, R, P), formula( or(F1, F2)), formula(F1), formula(F2).
+
+check_on_pw(t, R1, P1, F ) :- t > 0, time(t), check_on_pw(t, R2, P2, b(AG , F)), believes(t, R2, P2, t, R1, P1, AG),
+                              possible_world(t, R1, P1), possible_world(t, R2, P2), formula(b(AG , F)), formula(F), agent(AG).
+
+check_on_pw(t, R1, P1, F ) :- t > 0, time(t), check_on_pw(t, R2, P2, c(AGS, F)), reaches(t, R2, P2, t, R1, P1, AGS),
+                              possible_world(t, R1, P1), possible_world(t, R2, P2), formula(c(AGS, F)), formula(F), agent_set(AGS).
 
 
 #program base.

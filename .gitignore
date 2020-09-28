@@ -4,3 +4,6 @@ testing/
 
 # Out files
 out/
+
+# Other
+*/.DS_Store
