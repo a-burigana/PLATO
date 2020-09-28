@@ -42,6 +42,21 @@ reaches(t, R1, P1, T2, R2, P2, AGS) :- believes(t, R1, P1, T3, R3, P3, AG), time
                                        contains_ag(AGS, AG), reaches(T3, R3, P3, T2, R2, P2, AGS), agent(AG), agent_set(AGS),
                                        possible_world(t, R1, P1), possible_world(T2, R2, P2), possible_world(T3, R3, P3).
 
+% reaches(t, R1, P1, T2, R2, P2, AGS, 1-NO_O, ALL_F, FIRST_P) :- believes(t, R1, P1, T2, R2, P2, AG), not initially(c(AGS, F)), formula(F), time(t), time(T2), T2 <= t,
+%                                                                contains_ag(AGS, AG), agent(AG), agent_set(AGS), possible_world(t, R1, P1), possible_world(T2, R2, P2),
+%                                                                NO_O = #count { agent(AG) : not is_oblivious(t, AG) }, ALL_F = #count { is_fully_obs(t, AG) : agent(AG) }, FIRST_P = #count { is_partial_obs(t, AG) : agent(AG) }.
+
+% reaches(t, R1, P1, T2, R2, P2, AGS, 1-NO_O, ALL_F, FIRST_P) :- believes(t, R1, P1, T2, R2, P2, AG), pointed(t, R1, P1), main_formula(c(AGS, F)), not initially(c(AGS, F)), time(t), time(T2), T2 <= t,
+%                                                                contains_ag(AGS, AG), agent(AG), agent_set(AGS), possible_world(t, R1, P1), possible_world(T2, R2, P2),
+%                                                                NO_O = #count { is_oblivious(t, AG) : agent(AG) }, ALL_F = #count { is_fully_obs(t, AG) : agent(AG) }, FIRST_P = #count { is_partial_obs(t, AG) : agent(AG) }.
+
+% reaches(t, R1, P1, T2, R2, P2, AGS,   NO_O, ALL_F, FIRST_P) :- believes(t, R1, P1, T3, R3, P3, AG), time(t), time(T2), time(T3), T3 <= t, T2 <= T3,
+%                                                                contains_ag(AGS, AG), reaches(T3, R3, P3, T2, R2, P2, AGS, NO_O1, ALL_F1, FIRST_P), agent(AG), agent_set(AGS),
+%                                                                possible_world(t, R1, P1), possible_world(T2, R2, P2), possible_world(T3, R3, P3),
+%                                                                X1 = #count { is_oblivious(t, AG) : agent(AG) }, X2 = #count { is_fully_obs(t, AG) : agent(AG) }, NO_O = NO_O1 * (1-X1), ALL_F = ALL_F1 * X2.
+
+% TODO: finish
+
 reaches_no_oblivious(t, T2, R2, P2) :- t > 0, time(t), time(T2), T2 <= t, pointed(t-1, R, P), possible_world(T2, R2, P2),
                                        believes(t-1, R, P, T2, R2, P2, AG), not is_oblivious(t, AG).
 

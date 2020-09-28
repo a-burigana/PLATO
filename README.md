@@ -2,16 +2,16 @@
 An ASP based comprehensive Multi-Agent Epistemic Planner
 
 ## Usage
-The main program is `planner_multi.lp`. Given a MEP domain instance `instance.lp`, to calculate a plan simply run the following line in your terminal:
+The main program is `plato.lp`. Given a MEP domain instance `instance.lp`, to calculate a plan simply run the following line in your terminal:
 
 ```
-clingo planner_multi.lp path/to/instance.lp <options>
+clingo plato.lp path/to/instance.lp <options>
 ```
 
 You can easily calculate all the plans for the given instance:
 
 ```
-clingo planner_multi.lp path/to/instance.lp 0
+clingo plato.lp path/to/instance.lp 0
 ```
 
 The best working *clingo*'s configurations (as to the conducted evaluations) are `many` and `frumpy`. In the *exp* folder you can find the domains instances that we used to test the efficiency of PLATO. A description of the domains is available at http://clp.dimi.uniud.it/sw/.
@@ -34,7 +34,7 @@ At the moment, PLATO *correctly* encodes the semantics of *mAp* as prooved in [3
 
 Here we list our current and future works:
 - [x] Enhancement of the entailment rules
-- [ ] Rework of the repetition parameters in the atoms possible_world(T, R, P)
+- [ ] Rework of the repetition parameters in the atoms `possible_world(T, R, P)`
 - [ ] Heuristics implementation
 - [ ] Implementing the extended semantics of *mAp* that formalizes novel concepts **inconsistent beliefs**, **trust**, **misconceptions** and **lies**
 
