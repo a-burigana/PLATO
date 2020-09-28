@@ -2,7 +2,7 @@
 An ASP based comprehensive Multi-Agent Epistemic Planner
 
 ## Usage
-The main program is `plato.lp`. To run PLATO you will only need to have *clingo* (https://potassco.org/clingo/) installed in your system.
+The main program is `plato.lp`. To run PLATO you only need to have *clingo* (https://potassco.org/clingo) installed in your system.
 
 Given a MEP domain instance `instance.lp`, to calculate a plan simply run the following line in your terminal:
 
@@ -16,7 +16,7 @@ You can easily calculate all the plans for the given instance:
 clingo plato.lp path/to/instance.lp 0
 ```
 
-The best working *clingo*'s configurations (as to the conducted evaluations) are `many` and `frumpy`. In the *exp* folder you can find the domains instances that we used to test the efficiency of PLATO. A description of the domains is available at http://clp.dimi.uniud.it/sw/.
+The best working *clingo*'s configurations (as to the conducted evaluations) are `many` and `frumpy`. In the *exp* folder you can find the domains instances that we used to test the efficiency of PLATO. A description of the domains is available at http://clp.dimi.uniud.it/sw.
 
 ## Overview
 PLATO (e**P**istemic mu**L**ti-agent **A**nswer se**T** programming s**O**lver) is a multi-agent epistmic planner written in ASP. It exploits *clingo*'s multi-shot capabilities [4], allowing for an incremental approach. Namely, we deal with a single planning step at a time, exploring the search space in a *breadth first* manner.
