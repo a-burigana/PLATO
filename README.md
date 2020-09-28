@@ -2,7 +2,9 @@
 An ASP based comprehensive Multi-Agent Epistemic Planner
 
 ## Usage
-The main program is `plato.lp`. Given a MEP domain instance `instance.lp`, to calculate a plan simply run the following line in your terminal:
+The main program is `plato.lp`. To run PLATO you will only need to have *clingo* (https://potassco.org/clingo/) installed in your system.
+
+Given a MEP domain instance `instance.lp`, to calculate a plan simply run the following line in your terminal:
 
 ```
 clingo plato.lp path/to/instance.lp <options>
@@ -30,7 +32,7 @@ PLATO comprises of three main components:
 PLATO is based on the semantics of the language *mAp*, described in [3]. For a complete analysis of the encoding see [2].
 
 ## Our goals
-At the moment, PLATO *correctly* encodes the semantics of *mAp* as prooved in [3]. At the moment, we impose some assumptions on the behavior of the agents. Namely, agents must be truthful and trustworthy.
+At the moment, PLATO *correctly* encodes the semantics of *mAp* as proved in [3]. At the moment, we impose some assumptions on the behavior of the agents. Namely, agents must be truthful and trustworthy.
 
 Here we list our current and future works:
 - [x] Enhancement of the entailment rules
