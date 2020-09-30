@@ -84,11 +84,11 @@ check_on_pw(0, 0 , P , F2) :- check_on_pw(0, 0, P, and(F1, F2)), possible_world(
 check_on_pw(0, 0 , P , F1) :- check_on_pw(0, 0, P,  or(F1, F2)), possible_world(0, 0, P), formula( or(F1, F2)), formula(F1), formula(F2).
 check_on_pw(0, 0 , P , F2) :- check_on_pw(0, 0, P,  or(F1, F2)), possible_world(0, 0, P), formula( or(F1, F2)), formula(F1), formula(F2).
 
-check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, b(AG , F)), believes(0, 0, P2, 0, R1, P1, AG),
-                              possible_world(0, R1, P1), possible_world(0, 0, P2), formula(b(AG , F)), formula(F), agent(AG).
+check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, b(AG , F)), believes(0, 0, P2, 0, 0, P1, AG),
+                              possible_world(0, 0, P1), possible_world(0, 0, P2), formula(b(AG , F)), formula(F), agent(AG).
 
-check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, c(AGS, F)), reaches(0, 0, P2, 0, R1, P1, AGS),
-                              possible_world(0, R1, P1), possible_world(0, 0, P2), formula(c(AGS, F)), formula(F), agent_set(AGS).
+check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, c(AGS, F)), reaches(0, 0, P2, 0, 0, P1, AGS),
+                              possible_world(0, 0, P1), possible_world(0, 0, P2), formula(c(AGS, F)), formula(F), agent_set(AGS).
 
 #program step(t).
 

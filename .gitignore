@@ -1,6 +1,7 @@
 # Project
 .vscode/
 testing/
+old_versions/
 modules/actions/
 
 # Out files
