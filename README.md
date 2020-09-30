@@ -21,7 +21,7 @@ The best working *clingo*'s configurations (as to the conducted evaluations) are
 ## Overview
 PLATO (e**P**istemic mu**L**ti-agent **A**nswer se**T** programming s**O**lver) is a multi-agent epistmic planner written in ASP. It exploits *clingo*'s multi-shot capabilities [4], allowing for an incremental approach. Namely, we deal with a single planning step at a time, exploring the search space in a *breadth first* manner.
 
-When we look at a MEP domain, we have different kinds of elements, such as actions' descriptions, initial state description and goal conditions. All of these elements are described by means of Dynamic Epistemic Logic [6] (DEL) formulae (or belief formulae). Moreover, an action description include executability conditions, execution effects and observability relations. For a complete description see [1,2].
+When we look at a MEP domain, we have different kinds of elements, such as actions' descriptions, initial state description and goal conditions. All of these elements are described by means of Dynamic Epistemic Logic [6] (DEL) formulae (or belief formulae). Moreover, an action description includes executability conditions, execution effects and observability relations. For a complete description see [1,2].
 
 ## Program structure
 PLATO comprises of three main components:
@@ -32,7 +32,7 @@ PLATO comprises of three main components:
 PLATO is based on the semantics of the language *mAp*, described in [3]. For a complete analysis of the encoding see [2].
 
 ## Our goals
-At the moment, PLATO *correctly* encodes the semantics of *mAp* as proved in [3]. At the moment, we impose some assumptions on the behavior of the agents. Namely, agents must be truthful and trustworthy.
+PLATO *correctly* encodes the semantics of *mAp* as proved in [3]. At the moment, we impose some assumptions on the behavior of the agents. Namely, agents must be truthful and trustworthy.
 
 Here we list our current and future works:
 - [x] Enhancement of the entailment rules
