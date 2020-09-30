@@ -1,4 +1,12 @@
-% ONTIC ACTIONS
+#script(python)
+import clingo
+
+def new_r(old_r, max_r):
+    return old_r.number + max_r.number + 1
+#end.
+
+
+% ********** ONTIC ACTIONS **********
 
 % pointed/3: the possibility P is pointed at time t
 pointed(t, @new_r(MR, MR), P) :- t > 0, time(t), plan(t, ACT), ontic(ACT), pointed(t-1, MR, P), possible_world(t, @new_r(MR, MR), P).
@@ -45,7 +53,8 @@ believes(t, @new_r(R1, MR), P1, T2, R2     , P2, AG) :- t > 0, plan(t, ACT), ont
                                                  is_oblivious(t, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
                                                  possible_world(t, @new_r(R1, MR), P1), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
 
-% SENSING ACTIONS
+
+% ********** SENSING ACTIONS **********
 
 % hold_sensed_effects/4: the possibility P2 agrees with the pointed possibility on the SENSED fluents of the sensing action ACT performed at time t
 hold_sensed_effects(t-1, R , P , t) :- t > 0, plan(t, ACT), sensing(ACT), pointed(t-1, R, P), time(t).
@@ -101,7 +110,8 @@ believes(t, @new_r(R1, MR), P1, T2, R2     , P2, AG) :- t > 0, plan(t, ACT), sen
                                                  believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
                                                  possible_world(t, @new_r(R1, MR), P1), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
 
-% ANNOUNCEMENT ACTIONS
+
+% ********** ANNOUNCEMENT ACTIONS **********
 
 % hold_announced_effects/4: the possibility P2 agrees with the pointed possibility on the ANN formulas of the announcement action ACT performed at time t
 hold_announced_effects(t-1, R , P , t) :- t > 0, plan(t, ACT), announcement(ACT), pointed(t-1, R, P), time(t).

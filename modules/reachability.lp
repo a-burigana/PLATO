@@ -2,6 +2,14 @@
 
 #program base.
 
+main_formula(F) :- formula(F), executable(_,    F).
+main_formula(F) :- formula(F),   observes(_, _, F).
+main_formula(F) :- formula(F),   aware_of(_, _, F).
+main_formula(F) :- formula(F),     causes(_, _, F).
+main_formula(F) :- formula(F), determines(_, _, F).
+main_formula(F) :- formula(F),  announces(_, _, F).
+main_formula(F) :- formula(F), goal(F).
+
 reaches(0, 0, P1, 0, 0, P2, AGS) :- believes(0, 0, P1, 0, 0, P2, AG), contains_ag(AGS, AG),
                                     possible_world(0, 0, P1), possible_world(0, 0, P2), agent(AG), agent_set(AGS).
 

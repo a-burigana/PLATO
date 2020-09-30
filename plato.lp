@@ -1,10 +1,6 @@
-%
-% MEP encoding in ASP
-%
-
 #include <incmode>.
 
-%To avoid showing the error "info: atom does not occur in any rule head"
+% To avoid showing the warning "info: atom does not occur in any rule head"
 #defined plan/2.
 #defined init_sf/1.
 #defined agent_set/1.
@@ -48,7 +44,6 @@ time(t).
 
 % Display
 #show plan/2.
-
 
 % !!! Uncomment while printing the results !!!
 %#show pointed/3.

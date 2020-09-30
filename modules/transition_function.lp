@@ -1,12 +1,5 @@
 % ********** TRANSITION FUNCTION **********
 
-#script(python)
-import clingo
-
-def new_r(old_r, max_r):
-    return old_r.number + max_r.number + 1
-#end.
-
 #program base.
 
 % Sensing or Announcement
