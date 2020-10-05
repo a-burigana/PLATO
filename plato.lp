@@ -3,6 +3,7 @@
 % To avoid showing the warning "info: atom does not occur in any rule head"
 #defined plan/2.
 #defined init_sf/1.
+#defined check_everywere/1.
 #defined agent_set/1.
 #defined contains_ag/2.
 
