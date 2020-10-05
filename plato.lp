@@ -1,4 +1,4 @@
-#include <incmode>.
+#include <incmode>.     % Multi-shot Python script (see Gebser et al., 2019)
 
 % To avoid showing the warning "info: atom does not occur in any rule head"
 #defined plan/2.

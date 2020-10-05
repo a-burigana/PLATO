@@ -119,11 +119,14 @@ check_on_pw(0, 0 , P , F2) :- check_on_pw(0, 0, P, and(F1, F2)), possible_world(
 check_on_pw(0, 0 , P , F1) :- check_on_pw(0, 0, P,  or(F1, F2)), possible_world(0, 0, P), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
 check_on_pw(0, 0 , P , F2) :- check_on_pw(0, 0, P,  or(F1, F2)), possible_world(0, 0, P), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
 
-check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, b(AG , F)), believes(0, 0, P2, 0, 0, P1, AG), not check_everywhere(b(AG , F)),
-                              possible_world(0, 0, P1), possible_world(0, 0, P2), formula(b(AG , F)), formula(F), agent(AG).
+check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, b(AG , F)), possible_world(0, 0, P1), possible_world(0, 0, P2),
+                              believes(0, 0, P2, 0, 0, P1, AG), not check_everywhere(b(AG , F)), formula(b(AG , F)), formula(F), agent(AG).
 
-check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, c(AGS, F)), reaches(0, 0, P2, 0, 0, P1, AGS), not check_everywhere(c(AGS, F)),
-                              possible_world(0, 0, P1), possible_world(0, 0, P2), formula(c(AGS, F)), formula(F), agent_set(AGS).
+check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, c(AGS, F)), possible_world(0, 0, P1), possible_world(0, 0, P2),
+                              believes(0, 0, P2, 0, 0, P1, AG), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
+
+% check_on_pw(0, 0 , P1, F ) :- check_on_pw(0, 0, P2, c(AGS, F)), possible_world(0, 0, P1), possible_world(0, 0, P2),
+%                               reaches(0, 0, P2, 0, 0, P1, AGS), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
 
 #program step(t).
 
@@ -135,8 +138,11 @@ check_on_pw(t, R , P , F2) :- t > 0, time(t), check_on_pw(t, R, P, and(F1, F2)),
 check_on_pw(t, R , P , F1) :- t > 0, time(t), check_on_pw(t, R, P,  or(F1, F2)), possible_world(t, R, P), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
 check_on_pw(t, R , P , F2) :- t > 0, time(t), check_on_pw(t, R, P,  or(F1, F2)), possible_world(t, R, P), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
 
-check_on_pw(t, R1, P1, F ) :- t > 0, time(t), time(T1), time(T2), T2 <= T1, check_on_pw(t, R2, P2, b(AG , F)), believes(t, R2, P2, t, R1, P1, AG),
-                              possible_world(t, R1, P1), possible_world(t, R2, P2), not check_everywhere(b(AG , F)), formula(b(AG , F)), formula(F), agent(AG).
+check_on_pw(t, R1, P1, F ) :- t > 0, time(t), time(T1), time(T2), T2 <= T1, check_on_pw(t, R2, P2, b(AG , F)), possible_world(t, R1, P1), possible_world(t, R2, P2),
+                              believes(t, R2, P2, t, R1, P1, AG), not check_everywhere(b(AG , F)), formula(b(AG , F)), formula(F), agent(AG).
 
-check_on_pw(t, R1, P1, F ) :- t > 0, time(t), time(T1), time(T2), T2 <= T1, check_on_pw(t, R2, P2, c(AGS, F)), reaches(t, R2, P2, t, R1, P1, AGS),
-                              possible_world(t, R1, P1), possible_world(t, R2, P2), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
+check_on_pw(t, R1, P1, F ) :- t > 0, time(t), time(T1), time(T2), T2 <= T1, check_on_pw(t, R2, P2, c(AGS, F)), possible_world(t, R1, P1), possible_world(t, R2, P2),
+                              believes(t, R2, P2, t, R1, P1, AG), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
+
+% check_on_pw(t, R1, P1, F ) :- t > 0, time(t), time(T1), time(T2), T2 <= T1, check_on_pw(t, R2, P2, c(AGS, F)), possible_world(t, R1, P1), possible_world(t, R2, P2),
+%                               reaches(t, R2, P2, t, R1, P1, AGS), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
