@@ -1,11 +1,5 @@
 % ********** TRANSITION FUNCTION **********
 
-#program base.
-
-% Sensing or Announcement
-soa(ACT) :- sensing(ACT).
-soa(ACT) :- announcement(ACT).
-
 #program step(t).
 
 % is_executable/2: the action ACT is executable at time t
@@ -44,14 +38,17 @@ is_executable_effect(t, ACT, T2, R2, P2, ANN   ) :- t > 0, time(t), time(T2), T2
 is_executable_effect(t, ACT, T2, R2, P2, ANN   ) :- t > 0, time(t), time(T2), T2 < t, plan(t, ACT), announcement(ACT), announces(ACT, ANN, EEXEC), possible_world(T2, R2, P2), formula(ANN),formula(EEXEC),
                                                     reaches_no_oblivious(t, T2, R2, P2), entails(T2, R2, P2, EEXEC).
 
-is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT), action(ACT), observes (ACT, AG, true), agent(AG).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),    soa(ACT), aware_of (ACT, AG, true), agent(AG).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), action(ACT), oblivious(ACT, AG),       agent(AG).
+is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), observes (ACT, AG, true), agent(AG).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_of (ACT, AG, true), agent(AG).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of (ACT, AG, true), agent(AG).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), oblivious(ACT, AG),       agent(AG).
 
-is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT), action(ACT), observes (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),    soa(ACT), aware_of (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), action(ACT), observes (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),    soa(ACT), aware_of (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
+is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), observes (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_of (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), observes (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_of (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
 
 #include "actions.lp".
 % #include "actions_pov.lp".

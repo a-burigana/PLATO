@@ -80,8 +80,10 @@ possible_world(t, @new_r(R2, MR), P) :- t > 0, plan(t, ACT), sensing(ACT), point
 % Let P be a possibility that is reachable from the pointed one with a no-oblivious path that begins with a partially observant agent
 % Then we create the new possibility P.
 possible_world(t, @new_r(R2, MR), P) :- t > 0, plan(t, ACT), sensing(ACT), pointed(t-1, MR, PP), possible_world(T2, R2, P), T2 < t,
-                                        reaches_first_partially_obs(t, T2, R2, P2), time(t), time(T2).
+                                        reaches_first_partially_obs(t, T2, R2, P), time(t), time(T2).
 
+% possible_world(t, @new_r(R2, MR), P) :- t > 0, plan(t, ACT), sensing(ACT), pointed(t-1, MR, PP), possible_world(T2, R2, P), possible_world(T3, R3, P3), T3 <= T2, T2 < t,
+%                                         believes(t-1, R, PP, T3, R3, P3, AG), reaches_no_oblivious(t, T2, R2, P), is_partial_obs(t, AG), time(t), time(T2), time(T3).
 
 % Inertia: sensing actions do not alter the values of the fluents
 holds(t, @new_r(R2, MR), P, F) :- t > 0, plan(t, ACT), sensing(ACT), possible_world(t, @new_r(R2, MR), P), possible_world(T2, R2, P), T2 < t,
@@ -128,41 +130,43 @@ possible_world(t,  @new_r(MR, MR), P) :- t > 0, plan(t, ACT), announcement(ACT),
 
 % As for ontic actions, we do the same for all the possibilities P2 that are reachable by fully-observant-labeled paths
 possible_world(t, @new_r(R2, MR), P) :- t > 0, plan(t, ACT), announcement(ACT), pointed(t-1, MR, PP), possible_world(T2, R2, P),T2 < t,
-                                 reaches_only_fully_obs(t, T2, R2, P), hold_announced_effects(T2, R2, P, t), time(t), time(T2).
+                                        reaches_only_fully_obs(t, T2, R2, P), hold_announced_effects(T2, R2, P, t), time(t), time(T2).
 
 % If a partially observant agent AG believes P2, then we create the new possibility P2
 possible_world(t, @new_r(R2, MR), P) :- t > 0, plan(t, ACT), announcement(ACT), pointed(t-1, MR, PP), possible_world(T2, R2, P), T2 < t,
-                                 believes(t-1, R, PP, T2, R2, P, AG), is_partial_obs(t, AG), time(t), time(T2).
+                                        believes(t-1, R, PP, T2, R2, P, AG), is_partial_obs(t, AG), time(t), time(T2).
 
 % Let P be a possibility that is reachable from the pointed one with a no-oblivious path that begins with a partially observant agent
 % Then we create the new possibility P.
 possible_world(t, @new_r(R2, MR), P) :- t > 0, plan(t, ACT), announcement(ACT), pointed(t-1, MR, PP), possible_world(T2, R2, P), T2 < t,
-                                 reaches_first_partially_obs(t, T2, R2, P2), time(t), time(T2).
+                                        reaches_first_partially_obs(t, T2, R2, P), time(t), time(T2).
 
+% possible_world(t, @new_r(R2, MR), P) :- t > 0, plan(t, ACT), announcement(ACT), pointed(t-1, MR, PP), possible_world(T2, R2, P), possible_world(T3, R3, P3), T3 <= T2, T2 < t,
+%                                         believes(t-1, R, PP, T3, R3, P3, AG), reaches_no_oblivious(t, T2, R2, P), is_partial_obs(t, AG), time(t), time(T2), time(T3).
 
 % Inertia: announcement actions do not alter the values of the fluents
 holds(t, @new_r(R2, MR), P, F) :- t > 0, plan(t, ACT), announcement(ACT), possible_world(t, @new_r(R2, MR), P), possible_world(T2, R2, P), T2 < t,
-                           holds(T2, R2, P, F), fluent(F), pointed(t-1, MR, PP), time(t), time(T2).
+                                  holds(T2, R2, P, F), fluent(F), pointed(t-1, MR, PP), time(t), time(T2).
 
 
 % Fully observant agents (sigma, sigma): if P1 -- AG --> P2 at time t and AG is fully observant and BOTH P1 and P2 agree with the pointed possibility, then P1 -- AG --> P2 at time t+1
 believes(t, @new_r(R1, MR), P1, t , @new_r(R2, MR), P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_fully_obs(t, AG),
-                                                 believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                 possible_world(t, @new_r(R1, MR), P1), possible_world(t, @new_r(R2, MR), P2),
-                                                 hold_announced_effects(T1, R1, P1, t), hold_announced_effects(T2, R2, P2, t), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
+                                                               believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
+                                                               possible_world(t, @new_r(R1, MR), P1), possible_world(t, @new_r(R2, MR), P2),
+                                                               hold_announced_effects(T1, R1, P1, t), hold_announced_effects(T2, R2, P2, t), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
 
 % Fully observant agents (tau, tau): if P1 -- AG --> P2 at time t and AG is fully observant and NEITHER P1 nor P2 agree with the pointed possibility, then P1 -- AG --> P2 at time t+1
 believes(t, @new_r(R1, MR), P1, t , @new_r(R2, MR), P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_fully_obs(t, AG),
-                                                 believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                 possible_world(t, @new_r(R1, MR), P1), possible_world(t, @new_r(R2, MR), P2),
-                                                 not hold_announced_effects(T1, R1, P1, t), not hold_announced_effects(T2, R2, P2, t), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
+                                                               believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
+                                                               possible_world(t, @new_r(R1, MR), P1), possible_world(t, @new_r(R2, MR), P2),
+                                                               not hold_announced_effects(T1, R1, P1, t), not hold_announced_effects(T2, R2, P2, t), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
 
 % Partially observant agents: if P1 -- AG --> P2 at time t and AG is partially observant, then P1 -- AG --> P2 at time t+1
 believes(t, @new_r(R1, MR), P1, t , @new_r(R2, MR), P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_partial_obs(t, AG),
-                                                 believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                 possible_world(t, @new_r(R1, MR), P1), possible_world(t, @new_r(R2, MR), P2), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
+                                                               believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
+                                                               possible_world(t, @new_r(R1, MR), P1), possible_world(t, @new_r(R2, MR), P2), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
 
 % Oblivious agents: if P1 -- AG --> P2 at time t and AG is oblivious, then P1 -- AG --> P2 at time t+1
-believes(t, @new_r(R1, MR), P1, T2, R2     , P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_oblivious(t, AG),
-                                                 believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                 possible_world(t, @new_r(R1, MR), P1), pointed(t-1, MR, PP), time(t), time(T1), time(T2).
+believes(t, @new_r(R1, MR), P1, T2, R2            , P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_oblivious(t, AG),
+                                                               believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
+                                                               possible_world(t, @new_r(R1, MR), P1), pointed(t-1, MR, PP), time(t), time(T1), time(T2).

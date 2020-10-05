@@ -92,15 +92,15 @@ believes(t, pov(R1, f   ), P1, t , pov(R2, f   ), P2, AG) :- t > 0, plan(t, ACT)
                                                              hold_sensed_effects(T1, R1, P1, t), hold_sensed_effects(T2, R2, P2, t), time(t), time(T1), time(T2).
 
 % Fully observant agents (tau, tau): if P1 -- AG --> P2 at time t and AG is fully observant and NEITHER P1 nor P2 agree with the pointed possibility, then P1 -- AG --> P2 at time t+1
-believes(t, pov(R1, p   ), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), sensing(ACT), T1 <= t, T2 <= t, T2 <= T1, is_fully_obs(t, AG),
+believes(t, pov(R1, POV1), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), sensing(ACT), T1 <= t, T2 <= t, T2 <= T1, is_fully_obs(t, AG),
                                                              believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                             possible_world(t, pov(R1, p), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV2),
+                                                             possible_world(t, pov(R1, POV1), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV1), pov_ag(POV2),
                                                              not hold_sensed_effects(T1, R1, P1, t), not hold_sensed_effects(T2, R2, P2, t), time(t), time(T1), time(T2).
 
 % Partially observant agents: if P1 -- AG --> P2 at time t and AG is partially observant, then P1 -- AG --> P2 at time t+1
-believes(t, pov(R1, p   ), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), sensing(ACT), T1 <= t, T2 <= t, T2 <= T1, is_partial_obs(t, AG),
+believes(t, pov(R1, POV1), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), sensing(ACT), T1 <= t, T2 <= t, T2 <= T1, is_partial_obs(t, AG),
                                                              believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                             possible_world(t, pov(R1, p), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV2), time(t), time(T1), time(T2).
+                                                             possible_world(t, pov(R1, POV1), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV1), pov_ag(POV2), time(t), time(T1), time(T2).
 
 % Oblivious agents: if P1 -- AG --> P2 at time t and AG is oblivious, then P1 -- AG --> P2 at time t+1
 believes(t, pov(R1, POV1), P1, T2, R2           , P2, AG) :- t > 0, plan(t, ACT), sensing(ACT), T1 <= t, T2 <= t, T2 <= T1, is_oblivious(t, AG),
@@ -149,15 +149,15 @@ believes(t, pov(R1, f   ), P1, t , pov(R2, f   ), P2, AG) :- t > 0, plan(t, ACT)
                                                              hold_announced_effects(T1, R1, P1, t), hold_announced_effects(T2, R2, P2, t), time(t), time(T1), time(T2).
 
 % Fully observant agents (tau, tau): if P1 -- AG --> P2 at time t and AG is fully observant and NEITHER P1 nor P2 agree with the pointed possibility, then P1 -- AG --> P2 at time t+1
-believes(t, pov(R1, p   ), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_fully_obs(t, AG),
+believes(t, pov(R1, POV1), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_fully_obs(t, AG),
                                                              believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                             possible_world(t, pov(R1, p), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV2),
+                                                             possible_world(t, pov(R1, POV1), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV1), pov_ag(POV2),
                                                              not hold_announced_effects(T1, R1, P1, t), not hold_announced_effects(T2, R2, P2, t), time(t), time(T1), time(T2).
 
 % Partially observant agents: if P1 -- AG --> P2 at time t and AG is partially observant, then P1 -- AG --> P2 at time t+1
-believes(t, pov(R1, p   ), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_partial_obs(t, AG),
+believes(t, pov(R1, POV1), P1, t , pov(R2, POV2), P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_partial_obs(t, AG),
                                                              believes(T1, R1, P1, T2, R2, P2, AG), possible_world(T1, R1, P1), possible_world(T2, R2, P2),
-                                                             possible_world(t, pov(R1, p), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV2), time(t), time(T1), time(T2).
+                                                             possible_world(t, pov(R1, POV1), P1), possible_world(t, pov(R2, POV2), P2), pov_ag(POV1), pov_ag(POV2), time(t), time(T1), time(T2).
 
 % Oblivious agents: if P1 -- AG --> P2 at time t and AG is oblivious, then P1 -- AG --> P2 at time t+1
 believes(t, pov(R1, POV1), P1, T2, R2           , P2, AG) :- t > 0, plan(t, ACT), announcement(ACT), T1 <= t, T2 <= t, T2 <= T1, is_oblivious(t, AG),
