@@ -26,6 +26,7 @@ time(t).
 
 #include "modules/reachability.lp".
 #include "modules/entailment.lp".
+% #include "old_versions/modules/reachability_old.lp".
 % #include "old_versions/modules/entailment_old.lp".
 #include "modules/initial_state.lp".
 #include "modules/transition_function.lp".
