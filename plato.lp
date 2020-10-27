@@ -24,13 +24,20 @@ time(0).
 #program step(t).
 time(t).
 
-#include "modules/reachability.lp".
-#include "modules/entailment.lp".
+% Post ICLP 2020
 % #include "old_versions/modules/reachability_old.lp".
 % #include "old_versions/modules/entailment_old.lp".
+
+% Optimizations in progress
+#include "modules/reachability.lp".
+#include "modules/entailment.lp".
 #include "modules/initial_state.lp".
 #include "modules/transition_function.lp".
 % #include "modules/bisimulation.lp".
+
+% Pov approach
+% #include "modules/entailment_pov.lp".
+% #include "modules/initial_state_pov.lp".
 
 
 #program step(t).
@@ -43,6 +50,7 @@ time(t).
 :- t > 0, time(t), plan(t, ACT), not is_executable(t, ACT).
 
 #program check(t).
+% :- not entails(t, pov_f, P, F), pointed(t, pov_f, P), goal(F), formula(F), query(t).
 :- not entails(t, R, P, F), pointed(t, R, P), goal(F), formula(F), query(t).
 
 % Display

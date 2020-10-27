@@ -2,6 +2,15 @@
 
 #program base.
 
+% reaches(0, pov_f, P1, 0, pov_f, P2, AGS) :- possible_world(0, pov_f, P1), possible_world(0, pov_f, P2), formula(c(AGS, F)), formula(F), check_everywere(c(AGS, F)),
+%                                     believes(0, pov_f, P1, 0, pov_f, P2, AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
+
+% reaches(0, pov_f, P1, 0, pov_f, P2, AGS) :- possible_world(0, pov_f, P1), possible_world(0, pov_f, P2), pointed(0, pov_f, P1), formula(c(AGS, F)), formula(F), check_on_pointed(c(AGS, F)),
+%                                     believes(0, pov_f, P1, 0, pov_f, P2, AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
+
+% reaches(0, pov_f, P1, 0, pov_f, P2, AGS) :- possible_world(0, pov_f, P1), possible_world(0, pov_f, P2), possible_world(0, pov_f, P3), formula(c(AGS, F)), formula(F),
+%                                     believes(0, pov_f, P1, 0, pov_f, P3, AG), reaches(0, pov_f, P3, 0, pov_f, P2, AGS), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
+
 reaches(0, 0, P1, 0, 0, P2, AGS) :- possible_world(0, 0, P1), possible_world(0, 0, P2), formula(c(AGS, F)), formula(F), check_everywere(c(AGS, F)),
                                     believes(0, 0, P1, 0, 0, P2, AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
 
