@@ -43,7 +43,16 @@ time(t).
 #program step(t).
 
 % Generate
-1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
+% 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
+
+plan(1, signal_a_b).
+plan(2, open_a).
+plan(3, peek_a).
+% plan(4, peek_b).
+plan(4, shout_tail_a).
+plan(5, shout_head_a).
+
+reached_goal(5).
 
 % Test
 :- 0 { plan(t, _) } 0.
@@ -51,14 +60,15 @@ time(t).
 
 #program check(t).
 % :- not entails(t, pov_f, P, F), pointed(t, pov_f, P), goal(F), formula(F), query(t).
-:- not entails(t, R, P, F), pointed(t, R, P), goal(F), formula(F), query(t).
+% :- not entails(t, R, P, F), pointed(t, R, P), goal(F), formula(F), query(t).
+:- not reached_goal(t), query(t).
 
 % Display
 #show plan/2.
 
 % !!! Uncomment while printing the results !!!
-%#show pointed/3.
-%#show possible_world/3.
-%#show believes/7.
-%#show holds/4.
-%#show fluent/1.
+#show pointed/3.
+#show possible_world/3.
+#show believes/7.
+#show holds/4.
+#show fluent/1.

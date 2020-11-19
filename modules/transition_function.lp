@@ -51,7 +51,8 @@ is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_
 is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
 
 % #include "actions.lp".
-#include "actions_rep.lp".      % <--- BEST SO FAR (WE WORK FROM HERE)
+#include "actions_ncb.lp".
+% #include "actions_rep.lp".      % <--- BEST SO FAR (WE WORK FROM HERE)
 % #include "actions_pov.lp".
 
 % #include "actions/ontic_actions.lp".
