@@ -8,6 +8,8 @@ PYTHON_PATH="./python"
 OUT_PATH="../out/states"
 # DOMAIN_PATH="../exp/ICLP20"
 
+mkdir -p $OUT_PATH
+
 clingo $PLATO_PATH/plato.lp $DOMAIN > $OUT_PATH/output.txt;
 python3 $PYTHON_PATH/out_render.py $OUT_PATH/output;
 dot -Tpdf $OUT_PATH/output.dot > $OUT_PATH/output.pdf;
