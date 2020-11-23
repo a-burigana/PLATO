@@ -209,7 +209,7 @@ announces(shout_head_a, -tail, true).
 % formula(b(a,-tail)).
 executable(shout_head_a, true). % b(a,-tail)
 observes(shout_head_a, a, true).
-oblivious(shout_head_a, b). % looking_b
+observes(shout_head_a, b, true). % looking_b
 observes(shout_head_a, c, true).
 
 %%%%%%%%%% END %%%%%%%%%%
@@ -365,5 +365,3 @@ init_sf(-looking_c).
 
 % *** GOALS ***
 goal(b(a,tail)).
-
-
