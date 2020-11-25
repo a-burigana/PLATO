@@ -350,8 +350,8 @@ formula(c(all_agents,bl)).
 initially(c(all_agents,bl)).
 formula(c(all_agents,-a0)).
 initially(c(all_agents,-a0)).
-% formula(c(all_agents,-a1)).
-% initially(c(all_agents,-a1)).
+formula(c(all_agents,-a1)).
+initially(c(all_agents,-a1)).
 
 
 

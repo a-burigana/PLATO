@@ -45,14 +45,15 @@ time(t).
 % Generate
 % 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
 
-plan(1, signal_a_b).
-plan(2, open_a).
-plan(3, peek_a).
-% plan(4, peek_b).
-plan(4, shout_tail_a).
-plan(5, shout_head_a).
+plan(1, write_ab_0).
+plan(2, write_bc_0).
+plan(3, write_ac_1).
+plan(4, write_ab_1).
+plan(5, write_bc_1).
+plan(6, share_b_1).
+% plan(7, share_c_1).
 
-reached_goal(5).
+reached_goal(6).
 
 % Test
 :- 0 { plan(t, _) } 0.
