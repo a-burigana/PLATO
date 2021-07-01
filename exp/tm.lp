@@ -64,7 +64,7 @@ causes(goto_q1, q1, true).
 causes(goto_q1, -qf, qf).
 executable(goto_q1, true).
 observes(goto_q1, a, true).
-observes(goto_q1, b, true).
+oblivious(goto_q1, b).
 observes(goto_q1, c, true).
 
 
@@ -84,8 +84,9 @@ sensing(read_0).
 determines(read_0, a0, true).
 executable(read_0, a0).
 observes(read_0, a, true).
-observes(read_0, b, true).
-oblivious(read_0, c).
+aware_of(read_0, b, true).
+aware_of(read_0, c, true).
+% oblivious(read_0, c).
 
 
 action(read_1).
@@ -328,9 +329,9 @@ oblivious(write_bc_bl, a).
 % *** INITIALLY ***
 
 % ** initial pointed **
-initially(-a0).
+initially(a0).
 initially(-a1).
-initially(bl).
+initially(-bl).
 initially(q0).
 initially(-q1).
 initially(-qf).
@@ -346,10 +347,10 @@ formula(c(all_agents,-q1)).
 initially(c(all_agents,-q1)).
 formula(c(all_agents,-qf)).
 initially(c(all_agents,-qf)).
-formula(c(all_agents,bl)).
-initially(c(all_agents,bl)).
-formula(c(all_agents,-a0)).
-initially(c(all_agents,-a0)).
+formula(c(all_agents,-bl)).
+initially(c(all_agents,-bl)).
+% formula(c(all_agents,-a0)).
+% initially(c(all_agents,-a0)).
 formula(c(all_agents,-a1)).
 initially(c(all_agents,-a1)).
 
@@ -359,8 +360,8 @@ initially(c(all_agents,-a1)).
 init_sf(q0).
 init_sf(-q1).
 init_sf(-qf).
-init_sf(bl).
-init_sf(-a0).
+init_sf(-bl).
+% init_sf(-a0).
 init_sf(-a1).
 
 
