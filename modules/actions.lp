@@ -1,8 +1,8 @@
 #script(python)
-import clingo
+from clingo import Number
 
 def new_r(old_r, max_r):
-    return old_r.number + max_r.number + 1
+    return Number(old_r.number + max_r.number + 1)
 #end.
 
 

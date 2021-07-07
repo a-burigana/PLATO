@@ -39,10 +39,10 @@ time(t).
 #program step(t).
 
 % Generate
-% 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
+1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
 
-plan(1, goto_q1).
-plan(2, read_0).
+% plan(1, goto_q1).
+% plan(2, read_0).
 % plan(1, write_ab_0).
 % plan(2, write_bc_0).
 % plan(3, write_ac_1).
@@ -51,22 +51,22 @@ plan(2, read_0).
 % plan(6, share_b_1).
 % plan(7, share_c_1).
 
-reached_goal(2).
+% reached_goal(2).
 
 % Test
 :- 0 { plan(t, _) } 0.
 :- t > 0, time(t), plan(t, ACT), not is_executable(t, ACT).
 
 #program check(t).
-% :- not entails(t, R, P, F), pointed(t, R, P), goal(F), formula(F), query(t).
-:- not reached_goal(t), query(t).
+:- not entails(t, R, P, F), pointed(t, R, P), goal(F), formula(F), query(t).
+% :- not reached_goal(t), query(t).
 
 % Display
 #show plan/2.
 
 % !!! Uncomment while printing the results !!!
-#show pointed/3.
-#show possible_world/3.
-#show believes/7.
-#show holds/4.
-#show fluent/1.
+% #show pointed/3.
+% #show possible_world/3.
+% #show believes/7.
+% #show holds/4.
+% #show fluent/1.
