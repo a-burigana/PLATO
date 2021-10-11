@@ -2,58 +2,39 @@
 
 #program step(t).
 
-% is_executable/2: the action ACT is executable at time t
-is_executable(t, ACT) :- t > 0, time(t), plan(t, ACT), action(ACT), pointed(t-1, R, P), executable(ACT, EXEC), entails(t-1, R, P, EXEC), formula(EXEC).
-is_executable(t, ACT) :- t > 0, time(t), plan(t, ACT), action(ACT), pointed(t-1, R, P), executable(ACT, true).
+% STEP 1: determine the new designated worlds. The computation of the other worlds begins from the designated worlds
+dw(t, pw(t-1, W, Ew), E) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), pre(E, Fpre),
+                            de(ACT, E), dw(t-1, W, Ew), entails(pw(t-1, W, Ew), Fpre).
 
-% is_executable_effect/6: the effect CAUSED/SENSED/ANN of the action ACT is executable at time t
-is_executable_effect(t, ACT, t-1, R , P , CAUSED) :- t > 0, time(t), plan(t, ACT), ontic(ACT), causes(ACT, CAUSED, true ), pointed(t-1, R, P).
-is_executable_effect(t, ACT, t-1, R , P , CAUSED) :- t > 0, time(t), plan(t, ACT), ontic(ACT), causes(ACT, CAUSED, EEXEC), entails(t-1, R, P, EEXEC), pointed(t-1, R, P), formula(EEXEC).
+% STEP 2: determine the new possible worlds
+%          - 2.1: a designated world is a possible world
+pw(t, pw(t-1, W, Ew), E) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), dw(t, pw(t-1, W, Ew), E).
 
-is_executable_effect(t, ACT, t-1, R , P , SENSED) :- t > 0, time(t), plan(t, ACT), sensing(ACT), determines(ACT, SENSED, true ), pointed(t-1, R, P).
-is_executable_effect(t, ACT, t-1, R , P , SENSED) :- t > 0, time(t), plan(t, ACT), sensing(ACT), determines(ACT, SENSED, EEXEC), entails(t-1, R, P, EEXEC), pointed(t-1, R, P), formula(EEXEC).
+%          - 2.2: apply recursive step
 
-is_executable_effect(t, ACT, t-1, R , P , ANN   ) :- t > 0, time(t), plan(t, ACT), announcement(ACT), announces(ACT, ANN, true ), pointed(t-1, R, P).
-is_executable_effect(t, ACT, t-1, R , P , ANN   ) :- t > 0, time(t), plan(t, ACT), announcement(ACT), announces(ACT, ANN, EEXEC), entails(t-1, R, P, EEXEC), pointed(t-1, R, P), formula(EEXEC).
+% Confronto lo stato a tempo t-1 con l'azione che eseguo a tempo t e guardo le somiglianze nei path
+% Caso base: un designated world e un designated event hanno lo stesso path
+same_path(pw(t-1, W, Ew), E) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E),
+                                de(ACT, E), dw(t-1, W, Ew).
 
-% For ontic actions: let P2 be a possibility that is reachable from the pointed one with a path labeled only with fully observant agents.
-% Then the effect CAUSED is executable in P2 if P2 entails its executability condition EEXEC
-is_executable_effect(t, ACT, T2, R2, P2, CAUSED) :- t > 0, time(t), time(T2), T2 < t, plan(t, ACT), ontic(ACT), causes(ACT, CAUSED, true ), possible_world(T2, R2, P2),
-                                                    reaches_no_oblivious(t, T2, R2, P2).
+% Passo induttivo: se W2 e E2 hanno lo stesso path e W2 -AG-> W & E2 -AG-> E, allora W ed E hanno lo stesso path
+same_path(pw(t-1, W, Ew), E) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), event(ACT, E2),
+                                pw(t-1, W2, Ew2), same_path(pw(t-1, W2, Ew2), E2),
+                                r(pw(t-1, W2, Ew2), pw(t-1, W, Ew), AG), q(E2, E, AG), agent(AG).
 
-is_executable_effect(t, ACT, T2, R2, P2, CAUSED) :- t > 0, time(t), time(T2), T2 < t, plan(t, ACT), ontic(ACT), causes(ACT, CAUSED, EEXEC), possible_world(T2, R2, P2), formula(EEXEC),
-                                                    reaches_no_oblivious(t, T2, R2, P2), entails(T2, R2, P2, EEXEC).
 
-% For sensing/announcement actions: let P2 be a possibility that is reachable from the pointed one with a path labeled only with fully or partially observant agents.
-% Then the effect SENSED/ANN is executable in P2 if P2 entails its executability condition EEXEC
-is_executable_effect(t, ACT, T2, R2, P2, SENSED) :- t > 0, time(t), time(T2), T2 < t, plan(t, ACT), sensing(ACT), determines(ACT, SENSED, true), possible_world(T2, R2, P2), fluent(SENSED),
-                                                    reaches_no_oblivious(t, T2, R2, P2).
+pw(t, pw(t-1, W, Ew), E) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), pre(E, Fpre),
+                            same_path(pw(t-1, W, Ew), E), entails(pw(t-1, W, Ew), Fpre).
 
-is_executable_effect(t, ACT, T2, R2, P2, SENSED) :- t > 0, time(t), time(T2), T2 < t, plan(t, ACT), sensing(ACT), determines(ACT, SENSED, EEXEC), possible_world(T2, R2, P2), formula(EEXEC), fluent(SENSED),
-                                                    reaches_no_oblivious(t, T2, R2, P2), entails(T2, R2, P2, EEXEC).
+% STEP 3: determine the accessibility relations
+r(pw(t, pw(t-1, W, Ew), E),
+  pw(t, pw(t-1, V, Ev), F), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), event(ACT, F),
+                                   r(pw(t-1, W, Ew), pw(t-1, V, Ev), AG), q(E, F, AG), agent(AG). 
 
-is_executable_effect(t, ACT, T2, R2, P2, ANN   ) :- t > 0, time(t), time(T2), T2 < t, plan(t, ACT), announcement(ACT), announces(ACT, ANN, true), possible_world(T2, R2, P2), formula(ANN),
-                                                    reaches_no_oblivious(t, T2, R2, P2).
 
-is_executable_effect(t, ACT, T2, R2, P2, ANN   ) :- t > 0, time(t), time(T2), T2 < t, plan(t, ACT), announcement(ACT), announces(ACT, ANN, EEXEC), possible_world(T2, R2, P2), formula(ANN),formula(EEXEC),
-                                                    reaches_no_oblivious(t, T2, R2, P2), entails(T2, R2, P2, EEXEC).
+% STEP 4: determine the interpretation of the worlds
+holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E),
+                                      fluent(P), post(E, P, true).
 
-is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), observes (ACT, AG, true), agent(AG).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_of (ACT, AG, true), agent(AG).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of (ACT, AG, true), agent(AG).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), oblivious(ACT, AG),       agent(AG).
-
-is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), observes (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_of (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of (ACT, AG, OBS ), agent(AG),     entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), observes (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_of (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of (ACT, AG, OBS ), agent(AG), not entails(t-1, R, PP, OBS), formula(OBS), pointed(t-1, R, PP).
-
-% #include "actions.lp".
-#include "actions_rep.lp".      % <--- BEST SO FAR (WE WORK FROM HERE)
-% #include "actions_pov.lp".
-
-% #include "actions/ontic_actions.lp".
-% #include "actions/sensing_actions.lp".
-% #include "actions/announcement_actions.lp".
+holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E),
+                                      fluent(P), post(E, P, Fpost), formula(Fpost), entails(pw(t-1, W, Ew), Fpost).
