@@ -33,8 +33,8 @@ r(pw(t, pw(t-1, W, Ew), E),
 
 
 % STEP 4: determine the interpretation of the worlds
-holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E),
-                                      fluent(P), post(E, P, true).
+holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), fluent(P),
+                                      pw(t, pw(t-1, W, Ew), E), post(E, P, true).
 
-holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E),
-                                      fluent(P), post(E, P, Fpost), formula(Fpost), entails(pw(t-1, W, Ew), Fpost).
+holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), fluent(P),
+                                      pw(t, pw(t-1, W, Ew), E), post(E, P, Fpost), formula(Fpost), entails(pw(t-1, W, Ew), Fpost).

@@ -7,7 +7,7 @@ reaches(pw(0, W, __ini),
                                  r(pw(0, W, __ini), pw(0, V, __ini), AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
 
 reaches(pw(0, W, __ini),
-        pw(0, V, __ini), AGS) :- formula(c(AGS, F)), formula(F), check_on_pointed(c(AGS, F)), dw(0, W, __ini),
+        pw(0, V, __ini), AGS) :- formula(c(AGS, F)), formula(F), check_on_designated(c(AGS, F)), dw(0, W, __ini),
                                  r(pw(0, W, __ini), pw(0, V, __ini), AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
 
 reaches(pw(0, W, __ini),
@@ -24,7 +24,7 @@ reaches(pw(t, W, Ew),
                               r(pw(t, W, Ew), pw(t, V, Ev), AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
 
 reaches(pw(t, W, Ew),
-        pw(t, V, Ev), AGS) :- time(t), formula(c(AGS, F)), formula(F), check_on_pointed(c(AGS, F)), dw(t, W, Ew),
+        pw(t, V, Ev), AGS) :- time(t), formula(c(AGS, F)), formula(F), check_on_designated(c(AGS, F)), dw(t, W, Ew),
                               r(pw(t, W, Ew), pw(t, V, Ev), AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
 
 reaches(pw(t, W, Ew),

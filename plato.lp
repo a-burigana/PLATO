@@ -39,7 +39,7 @@ time(t).
 #program step(t).
 
 % Generate
-1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
+% 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
 
 % plan(1, goto_q1).
 % plan(2, read_0).
@@ -54,11 +54,11 @@ time(t).
 % reached_goal(2).
 
 % Test
-:- 0 { plan(t, _) } 0.
-:- t > 0, time(t), plan(t, ACT), not is_executable(t, ACT).
+% :- 0 { plan(t, _) } 0.
+% :- t > 0, time(t), plan(t, ACT), not applicable(t, ACT).
 
 #program check(t).
-:- not entails(t, R, P, F), pointed(t, R, P), goal(F), formula(F), query(t).
+% :- not entails(pw(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
 % :- not reached_goal(t), query(t).
 
 % Display
