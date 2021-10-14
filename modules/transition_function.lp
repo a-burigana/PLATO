@@ -2,6 +2,13 @@
 
 #program step(t).
 
+%%% Applicability %%%
+applicable(t, ACT, de(ACT, E)) :- t > 0, time(t), action(ACT), dw(t-1, W, Ew), pre(E, Epre), entails(pw(t-1, W, Ew), Epre).
+
+not_applicable(t, ACT) :- t > 0, time(t), action(ACT), de(ACT, E), not applicable(t, ACT, de(ACT, E)).
+applicable(t, ACT)     :- t > 0, time(t), action(ACT), not not_applicable(t, ACT).
+
+not_applicable(t, ACT) :- t > 0, time(t), action(ACT), dw(t-1, W, Ew), not_applicable(t, ACT, dw(t-1, W, Ew)).
 % STEP 1: determine the new designated worlds. The computation of the other worlds begins from the designated worlds
 dw(t, pw(t-1, W, Ew), E) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), pre(E, Fpre),
                             de(ACT, E), dw(t-1, W, Ew), entails(pw(t-1, W, Ew), Fpre).
