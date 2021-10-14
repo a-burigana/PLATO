@@ -2,8 +2,8 @@
 
 #program base.
 
-entails(pw(0, W, __ini),  F)          :-     holds(pw(0, W, __ini), F),                                  check_on_pw(pw(0, W, __ini),  F),          not check_everywhere( F),          fluent(F).
-entails(pw(0, W, __ini), -F)          :- not holds(pw(0, W, __ini), F),                                  check_on_pw(pw(0, W, __ini), -F),          not check_everywhere(-F),          fluent(F).
+entails(pw(0, W, __ini),  F)          :-     holds(pw(0, W, __ini), F),                                  check_on_pw(pw(0, W, __ini),  F),          not check_everywhere( F),          atom(F).
+entails(pw(0, W, __ini), -F)          :- not holds(pw(0, W, __ini), F),                                  check_on_pw(pw(0, W, __ini), -F),          not check_everywhere(-F),          atom(F).
 
 entails(pw(0, W, __ini), neg(F))      :- not entails(pw(0, W, __ini), F ),                               check_on_pw(pw(0, W, __ini), neg(F)),      not check_everywhere(neg(F)),      formula(neg(F)),      formula(F).
 entails(pw(0, W, __ini), and(F1, F2)) :-     entails(pw(0, W, __ini), F1), entails(pw(0, W, __ini), F2), check_on_pw(pw(0, W, __ini), and(F1, F2)), not check_everywhere(and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
@@ -20,8 +20,8 @@ not_entails(pw(0, W1, __ini), c(AGS, F)) :- not entails(pw(0, W2, __ini), F), pw
                                             reaches(pw(0, W1, __ini), pw(0, W2, __ini), AGS), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
 
 
-entails(pw(0, W, __ini),  F)          :-     holds(pw(0, W, __ini), F),                                  check_everywhere( F),          fluent(F).
-entails(pw(0, W, __ini), -F)          :- not holds(pw(0, W, __ini), F),    pw(0, W, __ini),              check_everywhere(-F),          fluent(F).
+entails(pw(0, W, __ini),  F)          :-     holds(pw(0, W, __ini), F),                                  check_everywhere( F),          atom(F).
+entails(pw(0, W, __ini), -F)          :- not holds(pw(0, W, __ini), F),    pw(0, W, __ini),              check_everywhere(-F),          atom(F).
 
 entails(pw(0, W, __ini), neg(F))      :- not entails(pw(0, W, __ini), F ), pw(0, W, __ini),              check_everywhere(neg(F)),      check_everywhere(F ),                       formula(neg(F)),      formula(F).
 entails(pw(0, W, __ini), and(F1, F2)) :-     entails(pw(0, W, __ini), F1), entails(pw(0, W, __ini), F2), check_everywhere(and(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula(and(F1, F2)), formula(F1), formula(F2).
@@ -41,8 +41,8 @@ not_entails(pw(0, W1, __ini), c(AGS, F)) :- not entails(pw(0, W2, __ini), F), pw
 #program step(t).
 
 % entails/4: P entails the formula F
-entails(pw(t, W, E),  F)          :-     holds(pw(t, W, E), F),                              check_on_pw(pw(t, W, E),  F),          not check_everywhere( F),          fluent(F).
-entails(pw(t, W, E), -F)          :- not holds(pw(t, W, E), F),                              check_on_pw(pw(t, W, E), -F),          not check_everywhere(-F),          fluent(F).
+entails(pw(t, W, E),  F)          :-     holds(pw(t, W, E), F),                              check_on_pw(pw(t, W, E),  F),          not check_everywhere( F),          atom(F).
+entails(pw(t, W, E), -F)          :- not holds(pw(t, W, E), F),                              check_on_pw(pw(t, W, E), -F),          not check_everywhere(-F),          atom(F).
 
 entails(pw(t, W, E), neg(F))      :- not entails(pw(t, W, E), F ),                           check_on_pw(pw(t, W, E), neg(F)),      not check_everywhere(neg(F)),      formula(neg(F)),      formula(F).
 entails(pw(t, W, E), and(F1, F2)) :-     entails(pw(t, W, E), F1), entails(pw(t, W, E), F2), check_on_pw(pw(t, W, E), and(F1, F2)), not check_everywhere(and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
@@ -59,8 +59,8 @@ not_entails(pw(t, W1, E), c(AGS, F)) :- not entails(pw(t, W2, E), F), pw(t, W2, 
                                         reaches(pw(t, W1, E), pw(t, W2, E), AGS), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
 
 
-entails(pw(t, W, E),  F)          :-     holds(pw(t, W, E), F),                              check_everywhere( F),          fluent(F).
-entails(pw(t, W, E), -F)          :- not holds(pw(t, W, E), F),    pw(t, W, E),              check_everywhere(-F),          fluent(F).
+entails(pw(t, W, E),  F)          :-     holds(pw(t, W, E), F),                              check_everywhere( F),          atom(F).
+entails(pw(t, W, E), -F)          :- not holds(pw(t, W, E), F),    pw(t, W, E),              check_everywhere(-F),          atom(F).
 
 entails(pw(t, W, E), neg(F))      :- not entails(pw(t, W, E), F ), pw(t, W, E),              check_everywhere(neg(F)),      check_everywhere(F ),                       formula(neg(F)),      formula(F).
 entails(pw(t, W, E), and(F1, F2)) :-     entails(pw(t, W, E), F1), entails(pw(t, W, E), F2), check_everywhere(and(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula(and(F1, F2)), formula(F1), formula(F2).
@@ -84,7 +84,7 @@ check_on_designated(F) :- formula(F), goal(F).           % Goal conditions are t
 
 % check_everywere/1: DEL formulae that need to be verified in every world
 check_everywhere(F) :- formula(F), event(_, E), pre(E, F).
-check_everywhere(F) :- formula(F), event(_, E), fluent(P), post(E, P, F).
+check_everywhere(F) :- formula(F), event(_, E), atom(P), post(E, P, F).
 
 check_everywhere(F ) :- check_everywhere(neg(F)),       formula(neg(F)),       formula(F ).
 check_everywhere(F1) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
