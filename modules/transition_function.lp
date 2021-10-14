@@ -3,7 +3,8 @@
 #program step(t).
 
 %%% Applicability %%%
-applicable(t, ACT, de(ACT, E)) :- t > 0, time(t), action(ACT), dw(t-1, W, Ew), pre(E, Epre), entails(pw(t-1, W, Ew), Epre).
+applicable(t, ACT, de(ACT, E)) :- t > 0, time(t), action(ACT), dw(t-1, W, Ew), pre(E, true).
+applicable(t, ACT, de(ACT, E)) :- t > 0, time(t), action(ACT), dw(t-1, W, Ew), pre(E, Epre), formula(Epre), entails(pw(t-1, W, Ew), Epre).
 
 not_applicable(t, ACT) :- t > 0, time(t), action(ACT), de(ACT, E), not applicable(t, ACT, de(ACT, E)).
 applicable(t, ACT)     :- t > 0, time(t), action(ACT), not not_applicable(t, ACT).
