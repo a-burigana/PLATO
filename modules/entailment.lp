@@ -2,6 +2,10 @@
 
 #program base.
 
+%%% A literal is an atom or its negation
+literal( P) :- atom(P).
+literal(-P) :- atom(P), formula(-P).
+
 entails(pw(0, W, __ini),  F)          :-     holds(pw(0, W, __ini), F),                                  check_on_pw(pw(0, W, __ini),  F),          not check_everywhere( F),          atom(F).
 entails(pw(0, W, __ini), -F)          :- not holds(pw(0, W, __ini), F),                                  check_on_pw(pw(0, W, __ini), -F),          not check_everywhere(-F),          atom(F).
 
@@ -80,11 +84,16 @@ not_entails(pw(t, W1, E), c(AGS, F)) :- not entails(pw(t, W2, E), F), pw(t, W2, 
 #program base.
 
 % check_on_designated/1: DEL formulae that need to be verified only in the pointed worlds
-check_on_designated(F) :- formula(F), goal(F).           % Goal conditions are to be checked only in the designated worlds
+check_on_designated(F) :- formula(F), executable(_,    F).     % Executability conditions are to be checked only in the pointed possibility
+check_on_designated(F) :- formula(F),   observes(_, _, F).     % Observability conditions are to be checked only in the pointed possibility
+check_on_designated(F) :- formula(F),   aware_of(_, _, F).
+check_on_designated(F) :- formula(F),       goal(F).           % Goal conditions are to be checked only in the pointed possibility
 
 % check_everywere/1: DEL formulae that need to be verified in every world
-check_everywhere(F) :- formula(F), event(_, E), pre(E, F).
-check_everywhere(F) :- formula(F), event(_, E), atom(P), post(E, P, F).
+check_everywhere(F) :- formula(F),     causes(_, _, F).     % Effects executability conditions are to be checked in each possibility
+check_everywhere(F) :- formula(F), determines(_, _, F).
+check_everywhere(F) :- formula(F),  announces(_, _, F).
+check_everywhere(F) :- formula(F),  announces(_, F, _).     % The effects of announcement actions are to be checked in each possibility
 
 check_everywhere(F ) :- check_everywhere(neg(F)),       formula(neg(F)),       formula(F ).
 check_everywhere(F1) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
