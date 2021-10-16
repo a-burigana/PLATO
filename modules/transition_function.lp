@@ -44,5 +44,8 @@ r(pw(t, pw(t-1, W, Ew), E),
 holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), atom(P),
                                       pw(t, pw(t-1, W, Ew), E), post(E, P, true).
 
+-holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), atom(P),
+                                      pw(t, pw(t-1, W, Ew), E), post(E, P, false).
+
 holds(pw(t, pw(t-1, W, Ew), E), P) :- t > 0, time(t), plan(t, ACT), action(ACT), event(ACT, E), atom(P),
                                       pw(t, pw(t-1, W, Ew), E), post(E, P, Fpost), formula(Fpost), entails(pw(t-1, W, Ew), Fpost).
