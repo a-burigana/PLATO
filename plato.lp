@@ -30,14 +30,14 @@ time(t).
 :- t > 0, time(t), plan(t, ACT), not applicable(t, ACT).
 
 #program check(t).
-:- not entails(pw(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
+:- not entails(w(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
 
 %%% DEBUG %%%
 % reached_goal(2).
 % :- not reached_goal(t), query(t).
 
 % #program base.
-% check :- entails(pw(0, 2, __ini), F), executable(signal_a_c, F).
+% check :- entails(w(0, 2, __ini), F), executable(signal_a_c, F).
 
 % #show check/0.
 
@@ -51,7 +51,7 @@ time(t).
 
 % !!! Uncomment while printing the results !!!
 #show dw/3.
-#show pw/3.
+#show w/3.
 % #show r/3.
 % #show holds/2.
 % #show atom/1.

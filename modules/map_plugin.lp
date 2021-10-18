@@ -28,12 +28,12 @@ is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware
 is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, true), agent(AG).
 is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), oblivious(ACT, AG),       agent(AG).
 
-is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F),     entails(pw(t-1, W, E), F), dw(t-1, W, E).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(pw(t-1, W, E), F), dw(t-1, W, E).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(pw(t-1, W, E), F), dw(t-1, W, E).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F), not entails(pw(t-1, W, E), F), dw(t-1, W, E).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(pw(t-1, W, E), F), dw(t-1, W, E).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(pw(t-1, W, E), F), dw(t-1, W, E).
+is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, E), F), dw(t-1, W, E).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, E), F), dw(t-1, W, E).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, E), F), dw(t-1, W, E).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, E), F), dw(t-1, W, E).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, E), F), dw(t-1, W, E).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, E), F), dw(t-1, W, E).
 
 
 %%% Generating event spectrum %%%
@@ -118,13 +118,13 @@ q(e(t, ACT, eps), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(AC
 %  4. C_all(-B_i(Phi) /\ -B_i(-Phi)) (this case doesn't add knowledge)
 
 % Entailment of initially conditions. We use it to generate the initial state
-entails_init(W,  P    )          :-     holds(pw(0, W, __ini), P),                  initial_pw(W), atom(P), init_sf(P).
-entails_init(W, -P    )          :- not holds(pw(0, W, __ini), P),                  initial_pw(W), atom(P), init_sf(P).
+entails_init(W,  P    )          :-     holds(w(0, W, __ini), P),                  initial_w(W), atom(P), init_sf(P).
+entails_init(W, -P    )          :- not holds(w(0, W, __ini), P),                  initial_w(W), atom(P), init_sf(P).
 
-entails_init(W, neg(F))          :- not entails_init(W, F ),                        initial_pw(W), init_sf(neg(F)),      init_sf(F).
-entails_init(W, and(F1, F2))     :-     entails_init(W, F1), entails_init(W, F2),   initial_pw(W), init_sf(and(F1, F2)), init_sf(F1), init_sf(F2).
-entails_init(W,  or(F1, F2))     :-     entails_init(W, F1),                        initial_pw(W), init_sf( or(F1, F2)), init_sf(F1), init_sf(F2).
-entails_init(W,  or(F1, F2))     :-                          entails_init(W, F2),   initial_pw(W), init_sf( or(F1, F2)), init_sf(F1), init_sf(F2).
+entails_init(W, neg(F))          :- not entails_init(W, F ),                       initial_w(W), init_sf(neg(F)),      init_sf(F).
+entails_init(W, and(F1, F2))     :-     entails_init(W, F1), entails_init(W, F2),  initial_w(W), init_sf(and(F1, F2)), init_sf(F1), init_sf(F2).
+entails_init(W,  or(F1, F2))     :-     entails_init(W, F1),                       initial_w(W), init_sf( or(F1, F2)), init_sf(F1), init_sf(F2).
+entails_init(W,  or(F1, F2))     :-                          entails_init(W, F2),  initial_w(W), init_sf( or(F1, F2)), init_sf(F1), init_sf(F2).
 
 
 known_initially(P) :- atom(P), initially(c(all_agents,  P)).
@@ -132,57 +132,57 @@ known_initially(P) :- atom(P), initially(c(all_agents, -P)).
 
 unknown_initially(P)            :- atom(P), not known_initially(P).
 initial_state_dimension(2 ** K) :- K = #count { P : atom(P), unknown_initially(P) }.
-initial_pw(1..K)                :- initial_state_dimension(K).
+initial_w(1..K)                 :- initial_state_dimension(K).
 
 % The initial conditions of form 1. determine the designated possible world of the initial state
 % A possible world is designated if it entails exactly those atoms that hold initially
-not_initial_dw(W) :- good_initial_pw(W), initially( P), not holds(pw(0, W, __ini), P), atom(P).
-not_initial_dw(W) :- good_initial_pw(W), initially(-P),     holds(pw(0, W, __ini), P), atom(P).
+not_initial_dw(W) :- good_initial_w(W), initially( P), not holds(w(0, W, __ini), P), atom(P).
+not_initial_dw(W) :- good_initial_w(W), initially(-P),     holds(w(0, W, __ini), P), atom(P).
 
-dw(0, W, __ini) :- good_initial_pw(W), not not_initial_dw(W).
+dw(0, W, __ini) :- good_initial_w(W), not not_initial_dw(W).
 
 % The initial conditions of form 2. determine the possible worlds of the initial state
 % A possible world is good if it entails all the propositional formulas which are COMMONLY KNOWN initially (2.)
-    holds(pw(0, W, __ini), P) :- initially(c(all_agents,  P)), initial_pw(W), atom(P).
-not holds(pw(0, W, __ini), P) :- initially(c(all_agents, -P)), initial_pw(W), atom(P).
+    holds(w(0, W, __ini), P) :- initially(c(all_agents,  P)), initial_w(W), atom(P).
+not holds(w(0, W, __ini), P) :- initially(c(all_agents, -P)), initial_w(W), atom(P).
 
 % We impose that all the initial possibilities have a different atom set
-K/2 { holds(pw(0, W, __ini), P) : initial_pw(W) } K/2 :- unknown_initially(P), initial_state_dimension(K).
+K/2 { holds(w(0, W, __ini), P) : initial_w(W) } K/2 :- unknown_initially(P), initial_state_dimension(K).
 
 % All the initial atom sets must be different
-diffzero(W1, W2) :- initial_pw(W1), initial_pw(W2), holds(pw(0, W1, __ini), P), not holds(pw(0, W2, __ini), P),
+diffzero(W1, W2) :- initial_w(W1), initial_w(W2), holds(w(0, W1, __ini), P), not holds(w(0, W2, __ini), P),
                     atom(P), unknown_initially(F), W1 < W2.
 
-diffzero(W1, W2) :- initial_pw(W1), initial_pw(W2), holds(pw(0, W2, __ini), P), not holds(pw(0, W1, __ini), P),
+diffzero(W1, W2) :- initial_w(W1), initial_w(W2), holds(w(0, W2, __ini), P), not holds(w(0, W1, __ini), P),
                     atom(P), unknown_initially(F), W1 < W2.
 
-:- not diffzero(W1, W2), initial_pw(W1), initial_pw(W2), W1 < W2.
+:- not diffzero(W1, W2), initial_w(W1), initial_w(W2), W1 < W2.
 
-:- 0 { dw(0, W, __ini) : good_initial_pw(W) } 0.
+:- 0 { dw(0, W, __ini) : good_initial_w(W) } 0.
 
 % We impose a complete order on the atom sets indices W_i w.r.t. their atoms
-:- MP1 = #max { P : atom(P), unknown_initially(P),     holds(pw(0, W1, __ini), P), not holds(pw(0, W2, __ini), P) },
-   MP2 = #max { P : atom(P), unknown_initially(P), not holds(pw(0, W1, __ini), P),     holds(pw(0, W2, __ini), P) },
-   initial_pw(W1), initial_pw(W2), W1 < W2, MP1 > MP2.
+:- MP1 = #max { P : atom(P), unknown_initially(P),     holds(w(0, W1, __ini), P), not holds(w(0, W2, __ini), P) },
+   MP2 = #max { P : atom(P), unknown_initially(P), not holds(w(0, W1, __ini), P),     holds(w(0, W2, __ini), P) },
+   initial_w(W1), initial_w(W2), W1 < W2, MP1 > MP2.
 
 % So far we dealt with (commonly known) atoms. An initial possible world is "good" if it entails all the atom formulas F that are initial common knowledge
 literal( P) :- atom(P).
 literal(-P) :- atom(P).
 
-no_good_initial_pw(W) :- not entails_init(W, F), initially(c(all_agents, F)), init_sf(F), not literal(F), initial_pw(W).
-good_initial_pw(W)    :- initial_pw(W), not no_good_initial_pw(W).
+no_good_initial_w(W) :- not entails_init(W, F), initially(c(all_agents, F)), init_sf(F), not literal(F), initial_w(W).
+good_initial_w(W)    :- initial_w(W), not no_good_initial_w(W).
 
 % For each good initial possible world we create a correspoinding possible world
-pw(0, W, __ini) :- good_initial_pw(W).
+w(0, W, __ini) :- good_initial_w(W).
 
 % The initial conditions of form 3. filter out some of the agents' beliefs inside the initial state
-no_good_initial_r(W1, W2, AG) :- not entails(pw(0, W1, __ini), F),     entails(pw(0, W2, __ini), F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
-no_good_initial_r(W1, W2, AG) :-     entails(pw(0, W1, __ini), F), not entails(pw(0, W2, __ini), F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
+no_good_initial_r(W1, W2, AG) :- not entails(w(0, W1, __ini), F),     entails(w(0, W2, __ini), F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
+no_good_initial_r(W1, W2, AG) :-     entails(w(0, W1, __ini), F), not entails(w(0, W2, __ini), F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
 
 % The initial conditions of form 4. filter out some of the agents' beliefs inside the initial state
-%no_good_initial_r(W1, W2, AG) :-     entails(0, 0, W1, F),     entails(0, 0, W2, F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
-%no_good_initial_r(W1, W2, AG) :- not entails(0, 0, W1, F), not entails(0, 0, W2, F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
+%no_good_initial_r(W1, W2, AG) :-     entails(0, 0, W1, F),     entails(0, 0, W2, F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
+%no_good_initial_r(W1, W2, AG) :- not entails(0, 0, W1, F), not entails(0, 0, W2, F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
 
 % believes/7: the agent AG, inside W1, believes W2 to be possible
-r(pw(0, W1, __ini), pw(0, W2, __ini), AG) :- not no_good_initial_r(W1, W2, AG), pw(0, W1, __ini), pw(0, W2, __ini),
-                                             good_initial_pw(W1), good_initial_pw(W2), agent(AG).
+r(w(0, W1, __ini), w(0, W2, __ini), AG) :- not no_good_initial_r(W1, W2, AG), w(0, W1, __ini), w(0, W2, __ini),
+                                           good_initial_w(W1), good_initial_w(W2), agent(AG).
