@@ -2,9 +2,9 @@
 
 #program base.
 
-%%% A literal is an atom or its negation
-literal( P) :- atom(P).
-literal(-P) :- atom(P), formula(-P).
+% %%% A literal is an atom or its negation
+% literal( P) :- atom(P).
+% literal(-P) :- atom(P), formula(-P).
 
 
 % check_on_designated/1: DEL formulae that need to be verified only in the pointed worlds
