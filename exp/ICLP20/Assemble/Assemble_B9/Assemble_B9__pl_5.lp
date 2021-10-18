@@ -66,7 +66,7 @@ observes(act_res, b, true).
 
 action(sense_a).
 sensing(sense_a).
-determines(sense_a, qualify_a, true).
+determines(sense_a, qualify_a).
 formula(neg(b(a,qualify_a))).
 formula(b(a,-qualify_a)).
 formula(neg(b(a,-qualify_a))).
@@ -78,7 +78,7 @@ oblivious(sense_a, b).
 
 action(sense_b).
 sensing(sense_b).
-determines(sense_b, qualify_b, true).
+determines(sense_b, qualify_b).
 formula(neg(b(b,qualify_b))).
 formula(b(b,-qualify_b)).
 formula(neg(b(b,-qualify_b))).
@@ -90,7 +90,7 @@ oblivious(sense_b, a).
 
 action(tell_a).
 announcement(tell_a).
-announces(tell_a, qualify_b, true).
+announces(tell_a, qualify_b).
 executable(tell_a, b(b,qualify_b)).
 observes(tell_a, a, true).
 observes(tell_a, b, true).
@@ -98,7 +98,7 @@ observes(tell_a, b, true).
 
 action(tell_b).
 announcement(tell_b).
-announces(tell_b, qualify_a, true).
+announces(tell_b, qualify_a).
 executable(tell_b, b(a,qualify_a)).
 observes(tell_b, a, true).
 observes(tell_b, b, true).

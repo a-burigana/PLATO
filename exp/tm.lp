@@ -81,7 +81,7 @@ observes(goto_qf, c, true).
 
 action(read_0).
 sensing(read_0).
-determines(read_0, a0, true).
+determines(read_0, a0).
 executable(read_0, a0).
 observes(read_0, a, true).
 aware_of(read_0, b, true).
@@ -91,7 +91,7 @@ aware_of(read_0, c, true).
 
 action(read_1).
 sensing(read_1).
-determines(read_1, a1, true).
+determines(read_1, a1).
 executable(read_1, a1).
 observes(read_1, a, true).
 observes(read_1, b, true).
@@ -100,7 +100,7 @@ oblivious(read_1, c).
 
 action(read_bl).
 sensing(read_bl).
-determines(read_bl, bl, true).
+determines(read_bl, bl).
 executable(read_bl, bl).
 observes(read_bl, a, true).
 observes(read_bl, b, true).
@@ -109,7 +109,7 @@ oblivious(read_bl, c).
 
 action(share_ab_0).
 announcement(share_ab_0).
-announces(share_ab_0, a0, true).
+announces(share_ab_0, a0).
 formula(b(a,a0)).
 formula(and(b(a,a0),a0)).
 executable(share_ab_0, and(b(a,a0),a0)).
@@ -120,7 +120,7 @@ aware_of(share_ab_0, c, true).
 
 action(share_ab_1).
 announcement(share_ab_1).
-announces(share_ab_1, a1, true).
+announces(share_ab_1, a1).
 formula(b(a,a1)).
 formula(and(b(a,a1),a1)).
 executable(share_ab_1, and(b(a,a1),a1)).
@@ -131,7 +131,7 @@ aware_of(share_ab_1, c, true).
 
 action(share_ab_bl).
 announcement(share_ab_bl).
-announces(share_ab_bl, bl, true).
+announces(share_ab_bl, bl).
 formula(b(a,bl)).
 formula(and(b(a,bl),bl)).
 executable(share_ab_bl, and(b(a,bl),bl)).
@@ -142,7 +142,7 @@ aware_of(share_ab_bl, c, true).
 
 action(share_ac_0).
 announcement(share_ac_0).
-announces(share_ac_0, a0, true).
+announces(share_ac_0, a0).
 executable(share_ac_0, and(b(a,a0),a0)).
 observes(share_ac_0, a, true).
 observes(share_ac_0, c, true).
@@ -151,7 +151,7 @@ aware_of(share_ac_0, b, true).
 
 action(share_ac_1).
 announcement(share_ac_1).
-announces(share_ac_1, a1, true).
+announces(share_ac_1, a1).
 executable(share_ac_1, and(b(a,a1),a1)).
 observes(share_ac_1, a, true).
 observes(share_ac_1, c, true).
@@ -160,7 +160,7 @@ aware_of(share_ac_1, b, true).
 
 action(share_ac_bl).
 announcement(share_ac_bl).
-announces(share_ac_bl, bl, true).
+announces(share_ac_bl, bl).
 executable(share_ac_bl, and(b(a,bl),bl)).
 observes(share_ac_bl, a, true).
 observes(share_ac_bl, c, true).
@@ -169,7 +169,7 @@ aware_of(share_ac_bl, b, true).
 
 action(share_b_0).
 announcement(share_b_0).
-announces(share_b_0, a0, true).
+announces(share_b_0, a0).
 executable(share_b_0, and(b(a,a0),a0)).
 observes(share_b_0, a, true).
 observes(share_b_0, b, true).
@@ -178,7 +178,7 @@ oblivious(share_b_0, c).
 
 action(share_b_1).
 announcement(share_b_1).
-announces(share_b_1, a1, true).
+announces(share_b_1, a1).
 executable(share_b_1, and(b(a,a1),a1)).
 observes(share_b_1, a, true).
 observes(share_b_1, b, true).
@@ -187,7 +187,7 @@ oblivious(share_b_1, c).
 
 action(share_b_bl).
 announcement(share_b_bl).
-announces(share_b_bl, bl, true).
+announces(share_b_bl, bl).
 executable(share_b_bl, and(b(a,bl),bl)).
 observes(share_b_bl, a, true).
 observes(share_b_bl, b, true).
@@ -196,7 +196,7 @@ oblivious(share_b_bl, c).
 
 action(share_c_0).
 announcement(share_c_0).
-announces(share_c_0, a0, true).
+announces(share_c_0, a0).
 executable(share_c_0, and(b(a,a0),a0)).
 observes(share_c_0, a, true).
 observes(share_c_0, c, true).
@@ -205,7 +205,7 @@ oblivious(share_c_0, b).
 
 action(share_c_1).
 announcement(share_c_1).
-announces(share_c_1, a1, true).
+announces(share_c_1, a1).
 executable(share_c_1, and(b(a,a1),a1)).
 observes(share_c_1, a, true).
 observes(share_c_1, c, true).
@@ -214,7 +214,7 @@ oblivious(share_c_1, b).
 
 action(share_c_bl).
 announcement(share_c_bl).
-announces(share_c_bl, bl, true).
+announces(share_c_bl, bl).
 executable(share_c_bl, and(b(a,bl),bl)).
 observes(share_c_bl, a, true).
 observes(share_c_bl, c, true).

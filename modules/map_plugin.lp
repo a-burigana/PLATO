@@ -3,13 +3,21 @@
 #program base.
 
 %%% Generating preconditions for epistemic actions %%%
-formula(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P, _), formula(F), atom(P).
-formula(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P, _), formula(F), atom(P).
-formula(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P, _),             atom(P).
+formula(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(F), atom(P).
+formula(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(F), atom(P).
+formula(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P),             atom(P).
 
-formula(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P, _), formula(F), atom(P).
-formula(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P, _), formula(F), atom(P).
-formula(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P, _),             atom(P).
+formula(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
+formula(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
+formula(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P),             atom(P).
+
+check_everywhere(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and( P, F)), formula(F), atom(P).
+check_everywhere(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and(-P, F)), formula(F), atom(P).
+check_everywhere(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(-P)        ,             atom(P).
+
+check_everywhere(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and( P, F)), formula(F), atom(P).
+check_everywhere(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and(-P, F)), formula(F), atom(P).
+check_everywhere(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(-P)        ,             atom(P).
 
 
 #program step(t).
@@ -54,8 +62,8 @@ e(t, ACT, eps) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT).
 
 de(t, ACT, sig) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT).
 
-pre(t, ACT, sig, and( P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P, _).
-pre(t, ACT, sig, and(-P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P, _).
+pre(t, ACT, sig, and( P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P).
+pre(t, ACT, sig, and(-P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P).
 pre(t, ACT, eps, true      ) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT).
 
 post(t, ACT, sig, P, P) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), atom(P).
@@ -79,8 +87,8 @@ e(t, ACT, eps) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT).
 
 de(t, ACT, sig) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT).
 
-pre(t, ACT, sig, and( P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P, _).
-pre(t, ACT, sig, and(-P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P, _).
+pre(t, ACT, sig, and( P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P).
+pre(t, ACT, sig, and(-P, F)) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P).
 pre(t, ACT, eps, true      ) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT).
 
 post(t, ACT, sig, P, P) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), atom(P).

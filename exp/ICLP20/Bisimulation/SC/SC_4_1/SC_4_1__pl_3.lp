@@ -63,7 +63,7 @@ observes(right, c, true).
 
 action(sense).
 sensing(sense).
-determines(sense, q, true).
+determines(sense, q).
 executable(sense, at_2).
 observes(sense, a, true).
 oblivious(sense, b).
@@ -72,7 +72,7 @@ oblivious(sense, c).
 
 action(shout_1).
 announcement(shout_1).
-announces(shout_1, q, true).
+announces(shout_1, q).
 formula(b(a,q)).
 formula(and(b(a,q),at_1)).
 executable(shout_1, and(b(a,q),at_1)).
@@ -83,7 +83,7 @@ oblivious(shout_1, c).
 
 action(shout_2).
 announcement(shout_2).
-announces(shout_2, q, true).
+announces(shout_2, q).
 formula(and(b(a,q),at_2)).
 executable(shout_2, and(b(a,q),at_2)).
 observes(shout_2, a, true).
@@ -93,7 +93,7 @@ observes(shout_2, c, true).
 
 action(shout_3).
 announcement(shout_3).
-announces(shout_3, q, true).
+announces(shout_3, q).
 formula(and(b(a,q),at_3)).
 executable(shout_3, and(b(a,q),at_3)).
 observes(shout_3, a, true).
@@ -103,7 +103,7 @@ observes(shout_3, c, true).
 
 action(shout_4).
 announcement(shout_4).
-announces(shout_4, q, true).
+announces(shout_4, q).
 formula(and(b(a,q),at_4)).
 executable(shout_4, and(b(a,q),at_4)).
 observes(shout_4, a, true).

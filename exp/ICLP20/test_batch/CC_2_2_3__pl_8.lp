@@ -36,7 +36,7 @@ agent(b).
 % *** ACTIONS ***
 action(a_check_1).
 sensing(a_check_1).
-determines(a_check_1, at_b1_1, true).
+determines(a_check_1, at_b1_1).
 formula(b(a,at_a_1)).
 executable(a_check_1, b(a,at_a_1)).
 observes(a_check_1, a, true).
@@ -45,7 +45,7 @@ oblivious(a_check_1, b).
 
 action(a_check_3).
 sensing(a_check_3).
-determines(a_check_3, at_b2_3, true).
+determines(a_check_3, at_b2_3).
 formula(b(a,at_a_3)).
 executable(a_check_3, b(a,at_a_3)).
 observes(a_check_3, a, true).
@@ -54,7 +54,7 @@ oblivious(a_check_3, b).
 
 action(b_check_1).
 sensing(b_check_1).
-determines(b_check_1, at_b1_1, true).
+determines(b_check_1, at_b1_1).
 formula(b(b,at_b_1)).
 executable(b_check_1, b(b,at_b_1)).
 observes(b_check_1, b, true).
@@ -63,7 +63,7 @@ oblivious(b_check_1, a).
 
 action(b_check_3).
 sensing(b_check_3).
-determines(b_check_3, at_b2_3, true).
+determines(b_check_3, at_b2_3).
 formula(b(b,at_b_3)).
 executable(b_check_3, b(b,at_b_3)).
 observes(b_check_3, b, true).
@@ -140,7 +140,7 @@ observes(right_b, b, true).
 
 action(tell_a_b1_1).
 announcement(tell_a_b1_1).
-announces(tell_a_b1_1, at_b1_1, true).
+announces(tell_a_b1_1, at_b1_1).
 formula(b(a,at_b1_1)).
 executable(tell_a_b1_1, b(a,at_b1_1)).
 observes(tell_a_b1_1, b, true).
@@ -149,7 +149,7 @@ oblivious(tell_a_b1_1, a).
 
 action(tell_a_b1_3).
 announcement(tell_a_b1_3).
-announces(tell_a_b1_3, at_b1_3, true).
+announces(tell_a_b1_3, at_b1_3).
 formula(b(a,at_b1_3)).
 executable(tell_a_b1_3, b(a,at_b1_3)).
 observes(tell_a_b1_3, a, true).
@@ -158,7 +158,7 @@ observes(tell_a_b1_3, b, true).
 
 action(tell_a_b2_1).
 announcement(tell_a_b2_1).
-announces(tell_a_b2_1, at_b2_1, true).
+announces(tell_a_b2_1, at_b2_1).
 formula(b(a,at_b2_1)).
 executable(tell_a_b2_1, b(a,at_b2_1)).
 observes(tell_a_b2_1, a, true).
@@ -167,7 +167,7 @@ observes(tell_a_b2_1, b, true).
 
 action(tell_a_b2_3).
 announcement(tell_a_b2_3).
-announces(tell_a_b2_3, at_b2_3, true).
+announces(tell_a_b2_3, at_b2_3).
 formula(b(a,at_b2_3)).
 executable(tell_a_b2_3, b(a,at_b2_3)).
 observes(tell_a_b2_3, a, true).
@@ -176,7 +176,7 @@ observes(tell_a_b2_3, b, true).
 
 action(tell_b_b1_1).
 announcement(tell_b_b1_1).
-announces(tell_b_b1_1, at_b1_1, true).
+announces(tell_b_b1_1, at_b1_1).
 formula(b(b,at_b1_1)).
 executable(tell_b_b1_1, b(b,at_b1_1)).
 observes(tell_b_b1_1, a, true).
@@ -185,7 +185,7 @@ observes(tell_b_b1_1, b, true).
 
 action(tell_b_b1_3).
 announcement(tell_b_b1_3).
-announces(tell_b_b1_3, at_b1_3, true).
+announces(tell_b_b1_3, at_b1_3).
 formula(b(b,at_b1_3)).
 executable(tell_b_b1_3, b(b,at_b1_3)).
 observes(tell_b_b1_3, a, true).
@@ -194,7 +194,7 @@ observes(tell_b_b1_3, b, true).
 
 action(tell_b_b2_1).
 announcement(tell_b_b2_1).
-announces(tell_b_b2_1, at_b2_1, true).
+announces(tell_b_b2_1, at_b2_1).
 formula(b(b,at_b2_1)).
 executable(tell_b_b2_1, b(b,at_b2_1)).
 observes(tell_b_b2_1, a, true).
@@ -203,7 +203,7 @@ observes(tell_b_b2_1, b, true).
 
 action(tell_b_b2_3).
 announcement(tell_b_b2_3).
-announces(tell_b_b2_3, at_b2_3, true).
+announces(tell_b_b2_3, at_b2_3).
 formula(b(b,at_b2_3)).
 executable(tell_b_b2_3, b(b,at_b2_3)).
 observes(tell_b_b2_3, a, true).

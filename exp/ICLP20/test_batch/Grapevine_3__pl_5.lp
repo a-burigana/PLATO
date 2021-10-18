@@ -101,7 +101,7 @@ observes(right_c, c, at_c_1).
 
 action(share_a_sa_1).
 announcement(share_a_sa_1).
-announces(share_a_sa_1, sa, true).
+announces(share_a_sa_1, sa).
 formula(b(a,sa)).
 formula(and(b(a,sa),at_a_1)).
 executable(share_a_sa_1, and(b(a,sa),at_a_1)).
@@ -112,7 +112,7 @@ observes(share_a_sa_1, c, at_c_1).
 
 action(share_a_sa_2).
 announcement(share_a_sa_2).
-announces(share_a_sa_2, sa, true).
+announces(share_a_sa_2, sa).
 formula(and(b(a,sa),at_a_2)).
 executable(share_a_sa_2, and(b(a,sa),at_a_2)).
 observes(share_a_sa_2, a, at_a_2).
@@ -122,7 +122,7 @@ observes(share_a_sa_2, c, at_c_2).
 
 action(share_a_sb_1).
 announcement(share_a_sb_1).
-announces(share_a_sb_1, sb, true).
+announces(share_a_sb_1, sb).
 formula(b(a,sb)).
 formula(and(b(a,sb),at_a_1)).
 executable(share_a_sb_1, and(b(a,sb),at_a_1)).
@@ -133,7 +133,7 @@ observes(share_a_sb_1, c, at_c_1).
 
 action(share_a_sb_2).
 announcement(share_a_sb_2).
-announces(share_a_sb_2, sb, true).
+announces(share_a_sb_2, sb).
 formula(and(b(a,sb),at_a_2)).
 executable(share_a_sb_2, and(b(a,sb),at_a_2)).
 observes(share_a_sb_2, a, at_a_2).
@@ -143,7 +143,7 @@ observes(share_a_sb_2, c, at_c_2).
 
 action(share_a_sc_1).
 announcement(share_a_sc_1).
-announces(share_a_sc_1, sc, true).
+announces(share_a_sc_1, sc).
 formula(b(a,sc)).
 formula(and(b(a,sc),at_a_1)).
 executable(share_a_sc_1, and(b(a,sc),at_a_1)).
@@ -154,7 +154,7 @@ observes(share_a_sc_1, c, at_c_1).
 
 action(share_a_sc_2).
 announcement(share_a_sc_2).
-announces(share_a_sc_2, sc, true).
+announces(share_a_sc_2, sc).
 formula(and(b(a,sc),at_a_2)).
 executable(share_a_sc_2, and(b(a,sc),at_a_2)).
 observes(share_a_sc_2, a, at_a_2).
@@ -164,7 +164,7 @@ observes(share_a_sc_2, c, at_c_2).
 
 action(share_b_sa_1).
 announcement(share_b_sa_1).
-announces(share_b_sa_1, sa, true).
+announces(share_b_sa_1, sa).
 formula(b(b,sa)).
 formula(and(b(b,sa),at_b_1)).
 executable(share_b_sa_1, and(b(b,sa),at_b_1)).
@@ -175,7 +175,7 @@ observes(share_b_sa_1, c, at_c_1).
 
 action(share_b_sa_2).
 announcement(share_b_sa_2).
-announces(share_b_sa_2, sa, true).
+announces(share_b_sa_2, sa).
 formula(and(b(b,sa),at_b_2)).
 executable(share_b_sa_2, and(b(b,sa),at_b_2)).
 observes(share_b_sa_2, a, at_a_2).
@@ -185,7 +185,7 @@ observes(share_b_sa_2, c, at_c_2).
 
 action(share_b_sb_1).
 announcement(share_b_sb_1).
-announces(share_b_sb_1, sb, true).
+announces(share_b_sb_1, sb).
 formula(b(b,sb)).
 formula(and(b(b,sb),at_b_1)).
 executable(share_b_sb_1, and(b(b,sb),at_b_1)).
@@ -196,7 +196,7 @@ observes(share_b_sb_1, c, at_c_1).
 
 action(share_b_sb_2).
 announcement(share_b_sb_2).
-announces(share_b_sb_2, sb, true).
+announces(share_b_sb_2, sb).
 formula(and(b(b,sb),at_b_2)).
 executable(share_b_sb_2, and(b(b,sb),at_b_2)).
 observes(share_b_sb_2, a, at_a_2).
@@ -206,7 +206,7 @@ observes(share_b_sb_2, c, at_c_2).
 
 action(share_b_sc_1).
 announcement(share_b_sc_1).
-announces(share_b_sc_1, sc, true).
+announces(share_b_sc_1, sc).
 formula(b(b,sc)).
 formula(and(b(b,sc),at_b_1)).
 executable(share_b_sc_1, and(b(b,sc),at_b_1)).
@@ -217,7 +217,7 @@ observes(share_b_sc_1, c, at_c_1).
 
 action(share_b_sc_2).
 announcement(share_b_sc_2).
-announces(share_b_sc_2, sc, true).
+announces(share_b_sc_2, sc).
 formula(and(b(b,sc),at_b_2)).
 executable(share_b_sc_2, and(b(b,sc),at_b_2)).
 observes(share_b_sc_2, a, at_a_2).
@@ -227,7 +227,7 @@ observes(share_b_sc_2, c, at_c_2).
 
 action(share_c_sa_1).
 announcement(share_c_sa_1).
-announces(share_c_sa_1, sa, true).
+announces(share_c_sa_1, sa).
 formula(b(c,sa)).
 formula(and(b(c,sa),at_c_1)).
 executable(share_c_sa_1, and(b(c,sa),at_c_1)).
@@ -238,7 +238,7 @@ observes(share_c_sa_1, c, at_c_1).
 
 action(share_c_sa_2).
 announcement(share_c_sa_2).
-announces(share_c_sa_2, sa, true).
+announces(share_c_sa_2, sa).
 formula(and(b(c,sa),at_c_2)).
 executable(share_c_sa_2, and(b(c,sa),at_c_2)).
 observes(share_c_sa_2, a, at_a_2).
@@ -248,7 +248,7 @@ observes(share_c_sa_2, c, at_c_2).
 
 action(share_c_sb_1).
 announcement(share_c_sb_1).
-announces(share_c_sb_1, sb, true).
+announces(share_c_sb_1, sb).
 formula(b(c,sb)).
 formula(and(b(c,sb),at_c_1)).
 executable(share_c_sb_1, and(b(c,sb),at_c_1)).
@@ -259,7 +259,7 @@ observes(share_c_sb_1, c, at_c_1).
 
 action(share_c_sb_2).
 announcement(share_c_sb_2).
-announces(share_c_sb_2, sb, true).
+announces(share_c_sb_2, sb).
 formula(and(b(c,sb),at_c_2)).
 executable(share_c_sb_2, and(b(c,sb),at_c_2)).
 observes(share_c_sb_2, a, at_a_2).
@@ -269,7 +269,7 @@ observes(share_c_sb_2, c, at_c_2).
 
 action(share_c_sc_1).
 announcement(share_c_sc_1).
-announces(share_c_sc_1, sc, true).
+announces(share_c_sc_1, sc).
 formula(b(c,sc)).
 formula(and(b(c,sc),at_c_1)).
 executable(share_c_sc_1, and(b(c,sc),at_c_1)).
@@ -280,7 +280,7 @@ observes(share_c_sc_1, c, at_c_1).
 
 action(share_c_sc_2).
 announcement(share_c_sc_2).
-announces(share_c_sc_2, sc, true).
+announces(share_c_sc_2, sc).
 formula(and(b(c,sc),at_c_2)).
 executable(share_c_sc_2, and(b(c,sc),at_c_2)).
 observes(share_c_sc_2, a, at_a_2).

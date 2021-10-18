@@ -15,9 +15,7 @@ check_on_designated(F) :- formula(F),       goal(F).           % Goal conditions
 
 % check_everywere/1: DEL formulae that need to be verified in every world
 check_everywhere(F) :- formula(F),     causes(_, _, F).     % Effects executability conditions are to be checked in each possibility
-check_everywhere(F) :- formula(F), determines(_, _, F).
-check_everywhere(F) :- formula(F),  announces(_, _, F).
-check_everywhere(F) :- formula(F),  announces(_, F, _).     % The effects of announcement actions are to be checked in each possibility
+check_everywhere(F) :- formula(F),  announces(   _, F).     % The effects of announcement actions are to be checked in each possibility
 
 check_everywhere(F ) :- check_everywhere(neg(F)),       formula(neg(F)),       formula(F ).
 check_everywhere(F1) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).

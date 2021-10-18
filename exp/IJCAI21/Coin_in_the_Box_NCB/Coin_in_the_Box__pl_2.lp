@@ -152,7 +152,7 @@ observes(open_c, c, true).
 
 action(peek_a).
 sensing(peek_a).
-determines(peek_a, tail, true).
+determines(peek_a, tail).
 formula(b(a,opened)).
 formula(and(b(a,opened),b(a,looking_a))).
 formula(and(looking_a,opened)).
@@ -165,7 +165,7 @@ aware_of(peek_a, c, looking_c).
 
 action(peek_b).
 sensing(peek_b).
-determines(peek_b, tail, true).
+determines(peek_b, tail).
 formula(b(b,opened)).
 formula(and(b(b,opened),b(b,looking_b))).
 formula(and(looking_b,opened)).
@@ -178,7 +178,7 @@ aware_of(peek_b, c, looking_c).
 
 action(peek_c).
 sensing(peek_c).
-determines(peek_c, tail, true).
+determines(peek_c, tail).
 formula(b(c,opened)).
 formula(and(b(c,opened),b(c,looking_c))).
 formula(and(looking_c,opened)).
@@ -191,7 +191,7 @@ aware_of(peek_c, b, looking_b).
 %%%%%%%%%% NCB %%%%%%%%%%
 action(shout_tail_a).
 announcement(shout_tail_a).
-announces(shout_tail_a, tail, true).
+announces(shout_tail_a, tail).
 formula(b(a,tail)).
 formula(and(b(a,tail),tail)).
 executable(shout_tail_a, true). % b(a,tail)
@@ -205,7 +205,7 @@ aware_of(shout_tail_a, c, true). % looking_c
 
 action(shout_head_a).
 announcement(shout_head_a).
-announces(shout_head_a, -tail, true).
+announces(shout_head_a, -tail).
 % formula(b(a,-tail)).
 executable(shout_head_a, true). % b(a,-tail)
 observes(shout_head_a, a, true).
@@ -216,7 +216,7 @@ observes(shout_head_a, c, true).
 
 action(shout_tail_b).
 announcement(shout_tail_b).
-announces(shout_tail_b, tail, true).
+announces(shout_tail_b, tail).
 formula(b(b,tail)).
 formula(and(b(b,tail),tail)).
 executable(shout_tail_b, and(b(b,tail),tail)).
@@ -227,7 +227,7 @@ observes(shout_tail_b, c, looking_c).
 
 action(shout_tail_c).
 announcement(shout_tail_c).
-announces(shout_tail_c, tail, true).
+announces(shout_tail_c, tail).
 formula(b(c,tail)).
 formula(and(b(c,tail),tail)).
 executable(shout_tail_c, and(b(c,tail),tail)).
