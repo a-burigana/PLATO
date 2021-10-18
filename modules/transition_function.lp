@@ -18,7 +18,7 @@ dw(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT),
 
 % STEP 2: determine the new possible worlds
 %          - 2.1: a designated world is a possible world
-w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), e(t, ACT, E), dw(t, w(t-1, W, Ew), E).
+w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), dw(t, w(t-1, W, Ew), e(t, ACT, E)).
 
 %          - 2.2: apply recursive step
 
@@ -31,12 +31,29 @@ same_path(w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(A
                                           w(t-1, W2, Ew2), e(t, ACT, E2), same_path(w(t-1, W2, Ew2), e(t, ACT, E2)),
                                           r(w(t-1, W2, Ew2), w(t-1, W, Ew), AG), q(e(t, ACT, E2), e(t, ACT, E), AG).
 
+% #defined same_path/2.
+% #show same_path/2.
+
+% #show e/3.
+% #show dw/3.
+% #show de/3.
+% #show q/3.
+% #show pre/4.
+% #show post/5.
 
 w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), pre(t, ACT, E, true),
                                      same_path(w(t-1, W, Ew), e(t, ACT, E)).
 
 w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), pre(t, ACT, E, Fpre), formula(Fpre),
                                      same_path(w(t-1, W, Ew), e(t, ACT, E)), entails(w(t-1, W, Ew), Fpre).
+
+#program base.
+check :- entails(w(0,1,__ini), and(and(b(a,looking_a),b(a,-looking_b)),and(looking_a,-looking_b))).
+#show check/0.
+
+%%% \todo: CONTROLLA ENTAILMENT!!!
+
+#program step(t).
 
 % STEP 3: determine the accessibility relations
 r(w(t, w(t-1, W, Ew), e(t, ACT, E1)),

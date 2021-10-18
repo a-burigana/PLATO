@@ -47,9 +47,10 @@ de(t, ACT, sig) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
 pre(t, ACT, sig, F   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, F), formula(F).
 pre(t, ACT, eps, true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
 
-post(t, ACT, sig, P, F) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
-post(t, ACT, sig, P, P) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _).
-post(t, ACT, eps, P, P) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P).
+post(t, ACT, sig, P, true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, true).
+post(t, ACT, sig, P, F   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
+post(t, ACT, sig, P, P   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _).
+post(t, ACT, eps, P, P   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P).
 
 q(e(t, ACT, sig), e(t, ACT, sig), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_fully_obs(t, AG).
 q(e(t, ACT, sig), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_oblivious(t, AG).
