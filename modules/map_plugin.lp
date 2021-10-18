@@ -177,7 +177,7 @@ pw(pw(0, W, __ini)) :- good_initial_pw(W).
 
 % The initial conditions of form 3. filter out some of the agents' beliefs inside the initial state
 no_good_initial_r(W1, W2, AG) :- not entails(pw(0, W1, __ini), F),     entails(pw(0, W2, __ini), F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
-no_good_initial_r(W1, W2, AG) :-     entails(pw(0, W1, __ini),     not entails(pw(0, W2, __ini), F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
+no_good_initial_r(W1, W2, AG) :-     entails(pw(0, W1, __ini), F), not entails(pw(0, W2, __ini), F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
 
 % The initial conditions of form 4. filter out some of the agents' beliefs inside the initial state
 %no_good_initial_r(W1, W2, AG) :-     entails(0, 0, W1, F),     entails(0, 0, W2, F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
