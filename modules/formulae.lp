@@ -13,7 +13,7 @@ check_on_designated(F) :- formula(F),   observes(_, _, F).     % Observability c
 check_on_designated(F) :- formula(F),   aware_of(_, _, F).
 check_on_designated(F) :- formula(F),       goal(F).           % Goal conditions are to be checked only in the pointed possibility
 
-% check_everywere/1: DEL formulae that need to be verified in every world
+% check_everywhere/1: DEL formulae that need to be verified in every world
 check_everywhere(F) :- formula(F),     causes(_, _, F).     % Effects executability conditions are to be checked in each possibility
 check_everywhere(F) :- formula(F),  announces(   _, F).     % The effects of announcement actions are to be checked in each possibility
 

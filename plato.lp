@@ -25,22 +25,23 @@ time(t).
 % Generate
 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
 
-% reached_goal(2).
-
 % Test
 :- 0 { plan(t, _) } 0.
 :- t > 0, time(t), plan(t, ACT), not applicable(t, ACT).
 
 #program check(t).
 :- not entails(pw(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
+
+%%% DEBUG %%%
+% reached_goal(2).
 % :- not reached_goal(t), query(t).
 
 % Display
 #show plan/2.
 
 % !!! Uncomment while printing the results !!!
-% #show pointed/3.
-% #show possible_world/3.
-% #show believes/7.
-% #show holds/4.
+% #show dw/3.
+% #show pw/3.
+% #show r/3.
+% #show holds/2.
 % #show atom/1.

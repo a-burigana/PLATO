@@ -173,7 +173,7 @@ no_good_initial_pw(W) :- not entails_init(W, F), initially(c(all_agents, F)), in
 good_initial_pw(W)    :- initial_pw(W), not no_good_initial_pw(W).
 
 % For each good initial possible world we create a correspoinding possible world
-pw(pw(0, W, __ini)) :- good_initial_pw(W).
+pw(0, W, __ini) :- good_initial_pw(W).
 
 % The initial conditions of form 3. filter out some of the agents' beliefs inside the initial state
 no_good_initial_r(W1, W2, AG) :- not entails(pw(0, W1, __ini), F),     entails(pw(0, W2, __ini), F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
@@ -184,5 +184,5 @@ no_good_initial_r(W1, W2, AG) :-     entails(pw(0, W1, __ini), F), not entails(p
 %no_good_initial_r(W1, W2, AG) :- not entails(0, 0, W1, F), not entails(0, 0, W2, F), good_initial_pw(W1), good_initial_pw(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
 
 % believes/7: the agent AG, inside W1, believes W2 to be possible
-r(pw(0, W1, __ini), pw(0, W2, __ini), AG) :- not no_good_initial_r(W1, W2, AG), pw(pw(0, W1, __ini)), pw(pw(0, W2, __ini)),
+r(pw(0, W1, __ini), pw(0, W2, __ini), AG) :- not no_good_initial_r(W1, W2, AG), pw(0, W1, __ini), pw(0, W2, __ini),
                                              good_initial_pw(W1), good_initial_pw(W2), agent(AG).
