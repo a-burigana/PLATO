@@ -235,15 +235,15 @@ with open(sys.argv[1]+'.txt', 'r') as n:
 					print(',', end ="", file = outputfile)
 			print('"];', file = outputfile)
 
-#FLUENTS-TABLE
+#ATOMS-TABLE
 
-#reading all the fluents for complete table
-	fluents = SortedSet()
+#reading all the ATOMS for complete table
+	ATOMS = SortedSet()
 	fluent_predicates = re.findall(n_fluent, n)
 	for fluent_predicate in fluent_predicates:
 		fluent_predicate = re.sub('^fluent\(', '', fluent_predicate)
 		fluent_predicate = re.sub('\)$', '', fluent_predicate)
-		fluents.add(fluent_predicate)
+		ATOMS.add(fluent_predicate)
 
 #table print
 	holds = re.findall(n_holds, n)
@@ -264,12 +264,12 @@ with open(sys.argv[1]+'.txt', 'r') as n:
 			#print(key, end ="")
 			#print('{rank = ' + str(counter_rank) + '; ', end ="", file = outputfile)
 			print('<tr><td>'+ ft_keys[key] + '</td>\t<td>', end ="", file = outputfile)
-			for fluent in fluents:
+			for fluent in ATOMS:
 				if fluent in fluent_table[key]:
 					print('<font color="#0000ff"> '+fluent + '</font>', end ="", file = outputfile)
 				else:
 					print('<font color="#ff1020">-'+fluent+"</font>", end ="", file = outputfile)
-				if fluents.index(fluent) != len(fluents)-1:
+				if ATOMS.index(fluent) != len(ATOMS)-1:
 					print(', ', end ="", file = outputfile)
 			print('</td></tr>', end ="\n", file = outputfile)
 	print('\t</table>>]',end ="\n", file = outputfile)

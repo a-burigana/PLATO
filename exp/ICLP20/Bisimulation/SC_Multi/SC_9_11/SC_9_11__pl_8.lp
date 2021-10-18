@@ -5,30 +5,30 @@
 
 %time(0..maxT).
 
-% *** FLUENTS ***
-fluent(at_1).
+% *** ATOMS ***
+atom(at_1).
 formula(at_1).
-fluent(at_10).
+atom(at_10).
 formula(at_10).
-fluent(at_11).
+atom(at_11).
 formula(at_11).
-fluent(at_2).
+atom(at_2).
 formula(at_2).
-fluent(at_3).
+atom(at_3).
 formula(at_3).
-fluent(at_4).
+atom(at_4).
 formula(at_4).
-fluent(at_5).
+atom(at_5).
 formula(at_5).
-fluent(at_6).
+atom(at_6).
 formula(at_6).
-fluent(at_7).
+atom(at_7).
 formula(at_7).
-fluent(at_8).
+atom(at_8).
 formula(at_8).
-fluent(at_9).
+atom(at_9).
 formula(at_9).
-fluent(q).
+atom(q).
 formula(q).
 
 

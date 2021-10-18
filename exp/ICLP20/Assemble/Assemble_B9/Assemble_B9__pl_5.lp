@@ -5,14 +5,14 @@
 
 %time(0..maxT).
 
-% *** FLUENTS ***
-fluent(assemble).
+% *** ATOMS ***
+atom(assemble).
 formula(assemble).
-fluent(qualify_a).
+atom(qualify_a).
 formula(qualify_a).
-fluent(qualify_b).
+atom(qualify_b).
 formula(qualify_b).
-fluent(restart).
+atom(restart).
 formula(restart).
 
 

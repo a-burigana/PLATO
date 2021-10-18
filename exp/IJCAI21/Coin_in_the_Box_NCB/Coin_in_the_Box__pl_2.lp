@@ -12,22 +12,22 @@
 
 %time(0..maxT).
 
-% *** FLUENTS ***
-fluent(has_key_a).
+% *** ATOMS ***
+atom(has_key_a).
 formula(has_key_a).
-fluent(has_key_b).
+atom(has_key_b).
 formula(has_key_b).
-fluent(has_key_c).
+atom(has_key_c).
 formula(has_key_c).
-fluent(looking_a).
+atom(looking_a).
 formula(looking_a).
-fluent(looking_b).
+atom(looking_b).
 formula(looking_b).
-fluent(looking_c).
+atom(looking_c).
 formula(looking_c).
-fluent(opened).
+atom(opened).
 formula(opened).
-fluent(tail).
+atom(tail).
 formula(tail).
 
 
