@@ -36,12 +36,22 @@ time(t).
 % reached_goal(2).
 % :- not reached_goal(t), query(t).
 
+% #program base.
+% check :- entails(pw(0, 2, __ini), F), executable(signal_a_c, F).
+
+% #show check/0.
+
+#program step(t).
+% check(t) :- applicable(t, signal_a_c).
+
+% #show check/1.
+
 % Display
 #show plan/2.
 
 % !!! Uncomment while printing the results !!!
-% #show dw/3.
-% #show pw/3.
+#show dw/3.
+#show pw/3.
 % #show r/3.
 % #show holds/2.
 % #show atom/1.
