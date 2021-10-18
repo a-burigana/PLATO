@@ -13,6 +13,7 @@ time(0).
 time(t).
 
 #include "modules/reachability.lp".
+#include "modules/formulae.lp".
 #include "modules/entailment.lp".
 #include "modules/transition_function.lp".
 % #include "modules/bisimulation.lp".
