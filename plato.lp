@@ -16,6 +16,7 @@ time(t).
 #include "modules/formulae.lp".
 #include "modules/entailment.lp".
 #include "modules/transition_function.lp".
+#include "modules/map_plugin.lp".
 % #include "modules/bisimulation.lp".
 
 

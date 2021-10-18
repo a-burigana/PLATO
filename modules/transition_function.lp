@@ -11,33 +11,6 @@ applicable(t, ACT)     :- t > 0, time(t), action(ACT), not not_applicable(t, ACT
 
 not_applicable(t, ACT) :- t > 0, time(t), action(ACT), dw(t-1, W, Ew), not_applicable(t, ACT, dw(t-1, W, Ew)).
 
-%%% Generating event spectrum %%%
-
-% Ontic actions
-e(t, ACT, sig) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
-e(t, ACT, eps) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
-
-de(t, ACT, sig) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
-
-pre(t, ACT, sig, F   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, F).
-pre(t, ACT, eps, true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
-
-post(t, ACT, sig, P, F) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
-post(t, ACT, sig, P, P) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _).
-post(t, ACT, eps, P, P) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P).
-
-q(e(t, ACT, sig), e(t, ACT, sig), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), observes(ACT, AG, true).
-q(e(t, ACT, sig), e(t, ACT, sig), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), observes(ACT, AG, F   ),
-                                         0 {pw(t-1, W, E) : dw(t-1, W, E), not entails(pw(t-1, W, E), F)} 0.
-
-q(e(t, ACT, sig), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), observes(ACT, AG, F   ),
-                                         dw(t-1, W, E), pw(t-1, W, E), not entails(pw(t-1, W, E), F).
-q(e(t, ACT, sig), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), oblivious(ACT, AG).
-
-q(e(t, ACT, eps), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG).
-
-% Sensing/Announcement actions
-
 
 % STEP 1: determine the new designated worlds. The computation of the other worlds begins from the designated worlds
 dw(t, pw(t-1, W, Ew), E) :- t > 0, time(t), plan(t, ACT), action(ACT), e(ACT, E), pre(E, Fpre),
