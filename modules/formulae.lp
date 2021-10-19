@@ -6,17 +6,6 @@
 % literal( P) :- atom(P).
 % literal(-P) :- atom(P), formula(-P).
 
-
-% check_on_designated/1: DEL formulae that need to be verified only in the pointed worlds
-check_on_designated(F) :- formula(F), executable(_,    F).     % Executability conditions are to be checked only in the pointed possibility
-check_on_designated(F) :- formula(F),   observes(_, _, F).     % Observability conditions are to be checked only in the pointed possibility
-check_on_designated(F) :- formula(F),   aware_of(_, _, F).
-check_on_designated(F) :- formula(F),       goal(F).           % Goal conditions are to be checked only in the pointed possibility
-
-% check_everywhere/1: DEL formulae that need to be verified in every world
-check_everywhere(F) :- formula(F),     causes(_, _, F).     % Effects executability conditions are to be checked in each possibility
-check_everywhere(F) :- formula(F),  announces(   _, F).     % The effects of announcement actions are to be checked in each possibility
-
 check_everywhere(F ) :- check_everywhere(neg(F)),       formula(neg(F)),       formula(F ).
 check_everywhere(F1) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
 check_everywhere(F2) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
