@@ -2,76 +2,39 @@
 
 #program base.
 
-entails(w(0, W, __ini),  F)          :-     holds(w(0, W, __ini), F),                                 check_on_w(w(0, W, __ini),  F),          not check_everywhere( F),          atom(F).
-entails(w(0, W, __ini), -F)          :- not holds(w(0, W, __ini), F),                                 check_on_w(w(0, W, __ini), -F),          not check_everywhere(-F),          atom(F).
+entails(w(0, W, __ini),  P)          :-     holds(w(0, W, __ini), P),                                 check_on_w(w(0, W, __ini),  P),          atom(P).
+entails(w(0, W, __ini), -P)          :- not holds(w(0, W, __ini), P),                                 check_on_w(w(0, W, __ini), -P),          atom(P).
 
-entails(w(0, W, __ini), neg(F))      :- not entails(w(0, W, __ini), F ),                              check_on_w(w(0, W, __ini), neg(F)),      not check_everywhere(neg(F)),      formula(neg(F)),      formula(F).
-entails(w(0, W, __ini), and(F1, F2)) :-     entails(w(0, W, __ini), F1), entails(w(0, W, __ini), F2), check_on_w(w(0, W, __ini), and(F1, F2)), not check_everywhere(and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
-entails(w(0, W, __ini),  or(F1, F2)) :-     entails(w(0, W, __ini), F1),                              check_on_w(w(0, W, __ini),  or(F1, F2)), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
-entails(w(0, W, __ini),  or(F1, F2)) :-                                  entails(w(0, W, __ini), F2), check_on_w(w(0, W, __ini),  or(F1, F2)), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
+entails(w(0, W, __ini), neg(F))      :- not entails(w(0, W, __ini), F ),                              check_on_w(w(0, W, __ini), neg(F)),      formula(neg(F)),      formula(F).
+entails(w(0, W, __ini), and(F1, F2)) :-     entails(w(0, W, __ini), F1), entails(w(0, W, __ini), F2), check_on_w(w(0, W, __ini), and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
+entails(w(0, W, __ini),  or(F1, F2)) :-     entails(w(0, W, __ini), F1),                              check_on_w(w(0, W, __ini),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
+entails(w(0, W, __ini),  or(F1, F2)) :-                                  entails(w(0, W, __ini), F2), check_on_w(w(0, W, __ini),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
 
-entails(w(0, W, __ini),   b(AG , F)) :- not not_entails(w(0, W, __ini), b(AG , F)),                   check_on_w(w(0, W, __ini), b(AG , F)),   not check_everywhere(b(AG , F)),   formula(  b(AG , F)), formula(F), agent(AG).
-entails(w(0, W, __ini),   c(AGS, F)) :- not not_entails(w(0, W, __ini), c(AGS, F)),                   check_on_w(w(0, W, __ini), c(AGS, F)),   not check_everywhere(c(AGS, F)),   formula(  c(AGS, F)), formula(F), agent_set(AGS).
+entails(w(0, W, __ini),   b(AG , F)) :- not not_entails(w(0, W, __ini), b(AG , F)),                   check_on_w(w(0, W, __ini), b(AG , F)),   formula(  b(AG , F)), formula(F), agent(AG).
+entails(w(0, W, __ini),   c(AGS, F)) :- not not_entails(w(0, W, __ini), c(AGS, F)),                   check_on_w(w(0, W, __ini), c(AGS, F)),   formula(  c(AGS, F)), formula(F), agent_set(AGS).
 
 not_entails(w(0, W1, __ini), b(AG , F)) :- not entails(w(0, W2, __ini), F), w(0, W2, __ini), check_on_w(w(0, W1, __ini), b(AG , F)), check_on_w(w(0, W2, __ini), F),
-                                           r(w(0, W1, __ini), w(0, W2, __ini), AG), not check_everywhere(b(AG , F)), formula(b(AG , F)), formula(F), agent(AG).
+                                           r(w(0, W1, __ini), w(0, W2, __ini), AG), formula(b(AG , F)), formula(F), agent(AG).
 
 not_entails(w(0, W1, __ini), c(AGS, F)) :- not entails(w(0, W2, __ini), F), w(0, W2, __ini), check_on_w(w(0, W1, __ini), c(AGS, F)), check_on_w(w(0, W2, __ini), F),
-                                           reaches(w(0, W1, __ini), w(0, W2, __ini), AGS), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
-
-
-entails(w(0, W, __ini),  F)          :-     holds(w(0, W, __ini), F),                                 check_everywhere( F),          atom(F).
-entails(w(0, W, __ini), -F)          :- not holds(w(0, W, __ini), F),    w(0, W, __ini),              check_everywhere(-F),          atom(F).
-
-entails(w(0, W, __ini), neg(F))      :- not entails(w(0, W, __ini), F ), w(0, W, __ini),              check_everywhere(neg(F)),      check_everywhere(F ),                       formula(neg(F)),      formula(F).
-entails(w(0, W, __ini), and(F1, F2)) :-     entails(w(0, W, __ini), F1), entails(w(0, W, __ini), F2), check_everywhere(and(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula(and(F1, F2)), formula(F1), formula(F2).
-entails(w(0, W, __ini),  or(F1, F2)) :-     entails(w(0, W, __ini), F1),                              check_everywhere( or(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula( or(F1, F2)), formula(F1), formula(F2).
-entails(w(0, W, __ini),  or(F1, F2)) :-                                  entails(w(0, W, __ini), F2), check_everywhere( or(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula( or(F1, F2)), formula(F1), formula(F2).
-
-entails(w(0, W, __ini),   b(AG , F)) :- not not_entails(w(0, W, __ini), b(AG , F)), w(0, W, __ini),   check_everywhere(b(AG , F)),                                               formula(  b(AG , F)), formula(F), agent(AG).
-entails(w(0, W, __ini),   c(AGS, F)) :- not not_entails(w(0, W, __ini), c(AGS, F)), w(0, W, __ini),   check_everywhere(c(AGS, F)),                                               formula(  c(AGS, F)), formula(F), agent_set(AGS).
-
-not_entails(w(0, W1, __ini), b(AG , F)) :- not entails(w(0, W2, __ini), F), w(0, W2, __ini),
-                                           r(w(0, W1, __ini), w(0, W2, __ini), AG), check_everywhere(b(AG, F)), formula(b(AG, F)), formula(F), agent(AG).
-
-not_entails(w(0, W1, __ini), c(AGS, F)) :- not entails(w(0, W2, __ini), F), w(0, W2, __ini),
-                                           reaches(w(0, W1, __ini), w(0, W2, __ini), AGS), check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
+                                           reaches(w(0, W1, __ini), w(0, W2, __ini), AGS), formula(c(AGS, F)), formula(F), agent_set(AGS).
 
 
 #program step(t).
 
-% entails/4: P entails the formula F
-entails(w(t, W, E),  F)          :-     holds(w(t, W, E), F),                             check_on_w(w(t, W, E),  F),          not check_everywhere( F),          atom(F).
-entails(w(t, W, E), -F)          :- not holds(w(t, W, E), F),                             check_on_w(w(t, W, E), -F),          not check_everywhere(-F),          atom(F).
+entails(w(t-1, W, E),  P)          :-     holds(w(t-1, W, E), P),                               check_on_w(w(t-1, W, E),  P),          atom(P).
+entails(w(t-1, W, E), -P)          :- not holds(w(t-1, W, E), P),                               check_on_w(w(t-1, W, E), -P),          atom(P).
 
-entails(w(t, W, E), neg(F))      :- not entails(w(t, W, E), F ),                          check_on_w(w(t, W, E), neg(F)),      not check_everywhere(neg(F)),      formula(neg(F)),      formula(F).
-entails(w(t, W, E), and(F1, F2)) :-     entails(w(t, W, E), F1), entails(w(t, W, E), F2), check_on_w(w(t, W, E), and(F1, F2)), not check_everywhere(and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
-entails(w(t, W, E),  or(F1, F2)) :-     entails(w(t, W, E), F1),                          check_on_w(w(t, W, E),  or(F1, F2)), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
-entails(w(t, W, E),  or(F1, F2)) :-                              entails(w(t, W, E), F2), check_on_w(w(t, W, E),  or(F1, F2)), not check_everywhere( or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
+entails(w(t-1, W, E), neg(F))      :- not entails(w(t-1, W, E), F ),                            check_on_w(w(t-1, W, E), neg(F)),      formula(neg(F)),      formula(F).
+entails(w(t-1, W, E), and(F1, F2)) :-     entails(w(t-1, W, E), F1), entails(w(t-1, W, E), F2), check_on_w(w(t-1, W, E), and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
+entails(w(t-1, W, E),  or(F1, F2)) :-     entails(w(t-1, W, E), F1),                            check_on_w(w(t-1, W, E),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
+entails(w(t-1, W, E),  or(F1, F2)) :-                                entails(w(t-1, W, E), F2), check_on_w(w(t-1, W, E),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
 
-entails(w(t, W, E),   b(AG , F)) :- not not_entails(w(t, W, E), b(AG , F)),               check_on_w(w(t, W, E), b(AG , F)),   not check_everywhere(b(AG , F)),   formula(  b(AG , F)), formula(F), agent(AG).
-entails(w(t, W, E),   c(AGS, F)) :- not not_entails(w(t, W, E), c(AGS, F)),               check_on_w(w(t, W, E), c(AGS, F)),   not check_everywhere(c(AGS, F)),   formula(  c(AGS, F)), formula(F), agent_set(AGS).
+entails(w(t-1, W, E),   b(AG , F)) :- not not_entails(w(t-1, W, E), b(AG , F)),                 check_on_w(w(t-1, W, E), b(AG , F)),   formula(  b(AG , F)), formula(F), agent(AG).
+entails(w(t-1, W, E),   c(AGS, F)) :- not not_entails(w(t-1, W, E), c(AGS, F)),                 check_on_w(w(t-1, W, E), c(AGS, F)),   formula(  c(AGS, F)), formula(F), agent_set(AGS).
 
-not_entails(w(t, W1, E), b(AG , F)) :- not entails(w(t, W2, E), F), w(t, W2, E), check_on_w(w(t, W1, E), b(AG , F)), check_on_w(w(t, W2, E), F),
-                                        r(w(t, W1, E), w(t, W2, E), AG), not check_everywhere(b(AG , F)), formula(b(AG , F)), formula(F), agent(AG).
+not_entails(w(t-1, W1, E), b(AG , F)) :- not entails(w(t-1, W2, E), F), w(t-1, W2, E), check_on_w(w(t-1, W1, E), b(AG , F)), check_on_w(w(t-1, W2, E), F),
+                                         r(w(t-1, W1, E), w(t-1, W2, E), AG), formula(b(AG , F)), formula(F), agent(AG).
 
-not_entails(w(t, W1, E), c(AGS, F)) :- not entails(w(t, W2, E), F), w(t, W2, E), check_on_w(w(t, W1, E), c(AGS, F)), check_on_w(w(t, W2, E), F),
-                                        reaches(w(t, W1, E), w(t, W2, E), AGS), not check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
-
-
-entails(w(t, W, E),  F)          :-     holds(w(t, W, E), F),                             check_everywhere( F),          atom(F).
-entails(w(t, W, E), -F)          :- not holds(w(t, W, E), F),    w(t, W, E),              check_everywhere(-F),          atom(F).
-
-entails(w(t, W, E), neg(F))      :- not entails(w(t, W, E), F ), w(t, W, E),              check_everywhere(neg(F)),      check_everywhere(F ),                       formula(neg(F)),      formula(F).
-entails(w(t, W, E), and(F1, F2)) :-     entails(w(t, W, E), F1), entails(w(t, W, E), F2), check_everywhere(and(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula(and(F1, F2)), formula(F1), formula(F2).
-entails(w(t, W, E),  or(F1, F2)) :-     entails(w(t, W, E), F1),                          check_everywhere( or(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula( or(F1, F2)), formula(F1), formula(F2).
-entails(w(t, W, E),  or(F1, F2)) :-                              entails(w(t, W, E), F2), check_everywhere( or(F1, F2)), check_everywhere(F1), check_everywhere(F2), formula( or(F1, F2)), formula(F1), formula(F2).
-
-entails(w(t, W, E),   b(AG , F)) :- not not_entails(w(t, W, E), b(AG , F)), w(t, W, E),   check_everywhere(b(AG , F)),                                               formula(  b(AG , F)), formula(F), agent(AG).
-entails(w(t, W, E),   c(AGS, F)) :- not not_entails(w(t, W, E), c(AGS, F)), w(t, W, E),   check_everywhere(c(AGS, F)),                                               formula(  c(AGS, F)), formula(F), agent_set(AGS).
-
-not_entails(w(t, W1, E), b(AG , F)) :- not entails(w(t, W2, E), F), w(t, W2, E),
-                                       r(w(t, W1, E), w(t, W2, E), AG), check_everywhere(b(AG, F)), formula(b(AG, F)), formula(F), agent(AG).
-
-not_entails(w(t, W1, E), c(AGS, F)) :- not entails(w(t, W2, E), F), w(t, W2, E),
-                                       reaches(w(t, W1, E), w(t, W2, E), AGS), check_everywhere(c(AGS, F)), formula(c(AGS, F)), formula(F), agent_set(AGS).
+not_entails(w(t-1, W1, E), c(AGS, F)) :- not entails(w(t-1, W2, E), F), w(t-1, W2, E), check_on_w(w(t-1, W1, E), c(AGS, F)), check_on_w(w(t-1, W2, E), F),
+                                         reaches(w(t-1, W1, E), w(t-1, W2, E), AGS), formula(c(AGS, F)), formula(F), agent_set(AGS).

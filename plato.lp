@@ -23,25 +23,28 @@ time(t).
 #program step(t).
 
 % Generate
-1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
+% 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
+
+plan(1, signal_a_b).
+% plan(2, peek_a).
 
 % Test
-:- 0 { plan(t, _) } 0.
-:- t > 0, time(t), plan(t, ACT), not applicable(t, ACT).
+% :- 0 { plan(t, _) } 0.
+% :- t > 0, time(t), plan(t, ACT), not applicable(t, ACT).
 
 #program check(t).
-:- not entails(w(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
+% :- not entails(w(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
 
 %%% DEBUG %%%
-% reached_goal(2).
-% :- not reached_goal(t), query(t).
+reached_goal(1).
+:- not reached_goal(t), query(t).
 
 % #program base.
 % check :- entails(w(0, 2, __ini), F), executable(signal_a_c, F).
 
 % #show check/0.
 
-#program step(t).
+% #program step(t).
 % check(t) :- applicable(t, signal_a_c).
 
 % #show check/1.
@@ -52,6 +55,6 @@ time(t).
 % !!! Uncomment while printing the results !!!
 #show dw/3.
 #show w/3.
-% #show r/3.
-% #show holds/2.
+#show r/3.
+#show holds/2.
 % #show atom/1.

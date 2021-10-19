@@ -79,13 +79,16 @@ is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware
 is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, true), agent(AG).
 is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT), oblivious(ACT, AG),       agent(AG).
 
-is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, E), F), dw(t-1, W, E).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, E), F), dw(t-1, W, E).
-is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, E), F), dw(t-1, W, E).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, E), F), dw(t-1, W, E).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, E), F), dw(t-1, W, E).
-is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, E), F), dw(t-1, W, E).
+is_fully_obs  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, Ew), F), dw(t-1, W, Ew).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, Ew), F), dw(t-1, W, Ew).
+is_partial_obs(t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(w(t-1, W, Ew), F), dw(t-1, W, Ew).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, Ew), F), dw(t-1, W, Ew).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, Ew), F), dw(t-1, W, Ew).
+is_oblivious  (t, AG) :- t > 0, time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(w(t-1, W, Ew), F), dw(t-1, W, Ew).
 
+check_on_w(w(t-1, W, Ew), F) :- t > 0, time(t), plan(t, ACT),       action(ACT), observes(ACT, AG, F), agent(AG), formula(F), dw(t-1, W, Ew).
+check_on_w(w(t-1, W, Ew), F) :- t > 0, time(t), plan(t, ACT),      sensing(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t-1, W, Ew).
+check_on_w(w(t-1, W, Ew), F) :- t > 0, time(t), plan(t, ACT), announcement(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t-1, W, Ew).
 
 #program base.
 %%% Generating preconditions for epistemic actions %%%
@@ -97,13 +100,13 @@ formula(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), annou
 formula(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
 formula(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P),             atom(P).
 
-check_everywhere(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and( P, F)), formula(F), atom(P).
-check_everywhere(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and(-P, F)), formula(F), atom(P).
-check_everywhere(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(-P)        ,             atom(P).
+% check_everywhere(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and( P, F)), formula(F), atom(P).
+% check_everywhere(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and(-P, F)), formula(F), atom(P).
+% check_everywhere(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(-P)        ,             atom(P).
 
-check_everywhere(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and( P, F)), formula(F), atom(P).
-check_everywhere(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and(-P, F)), formula(F), atom(P).
-check_everywhere(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(-P)        ,             atom(P).
+% check_everywhere(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and( P, F)), formula(F), atom(P).
+% check_everywhere(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and(-P, F)), formula(F), atom(P).
+% check_everywhere(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(-P)        ,             atom(P).
 
 
 % ********** INITIAL STATE **********
@@ -176,6 +179,8 @@ w(0, W, __ini) :- good_initial_w(W).
 no_good_initial_r(W1, W2, AG) :- not entails(w(0, W1, __ini), F),     entails(w(0, W2, __ini), F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
 no_good_initial_r(W1, W2, AG) :-     entails(w(0, W1, __ini), F), not entails(w(0, W2, __ini), F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F). % \todo: WHY ATOM???
 
+check_on_w(w(0, W, __ini), F) :- good_initial_w(W), initially(c(all_agents, or(b(AG, F), b(AG, neg(F))))), atom(F).
+
 % The initial conditions of form 4. filter out some of the agents' beliefs inside the initial state
 %no_good_initial_r(W1, W2, AG) :-     entails(0, 0, W1, F),     entails(0, 0, W2, F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
 %no_good_initial_r(W1, W2, AG) :- not entails(0, 0, W1, F), not entails(0, 0, W2, F), good_initial_w(W1), good_initial_w(W2), W1 != W2, initially(c(all_agents, and(neg(b(AG, F)), neg(b(AG, neg(F)))))), formula(F).
@@ -186,12 +191,12 @@ r(w(0, W1, __ini), w(0, W2, __ini), AG) :- not no_good_initial_r(W1, W2, AG), w(
 
 
 %%% Formulae stuff %%%
-% check_on_designated/1: DEL formulae that need to be verified only in the designated worlds
-check_on_designated(F) :- formula(F), executable(_,    F).     % Executability conditions are to be checked only in the designated world
-check_on_designated(F) :- formula(F),   observes(_, _, F).     % Observability conditions are to be checked only in the designated world
-check_on_designated(F) :- formula(F),   aware_of(_, _, F).
-check_on_designated(F) :- formula(F),       goal(F).           % Goal conditions are to be checked only in the designated world
+% % check_on_designated/1: DEL formulae that need to be verified only in the designated worlds
+% check_on_designated(F) :- formula(F), executable(_,    F).     % Executability conditions are to be checked only in the designated world
+% check_on_designated(F) :- formula(F),   observes(_, _, F).     % Observability conditions are to be checked only in the designated world
+% check_on_designated(F) :- formula(F),   aware_of(_, _, F).
+% check_on_designated(F) :- formula(F),       goal(F).           % Goal conditions are to be checked only in the designated world
 
-% check_everywhere/1: DEL formulae that need to be verified in every world
-check_everywhere(F) :- formula(F),     causes(_, _, F).     % Effects executability conditions are to be checked in each world
-check_everywhere(F) :- formula(F),  announces(   _, F).     % The effects of announcement actions are to be checked in each world
+% % check_everywhere/1: DEL formulae that need to be verified in every world
+% check_everywhere(F) :- formula(F),     causes(_, _, F).     % Effects executability conditions are to be checked in each world
+% check_everywhere(F) :- formula(F),  announces(   _, F).     % The effects of announcement actions are to be checked in each world
