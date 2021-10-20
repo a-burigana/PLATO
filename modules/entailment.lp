@@ -38,3 +38,22 @@ not_entails(w(t-1, W1, E), b(AG , F)) :- not entails(w(t-1, W2, E), F), w(t-1, W
 
 not_entails(w(t-1, W1, E), c(AGS, F)) :- not entails(w(t-1, W2, E), F), w(t-1, W2, E), check_on_w(w(t-1, W1, E), c(AGS, F)), check_on_w(w(t-1, W2, E), F),
                                          reaches(w(t-1, W1, E), w(t-1, W2, E), AGS), formula(c(AGS, F)), formula(F), agent_set(AGS).
+
+#program check(t).
+
+entails_goal(w(t, W, E),  P)          :-     holds(w(t, W, E), P),                                       check_on_w_goal(w(t, W, E),  P),          atom(P), query(t).
+entails_goal(w(t, W, E), -P)          :- not holds(w(t, W, E), P),                                       check_on_w_goal(w(t, W, E), -P),          atom(P), query(t).
+
+entails_goal(w(t, W, E), neg(F))      :- not entails_goal(w(t, W, E), F ),                               check_on_w_goal(w(t, W, E), neg(F)),      formula(neg(F)),      formula(F),               query(t).
+entails_goal(w(t, W, E), and(F1, F2)) :-     entails_goal(w(t, W, E), F1), entails_goal(w(t, W, E), F2), check_on_w_goal(w(t, W, E), and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2), query(t).
+entails_goal(w(t, W, E),  or(F1, F2)) :-     entails_goal(w(t, W, E), F1),                               check_on_w_goal(w(t, W, E),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2), query(t).
+entails_goal(w(t, W, E),  or(F1, F2)) :-                                   entails_goal(w(t, W, E), F2), check_on_w_goal(w(t, W, E),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2), query(t).
+
+entails_goal(w(t, W, E),   b(AG , F)) :- not not_entails_goal(w(t, W, E), b(AG , F)),                    check_on_w_goal(w(t, W, E), b(AG , F)),   formula(  b(AG , F)), formula(F), agent(AG),      query(t).
+entails_goal(w(t, W, E),   c(AGS, F)) :- not not_entails_goal(w(t, W, E), c(AGS, F)),                    check_on_w_goal(w(t, W, E), c(AGS, F)),   formula(  c(AGS, F)), formula(F), agent_set(AGS), query(t).
+
+not_entails_goal(w(t, W1, E), b(AG , F)) :- not entails_goal(w(t, W2, E), F), w(t, W2, E), check_on_w_goal(w(t, W1, E), b(AG , F)), check_on_w_goal(w(t, W2, E), F),
+                                            r(w(t, W1, E), w(t, W2, E), AG), formula(b(AG , F)), formula(F), agent(AG), query(t).
+
+not_entails_goal(w(t, W1, E), c(AGS, F)) :- not entails_goal(w(t, W2, E), F), w(t, W2, E), check_on_w_goal(w(t, W1, E), c(AGS, F)), check_on_w_goal(w(t, W2, E), F),
+                                            reaches(w(t, W1, E), w(t, W2, E), AGS), formula(c(AGS, F)), formula(F), agent_set(AGS), query(t).
