@@ -82,3 +82,5 @@ holds (w(t, w(t-1, W, Ew), e(t, ACT, E)), P) :- t > 0, time(t), plan(t, ACT), ac
                                                  holds(w(t-1, W, Ew), P), w(t, w(t-1, W, Ew), e(t, ACT, E)).
 -holds(w(t, w(t-1, W, Ew), e(t, ACT, E)), P) :- t > 0, time(t), plan(t, ACT), action(ACT), atom(P), post(t, ACT, E, P, P),
                                                 -holds(w(t-1, W, Ew), P), w(t, w(t-1, W, Ew), e(t, ACT, E)).
+
+% \todo: check correctness of holds

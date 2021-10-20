@@ -34,6 +34,8 @@ time(t).
 
 #program check(t).
 :- not entails_goal(w(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
+% \todo: to improve goal checking, try to set the initial state to time 1 (a lot of work)
+
 
 % reached_goal(2).
 % :- not reached_goal(t), query(t).
