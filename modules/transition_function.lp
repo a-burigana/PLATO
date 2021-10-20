@@ -10,21 +10,6 @@ applicable(e(t, ACT, E)) :- e(t, ACT, E), de(t, ACT, E), w(t-1, W, Ew), dw(t-1, 
 not_applicable(t, ACT) :- t > 0, time(t), plan(t, ACT), action(ACT), e(t, ACT, E), de(t, ACT, E), not applicable(e(t, ACT, E)).
 applicable(t, ACT)     :- t > 0, time(t), plan(t, ACT), action(ACT), not not_applicable(t, ACT).
 
-% check_on_w(w(t-1, W, Ew), Fpre) :- t > 0, time(t), plan(t, ACT), action(ACT), w(t-1, W, Ew), dw(t-1, W, Ew),
-%                                    e(t, ACT, E), de(t, ACT, E), pre(t, ACT, E, Fpre), formula(Fpre).
-
-% #show pre/4.
-% #show de/3.
-% #show check_on_w/2.
-% #show same_path/2.
-% #show q/3.
-% \todo: controlla applicability!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-% not_applicable(t, ACT) :- t > 0, time(t), action(ACT), dw(t-1, W, Ew), not applicable(t, ACT, dw(t-1, W, Ew)).
-
 
 % STEP 1: determine the new designated worlds. The computation of the other worlds begins from the designated worlds
 dw(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT),
