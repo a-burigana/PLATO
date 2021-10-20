@@ -48,6 +48,7 @@ q(e(t, ACT, tau), e(t, ACT, tau), AG) :- t > 0, time(t), plan(t, ACT), action(AC
 q(e(t, ACT, sig), e(t, ACT, tau), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
 q(e(t, ACT, tau), e(t, ACT, sig), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
 
+q(e(t, ACT, sig), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_oblivious(t, AG).
 q(e(t, ACT, eps), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG).
 
 % Announcement actions
@@ -75,6 +76,7 @@ q(e(t, ACT, tau), e(t, ACT, tau), AG) :- t > 0, time(t), plan(t, ACT), action(AC
 q(e(t, ACT, sig), e(t, ACT, tau), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
 q(e(t, ACT, tau), e(t, ACT, sig), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
 
+q(e(t, ACT, sig), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_oblivious(t, AG).
 q(e(t, ACT, eps), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG).
 
 
