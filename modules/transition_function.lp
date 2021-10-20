@@ -40,6 +40,7 @@ w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), 
 % STEP 3: determine the accessibility relations
 r(w(t, w(t-1, W, Ew), e(t, ACT, E1)),
   w(t, w(t-1, V, Ev), e(t, ACT, E2)), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), agent(AG),
+                                             w(t, w(t-1, W, Ew), e(t, ACT, E1)), w(t, w(t-1, V, Ev), e(t, ACT, E2)),
                                              r(w(t-1, W, Ew), w(t-1, V, Ev), AG), q(e(t, ACT, E1), e(t, ACT, E2), AG).
 
 
