@@ -3,6 +3,7 @@
 testing/
 old_versions/
 modules/actions/
+exp/test/*
 
 # Out files
 out/
