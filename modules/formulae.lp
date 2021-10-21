@@ -27,8 +27,6 @@ check_on_w(w(t-1, W, Ew), F) :- t > 0, time(t), plan(t, ACT), action(ACT), pre(t
 check_on_w(w(t-1, W, Ew), F) :- t > 0, time(t), plan(t, ACT), action(ACT), post(t, ACT, E, -P, F), atom(P), 
                                 w(t-1, W, Ew), e(t, ACT, E), same_path(w(t-1, W, Ew), e(t, ACT, E)), formula(F), not atom(F).
 
-% check_on_w(w(t-1, W, Ew), F) :- t > 0, time(t), plan(t, ACT), action(ACT), goal(F), formula(F), w(t-1, W, Ew), dw(t-1, W, Ew).
-
 check_on_w(w(t-1, W , E ), F ) :- w(t-1, W, E), check_on_w(w(t-1, W, E), neg(F)),      formula(neg(F)),      formula(F ).
 check_on_w(w(t-1, W , E ), F1) :- w(t-1, W, E), check_on_w(w(t-1, W, E), and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
 check_on_w(w(t-1, W , E ), F2) :- w(t-1, W, E), check_on_w(w(t-1, W, E), and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
@@ -44,16 +42,16 @@ check_on_w(w(t-1, W1, E1), F ) :- check_on_w(w(t-1, W2, E2), c(AGS, F)), w(t-1, 
 
 #program check(t).
 
-check_on_w_goal(w(t, W , Ew), F ) :- t > 0, time(t), plan(t, ACT), action(ACT), goal(F), formula(F), dw(t, W, Ew), query(t).
+check_on_w_goal(w(t, W , Ew), F ) :- t > 0, time(t), plan(t, ACT), action(ACT), goal(F), formula(F), dw(t, W, Ew).
 
-check_on_w_goal(w(t, W , E ), F ) :- w(t, W, E), check_on_w_goal(w(t, W, E), neg(F)),      w(t, W, E), formula(neg(F)),      formula(F ),              query(t).
-check_on_w_goal(w(t, W , E ), F1) :- w(t, W, E), check_on_w_goal(w(t, W, E), and(F1, F2)), w(t, W, E), formula(and(F1, F2)), formula(F1), formula(F2), query(t).
-check_on_w_goal(w(t, W , E ), F2) :- w(t, W, E), check_on_w_goal(w(t, W, E), and(F1, F2)), w(t, W, E), formula(and(F1, F2)), formula(F1), formula(F2), query(t).
-check_on_w_goal(w(t, W , E ), F1) :- w(t, W, E), check_on_w_goal(w(t, W, E),  or(F1, F2)), w(t, W, E), formula( or(F1, F2)), formula(F1), formula(F2), query(t).
-check_on_w_goal(w(t, W , E ), F2) :- w(t, W, E), check_on_w_goal(w(t, W, E),  or(F1, F2)), w(t, W, E), formula( or(F1, F2)), formula(F1), formula(F2), query(t).
+check_on_w_goal(w(t, W , E ), F ) :- w(t, W, E), check_on_w_goal(w(t, W, E), neg(F)),      formula(neg(F)),      formula(F ).
+check_on_w_goal(w(t, W , E ), F1) :- w(t, W, E), check_on_w_goal(w(t, W, E), and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
+check_on_w_goal(w(t, W , E ), F2) :- w(t, W, E), check_on_w_goal(w(t, W, E), and(F1, F2)), formula(and(F1, F2)), formula(F1), formula(F2).
+check_on_w_goal(w(t, W , E ), F1) :- w(t, W, E), check_on_w_goal(w(t, W, E),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
+check_on_w_goal(w(t, W , E ), F2) :- w(t, W, E), check_on_w_goal(w(t, W, E),  or(F1, F2)), formula( or(F1, F2)), formula(F1), formula(F2).
 
 check_on_w_goal(w(t, W1, E1), F ) :- check_on_w_goal(w(t, W2, E2), b(AG, F)), w(t, W1, E1), w(t, W2, E2), agent(AG),
-                                r(w(t, W2, E2), w(t, W1, E1), AG), formula(b(AG, F)), formula(F), query(t).
+                                r(w(t, W2, E2), w(t, W1, E1), AG), formula(b(AG, F)), formula(F).
 
 check_on_w_goal(w(t, W1, E1), F ) :- check_on_w_goal(w(t, W2, E2), c(AGS, F)), w(t, W1, E1), w(t, W2, E2), agent_set(AGS),
-                                reaches(w(t, W2, E2), w(t, W1, E1), AGS), formula(c(AGS, F)), formula(F), query(t).
+                                reaches(w(t, W2, E2), w(t, W1, E1), AGS), formula(c(AGS, F)), formula(F).
