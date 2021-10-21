@@ -9,95 +9,105 @@ from collections import defaultdict
 from sortedcontainers import SortedSet, SortedDict
 
 
-def remove_phi(string):
-	replaced = re.sub('phi\(', 'p', string)
-	replaced = re.sub('\)', '', replaced)
-	return replaced
+# def remove_phi(string):
+# 	replaced = re.sub('phi\(', 'p', string)
+# 	replaced = re.sub('\)', '', replaced)
+# 	return replaced
 
-def generate_pointed(new_pointed):
-	new_pointed = re.sub('^pointed\(', '', new_pointed)
-	new_pointed = re.sub('\)$', '', new_pointed)
-	new_pointed = remove_phi(new_pointed)
-	return new_pointed
+def generate_designated(new_designated):
+	new_designated = re.sub('^dw\(', '', new_designated)
+	new_designated = re.sub('\)$', '', new_designated)
+	# new_designated = remove_phi(new_designated)
+	return new_designated
 
-def last_pointed(new_pointed,pointed):
-	new_pointed = generate_pointed(new_pointed)
-	np_splitted = new_pointed.split(',')
-	p_splitted = pointed.split(',')
+def last_designated(new_designated,designated):
+	new_designated = generate_designated(new_designated)
+	np_splitted = new_designated.split(',')
+	p_splitted = designated.split(',')
 	if np_splitted[0] >= p_splitted[0]:
-		return new_pointed
+		return new_designated
 	else:
-		return pointed
+		return designated
 
 def generate_world_key(world):
-	replaced = re.sub('^possible_world\(', '', world)
+	replaced = re.sub(' w\(', '', world)
 	replaced = re.sub('\)$', '', replaced)
-	no_phi = remove_phi(replaced)
-	return no_phi
+	# no_phi = remove_phi(replaced)
+	return replaced
 
-def generate_world(world, pointed):
-	no_phi = generate_world_key(world)
-	splitted = no_phi.split(',')
-	key = splitted[0] + '_' + splitted[1] + '_' + splitted[2];
-	if (key) != pointed:
+def generate_world(world, designated):
+	key = generate_world_key(world)
+	# splitted = no_phi.split(',')
+	# key = splitted[0] + '_' + splitted[1] + '_' + splitted[2];
+	if (key) != designated:
 		print('\tnode [shape = circle] "' + key + '";', file = outputfile)
 	else:
 		print('\tnode [shape = doublecircle] "' + key + '";', file = outputfile)
 	return key
 
 def initialize_rank(world, rank_map):
-	no_phi = generate_world_key(world)
-	splitted = no_phi.split(',')
-	rank_map[splitted[0]+splitted[1]] = SortedSet()
+	key = generate_world_key(world)
+	if (re.search('_', key)):
+		splitted = re.split('_', key, 1)
+		rank_map[splitted[1]] = SortedSet()
+	else:
+		rank_map[''] = SortedSet()
 
 def generate_rank(world, rank_map):
-	no_phi = generate_world_key(world)
-	splitted = no_phi.split(',')
-	rank_map[splitted[0]+splitted[1]].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '"')
+	key = generate_world_key(world)
+	if (re.search('_', key)):
+		splitted = re.split('_', key, 1)
+		rank_map[splitted[1]].add('"' + key + '"')
+	else:
+		rank_map[''].add('"' + key + '"')
 
 def generate_hold_key(hold):
 	replaced = re.sub('^holds\(', '', hold)
 	replaced = re.sub('\)$', '', replaced)
-	no_phi = remove_phi(replaced)
-	return no_phi
+	# no_phi = remove_phi(replaced)
+	return replaced
 
-def initialize_fluent_table(hold, fluent_table, key_table):
+def initialize_atom_table(hold, atom_table, key_table):
 	hold_key = generate_hold_key(hold)
-	splitted = hold_key.split(',')
-	fluent_table[splitted[0]+splitted[1]+splitted[2]] = SortedSet()
-	key_table[splitted[0]+splitted[1]+splitted[2]] = splitted[0]+'_'+splitted[1]+'_'+splitted[2];
+	subbed = re.sub(r"w\((\w+?)\)", r"\1", hold_key)
+	splitted = subbed.split(',')
+	atom_table[splitted[0]] = SortedSet()
+	key_table[splitted[0]] = splitted[0]
 
-def generate_fluent_table(hold, fluent_table):
+def generate_atom_table(hold, atom_table):
 	hold_key = generate_hold_key(hold)
-	splitted = hold_key.split(',')
-	fluent_table[splitted[0]+splitted[1]+splitted[2]].add(splitted[3])
+	subbed = re.sub(r"w\((\w+?)\)", r"\1", hold_key)
+	splitted = subbed.split(',')
+	atom_table[splitted[0]].add(splitted[1])
 
 
 def initialize_cluster(world, cluster_map):
-	no_phi = generate_world_key(world)
-	splitted = no_phi.split(',')
-	cluster_map[splitted[0]] = SortedSet()
+	key = generate_world_key(world)
+	subbed = re.sub("[^_]", "", key)
+	cluster_map[subbed] = SortedSet()
 
 def generate_cluster(world, cluster_map):
-	no_phi = generate_world_key(world)
-	splitted = no_phi.split(',')
-	cluster_map[splitted[0]].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '"')
+	key = generate_world_key(world)
+	subbed = re.sub("[^_]", "", key)
+	cluster_map[subbed].add('"' + key + '"')
 
 def generate_edge_key(edge):
-	replaced = re.sub('^believes\(', '', edge)
+	replaced = re.sub('^r\(', '', edge)
 	replaced1 = re.sub('\)$', '', replaced)
-	no_phi = remove_phi(replaced1)
-	return no_phi
+	# no_phi = remove_phi(replaced1)
+	return replaced1
 
 def initialize_edges(edge, edges_map):
 	key = generate_edge_key(edge)
-	splitted = key.split(',')
-	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2]+ '"'+' -> '+ '"' + splitted[3] + '_' + splitted[4] + '_' + splitted[5]+ '"'] = SortedSet()
+	subbed = re.sub(r"w\((\w+?)\)", r"\1", key)
+	splitted = subbed.split(',')
+	edges_map['"' + splitted[0] + '"' + ' -> ' + '"' + splitted[1] + '"'] = SortedSet()
 
 def generate_edges(edge,edges_map):
 	key = generate_edge_key(edge)
-	splitted = key.split(',')
-	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2]+ '"'+' -> '+ '"' + splitted[3] + '_' + splitted[4] + '_' + splitted[5]+ '"'].add(splitted[6])
+	subbed = re.sub(r"w\((\w+?)\)", r"\1", key)
+	splitted = subbed.split(',')
+	edges_map['"' + splitted[0] + '"' + ' -> ' + '"' + splitted[1] + '"'].add(splitted[2])
 
 def compare_keys(key1,key2,edges_map,edges_map_both):
 	key1_mod = re.sub('\_|->|"', '', key1)
@@ -116,7 +126,24 @@ def check_backforth_edge(edges_map,edges_map_both):
 			if key_nested != key:
 				compare_keys(key,key_nested,edges_map,edges_map_both)
 
+def simplify_names(n):
+	t = 0
+	pattern_w = r"w\(" + str(t) + r",(\d+),__ini\)"
+	replace_w = r"w(W\1)"
+	find = re.search(pattern_w, n)
+	
+	while (find):
+		n = re.sub(pattern_w, replace_w, n)
+		t = t + 1
 
+		pattern_e = r"e\(" + str(t) + r",\w+?,(\w+?)\)"
+		replace_e = r"e(\1)"
+		n = re.sub(pattern_e, replace_e, n)
+
+		pattern_w = r"w\(" + str(t) + r",w\((\w+?)\),e\((\w+?)\)\)"
+		replace_w = r"w(\1_\2)"
+		find = re.search(pattern_w, n)
+	return n
 
 outputfile = open(sys.argv[1]+'.dot', 'w')
 #outputfile_table = open(sys.argv[1]+'_table.dot', 'w')
@@ -127,12 +154,12 @@ outputfile = open(sys.argv[1]+'.dot', 'w')
 #print('\tsize="8,5;"',end="\n", file = outputfile_table)
 
 
-pointed = '0,0,1'
-n_pointed = re.compile('pointed\(\S*\)')
-n_world = re.compile('possible_world\(\S*\)')
-n_edge = re.compile('believes\(\S*\)')
+designated = '0,2,__ini'	# \todo: CHECK
+n_designated = re.compile('dw\(\S*\)')
+n_world = re.compile('\sw\(\S*\)')
+n_edge = re.compile('r\(\S*\)')
 n_holds = re.compile('holds\(\S*\)')
-n_fluent = re.compile('fluent\(\S*\)')
+n_atom = re.compile('atom\(\S*\)')
 
 
 print('digraph K_structure{',end="\n", file = outputfile)
@@ -144,18 +171,19 @@ print('\n//WORLDS List:',end="\n", file = outputfile)
 
 with open(sys.argv[1]+'.txt', 'r') as n:
 	n = n.read()
+	n = simplify_names(n)
 
-	#POINTED
-	pointeds = re.findall(n_pointed, n)
-	for new_pointed in pointeds:
-		pointed = last_pointed(new_pointed,pointed)
+	#DESIGNATED
+	designateds = re.findall(n_designated, n)
+	for new_designated in designateds:
+		designated = last_designated(new_designated,designated)
 
 
 	#WORLDS
 	poss_world = set()
 	worlds = re.findall(n_world, n)
 	for world in worlds:
-		poss_world.add(generate_world(world,pointed))
+		poss_world.add(generate_world(world,designated))
 
 	#RANK
 	cluster_map = SortedDict()
@@ -239,37 +267,37 @@ with open(sys.argv[1]+'.txt', 'r') as n:
 
 #reading all the ATOMS for complete table
 	ATOMS = SortedSet()
-	fluent_predicates = re.findall(n_fluent, n)
-	for fluent_predicate in fluent_predicates:
-		fluent_predicate = re.sub('^fluent\(', '', fluent_predicate)
-		fluent_predicate = re.sub('\)$', '', fluent_predicate)
-		ATOMS.add(fluent_predicate)
+	atom_predicates = re.findall(n_atom, n)
+	for atom_predicate in atom_predicates:
+		atom_predicate = re.sub('^atom\(', '', atom_predicate)
+		atom_predicate = re.sub('\)$', '', atom_predicate)
+		ATOMS.add(atom_predicate)
 
 #table print
 	holds = re.findall(n_holds, n)
-	fluent_table = SortedDict()
+	atom_table = SortedDict()
 	ft_keys = SortedDict()
 
 	for hold in holds:
-		initialize_fluent_table(hold, fluent_table,ft_keys)
+		initialize_atom_table(hold, atom_table,ft_keys)
 
 	for hold in holds:
-		generate_fluent_table(hold, fluent_table)
+		generate_atom_table(hold, atom_table)
 
 	print('\n//WORLDS description Table:\n\tnode [shape = plain]description[label=<\n\t<table border = "0" cellborder = "1" cellspacing = "0" >', end ="\n", file = outputfile)
-	for key,values in fluent_table.items():
+	for key,values in atom_table.items():
 		if ft_keys[key] in poss_world:
 			#counter_rank+=1
 			print("\t\t", end ="", file = outputfile)
 			#print(key, end ="")
 			#print('{rank = ' + str(counter_rank) + '; ', end ="", file = outputfile)
 			print('<tr><td>'+ ft_keys[key] + '</td>\t<td>', end ="", file = outputfile)
-			for fluent in ATOMS:
-				if fluent in fluent_table[key]:
-					print('<font color="#0000ff"> '+fluent + '</font>', end ="", file = outputfile)
+			for atom in ATOMS:
+				if atom in atom_table[key]:
+					print('<font color="#0000ff"> '+atom + '</font>', end ="", file = outputfile)
 				else:
-					print('<font color="#ff1020">-'+fluent+"</font>", end ="", file = outputfile)
-				if ATOMS.index(fluent) != len(ATOMS)-1:
+					print('<font color="#ff1020">-'+atom+"</font>", end ="", file = outputfile)
+				if ATOMS.index(atom) != len(ATOMS)-1:
 					print(', ', end ="", file = outputfile)
 			print('</td></tr>', end ="\n", file = outputfile)
 	print('\t</table>>]',end ="\n", file = outputfile)
