@@ -43,6 +43,12 @@ time(t).
 
 % Display
 #show plan/2.
+% #show q/3.
+% #show pre/4.
+% #show post/5.
+% #show applicable/1.
+% #show applicable/2.
+% #show entails/2.
 
 % !!! Uncomment while printing the results !!!
 % #show dw/3.
