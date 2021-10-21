@@ -135,9 +135,9 @@ def simplify_names(n):
 	while (find):
 		n = re.sub(pattern_w, replace_w, n)
 		t = t + 1
-
-		pattern_e = r"e\(" + str(t) + r",\w+?,(\w+?)\)"
-		replace_e = r"e(\1)"
+        
+		pattern_e = r"e\(" + str(t) + r",\w+,(\w+?)(\((\w+)\))?\)"
+		replace_e = r"e(\1\3)"
 		n = re.sub(pattern_e, replace_e, n)
 
 		pattern_w = r"w\(" + str(t) + r",w\((\w+?)\),e\((\w+?)\)\)"

@@ -23,7 +23,8 @@ time(t).
 
 % plan(t, open_a) :- t = 1.
 % plan(t, peek_a) :- t = 2.
-
+% plan(1,signal_a_c).
+% plan(2,signal_c_b).
 
 % % Generate
 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
@@ -37,18 +38,25 @@ time(t).
 % \todo: to improve goal checking, try to set the initial state to time 1 (a lot of work)
 
 
-% reached_goal(2).
+%%% DEBUG
+% reached_goal(1).
 % :- not reached_goal(t), query(t).
 
 
 % Display
 #show plan/2.
+% #show e/3.
+% #show de/3.
 % #show q/3.
 % #show pre/4.
 % #show post/5.
 % #show applicable/1.
 % #show applicable/2.
 % #show entails/2.
+% #show entails_goal/2.
+% #show check_on_w/2.
+% #show check_on_w_goal/2.
+% #show same_path/2.
 
 % !!! Uncomment while printing the results !!!
 % #show dw/3.
