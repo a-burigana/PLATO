@@ -1,4 +1,4 @@
-#const maxT  = 7.
+#const maxT  = 2.
 #const n_fl  = 8.
 #const n_ag  = 3.
 #const n_ags = 7.
@@ -33,6 +33,7 @@ agent(c).
 % *** ACTIONS ***
 action(distract_a_b).
 ontic(distract_a_b).
+executes(distract_a_b, a).
 formula(-looking_b).
 causes(distract_a_b, -looking_b, true).
 formula(b(a,looking_a)).
@@ -48,6 +49,7 @@ oblivious(distract_a_b, c).
 
 action(distract_a_c).
 ontic(distract_a_c).
+executes(distract_a_c, a).
 formula(-looking_c).
 causes(distract_a_c, -looking_c, true).
 formula(b(a,looking_c)).
@@ -62,6 +64,7 @@ oblivious(distract_a_c, b).
 
 action(distract_b_a).
 ontic(distract_b_a).
+executes(distract_b_a, b).
 formula(-looking_a).
 causes(distract_b_a, -looking_a, true).
 formula(b(b,looking_b)).
@@ -76,6 +79,7 @@ oblivious(distract_b_a, c).
 
 action(distract_b_c).
 ontic(distract_b_c).
+executes(distract_b_c, b).
 causes(distract_b_c, -looking_c, true).
 formula(b(b,looking_c)).
 formula(and(b(b,looking_b),b(b,looking_c))).
@@ -89,6 +93,7 @@ oblivious(distract_b_c, a).
 
 action(distract_c_a).
 ontic(distract_c_a).
+executes(distract_c_a, c).
 causes(distract_c_a, -looking_a, true).
 formula(b(c,looking_c)).
 formula(b(c,looking_a)).
@@ -102,6 +107,7 @@ oblivious(distract_c_a, b).
 
 action(distract_c_b).
 ontic(distract_c_b).
+executes(distract_c_b, c).
 causes(distract_c_b, -looking_b, true).
 formula(b(c,looking_b)).
 formula(and(b(c,looking_c),b(c,looking_b))).
@@ -114,10 +120,9 @@ oblivious(distract_c_b, a).
 
 action(open_a).
 ontic(open_a).
+executes(open_a, a).
 causes(open_a, opened, true).
-formula(b(a,has_key_a)).
-formula(and(b(a,has_key_a),has_key_a)).
-executable(open_a, and(b(a,has_key_a),has_key_a)).
+executable(open_a, true).
 observes(open_a, a, true).
 observes(open_a, b, looking_b).
 observes(open_a, c, looking_c).
@@ -125,6 +130,7 @@ observes(open_a, c, looking_c).
 
 action(open_b).
 ontic(open_b).
+executes(open_b, b).
 causes(open_b, opened, true).
 formula(b(b,has_key_b)).
 formula(and(b(b,has_key_b),has_key_b)).
@@ -136,6 +142,7 @@ observes(open_b, c, looking_c).
 
 action(open_c).
 ontic(open_c).
+executes(open_c, c).
 causes(open_c, opened, true).
 formula(b(c,has_key_c)).
 formula(and(b(c,has_key_c),has_key_c)).
@@ -219,6 +226,7 @@ observes(shout_tail_c, c, true).
 
 action(signal_a_b).
 ontic(signal_a_b).
+executes(signal_a_b, a).
 causes(signal_a_b, looking_b, true).
 formula(b(a,-looking_b)).
 formula(and(b(a,looking_a),b(a,-looking_b))).
@@ -232,6 +240,7 @@ oblivious(signal_a_b, c).
 
 action(signal_a_c).
 ontic(signal_a_c).
+executes(signal_a_c, a).
 causes(signal_a_c, looking_c, true).
 formula(b(a,-looking_c)).
 formula(and(b(a,looking_a),b(a,-looking_c))).
@@ -245,6 +254,7 @@ oblivious(signal_a_c, b).
 
 action(signal_b_a).
 ontic(signal_b_a).
+executes(signal_b_a, b).
 causes(signal_b_a, looking_a, true).
 formula(b(b,-looking_a)).
 formula(and(b(b,looking_b),b(b,-looking_a))).
@@ -258,6 +268,7 @@ oblivious(signal_b_a, c).
 
 action(signal_b_c).
 ontic(signal_b_c).
+executes(signal_b_c, b).
 causes(signal_b_c, looking_c, true).
 formula(b(b,-looking_c)).
 formula(and(b(b,looking_b),b(b,-looking_c))).
@@ -271,6 +282,7 @@ oblivious(signal_b_c, a).
 
 action(signal_c_a).
 ontic(signal_c_a).
+executes(signal_c_a, c).
 causes(signal_c_a, looking_a, true).
 formula(b(c,-looking_a)).
 formula(and(b(c,looking_c),b(c,-looking_a))).
@@ -284,6 +296,7 @@ oblivious(signal_c_a, b).
 
 action(signal_c_b).
 ontic(signal_c_b).
+executes(signal_c_b, c).
 causes(signal_c_b, looking_b, true).
 formula(b(c,-looking_b)).
 formula(and(b(c,looking_c),b(c,-looking_b))).
