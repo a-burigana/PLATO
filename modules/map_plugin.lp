@@ -1,5 +1,11 @@
 % ********** mA^\rho PLUGIN **********
 
+#program base.
+%%% Where to check preconditions (mA^\rho semantics)
+check_conditions(ACT, check_on_designated) :- ontic(ACT).
+check_conditions(ACT, check_everywhere   ) :- sensing(ACT).
+check_conditions(ACT, check_everywhere   ) :- announcement(ACT).
+
 #program step(t).
 
 %%% Generating event spectrum %%%

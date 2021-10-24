@@ -21,25 +21,27 @@ time(t).
 
 #program step(t).
 
-% plan(t, open_a) :- t = 1.
-% plan(t, peek_a) :- t = 2.
-% plan(1,signal_a_c).
-% plan(2,signal_c_b).
-
-% % Generate
+% Generate
 1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
 
-% % Test
+% Test
 :- 0 { plan(t, _) } 0.
 :- t > 0, time(t), plan(t, ACT), not applicable(t, ACT).
 
 #program check(t).
 :- not entails_goal(w(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
+
 % \todo: to improve goal checking, try to set the initial state to time 1 (a lot of work)
 
 
 %%% DEBUG
-% reached_goal(1).
+% plan(1,open_a).
+% plan(2,peek_a).
+% plan(1,signal_a_c).
+% plan(2,signal_c_b).
+
+% plan(1,signal_a_b). plan(2,open_a). plan(3,peek_b).
+% reached_goal(3).
 % :- not reached_goal(t), query(t).
 
 

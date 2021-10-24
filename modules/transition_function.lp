@@ -39,13 +39,17 @@ same_path(w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(A
                                           same_path(w(t-1, W2, Ew2), e(t, ACT, E2)),
                                           r(w(t-1, W2, Ew2), w(t-1, W, Ew), AG), q(e(t, ACT, E2), e(t, ACT, E), AG).
 
-w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT),
+w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), check_conditions(ACT, check_everywhere),
                                      w(t-1, W, Ew), e(t, ACT, E), pre(t, ACT, E, true),
                                      same_path(w(t-1, W, Ew), e(t, ACT, E)).
 
-w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT),
+w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), check_conditions(ACT, check_everywhere),
                                      w(t-1, W, Ew), e(t, ACT, E), pre(t, ACT, E, Fpre), formula(Fpre),
                                      same_path(w(t-1, W, Ew), e(t, ACT, E)), entails(w(t-1, W, Ew), Fpre).
+
+w(t, w(t-1, W, Ew), e(t, ACT, E)) :- t > 0, time(t), plan(t, ACT), action(ACT), check_conditions(ACT, check_on_designated),
+                                     w(t-1, W, Ew), e(t, ACT, E),
+                                     same_path(w(t-1, W, Ew), e(t, ACT, E)).
 
 % STEP 3: determine the accessibility relations
 r(w(t, w(t-1, W, Ew), e(t, ACT, E1)),
