@@ -187,15 +187,3 @@ no_good_initial_r(W1, W2, AG) :-     entails_init(w(0, W1, __ini), F), not entai
 % believes/7: the agent AG, inside W1, believes W2 to be possible
 r(w(0, W1, __ini), w(0, W2, __ini), AG) :- not no_good_initial_r(W1, W2, AG), w(0, W1, __ini), w(0, W2, __ini),
                                            good_initial_w(W1), good_initial_w(W2), agent(AG).
-
-
-%%% Formulae stuff %%%
-% % check_on_designated/1: DEL formulae that need to be verified only in the designated worlds
-% check_on_designated(F) :- formula(F), executable(_,    F).     % Executability conditions are to be checked only in the designated world
-% check_on_designated(F) :- formula(F),   observes(_, _, F).     % Observability conditions are to be checked only in the designated world
-% check_on_designated(F) :- formula(F),   aware_of(_, _, F).
-% check_on_designated(F) :- formula(F),       goal(F).           % Goal conditions are to be checked only in the designated world
-
-% % check_everywhere/1: DEL formulae that need to be verified in every world
-% check_everywhere(F) :- formula(F),     causes(_, _, F).     % Effects executability conditions are to be checked in each world
-% check_everywhere(F) :- formula(F),  announces(   _, F).     % The effects of announcement actions are to be checked in each world
