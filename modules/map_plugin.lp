@@ -5,24 +5,22 @@
 %%% Generating event spectrum %%%
 
 % Ontic actions
-e(t, ACT, sig(AG)) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), is_fully_obs(t, AG).
+e(t, ACT, sig) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
 e(t, ACT, eps) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
 
-de(t, ACT, sig(AG)) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), executes(ACT, AG).
+de(t, ACT, sig) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
 
-pre(t, ACT, sig(AG), true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, true), is_fully_obs(t, AG).
-pre(t, ACT, sig(AG), F   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, F), formula(F), executes(ACT, AG).
-pre(t, ACT, sig(AG), true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, F), formula(F), is_fully_obs(t, AG), not executes(ACT, AG).
+pre(t, ACT, sig, true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, true).
+pre(t, ACT, sig, F   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, F), formula(F).
 pre(t, ACT, eps, true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT).
 
-post(t, ACT, sig(AG), P, true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, true), is_fully_obs(t, AG).
-post(t, ACT, sig(AG), P, F   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F), is_fully_obs(t, AG).
-post(t, ACT, sig(AG), P, P   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _), is_fully_obs(t, AG).
+post(t, ACT, sig, P, true) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, true).
+post(t, ACT, sig, P, F   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
+post(t, ACT, sig, P, P   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _).
 post(t, ACT, eps, P, P   ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P).
 
-q(e(t, ACT, sig(AG )), e(t, ACT, sig(AG )), AG ) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_fully_obs(t, AG).
-q(e(t, ACT, sig(AG1)), e(t, ACT, sig(AG2)), AG2) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG1), agent(AG2), is_fully_obs(t, AG1), is_fully_obs(t, AG2), AG1 != AG2.
-q(e(t, ACT, sig(AGf)), e(t, ACT, eps     ), AGo) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AGf), agent(AGo), is_fully_obs(t, AGf), is_oblivious(t, AGo), AGf != AGo.
+q(e(t, ACT, sig), e(t, ACT, sig), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_fully_obs(t, AG).
+q(e(t, ACT, sig), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_oblivious(t, AG).
 q(e(t, ACT, eps), e(t, ACT, eps), AG) :- t > 0, time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG).
 
 % Sensing actions
