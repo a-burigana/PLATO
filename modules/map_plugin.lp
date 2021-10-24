@@ -107,14 +107,6 @@ formula(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), annou
 formula(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
 formula(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P),             atom(P).
 
-% check_everywhere(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and( P, F)), formula(F), atom(P).
-% check_everywhere(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(and(-P, F)), formula(F), atom(P).
-% check_everywhere(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(-P)        ,             atom(P).
-
-% check_everywhere(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and( P, F)), formula(F), atom(P).
-% check_everywhere(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(and(-P, F)), formula(F), atom(P).
-% check_everywhere(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(-P)        ,             atom(P).
-
 
 % ********** INITIAL STATE **********
 
