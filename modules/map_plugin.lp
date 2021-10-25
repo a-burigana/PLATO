@@ -6,86 +6,92 @@ check_conditions(ACT, check_on_designated) :- ontic(ACT).
 check_conditions(ACT, check_everywhere   ) :- sensing(ACT).
 check_conditions(ACT, check_everywhere   ) :- announcement(ACT).
 
-#program step(t).
-
 %%% Generating event spectrum %%%
 
 % Ontic actions
-e(t, ACT, sig) :- time(t), plan(t, ACT), action(ACT), ontic(ACT).
-e(t, ACT, eps) :- time(t), plan(t, ACT), action(ACT), ontic(ACT).
+e(ACT, osig) :- action(ACT), ontic(ACT).
+e(ACT, eps ) :- action(ACT), ontic(ACT).
 
-de(t, ACT, sig) :- time(t), plan(t, ACT), action(ACT), ontic(ACT).
+de(ACT, osig) :- action(ACT), ontic(ACT).
 
-pre(t, ACT, sig, true) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, true).
-pre(t, ACT, sig, F   ) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), executable(ACT, F), formula(F).
-pre(t, ACT, eps, true) :- time(t), plan(t, ACT), action(ACT), ontic(ACT).
+pre(ACT, osig, true) :- action(ACT), ontic(ACT), executable(ACT, true).
+pre(ACT, osig, F   ) :- action(ACT), ontic(ACT), executable(ACT, F), formula(F).
+pre(ACT, eps , true) :- action(ACT), ontic(ACT).
 
-post(t, ACT, sig, P, true) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, true).
-post(t, ACT, sig, P, F   ) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
-post(t, ACT, sig, P, P   ) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _).
-post(t, ACT, eps, P, P   ) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),    atom(P).
-
-q(e(t, ACT, sig), e(t, ACT, sig), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_fully_obs(t, AG).
-q(e(t, ACT, sig), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_oblivious(t, AG).
-q(e(t, ACT, eps), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG).
+post(ACT, osig, P, true) :- action(ACT), ontic(ACT), literal(P),     causes(ACT, P, true).
+post(ACT, osig, P, F   ) :- action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
+post(ACT, osig, P, P   ) :- action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _).
+post(ACT, eps , P, P   ) :- action(ACT), ontic(ACT),    atom(P).
 
 % Sensing actions
-e(t, ACT, sig) :- time(t), plan(t, ACT), action(ACT), sensing(ACT).
-e(t, ACT, tau) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-e(t, ACT, eps) :- time(t), plan(t, ACT), action(ACT), sensing(ACT).
+e(ACT, ssig) :- action(ACT), sensing(ACT).
+e(ACT, stau) :- action(ACT), sensing(ACT).
+e(ACT, eps ) :- action(ACT), sensing(ACT).
 
-de(t, ACT, sig) :- time(t), plan(t, ACT), action(ACT), sensing(ACT).
+de(ACT, ssig) :- action(ACT), sensing(ACT).
 
-pre(t, ACT, sig,  P) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P).
-pre(t, ACT, tau, -P) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P), agent(AG), is_partial_obs(t, AG).
-pre(t, ACT, sig, and( P, F)) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, F), atom(P), determines(ACT, P).
-pre(t, ACT, tau, and(-P, F)) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), executable(ACT, F), atom(P), determines(ACT, P), agent(AG), is_partial_obs(t, AG).
-pre(t, ACT, eps, true      ) :- time(t), plan(t, ACT), action(ACT), sensing(ACT).
+pre(ACT, ssig,  P)         :- action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P).
+pre(ACT, stau, -P)         :- action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P).
+pre(ACT, ssig, and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), atom(P), determines(ACT, P).
+pre(ACT, stau, and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), atom(P), determines(ACT, P).
+pre(ACT, eps , true      ) :- action(ACT), sensing(ACT).
 
-post(t, ACT, sig, P, P) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), atom(P).
-post(t, ACT, tau, P, P) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), atom(P), agent(AG), is_partial_obs(t, AG).
-post(t, ACT, eps, P, P) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), atom(P).
+post(ACT, ssig, P, P) :- action(ACT), sensing(ACT), atom(P).
+post(ACT, stau, P, P) :- action(ACT), sensing(ACT), atom(P).
+post(ACT, eps , P, P) :- action(ACT), sensing(ACT), atom(P).
 
-q(e(t, ACT, sig), e(t, ACT, sig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_fully_obs(t, AG).
-q(e(t, ACT, tau), e(t, ACT, tau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_fully_obs(t, AG), agent(AG2), is_partial_obs(t, AG2).
-
-q(e(t, ACT, sig), e(t, ACT, sig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-q(e(t, ACT, tau), e(t, ACT, tau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-q(e(t, ACT, sig), e(t, ACT, tau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-q(e(t, ACT, tau), e(t, ACT, sig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-
-q(e(t, ACT, sig), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_oblivious(t, AG).
-q(e(t, ACT, tau), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_oblivious(t, AG).
-q(e(t, ACT, eps), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG).
 
 % Announcement actions
-e(t, ACT, sig) :- time(t), plan(t, ACT), action(ACT), announcement(ACT).
-e(t, ACT, tau) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-e(t, ACT, eps) :- time(t), plan(t, ACT), action(ACT), announcement(ACT).
+e(ACT, asig) :- action(ACT), announcement(ACT).
+e(ACT, stau) :- action(ACT), announcement(ACT).
+e(ACT, eps ) :- action(ACT), announcement(ACT).
 
-de(t, ACT, sig) :- time(t), plan(t, ACT), action(ACT), announcement(ACT).
+de(ACT, asig) :- action(ACT), announcement(ACT).
 
-pre(t, ACT, sig,  P) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P).
-pre(t, ACT, tau, -P) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P), agent(AG), is_partial_obs(t, AG).
-pre(t, ACT, sig, and( P, F)) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, F), atom(P), announces(ACT, P).
-pre(t, ACT, tau, and(-P, F)) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), executable(ACT, F), atom(P), announces(ACT, P), agent(AG), is_partial_obs(t, AG).
-pre(t, ACT, eps, true      ) :- time(t), plan(t, ACT), action(ACT), announcement(ACT).
+pre(ACT, asig,  P)         :- action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P).
+pre(ACT, atau, -P)         :- action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P).
+pre(ACT, asig, and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), atom(P), announces(ACT, P).
+pre(ACT, atau, and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), atom(P), announces(ACT, P).
+pre(ACT, eps , true      ) :- action(ACT), announcement(ACT).
 
-post(t, ACT, sig, P, P) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), atom(P).
-post(t, ACT, tau, P, P) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), atom(P), agent(AG), is_partial_obs(t, AG).
-post(t, ACT, eps, P, P) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), atom(P).
+post(ACT, asig, P, P) :- action(ACT), announcement(ACT), atom(P).
+post(ACT, atau, P, P) :- action(ACT), announcement(ACT), atom(P).
+post(ACT, eps , P, P) :- action(ACT), announcement(ACT), atom(P).
 
-q(e(t, ACT, sig), e(t, ACT, sig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_fully_obs(t, AG).
-q(e(t, ACT, tau), e(t, ACT, tau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_fully_obs(t, AG), agent(AG2), is_partial_obs(t, AG2).
+#program step(t).
 
-q(e(t, ACT, sig), e(t, ACT, sig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-q(e(t, ACT, tau), e(t, ACT, tau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-q(e(t, ACT, sig), e(t, ACT, tau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-q(e(t, ACT, tau), e(t, ACT, sig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
+%%% Generating accessibility relations of event spectrum %%%
 
-q(e(t, ACT, sig), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_oblivious(t, AG).
-q(e(t, ACT, tau), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_oblivious(t, AG).
-q(e(t, ACT, eps), e(t, ACT, eps), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG).
+% Ontic actions
+q(t, e(ACT, osig), e(ACT, osig), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_fully_obs(t, AG).
+q(t, e(ACT, osig), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_oblivious(t, AG).
+q(t, e(ACT, eps ), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG).
+
+% Sensing actions
+q(t, e(ACT, ssig), e(ACT, ssig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_fully_obs(t, AG).
+q(t, e(ACT, stau), e(ACT, stau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_fully_obs(t, AG), agent(AG2), is_partial_obs(t, AG2).
+
+q(t, e(ACT, ssig), e(ACT, ssig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
+q(t, e(ACT, stau), e(ACT, stau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
+q(t, e(ACT, ssig), e(ACT, stau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
+q(t, e(ACT, stau), e(ACT, ssig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
+
+q(t, e(ACT, ssig), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_oblivious(t, AG).
+q(t, e(ACT, stau), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_oblivious(t, AG).
+q(t, e(ACT, eps ), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG).
+
+% Announcement actions
+q(t, e(ACT, asig), e(ACT, asig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_fully_obs(t, AG).
+q(t, e(ACT, atau), e(ACT, atau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_fully_obs(t, AG), agent(AG2), is_partial_obs(t, AG2).
+
+q(t, e(ACT, asig), e(ACT, asig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
+q(t, e(ACT, atau), e(ACT, atau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
+q(t, e(ACT, asig), e(ACT, atau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
+q(t, e(ACT, atau), e(ACT, asig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
+
+q(t, e(ACT, asig), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_oblivious(t, AG).
+q(t, e(ACT, atau), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_oblivious(t, AG).
+q(t, e(ACT, eps ), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG).
 
 
 %%% Checking observability relations %%%

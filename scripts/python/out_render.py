@@ -127,6 +127,10 @@ def check_backforth_edge(edges_map,edges_map_both):
 				compare_keys(key,key_nested,edges_map,edges_map_both)
 
 def simplify_names(n):
+	pattern_e = r"e\(\w+,(\w+?)\)"
+	replace_e = r"e(\1)"
+	n = re.sub(pattern_e, replace_e, n)
+	
 	t = 0
 	pattern_w = r"w\(" + str(t) + r",(\d+),__ini\)"
 	replace_w = r"w(W\1)"
@@ -134,10 +138,6 @@ def simplify_names(n):
 	
 	while (find):
 		n = re.sub(pattern_w, replace_w, n)
-        
-		pattern_e = r"e\(" + str(t) + r",\w+,(\w+?)(\((\w+)\))?\)"
-		replace_e = r"e(\1\3)"
-		n = re.sub(pattern_e, replace_e, n)
 		t = t + 1
 
 		pattern_w = r"w\(" + str(t) + r",w\((\w+?)\),e\((\w+?)\)\)"
