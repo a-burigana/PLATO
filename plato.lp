@@ -1,4 +1,43 @@
-#include <incmode>.     % Multi-shot Python script (see Gebser et al., 2019)
+% #include <incmode>.	 % Multi-shot Python script (see Gebser et al., 2019)
+
+#script (python)
+from typing import Optional, cast
+
+from clingo.solving import SolveResult
+from clingo.symbol import Function, Number
+
+def get(val, default):
+	return val if val != None else default
+
+def main(prg):
+	imin = get(prg.get_const("imin"), 1)
+	imax = prg.get_const("imax")
+	istop = get(prg.get_const("istop"), "SAT")
+	step = 0
+	ret: Optional[SolveResult] = None
+
+	while ((imax is None or step < imax) and
+			(ret is None or step < imin or (
+				(istop == "SAT" and not ret.satisfiable) or
+				(istop == "UNSAT" and not ret.unsatisfiable) or
+				(istop == "UNKNOWN" and not ret.unknown)))):
+		parts = []
+		parts.append(("check", [Number(step)]))
+		if step > 0:
+			prg.release_external(Function("query", [Number(step - 1)]))
+			parts.append(("step", [Number(step)]))
+			prg.cleanup()
+		else:
+			parts.append(("base", []))
+			parts.append(("step", [Number(step)]))
+		prg.ground(parts)
+
+		prg.assign_external(Function("query", [Number(step)]), True)
+		ret, step = cast(SolveResult, prg.solve()), step + 1
+#end.
+
+#program check(t).
+#external query(t).
 
 % To avoid showing the warning "info: atom does not occur in any rule head"
 #defined plan/2.
@@ -6,8 +45,8 @@
 #defined contains_ag/2.
 
 
-#program base.
-time(0).
+% #program base.
+% time(0).
 
 #program step(t).
 time(t).
@@ -19,33 +58,51 @@ time(t).
 #include "modules/map_plugin.lp".
 % #include "modules/bisimulation.lp".
 
+% #program base.
+
+% % Generate
+% 0 { plan(0, ACT) : action(ACT) } 1.
+
+% % Test
+% :- 0 { plan(0, _) } 0, not_reached_goal(0).
+% :- plan(0, ACT), not applicable(0, ACT).
+
+% not_reached_goal(0) :- w(0, W, __ini), dw(0, W, __ini), not entails(w(0, W, __ini), F), goal(F), formula(F).
+
 #program step(t).
 
 % Generate
-1 { plan(t, ACT) : action(ACT) } 1 :- t > 0, time(t).
+1 { plan(t, ACT) : action(ACT) } 1 :- time(t).
+action(__end).
+plan(t, __end) :- not not_reached_goal(t).
 
 % Test
-:- 0 { plan(t, _) } 0.
-:- t > 0, time(t), plan(t, ACT), not applicable(t, ACT).
+:- 0 { plan(t, _) } 0, not_reached_goal(t).
+:- plan(t, __end), not_reached_goal(t).
+:- time(t), plan(t, ACT), not applicable(t, ACT).
+
+not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal(F), formula(F).
 
 #program check(t).
-:- not entails_goal(w(t, W, E), F), dw(t, W, E), goal(F), formula(F), query(t).
+:- not_reached_goal(t), query(t).
 
 % \todo: to improve goal checking, try to set the initial state to time 1 (a lot of work)
 
 
 %%% DEBUG
-% plan(1,open_a).
-% plan(2,peek_a).
+% plan(0,open_a).
+% plan(1,peek_a).
 % plan(1,signal_a_c).
 % plan(2,signal_c_b).
 
 % plan(1,signal_a_b). plan(2,open_a). plan(3,peek_b).
-% reached_goal(3).
+% reached_goal(2).
 % :- not reached_goal(t), query(t).
 
+% #show not_reached_goal/1.
 
 % Display
+% #show time/1.
 #show plan/2.
 % #show e/3.
 % #show de/3.
