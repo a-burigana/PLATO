@@ -1,6 +1,9 @@
 % ********** mA^\rho PLUGIN **********
 
 #program base.
+epistemic(ACT) :- sensing(ACT).
+epistemic(ACT) :- announcement(ACT).
+
 %%% Where to check preconditions (mA^\rho semantics)
 check_conditions(ACT, check_on_designated) :- ontic(ACT).
 check_conditions(ACT, check_everywhere   ) :- sensing(ACT).
@@ -20,8 +23,8 @@ pre(ACT, eps , true) :- action(ACT), ontic(ACT).
 
 post(ACT, osig, P, true) :- action(ACT), ontic(ACT), literal(P),     causes(ACT, P, true).
 post(ACT, osig, P, F   ) :- action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
-post(ACT, osig, P, P   ) :- action(ACT), ontic(ACT),    atom(P), not causes(ACT, P, _).
-post(ACT, eps , P, P   ) :- action(ACT), ontic(ACT),    atom(P).
+
+no_post(ACT, eps)        :- action(ACT), ontic(ACT).
 
 % Sensing actions
 e(ACT, ssig) :- action(ACT), sensing(ACT).
@@ -32,14 +35,9 @@ de(ACT, ssig) :- action(ACT), sensing(ACT).
 
 pre(ACT, ssig,  P)         :- action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P).
 pre(ACT, stau, -P)         :- action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P).
-pre(ACT, ssig, and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), atom(P), determines(ACT, P).
-pre(ACT, stau, and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), atom(P), determines(ACT, P).
+pre(ACT, ssig, and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F),    atom(P), determines(ACT, P).
+pre(ACT, stau, and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F),    atom(P), determines(ACT, P).
 pre(ACT, eps , true      ) :- action(ACT), sensing(ACT).
-
-post(ACT, ssig, P, P) :- action(ACT), sensing(ACT), atom(P).
-post(ACT, stau, P, P) :- action(ACT), sensing(ACT), atom(P).
-post(ACT, eps , P, P) :- action(ACT), sensing(ACT), atom(P).
-
 
 % Announcement actions
 e(ACT, asig) :- action(ACT), announcement(ACT).
@@ -50,13 +48,9 @@ de(ACT, asig) :- action(ACT), announcement(ACT).
 
 pre(ACT, asig,  P)         :- action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P).
 pre(ACT, atau, -P)         :- action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P).
-pre(ACT, asig, and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), atom(P), announces(ACT, P).
-pre(ACT, atau, and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), atom(P), announces(ACT, P).
+pre(ACT, asig, and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F),    atom(P), announces(ACT, P).
+pre(ACT, atau, and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F),    atom(P), announces(ACT, P).
 pre(ACT, eps , true      ) :- action(ACT), announcement(ACT).
-
-post(ACT, asig, P, P) :- action(ACT), announcement(ACT), atom(P).
-post(ACT, atau, P, P) :- action(ACT), announcement(ACT), atom(P).
-post(ACT, eps , P, P) :- action(ACT), announcement(ACT), atom(P).
 
 #program step(t).
 

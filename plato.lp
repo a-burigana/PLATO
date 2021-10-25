@@ -58,17 +58,6 @@ time(t).
 #include "modules/map_plugin.lp".
 % #include "modules/bisimulation.lp".
 
-% #program base.
-
-% % Generate
-% 0 { plan(0, ACT) : action(ACT) } 1.
-
-% % Test
-% :- 0 { plan(0, _) } 0, not_reached_goal(0).
-% :- plan(0, ACT), not applicable(0, ACT).
-
-% not_reached_goal(0) :- w(0, W, __ini), dw(0, W, __ini), not entails(w(0, W, __ini), F), goal(F), formula(F).
-
 #program step(t).
 
 % Generate
@@ -92,8 +81,8 @@ not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal
 %%% DEBUG
 % plan(0,open_a).
 % plan(1,peek_a).
-% plan(1,signal_a_c).
-% plan(2,signal_c_b).
+% plan(0,signal_a_c).
+% plan(1,signal_c_b).
 
 % plan(1,signal_a_b). plan(2,open_a). plan(3,peek_b).
 % reached_goal(2).
@@ -104,17 +93,15 @@ not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal
 % Display
 % #show time/1.
 #show plan/2.
-% #show e/3.
-% #show de/3.
+% #show de/2.
+% #show e/2.
 % #show q/3.
-% #show pre/4.
-% #show post/5.
+% #show pre/3.
+% #show post/4.
 % #show applicable/1.
 % #show applicable/2.
 % #show entails/2.
-% #show entails_goal/2.
 % #show check_on_w/2.
-% #show check_on_w_goal/2.
 % #show same_path/2.
 
 % !!! Uncomment while printing the results !!!
