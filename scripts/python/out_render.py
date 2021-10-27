@@ -69,27 +69,27 @@ def generate_hold_key(hold):
 
 def initialize_atom_table(hold, atom_table, key_table):
 	hold_key = generate_hold_key(hold)
-	subbed = re.sub(r"w\((\w+?)\)", r"\1", hold_key)
+	subbed = re.sub(r"w\((\d+?:\w+?)\)", r"\1", hold_key)
 	splitted = subbed.split(',')
 	atom_table[splitted[0]] = SortedSet()
 	key_table[splitted[0]] = splitted[0]
 
 def generate_atom_table(hold, atom_table):
 	hold_key = generate_hold_key(hold)
-	subbed = re.sub(r"w\((\w+?)\)", r"\1", hold_key)
+	subbed = re.sub(r"w\((\d+?:\w+?)\)", r"\1", hold_key)
 	splitted = subbed.split(',')
 	atom_table[splitted[0]].add(splitted[1])
 
 
 def initialize_cluster(world, cluster_map):
 	key = generate_world_key(world)
-	subbed = re.sub("[^_]", "", key)
-	cluster_map[subbed] = SortedSet()
+	splitted = key.split(':')
+	cluster_map[splitted[0]] = SortedSet()
 
 def generate_cluster(world, cluster_map):
 	key = generate_world_key(world)
-	subbed = re.sub("[^_]", "", key)
-	cluster_map[subbed].add('"' + key + '"')
+	splitted = key.split(':')
+	cluster_map[splitted[0]].add('"' + key + '"')
 
 def generate_edge_key(edge):
 	replaced = re.sub('^r\(', '', edge)
@@ -99,13 +99,13 @@ def generate_edge_key(edge):
 
 def initialize_edges(edge, edges_map):
 	key = generate_edge_key(edge)
-	subbed = re.sub(r"w\((\w+?)\)", r"\1", key)
+	subbed = re.sub(r"w\((\d+?:\w+?)\)", r"\1", key)
 	splitted = subbed.split(',')
 	edges_map['"' + splitted[0] + '"' + ' -> ' + '"' + splitted[1] + '"'] = SortedSet()
 
 def generate_edges(edge,edges_map):
 	key = generate_edge_key(edge)
-	subbed = re.sub(r"w\((\w+?)\)", r"\1", key)
+	subbed = re.sub(r"w\((\d+?:\w+?)\)", r"\1", key)
 	splitted = subbed.split(',')
 	edges_map['"' + splitted[0] + '"' + ' -> ' + '"' + splitted[1] + '"'].add(splitted[2])
 
@@ -133,15 +133,15 @@ def simplify_names(n):
 	
 	t = 0
 	pattern_w = r"w\(" + str(t) + r",(\d+),__ini\)"
-	replace_w = r"w(W\1)"
+	replace_w = r"w(" + str(t) + r":W\1)"
 	find = re.search(pattern_w, n)
 	
 	while (find):
 		n = re.sub(pattern_w, replace_w, n)
 		t = t + 1
 
-		pattern_w = r"w\(" + str(t) + r",w\((\w+?)\),e\((\w+?)\)\)"
-		replace_w = r"w(\1_\2)"
+		pattern_w = r"w\(" + str(t) + r",w\(\d+?:(\w+?)\),e\((\w+?)\)\)"
+		replace_w = r"w(" + str(t) + r":\1_\2)"
 		find = re.search(pattern_w, n)
 	return n
 
@@ -285,7 +285,7 @@ with open(sys.argv[1]+'.txt', 'r') as n:
 		generate_atom_table(hold, atom_table)
 
 	print('\n//WORLDS description Table:\n\tnode [shape = plain]description[label=<\n\t<table border = "0" cellborder = "1" cellspacing = "0" >', end ="\n", file = outputfile)
-	for key,values in atom_table.items():
+	for key,values in atom_table.items(): # \todo: AGGIUNGI CASO IN CUI TUTTI GLI ATOMI SONO FALSE!!!
 		if ft_keys[key] in poss_world:
 			#counter_rank+=1
 			print("\t\t", end ="", file = outputfile)

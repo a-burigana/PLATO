@@ -80,11 +80,12 @@ not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal
 
 %%% DEBUG
 % plan(0,open_a).
+% plan(1,shout_tail_c).
 % plan(1,peek_a).
-% plan(0,signal_a_c).
-% plan(1,signal_c_b).
+% plan(0,signal_a_b).
+% plan(1,signal_b_c).
 
-% plan(1,signal_a_b). plan(2,open_a). plan(3,peek_b).
+% #program check(t).
 % reached_goal(2).
 % :- not reached_goal(t), query(t).
 
@@ -102,7 +103,7 @@ not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal
 % #show applicable/2.
 % #show entails/2.
 % #show check_on_w/2.
-% #show same_path/2.
+% #show same_path/3.
 
 % !!! Uncomment while printing the results !!!
 % #show dw/3.

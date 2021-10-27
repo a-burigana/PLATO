@@ -3,10 +3,10 @@
 #program step(t).
 
 check_on_w(w(t, W, Ew), F) :- time(t), plan(t, ACT), action(ACT), pre(ACT, E, F), formula(F),
-                              w(t, W, Ew), e(ACT, E), same_path(w(t, W, Ew), e(ACT, E)).
+                              w(t, W, Ew), e(ACT, E), not ne(ACT, E), same_path(t, w(t, W, Ew), e(ACT, E)).
 
 check_on_w(w(t, W, Ew), F) :- time(t), plan(t, ACT), action(ACT), post(ACT, E, -P, F), atom(P), 
-                              w(t, W, Ew), e(ACT, E), same_path(w(t, W, Ew), e(ACT, E)), formula(F), not atom(F).
+                              w(t, W, Ew), e(ACT, E), not ne(ACT, E), same_path(t, w(t, W, Ew), e(ACT, E)), formula(F), not atom(F).
 
 check_on_w(w(t, W, Ew), F) :- time(t), goal(F), formula(F), dw(t, W, Ew).
 

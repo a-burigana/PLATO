@@ -9,7 +9,11 @@ check_conditions(ACT, check_on_designated) :- ontic(ACT).
 check_conditions(ACT, check_everywhere   ) :- sensing(ACT).
 check_conditions(ACT, check_everywhere   ) :- announcement(ACT).
 
+
 %%% Generating event spectrum %%%
+
+% Null event
+ne(ACT, eps) :- action(ACT).
 
 % Ontic actions
 e(ACT, osig) :- action(ACT), ontic(ACT).
