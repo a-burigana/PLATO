@@ -3,12 +3,12 @@
 #program step(t).
 
 %%% Applicability %%%
-applicable_event(t, e(ACT, E)) :- time(t), plan(t, ACT), action(ACT), e(ACT, E), de(ACT, E), pre(ACT, E, true).
-applicable_event(t, e(ACT, E)) :- time(t), plan(t, ACT), action(ACT), e(ACT, E), de(ACT, E), w(t, W, Ew), dw(t, W, Ew),
+applicable_event(t, e(ACT, E)) :- time(t), action(ACT), e(ACT, E), de(ACT, E), pre(ACT, E, true).
+applicable_event(t, e(ACT, E)) :- time(t), action(ACT), e(ACT, E), de(ACT, E), w(t, W, Ew), dw(t, W, Ew),
                                   pre(ACT, E, Fpre), formula(Fpre), entails(w(t, W, Ew), Fpre).
 
-not_applicable(t, ACT) :- time(t), plan(t, ACT), action(ACT), e(ACT, E), de(ACT, E), not applicable_event(t, e(ACT, E)).
-applicable(t, ACT)     :- time(t), plan(t, ACT), action(ACT), not not_applicable(t, ACT).
+not_applicable(t, ACT) :- time(t), action(ACT), e(ACT, E), de(ACT, E), not applicable_event(t, e(ACT, E)).
+applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
 
 
 % STEP 1: determine the new designated worlds. The computation of the other worlds begins from the designated worlds
@@ -35,15 +35,10 @@ same_path(t, w(t, W, Ew), e(ACT, E)) :- time(t), plan(t, ACT), action(ACT),
                                         w(t, W, Ew), e(ACT, E), dw(t, W, Ew), de(ACT, E).
 
 % Passo induttivo: se W2 e E2 hanno lo stesso path e W2 -AG-> W & E2 -AG-> E, allora W ed E hanno lo stesso path
-same_path(t, w(t, W, Ew), e(ACT, E)) :- time(t), plan(t, ACT), action(ACT), agent(AG),
-                                        w(t, W, Ew), e(ACT, E), w(t, W2, Ew2), e(ACT, E2),
-                                        same_path(t, w(t, W2, Ew2), e(ACT, E2)),
-                                        r(w(t, W2, Ew2), w(t, W, Ew), AG), q(t, e(ACT, E2), e(ACT, E), AG).
-
-same_path(t, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG),
-                                        w(T, W, Ew), e(ACT, E), w(t, W2, Ew2), e(ACT, E2),
-                                        same_path(t, w(t, W2, Ew2), e(ACT, E2)),
-                                        r(w(t, W2, Ew2), w(T, W, Ew), AG), q(t, e(ACT, E2), e(ACT, E), AG).
+% same_path(t, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG),
+%                                         w(T, W, Ew), e(ACT, E), w(t, W2, Ew2), e(ACT, E2),
+%                                         same_path(t, w(t, W2, Ew2), e(ACT, E2)),
+%                                         r(w(t, W2, Ew2), w(T, W, Ew), AG), q(t, e(ACT, E2), e(ACT, E), AG).
 
 
 w(t+1, w(t, W, Ew), e(ACT, E)) :- time(t), plan(t, ACT), action(ACT), check_conditions(ACT, check_everywhere),
@@ -64,26 +59,18 @@ w(t+1, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action
 
 
 % STEP 3: determine the accessibility relations
-% r(w(t+1, w(t, W, Ew), e(ACT, E1)),
-%   w(t+1, w(t, V, Ev), e(ACT, E2)), AG) :- time(t), plan(t, ACT), action(ACT), agent(AG),
-%                                           w(t, W, Ew), e(ACT, E1), w(t, V, Ev), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
-%                                           w(t+1, w(t, W, Ew), e(ACT, E1)), w(t+1, w(t, V, Ev), e(ACT, E2)),
-%                                           r(w(t, W, Ew), w(t, V, Ev), AG), q(t, e(ACT, E1), e(ACT, E2), AG).
+% r(w(t+1, w(Tw, W, Ew), e(ACT, E1)),
+%   w(t+1, w(Tv, V, Ev), e(ACT, E2)), AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG),
+%                                            w(Tw, W, Ew), w(Tv, V, Ev), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
+%                                            w(t+1, w(Tw, W, Ew), e(ACT, E1)), w(t+1, w(Tv, V, Ev), e(ACT, E2)),
+%                                            r(w(Tw, W, Ew), w(Tv, V, Ev), AG), q(t, e(ACT, E1), e(ACT, E2), AG).
 
-r(w(t+1, w(Tw, W, Ew), e(ACT, E1)),
-  w(t+1, w(Tv, V, Ev), e(ACT, E2)), AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG),
-                                           w(Tw, W, Ew), w(Tv, V, Ev), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
-                                           w(t+1, w(Tw, W, Ew), e(ACT, E1)), w(t+1, w(Tv, V, Ev), e(ACT, E2)),
-                                           r(w(Tw, W, Ew), w(Tv, V, Ev), AG), q(t, e(ACT, E1), e(ACT, E2), AG).
-
-r(w(t+1, w(Tw, W, Ew), e(ACT, E1)),
-  w(Tv , V           , Ev        ), AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG),
-                                           w(Tw, W, Ew), w(Tv, V, Ev), e(ACT, E1), not ne(ACT, E1),
-                                           e(ACT, E2), ne(ACT, E2), same_path(t, w(Tv, V, Ev), e(ACT, E2)),
-                                           w(t+1, w(Tw, W, Ew), e(ACT, E1)),
-                                           r(w(Tw, W, Ew), w(Tv, V, Ev), AG), q(t, e(ACT, E1), e(ACT, E2), AG).
-
-% \todo: stampa r e controlla a mano
+% r(w(t+1, w(Tw, W, Ew), e(ACT, E1)),
+%   w(Tv , V           , Ev        ), AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG),
+%                                            w(Tw, W, Ew), w(Tv, V, Ev), e(ACT, E1), not ne(ACT, E1),
+%                                            e(ACT, E2), ne(ACT, E2), same_path(t, w(Tv, V, Ev), e(ACT, E2)),
+%                                            w(t+1, w(Tw, W, Ew), e(ACT, E1)),
+%                                            r(w(Tw, W, Ew), w(Tv, V, Ev), AG), q(t, e(ACT, E1), e(ACT, E2), AG).
 
 
 % STEP 4: determine the interpretation of the worlds

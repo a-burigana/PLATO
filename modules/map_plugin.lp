@@ -30,6 +30,10 @@ post(ACT, osig, P, F   ) :- action(ACT), ontic(ACT), literal(P),     causes(ACT,
 
 no_post(ACT, eps)        :- action(ACT), ontic(ACT).
 
+metaq(e(ACT, osig), e(ACT, osig), f_obs) :- action(ACT), ontic(ACT).
+metaq(e(ACT, osig), e(ACT, eps ), obl  ) :- action(ACT), ontic(ACT).
+metaq(e(ACT, eps ), e(ACT, eps ), all  ) :- action(ACT), ontic(ACT).
+
 % Sensing actions
 e(ACT, ssig) :- action(ACT), sensing(ACT).
 e(ACT, stau) :- action(ACT), sensing(ACT).
@@ -37,11 +41,27 @@ e(ACT, eps ) :- action(ACT), sensing(ACT).
 
 de(ACT, ssig) :- action(ACT), sensing(ACT).
 
-pre(ACT, ssig,  P)         :- action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P).
-pre(ACT, stau, -P)         :- action(ACT), sensing(ACT), executable(ACT, true), atom(P), determines(ACT, P).
-pre(ACT, ssig, and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F),    atom(P), determines(ACT, P).
-pre(ACT, stau, and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F),    atom(P), determines(ACT, P).
+formula(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(F), atom(P).
+formula(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(F), atom(P).
+formula(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P),             atom(P).
+
+pre(ACT, ssig,  P)         :- action(ACT), sensing(ACT), executable(ACT, true), determines(ACT, P),             atom(P).
+pre(ACT, stau, -P)         :- action(ACT), sensing(ACT), executable(ACT, true), determines(ACT, P),             atom(P).
+pre(ACT, ssig, and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F),    determines(ACT, P), formula(F), atom(P).
+pre(ACT, stau, and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F),    determines(ACT, P), formula(F), atom(P).
 pre(ACT, eps , true      ) :- action(ACT), sensing(ACT).
+
+metaq(e(ACT, ssig), e(ACT, ssig), f_obs) :- action(ACT), sensing(ACT).
+metaq(e(ACT, stau), e(ACT, stau), f_obs) :- action(ACT), sensing(ACT).
+
+metaq(e(ACT, ssig), e(ACT, ssig), p_obs) :- action(ACT), sensing(ACT).
+metaq(e(ACT, stau), e(ACT, stau), p_obs) :- action(ACT), sensing(ACT).
+metaq(e(ACT, ssig), e(ACT, stau), p_obs) :- action(ACT), sensing(ACT).
+metaq(e(ACT, stau), e(ACT, ssig), p_obs) :- action(ACT), sensing(ACT).
+
+metaq(e(ACT, ssig), e(ACT, eps ), obl  ) :- action(ACT), sensing(ACT).
+metaq(e(ACT, stau), e(ACT, eps ), obl  ) :- action(ACT), sensing(ACT).
+metaq(e(ACT, eps ), e(ACT, eps ), all  ) :- action(ACT), sensing(ACT).
 
 % Announcement actions
 e(ACT, asig) :- action(ACT), announcement(ACT).
@@ -50,46 +70,73 @@ e(ACT, eps ) :- action(ACT), announcement(ACT).
 
 de(ACT, asig) :- action(ACT), announcement(ACT).
 
-pre(ACT, asig,  P)         :- action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P).
-pre(ACT, atau, -P)         :- action(ACT), announcement(ACT), executable(ACT, true), atom(P), announces(ACT, P).
-pre(ACT, asig, and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F),    atom(P), announces(ACT, P).
-pre(ACT, atau, and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F),    atom(P), announces(ACT, P).
+formula(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
+formula(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
+formula(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P),             atom(P).
+
+pre(ACT, asig,  P)         :- action(ACT), announcement(ACT), executable(ACT, true), announces(ACT, P),             atom(P).
+pre(ACT, atau, -P)         :- action(ACT), announcement(ACT), executable(ACT, true), announces(ACT, P),             atom(P).
+pre(ACT, asig, and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F),    announces(ACT, P), formula(F), atom(P).
+pre(ACT, atau, and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F),    announces(ACT, P), formula(F), atom(P).
 pre(ACT, eps , true      ) :- action(ACT), announcement(ACT).
+
+metaq(e(ACT, ssig), e(ACT, ssig), f_obs) :- action(ACT), announcement(ACT).
+metaq(e(ACT, stau), e(ACT, stau), f_obs) :- action(ACT), announcement(ACT).
+
+metaq(e(ACT, ssig), e(ACT, ssig), p_obs) :- action(ACT), announcement(ACT).
+metaq(e(ACT, stau), e(ACT, stau), p_obs) :- action(ACT), announcement(ACT).
+metaq(e(ACT, ssig), e(ACT, stau), p_obs) :- action(ACT), announcement(ACT).
+metaq(e(ACT, stau), e(ACT, ssig), p_obs) :- action(ACT), announcement(ACT).
+
+metaq(e(ACT, ssig), e(ACT, eps ), obl  ) :- action(ACT), announcement(ACT).
+metaq(e(ACT, stau), e(ACT, eps ), obl  ) :- action(ACT), announcement(ACT).
+metaq(e(ACT, eps ), e(ACT, eps ), all  ) :- action(ACT), announcement(ACT).
+
 
 #program step(t).
 
-%%% Generating accessibility relations of event spectrum %%%
+%%% Same path with meta-q
+same_path(t, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), is_fully_obs(t, AG),
+                                        w(T, W, Ew), e(ACT, E), w(t, W2, Ew2), e(ACT, E2),
+                                        same_path(t, w(t, W2, Ew2), e(ACT, E2)),
+                                        r(w(t, W2, Ew2), w(T, W, Ew), AG), metaq(e(ACT, E2), e(ACT, E), f_obs).
 
-% Ontic actions
-q(t, e(ACT, osig), e(ACT, osig), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_fully_obs(t, AG).
-q(t, e(ACT, osig), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG), is_oblivious(t, AG).
-q(t, e(ACT, eps ), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), agent(AG).
+same_path(t, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), is_partial_obs(t, AG),
+                                        w(T, W, Ew), e(ACT, E), w(t, W2, Ew2), e(ACT, E2),
+                                        same_path(t, w(t, W2, Ew2), e(ACT, E2)),
+                                        r(w(t, W2, Ew2), w(T, W, Ew), AG), metaq(e(ACT, E2), e(ACT, E), p_obs).
 
-% Sensing actions
-q(t, e(ACT, ssig), e(ACT, ssig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_fully_obs(t, AG).
-q(t, e(ACT, stau), e(ACT, stau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_fully_obs(t, AG), agent(AG2), is_partial_obs(t, AG2).
+same_path(t, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), is_oblivious(t, AG),
+                                        w(T, W, Ew), e(ACT, E), w(t, W2, Ew2), e(ACT, E2),
+                                        same_path(t, w(t, W2, Ew2), e(ACT, E2)),
+                                        r(w(t, W2, Ew2), w(T, W, Ew), AG), metaq(e(ACT, E2), e(ACT, E), obl  ).
 
-q(t, e(ACT, ssig), e(ACT, ssig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-q(t, e(ACT, stau), e(ACT, stau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-q(t, e(ACT, ssig), e(ACT, stau), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
-q(t, e(ACT, stau), e(ACT, ssig), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_partial_obs(t, AG).
+same_path(t, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG),
+                                        w(T, W, Ew), e(ACT, E), w(t, W2, Ew2), e(ACT, E2),
+                                        same_path(t, w(t, W2, Ew2), e(ACT, E2)),
+                                        r(w(t, W2, Ew2), w(T, W, Ew), AG), metaq(e(ACT, E2), e(ACT, E), all  ).
 
-q(t, e(ACT, ssig), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_oblivious(t, AG).
-q(t, e(ACT, stau), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG), is_oblivious(t, AG).
-q(t, e(ACT, eps ), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), sensing(ACT), agent(AG).
+%%% Accessibility relations with meta-q
+r(w(t+1, w(Tw, W, Ew), e(ACT, E1)),
+  w(t+1, w(Tv, V, Ev), e(ACT, E2)), AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG), is_fully_obs(t, AG),
+                                           w(Tw, W, Ew), w(Tv, V, Ev), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
+                                           w(t+1, w(Tw, W, Ew), e(ACT, E1)), w(t+1, w(Tv, V, Ev), e(ACT, E2)),
+                                           same_path(t, w(Tw, W, Ew), e(ACT, E1)), same_path(t, w(Tv, V, Ev), e(ACT, E2)),
+                                           r(w(Tw, W, Ew), w(Tv, V, Ev), AG), metaq(e(ACT, E1), e(ACT, E2), f_obs).
 
-% Announcement actions
-q(t, e(ACT, asig), e(ACT, asig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_fully_obs(t, AG).
-q(t, e(ACT, atau), e(ACT, atau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_fully_obs(t, AG), agent(AG2), is_partial_obs(t, AG2).
+r(w(t+1, w(Tw, W, Ew), e(ACT, E1)),
+  w(t+1, w(Tv, V, Ev), e(ACT, E2)), AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG), is_partial_obs(t, AG),
+                                           w(Tw, W, Ew), w(Tv, V, Ev), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
+                                           w(t+1, w(Tw, W, Ew), e(ACT, E1)), w(t+1, w(Tv, V, Ev), e(ACT, E2)),
+                                           same_path(t, w(Tw, W, Ew), e(ACT, E1)), same_path(t, w(Tv, V, Ev), e(ACT, E2)),
+                                           r(w(Tw, W, Ew), w(Tv, V, Ev), AG), metaq(e(ACT, E1), e(ACT, E2), p_obs).
 
-q(t, e(ACT, asig), e(ACT, asig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-q(t, e(ACT, atau), e(ACT, atau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-q(t, e(ACT, asig), e(ACT, atau), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-q(t, e(ACT, atau), e(ACT, asig), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_partial_obs(t, AG).
-
-q(t, e(ACT, asig), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_oblivious(t, AG).
-q(t, e(ACT, atau), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG), is_oblivious(t, AG).
-q(t, e(ACT, eps ), e(ACT, eps ), AG) :- time(t), plan(t, ACT), action(ACT), announcement(ACT), agent(AG).
+r(w(t+1, w(Tw, W, Ew), e(ACT, E1)),
+  w(Tv , V           , Ev        ), AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG), is_oblivious(t, AG),
+                                           w(Tw, W, Ew), w(Tv, V, Ev), e(ACT, E1), not ne(ACT, E1),
+                                           e(ACT, E2), ne(ACT, E2), same_path(t, w(Tv, V, Ev), e(ACT, E2)),
+                                           w(t+1, w(Tw, W, Ew), e(ACT, E1)),
+                                           r(w(Tw, W, Ew), w(Tv, V, Ev), AG), metaq(e(ACT, E1), e(ACT, E2), obl).
 
 
 %%% Checking observability relations %%%
@@ -109,16 +156,8 @@ check_on_w(w(t, W, Ew), F) :- time(t), plan(t, ACT),       action(ACT), observes
 check_on_w(w(t, W, Ew), F) :- time(t), plan(t, ACT),      sensing(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew).
 check_on_w(w(t, W, Ew), F) :- time(t), plan(t, ACT), announcement(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew).
 
+
 #program base.
-%%% Generating preconditions for epistemic actions %%%
-formula(and( P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(F), atom(P).
-formula(and(-P, F)) :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P), formula(F), atom(P).
-formula(-P)         :- action(ACT), sensing(ACT), executable(ACT, F), determines(ACT, P),             atom(P).
-
-formula(and( P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
-formula(and(-P, F)) :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P), formula(F), atom(P).
-formula(-P)         :- action(ACT), announcement(ACT), executable(ACT, F), announces(ACT, P),             atom(P).
-
 
 % ********** INITIAL STATE **********
 

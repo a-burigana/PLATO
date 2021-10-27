@@ -61,32 +61,33 @@ time(t).
 #program step(t).
 
 % Generate
-1 { plan(t, ACT) : action(ACT) } 1 :- time(t).
-action(__end).
-plan(t, __end) :- not not_reached_goal(t).
+0 { plan(t, ACT) : action(ACT) } 1 :- time(t).
+% action(__end).
+% plan(t, __end) :- not not_reached_goal(t).
 
 % Test
-:- 0 { plan(t, _) } 0, not_reached_goal(t).
-:- plan(t, __end), not_reached_goal(t).
+:- time(t), 0 { plan(t, _) } 0, not_reached_goal(t).
+:- time(t), 1 { plan(t, _) } 1, not not_reached_goal(t).
+% :- time(t), plan(t, __end), not_reached_goal(t).
 :- time(t), plan(t, ACT), not applicable(t, ACT).
-
+:- time(t), 0 { dw(t, _, _) } 0, not_reached_goal(t).
 not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal(F), formula(F).
 
 #program check(t).
 :- not_reached_goal(t), query(t).
-
-% \todo: to improve goal checking, try to set the initial state to time 1 (a lot of work)
 
 
 %%% DEBUG
 % plan(0,open_a).
 % plan(1,shout_tail_c).
 % plan(1,peek_a).
-% plan(0,signal_a_b).
-% plan(1,signal_b_c).
+
+% plan(0,signal_a_c).
+% plan(1,signal_a_b).
+% plan(2,shout_tail_c).
 
 % #program check(t).
-% reached_goal(2).
+% reached_goal(3).
 % :- not reached_goal(t), query(t).
 
 % #show not_reached_goal/1.
@@ -99,7 +100,7 @@ not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal
 % #show q/3.
 % #show pre/3.
 % #show post/4.
-% #show applicable/1.
+% #show applicable_event/2.
 % #show applicable/2.
 % #show entails/2.
 % #show check_on_w/2.
@@ -111,3 +112,12 @@ not_reached_goal(t) :- w(t, W, E), dw(t, W, E), not entails(w(t, W, E), F), goal
 % #show r/3.
 % #show holds/2.
 % #show atom/1.
+
+
+% Regex
+%
+% w\(0,(\d+),__ini\)
+% w(0:W$1)
+%
+% w\((\d),w\(\d:(W\w+?)\),e\(\w+?,(\w+?)\)\)
+% w($1:$2_$3)
