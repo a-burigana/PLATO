@@ -3,9 +3,6 @@
 #program step(t).
 
 check_on_w(w(t, W, Ew), F) :- time(t), action(ACT), pre(ACT, E, F), formula(F),
-                              w(t, W, Ew), e(ACT, E), dw(t, W, Ew), de(ACT, E).
-
-check_on_w(w(t, W, Ew), F) :- time(t), action(ACT), pre(ACT, E, F), formula(F), check_conditions(ACT, check_everywhere),
                               w(t, W, Ew), e(ACT, E), not ne(ACT, E), same_path(t, w(t, W, Ew), e(ACT, E)).
 
 check_on_w(w(t, W, Ew), F) :- time(t), plan(t, ACT), action(ACT), post(ACT, E, P, F),
