@@ -140,10 +140,22 @@ def simplify_names(n):
 		n = re.sub(pattern_w, replace_w, n)
 		t = t + 1
 
-		pattern_w = r"w\(" + str(t) + r",w\(\d+?:(\w+?)\),e\((\w+?)\)\)"
-		replace_w = r"w(" + str(t) + r":\1_\2)"
+		pattern_w = r"w\(" + str(t) + r",w\((\d+?):(\w+?)\),e\((\w+?)\)\)"
+		replace_w = r"w(" + str(t) + r":\2_\1)"
 		find = re.search(pattern_w, n)
 	return n
+
+def generate_plan(n):
+	plan = ""
+	pattern = r"plan\(\d+?,\w+?\)"
+	actions = re.findall(pattern, n)
+
+	for action in actions:
+		action = re.sub('plan\(', '', action)
+		action = re.sub('\)', '', action)
+		splitted = re.split(",", action)
+		plan = plan + splitted[1] + ", "
+	return plan
 
 outputfile = open(sys.argv[1]+'.dot', 'w')
 #outputfile_table = open(sys.argv[1]+'_table.dot', 'w')
@@ -153,24 +165,24 @@ outputfile = open(sys.argv[1]+'.dot', 'w')
 #print('\tnewrank=true;',end="\n", file = outputfile_table)
 #print('\tsize="8,5;"',end="\n", file = outputfile_table)
 
-
-designated = '0,2,__ini'	# \todo: CHECK
+designated = ''
 n_designated = re.compile('dw\(\S*\)')
 n_world = re.compile('\sw\(\S*\)')
 n_edge = re.compile('r\(\S*\)')
 n_holds = re.compile('holds\(\S*\)')
 n_atom = re.compile('atom\(\S*\)')
 
-
-print('digraph K_structure{',end="\n", file = outputfile)
-print('\trankdir=BT;',end="\n", file = outputfile)
-print('\tranksep=0.75',end="\n", file = outputfile)
-print('\tnewrank=true;',end="\n", file = outputfile)
-print('\tsize="8,5;"',end="\n", file = outputfile)
-print('\n//WORLDS List:',end="\n", file = outputfile)
-
 with open(sys.argv[1]+'.txt', 'r') as n:
 	n = n.read()
+	print('digraph K_structure{',end="\n", file = outputfile)
+	print("\tlabelloc=\"t\";", end ="\n", file = outputfile)
+	print("\tlabel=\"" + generate_plan(n) + "\";", end ="\n\n", file = outputfile)
+
+	print('\trankdir=BT;',end="\n", file = outputfile)
+	print('\tranksep=0.75',end="\n", file = outputfile)
+	print('\tnewrank=true;',end="\n", file = outputfile)
+	print('\tsize="8,5;"',end="\n", file = outputfile)
+	print('\n//WORLDS List:',end="\n", file = outputfile)
 	n = simplify_names(n)
 
 	#DESIGNATED
