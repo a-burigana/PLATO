@@ -25,8 +25,8 @@ pre(ACT, osig, true) :- action(ACT), ontic(ACT), executable(ACT, true).
 pre(ACT, osig, F   ) :- action(ACT), ontic(ACT), executable(ACT, F), formula(F).
 pre(ACT, eps , true) :- action(ACT), ontic(ACT).
 
-post(ACT, osig, P, true) :- action(ACT), ontic(ACT), literal(P),     causes(ACT, P, true).
-post(ACT, osig, P, F   ) :- action(ACT), ontic(ACT), literal(P),     causes(ACT, P, F), formula(F).
+post(ACT, osig, P, true) :- action(ACT), ontic(ACT), literal(P), causes(ACT, P, true).
+post(ACT, osig, P, F   ) :- action(ACT), ontic(ACT), literal(P), causes(ACT, P, F), formula(F).
 
 no_post(ACT, eps)        :- action(ACT), ontic(ACT).
 

@@ -74,44 +74,30 @@ w(t+1, w(T, W, Ew), e(ACT, E)) :- time(t), time(T), T <= t, plan(t, ACT), action
 
 
 % STEP 4: determine the interpretation of the worlds
-    holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P),
-                                                w(t+1, w(T, W, Ew), e(ACT, E)), post(ACT, E,  P, true).
+ holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P),
+                                             w(t+1, w(T, W, Ew), e(ACT, E)), post(ACT, E,  P, true).
 
 -holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P),
-                                                w(t+1, w(T, W, Ew), e(ACT, E)), post(ACT, E, -P, true).
+                                             w(t+1, w(T, W, Ew), e(ACT, E)), post(ACT, E, -P, true).
 
 % Postcondition is satisfied
-    holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), post(ACT, E,  P, Fpost),
-                                                entails(w(T, W, Ew), Fpost), formula(Fpost),
-                                                w(t+1, w(T, W, Ew), e(ACT, E)).
+ holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), post(ACT, E,  P, Fpost),
+                                             entails(w(T, W, Ew), Fpost), formula(Fpost), w(t+1, w(T, W, Ew), e(ACT, E)).
 
 -holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), post(ACT, E, -P, Fpost),
-                                                entails(w(T, W, Ew), Fpost), formula(Fpost),
-                                                w(t+1, w(T, W, Ew), e(ACT, E)).
-
-% Postcondition is not satisfied
-    holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), post(ACT, E,  P, Fpost),
-                                                not entails(w(T, W, Ew), Fpost), formula(Fpost),     holds(w(T, W, Ew), P),
-                                                w(t+1, w(T, W, Ew), e(ACT, E)).
-
--holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), post(ACT, E, -P, Fpost),
-                                                not entails(w(T, W, Ew), Fpost), formula(Fpost), -holds(w(T, W, Ew), P),
-                                                w(t+1, w(T, W, Ew), e(ACT, E)).
+                                             entails(w(T, W, Ew), Fpost), formula(Fpost), w(t+1, w(T, W, Ew), e(ACT, E)).
 
 % Inertia in ontic actions
-    holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), not post(ACT, E,  P, _),
-                                                holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
+holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), not post(ACT, E,  P, _), not post(ACT, E, -P, _),
+                                            holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
+
+holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), post(ACT, E,  P, Fpost1), post(ACT, E, -P, Fpost2),
+                                            not entails(w(T, W, Ew), Fpost1), not entails(w(T, W, Ew), Fpost2), formula(Fpost1), formula(Fpost2), holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
 
 % Event with no postconditions in ontic action
-    holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), no_post(ACT, E),
-                                                holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
--holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), no_post(ACT, E),
-                                                -holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
+holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E), atom(P), no_post(ACT, E),
+                                            holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
 
 % Epistemic actions
-    holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, E), atom(P),
-                                                holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
--holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, E), atom(P),
-                                                -holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
-
-% \todo: check correctness of holds
+holds(w(t+1, w(T, W, Ew), e(ACT, E)), P) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, E), atom(P),
+                                            holds(w(T, W, Ew), P), w(t+1, w(T, W, Ew), e(ACT, E)).
