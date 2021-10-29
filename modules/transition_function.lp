@@ -3,9 +3,9 @@
 #program step(t).
 
 %%% Applicability %%%
-applicable_event(t, e(ACT, E)) :- time(t), action(ACT), e(ACT, E), de(ACT, E), pre(ACT, E, true).
+applicable_event(t, e(ACT, E)) :- time(t), action(ACT), e(ACT, E), de(ACT, E), dpre(ACT, E, true).
 applicable_event(t, e(ACT, E)) :- time(t), action(ACT), e(ACT, E), de(ACT, E), w(t, W, Ew), dw(t, W, Ew),
-                                  pre(ACT, E, Fpre), formula(Fpre), entails(w(t, W, Ew), Fpre).
+                                  dpre(ACT, E, Fpre), formula(Fpre), entails(w(t, W, Ew), Fpre).
 
 not_applicable(t, ACT) :- time(t), action(ACT), e(ACT, E), de(ACT, E), not applicable_event(t, e(ACT, E)).
 applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
