@@ -7,144 +7,140 @@ epistemic(ACT) :- announcement(ACT).
 %%% Generating event spectrum %%%
 
 % Null event
-ne(ACT, eps) :- action(ACT).
+ne(ACT, 0) :- action(ACT).
 
 % Ontic actions
-e(ACT, osig) :- action(ACT), ontic(ACT).
-e(ACT, eps ) :- action(ACT), ontic(ACT).
+e(ACT, 1) :- action(ACT), ontic(ACT).
+e(ACT, 0) :- action(ACT), ontic(ACT).
 
-de(ACT, osig) :- action(ACT), ontic(ACT).
+de(ACT, 1) :- action(ACT), ontic(ACT).
 
-dpre(ACT, osig, true) :- action(ACT), ontic(ACT), executable(ACT, true).
-dpre(ACT, osig, F   ) :- action(ACT), ontic(ACT), executable(ACT, F), formula(F).
-pre(ACT, osig, true) :- action(ACT), ontic(ACT).
+dpre(ACT, 1, true) :- action(ACT), ontic(ACT), executable(ACT, true).
+dpre(ACT, 1, F   ) :- action(ACT), ontic(ACT), executable(ACT, F), formula(F).
+pre(ACT, 1, true) :- action(ACT), ontic(ACT).
 
-post(ACT, osig, P, true) :- action(ACT), ontic(ACT), literal(P), causes(ACT, P, true).
-post(ACT, osig, P, F   ) :- action(ACT), ontic(ACT), literal(P), causes(ACT, P, F), formula(F).
+post(ACT, 1, P, true) :- action(ACT), ontic(ACT), literal(P), causes(ACT, P, true).
+post(ACT, 1, P, F   ) :- action(ACT), ontic(ACT), literal(P), causes(ACT, P, F), formula(F).
 
-no_post(ACT, eps)        :- action(ACT), ontic(ACT).
+no_post(ACT, 0)        :- action(ACT), ontic(ACT).
 
-metaq(ACT, osig, osig, f_obs) :- action(ACT), ontic(ACT).
-metaq(ACT, osig, eps , obl  ) :- action(ACT), ontic(ACT).
-metaq(ACT, eps , eps , all  ) :- action(ACT), ontic(ACT).
+metaq(ACT, 1, 1, f_obs) :- action(ACT), ontic(ACT).
+metaq(ACT, 1, 0, obl  ) :- action(ACT), ontic(ACT).
+metaq(ACT, 0, 0, all  ) :- action(ACT), ontic(ACT).
 
 % Sensing actions
-e(ACT, ssig) :- action(ACT), sensing(ACT).
-e(ACT, stau) :- action(ACT), sensing(ACT).
-e(ACT, eps ) :- action(ACT), sensing(ACT).
+e(ACT, 2) :- action(ACT), sensing(ACT).
+e(ACT, 1) :- action(ACT), sensing(ACT).
+e(ACT, 0) :- action(ACT), sensing(ACT).
 
-de(ACT, ssig) :- action(ACT), sensing(ACT).
+de(ACT, 2) :- action(ACT), sensing(ACT).
 
-dpre(ACT, ssig, F) :- action(ACT), sensing(ACT), executable(ACT, F), formula(F).
-pre(ACT, ssig,  P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
-pre(ACT, stau, -P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
+dpre(ACT, 2, F) :- action(ACT), sensing(ACT), executable(ACT, F), formula(F).
+pre(ACT, 2,  P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
+pre(ACT, 1, -P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
 
 formula(-P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
 
-metaq(ACT, ssig, ssig, f_obs) :- action(ACT), sensing(ACT).
-metaq(ACT, stau, stau, f_obs) :- action(ACT), sensing(ACT).
+metaq(ACT, 2, 2, f_obs) :- action(ACT), sensing(ACT).
+metaq(ACT, 1, 1, f_obs) :- action(ACT), sensing(ACT).
 
-metaq(ACT, ssig, ssig, p_obs) :- action(ACT), sensing(ACT).
-metaq(ACT, stau, stau, p_obs) :- action(ACT), sensing(ACT).
-metaq(ACT, ssig, stau, p_obs) :- action(ACT), sensing(ACT).
-metaq(ACT, stau, ssig, p_obs) :- action(ACT), sensing(ACT).
+metaq(ACT, 2, 2, p_obs) :- action(ACT), sensing(ACT).
+metaq(ACT, 1, 1, p_obs) :- action(ACT), sensing(ACT).
+metaq(ACT, 2, 1, p_obs) :- action(ACT), sensing(ACT).
+metaq(ACT, 1, 2, p_obs) :- action(ACT), sensing(ACT).
 
-metaq(ACT, ssig, eps , obl  ) :- action(ACT), sensing(ACT).
-metaq(ACT, stau, eps , obl  ) :- action(ACT), sensing(ACT).
-metaq(ACT, eps , eps , all  ) :- action(ACT), sensing(ACT).
+metaq(ACT, 2, 0, obl  ) :- action(ACT), sensing(ACT).
+metaq(ACT, 1, 0, obl  ) :- action(ACT), sensing(ACT).
+metaq(ACT, 0, 0, all  ) :- action(ACT), sensing(ACT).
 
 % Announcement actions
-e(ACT, asig) :- action(ACT), announcement(ACT).
-e(ACT, atau) :- action(ACT), announcement(ACT).
-e(ACT, eps ) :- action(ACT), announcement(ACT).
+e(ACT, 2) :- action(ACT), announcement(ACT).
+e(ACT, 1) :- action(ACT), announcement(ACT).
+e(ACT, 0) :- action(ACT), announcement(ACT).
 
-de(ACT, asig) :- action(ACT), announcement(ACT).
+de(ACT, 2) :- action(ACT), announcement(ACT).
 
-dpre(ACT, asig, F) :- action(ACT), announcement(ACT), executable(ACT, F), formula(F).
-pre(ACT, asig,  P) :- action(ACT), announcement(ACT), announces(ACT, P), atom(P).
-pre(ACT, atau, -P) :- action(ACT), announcement(ACT), announces(ACT, P), atom(P).
+dpre(ACT, 2, F) :- action(ACT), announcement(ACT), executable(ACT, F), formula(F).
+pre(ACT, 2,  P) :- action(ACT), announcement(ACT), announces(ACT, P), atom(P).
+pre(ACT, 1, -P) :- action(ACT), announcement(ACT), announces(ACT, P), atom(P).
 
 formula(-P) :- action(ACT), announcement(ACT), announces(ACT, P), atom(P).
 
-metaq(ACT, asig, asig, f_obs) :- action(ACT), announcement(ACT).
-metaq(ACT, atau, atau, f_obs) :- action(ACT), announcement(ACT).
+metaq(ACT, 2, 2, f_obs) :- action(ACT), announcement(ACT).
+metaq(ACT, 1, 1, f_obs) :- action(ACT), announcement(ACT).
 
-metaq(ACT, asig, asig, p_obs) :- action(ACT), announcement(ACT).
-metaq(ACT, atau, atau, p_obs) :- action(ACT), announcement(ACT).
-metaq(ACT, asig, atau, p_obs) :- action(ACT), announcement(ACT).
-metaq(ACT, atau, asig, p_obs) :- action(ACT), announcement(ACT).
+metaq(ACT, 2, 2, p_obs) :- action(ACT), announcement(ACT).
+metaq(ACT, 1, 1, p_obs) :- action(ACT), announcement(ACT).
+metaq(ACT, 2, 1, p_obs) :- action(ACT), announcement(ACT).
+metaq(ACT, 1, 2, p_obs) :- action(ACT), announcement(ACT).
 
-metaq(ACT, asig, eps , obl  ) :- action(ACT), announcement(ACT).
-metaq(ACT, atau, eps , obl  ) :- action(ACT), announcement(ACT).
-metaq(ACT, eps , eps , all  ) :- action(ACT), announcement(ACT).
+metaq(ACT, 2, 0, obl  ) :- action(ACT), announcement(ACT).
+metaq(ACT, 1, 0, obl  ) :- action(ACT), announcement(ACT).
+metaq(ACT, 0, 0, all  ) :- action(ACT), announcement(ACT).
 
 
 #program step(t).
 
 check_on_w(t, t, W, Ew, Hw, F) :- time(t), action(ACT), dpre(ACT, E, F), formula(F),
-                              w(t, W, Ew, Hw), e(ACT, E), dw(t, W, Ew, Hw), de(ACT, E).
+                                  w(t, W, Ew, Hw), e(ACT, E), dw(t, W, Ew, Hw), de(ACT, E).
 
 %%% Same path with meta-q
 same_path(t, t, W, Ew, Hwo, E, Hw ) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ew, Hwo), e(ACT, E),
-                                  dw(t, W, Ew, Hwo), de(ACT, E), Hw = (Hwo+t+1)*(Hwo+t+2)/2 + t+1.
+                                       dw(t, W, Ew, Hwo), de(ACT, E), Hw = Hwo + E.
 
 same_path(t, T, W, Ew, Hwo, E, Hw ) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), is_fully_obs(t, AG),
-                                  w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
-                                  r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, f_obs), Hw = (Hwo+t+1)*(Hwo+t+2)/2 + t+1.
+                                       w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
+                                       r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, f_obs), Hw = Hwo + E.
 
 same_path(t, T, W, Ew, Hwo, E, Hw ) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), is_partial_obs(t, AG),
-                                  w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
-                                  r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, p_obs), Hw = (Hwo+t+1)*(Hwo+t+2)/2 + t+1.
+                                       w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
+                                       r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, p_obs), Hw = Hwo + E.
 
 same_path(t, T, W, Ew, Hwo, E, Hwo) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), is_oblivious(t, AG),
-                                  w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
-                                  r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, obl  ).
+                                       w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
+                                       r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, obl  ).
 
 same_path(t, T, W, Ew, Hwo, E, Hwo) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG),
-                                  w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
-                                  r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, all  ).
-
-
-% pf(t+1, Hwo, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), e(ACT, E), w(Tw, W, Ew, Hwo),
-%                     same_path(t, Tw, W, Ew, Hwo, E), Hw = (Hwo+t+1)*(Hwo+t+2)/2 + t+1.
+                                       w(T, W, Ew, Hwo), e(ACT, E), w(t, W2, Ew2, Hw2), e(ACT, E2), same_path(t, t, W2, Ew2, Hw2, E2, _),
+                                       r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, all  ).
 
 
 dw(t+1, W, E, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, E), dw(t, W, Ewo, Hwo), de(ACT, E),
-                  dpre(ACT, E, true), same_path(t, t, W, Ewo, Hwo, E, Hw). %, pf(t+1, Hwo, Hw).
+                     dpre(ACT, E, true), same_path(t, t, W, Ewo, Hwo, E, Hw).
 
 dw(t+1, W, E, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, E), dw(t, W, Ewo, Hwo), de(ACT, E),
-                  dpre(ACT, E, Fpre), formula(Fpre), entails(t, t, W, Ewo, Hwo, Fpre), same_path(t, t, W, Ewo, Hwo, E, Hw). %, pf(t+1, Hwo, Hw).
+                     dpre(ACT, E, Fpre), formula(Fpre), entails(t, t, W, Ewo, Hwo, Fpre), same_path(t, t, W, Ewo, Hwo, E, Hw).
 
 
 w(t+1, W, E, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, E), not ne(ACT, E),
-                 dw(t, W, Ewo, Hwo), de(ACT, E), dw(t+1, W, E, Hw), same_path(t, t, W, Ewo, Hwo, E, Hw). % , pf(t+1, Hwo, Hw).
+                    dw(t, W, Ewo, Hwo), de(ACT, E), dw(t+1, W, E, Hw), same_path(t, t, W, Ewo, Hwo, E, Hw).
 
 w(t+1, W, E, Hw) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), w(T, W, Ewo, Hwo), e(ACT, E), not ne(ACT, E),
-                 pre(ACT, E, true), same_path(t, T, W, Ewo, Hwo, E, Hw). % , pf(t+1, Hwo, Hw).
+                    pre(ACT, E, true), same_path(t, T, W, Ewo, Hwo, E, Hw).
 
 w(t+1, W, E, Hw) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), w(T, W, Ewo, Hwo), e(ACT, E), not ne(ACT, E),
-                 pre(ACT, E, Fpre), formula(Fpre), entails(t, T, W, Ewo, Hwo, Fpre),
-                 same_path(t, T, W, Ewo, Hwo, E, Hw). % , pf(t+1, Hwo, Hw).
+                    pre(ACT, E, Fpre), formula(Fpre), entails(t, T, W, Ewo, Hwo, Fpre),
+                    same_path(t, T, W, Ewo, Hwo, E, Hw).
 
 
 %%% Accessibility relations with meta-q
 r(t+1, W, E1, Hw,
   t+1, V, E2, Hv , AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG), is_fully_obs(t, AG),
-                      w(Tw, W, Ew, Hwo), w(Tv, V, Ev, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
-                      w(t+1, W, E1, Hw), w(t+1, V, E2, Hv), same_path(t, Tw, W, Ew, Hwo, E1, Hw), same_path(t, Tv, V, Ev, Hvo, E2, Hv), % pf(t+1, Hwo, Hw), pf(t+1, Hvo, Hv),
-                      r(Tw, W, Ew, Hwo, Tv, V, Ev, Hvo, AG), metaq(ACT, E1, E2, f_obs).
+                          w(Tw, W, Ew, Hwo), w(Tv, V, Ev, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
+                          w(t+1, W, E1, Hw), w(t+1, V, E2, Hv), same_path(t, Tw, W, Ew, Hwo, E1, Hw), same_path(t, Tv, V, Ev, Hvo, E2, Hv),
+                          r(Tw, W, Ew, Hwo, Tv, V, Ev, Hvo, AG), metaq(ACT, E1, E2, f_obs).
 
 r(t+1, W, E1, Hw,
   t+1, V, E2, Hv , AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG), is_partial_obs(t, AG),
-                      w(Tw, W, Ew, Hwo), w(Tv, V, Ev, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
-                      w(t+1, W, E1, Hw), w(t+1, V, E2, Hv), same_path(t, Tw, W, Ew, Hwo, E1, Hw), same_path(t, Tv, V, Ev, Hvo, E2, Hv), % pf(t+1, Hwo, Hw), pf(t+1, Hvo, Hv),
-                      r(Tw, W, Ew, Hwo, Tv, V, Ev, Hvo, AG), metaq(ACT, E1, E2, p_obs).
+                          w(Tw, W, Ew, Hwo), w(Tv, V, Ev, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
+                          w(t+1, W, E1, Hw), w(t+1, V, E2, Hv), same_path(t, Tw, W, Ew, Hwo, E1, Hw), same_path(t, Tv, V, Ev, Hvo, E2, Hv),
+                          r(Tw, W, Ew, Hwo, Tv, V, Ev, Hvo, AG), metaq(ACT, E1, E2, p_obs).
 
-r(t+1, W, E1, Hw,%                  check  Tv, V, Ev
+r(t+1, W, E1, Hw,
   Tv , V, Ev, Hvo, AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG), is_oblivious(t, AG),
-                      w(Tw, W, Ew, Hwo), w(Tv, V, Ev, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), ne(ACT, E2),
-                      w(t+1, W, E1, Hw), same_path(t, Tw, W, Ew, Hwo, E1, Hw), % pf(t+1, Hwo, Hw), % same_path(t, Tv, V, Hvo, E2), pf(t+1, Hvo, Hv) ?????
-                      r(Tw, W, Ew, Hwo, Tv, V, Ev, Hvo, AG), metaq(ACT, E1, E2, obl).
+                          w(Tw, W, Ew, Hwo), w(Tv, V, Ev, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), ne(ACT, E2),
+                          w(t+1, W, E1, Hw), same_path(t, Tw, W, Ew, Hwo, E1, Hw),
+                          r(Tw, W, Ew, Hwo, Tv, V, Ev, Hvo, AG), metaq(ACT, E1, E2, obl).
 
 
 %%% Checking observability relations %%%
