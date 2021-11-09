@@ -21,4 +21,12 @@ check_on_w(t, Tw1, W1, Ew1, Hw1, F ) :- time(t), time(Tw1), time(Tw2), Tw1 <= t,
 
 check_on_w(t, Tw1, W1, Ew1, Hw1, F ) :- time(t), time(Tw1), time(Tw2), Tw1 <= t, Tw1 <= Tw2, check_on_w(t, Tw2, W2, Ew2, Hw2, c(AGS, F)),
                                         w(Tw1, W1, Ew1, Hw1), w(Tw2, W2, Ew2, Hw2), agent_set(AGS), reaches(Tw2, W2, Ew2, Hw2, Tw1, W1, Ew1, Hw1, AGS), formula(c(AGS, F)), formula(F).
+
+% check_on_w(t, Tw1, W1, Ew1, Hw1, c(AGS, F)) :- time(t), time(Tw1), time(Tw2), Tw1 <= t, Tw1 <= Tw2, check_on_w(t, Tw2, W2, Ew2, Hw2, c(AGS, F)),
+%                                         w(Tw1, W1, Ew1, Hw1), w(Tw2, W2, Ew2, Hw2), agent_set(AGS), agent(AG), contains_ag(AGS, AG),
+%                                         r(Tw2, W2, Ew2, Hw2, Tw1, W1, Ew1, Hw1, AG), formula(c(AGS, F)), formula(F).
+
+% check_on_w(t, Tw1, W1, Ew1, Hw1, F ) :- time(t), time(Tw1), Tw1 <= t, check_on_w(t, Tw1, W1, Ew1, Hw1, c(AGS, F)),
+%                                         w(Tw1, W1, Ew1, Hw1), agent_set(AGS), formula(c(AGS, F)), formula(F).
+
 % \todo: forse si può sostituire reaches con r, visto che poi viene richiamato ricorsivamente. Così posso togliere reaches e risparmio grounding
