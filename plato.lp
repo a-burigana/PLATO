@@ -1,4 +1,4 @@
-#include "inc_solve.lp"     % Multi-shot solving Python script
+#include "modules/inc_solve.lp".    % Multi-shot solving Python script
 
 % To avoid showing the warning "info: atom does not occur in any rule head"
 #defined plan/2.
@@ -24,9 +24,19 @@ time(t).
 not_reached_goal(t) :- w(t, W, Ew, Hw), dw(t, W, Ew, Hw), not entails(t, t, W, Ew, Hw, F), goal(F), formula(F).
 
 :- time(t), 0 { plan(t, _) } 0, not_reached_goal(t).
-:- time(t), 1 { plan(t, _) } 1, not not_reached_goal(t).
+:- time(t), plan(t, _), not not_reached_goal(t).
 :- time(t), plan(t, ACT), not applicable(t, ACT).
-:- time(t), 0 { dw(t, _, _, _) } 0, not_reached_goal(t).
+% :- time(t), not dw(t, _, _, _), not_reached_goal(t).
+
+
+% Axiom 4
+:- time(t), time(Tw2), time(Tw3), Tw2 <= t, Tw3 <= Tw2, w(t, W1, Ew1, Hw1), w(Tw2, W2, Ew2, Hw2), w(Tw3, W3, Ew3, Hw3), agent(AG),
+   r(t, W1, Ew1, Hw1, Tw2, W2, Ew2, Hw2, AG), r(Tw2, W2, Ew2, Hw2, Tw3, W3, Ew3, Hw3, AG), not r(t, W1, Ew1, Hw1, Tw3, W3, Ew3, Hw3, AG).
+% Axiom 5
+:- time(t), time(Tw2), time(Tw3), Tw2 <= t, Tw3 <= Tw2, w(t, W1, Ew1, Hw1), w(Tw2, W2, Ew2, Hw2), w(Tw3, W3, Ew3, Hw3), agent(AG),
+   r(t, W1, Ew1, Hw1, Tw2, W2, Ew2, Hw2, AG), r(t, W1, Ew1, Hw1, Tw3, W3, Ew3, Hw3, AG), not r(Tw2, W2, Ew2, Hw2, Tw3, W3, Ew3, Hw3, AG).
+% Axiom D
+:- time(t), w(t, W1, Ew1, Hw1), 0 { r(t, W1, Ew1, Hw1, Tw2, W2, Ew2, Hw2, AG) : time(Tw2), Tw2 <= t, w(Tw2, W2, Ew2, Hw2), agent(AG) } 0.
 
 #program check(t).
 :- not_reached_goal(t), query(t).
