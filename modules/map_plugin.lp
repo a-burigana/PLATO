@@ -98,11 +98,11 @@ check_on_w(t, t, W, Ew, Hw, F) :- time(t), action(ACT), dpre(ACT, E, F), formula
 
 %%% Same path with meta-q
 same_path(t, t, W, Ew, Hwo, E, Hw ) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ew, Hwo), e(ACT, E, 0, _),
-                                       dw(t, W, Ew, Hwo), de(ACT, E), Hw = Hwo + (t+1)*E.
+                                       dw(t, W, Ew, Hwo), de(ACT, E), Hw = Hwo + Ew + (t+1)*E.
 
 same_path(t, T, W, Ew, Hwo, E, Hw ) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS), obs_type(OBS), OBS != obl,
                                        w(T, W, Ew, Hwo), e(ACT, E, 0, _), w(t, W2, Ew2, Hw2), e(ACT, E2, 0, _), same_path(t, t, W2, Ew2, Hw2, E2, _),
-                                       r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, OBS), Hw = Hwo + (t+1)*E.
+                                       r(t, W2, Ew2, Hw2, T, W, Ew, Hwo, AG), metaq(ACT, E2, E, OBS), Hw = Hwo + Ew + (t+1)*E.
 
 same_path(t, T, W, Ew, Hwo, E, Hwo) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG), obs(t, AG, obl),
                                        w(T, W, Ew, Hwo), e(ACT, E, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, 1, 0), same_path(t, t, W2, Ew2, Hw2, E2, _),
