@@ -70,38 +70,37 @@ applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
 
 
 % STEP 4: determine the interpretation of the worlds
- holds(t+1, W, E, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
-                         w(t+1, W, E, Hw), post(ACT, E,  P, true), atom(P).
+holds(t+1, W, E, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
+                           w(t+1, W, E, Hw), post(ACT, E,  P, true), atom(P).
 
 -holds(t+1, W, E, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
-                         w(t+1, W, E, Hw), post(ACT, E, -P, true), atom(P).
+                           w(t+1, W, E, Hw), post(ACT, E, -P, true), atom(P).
 
 % Postcondition is satisfied
- holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1), formula(Fpost),
-                         w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw), % pf(t+1, Hwo, Hw),
-                         post(ACT, E,  P, Fpost), atom(P), entails(T, Tw, W, Ewo, Hwo, Fpost), time(T), T <= t.
+holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1), formula(Fpost),
+                           w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw),
+                           post(ACT, E,  P, Fpost), atom(P), entails(T, Tw, W, Ewo, Hwo, Fpost), time(T), T <= t.
 
 -holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1), formula(Fpost),
-                         w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw), % pf(t+1, Hwo, Hw),
-                         post(ACT, E, -P, Fpost), atom(P), entails(T, Tw, W, Ewo, Hwo, Fpost), time(T), T <= t.
+                           w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw),
+                           post(ACT, E, -P, Fpost), atom(P), entails(T, Tw, W, Ewo, Hwo, Fpost), time(T), T <= t.
 
 % Inertia in ontic actions
 holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
-                        not post(ACT, E, P, _), not post(ACT, E, -P, _), atom(P), holds(Tw, W, Ewo, Hwo, P),
-                        w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw). %, pf(t+1, Hwo, Hw).
+                           not post(ACT, E, P, _), not post(ACT, E, -P, _), atom(P), holds(Tw, W, Ewo, Hwo, P),
+                           w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw).
 
-holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
-                        post(ACT, E, P, Fpost1), post(ACT, E, -P, Fpost2), atom(P), holds(Tw, W, Ewo, Hwo, P),
-                        time(T1), time(T2), T1 <= t, T2 <= t,
-                        not entails(T1, Tw, W, Ewo, Hwo, Fpost1), not entails(T2, Tw, W, Ewo, Hwo, Fpost2), formula(Fpost1), formula(Fpost2),
-                        w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw). %, pf(t+1, Hwo, Hw).
+holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1), formula(Fpost1), formula(Fpost2),
+                           w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw), holds(Tw, W, Ewo, Hwo, P),
+                           post(ACT, E, P, Fpost1), post(ACT, E, -P, Fpost2), atom(P), time(T1), time(T2), T1 <= t, T2 <= t,
+                           not entails(_, Tw, W, Ewo, Hwo, Fpost1), not entails(_, Tw, W, Ewo, Hwo, Fpost2).
 
 % % Event with no postconditions in ontic action
 % holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 0),
-%                            atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw). %, pf(t+1, Hwo, Hw).
+%                            atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw).
 
 %%% ^^^ IN mAp NON CE NE SONO!!
 
 % Epistemic actions
 holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, E, 0, 0),
-                           atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw). %, pf(t+1, Hwo, Hw).
+                           atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw).
