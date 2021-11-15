@@ -119,7 +119,7 @@ w(t+1, W, E, Hw) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), w(T, W,
                     pre(ACT, E, true), same_path(t, T, W, Ewo, Hwo, E, Hw).
 
 w(t+1, W, E, Hw) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), w(T, W, Ewo, Hwo), e(ACT, E), not ne(ACT, E),
-                    pre(ACT, E, Fpre), formula(Fpre), entails(t, T, W, Ewo, Hwo, Fpre),
+                    pre(ACT, E, Fpre), formula(Fpre), entails(_, T, W, Ewo, Hwo, Fpre),
                     same_path(t, T, W, Ewo, Hwo, E, Hw).
 
 
