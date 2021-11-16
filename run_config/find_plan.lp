@@ -11,6 +11,7 @@ not_reached_goal(t) :- w(t, W, Ew, Hw), dw(t, W, Ew, Hw), not entails(t, t, W, E
 :- time(t), plan(t, ACT), not applicable(t, ACT).
 % :- time(t), not dw(t, _, _, _), not_reached_goal(t).
 
+:- time(t), t > 0, plan(t-1, ACT), plan(t, ACT), epistemic(ACT).
 
 % % Axiom 4
 % :- time(t), time(Tw2), time(Tw3), Tw2 <= t, Tw3 <= Tw2, w(t, W1, Ew1, Hw1), w(Tw2, W2, Ew2, Hw2), w(Tw3, W3, Ew3, Hw3), agent(AG),
