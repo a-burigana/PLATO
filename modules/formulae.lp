@@ -32,3 +32,18 @@ check_on_w(t, Tw1, W1, Ew1, Hw1, F ) :- time(t), time(Tw1), time(Tw2), Tw1 <= t,
 %                                         w(Tw1, W1, Ew1, Hw1), agent_set(AGS), formula(c(AGS, F)), formula(F).
 
 % \todo: forse si può sostituire reaches con r, visto che poi viene richiamato ricorsivamente. Così posso togliere reaches e risparmio grounding
+
+
+% #program base.
+
+% check_everywhere(F ) :- pre(ACT, E, F),     formula(F),          action(ACT), e(ACT, E, 0, _).
+% check_everywhere(F ) :- post(ACT, E, P, F), formula(F), atom(P), action(ACT), e(ACT, E, 0, _).
+
+% check_everywhere(F ) :- check_everywhere(neg(F)),       formula(neg(F)),       formula(F ).
+% check_everywhere(F1) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
+% check_everywhere(F2) :- check_everywhere(and(F1, F2)),  formula(and(F1, F2)),  formula(F1), formula(F2).
+% check_everywhere(F1) :- check_everywhere( or(F1, F2)),  formula( or(F1, F2)),  formula(F1), formula(F2).
+% check_everywhere(F2) :- check_everywhere( or(F1, F2)),  formula( or(F1, F2)),  formula(F1), formula(F2).
+
+% check_everywhere(F ) :- check_everywhere(  b(AG , F )), formula(  b(AG , F )), formula(F ), agent(AG).
+% check_everywhere(F ) :- check_everywhere(  c(AGS, F )), formula(  c(AGS, F )), formula(F ), agent_set(AGS).
