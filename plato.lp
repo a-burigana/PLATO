@@ -13,7 +13,11 @@ time(t).
 #include "modules/formulae.lp".
 #include "modules/entailment.lp".
 #include "modules/transition_function.lp".
-#include "modules/map_plugin.lp".
+
+#include "modules/map_plugin/initial_state.lp".
+#include "modules/map_plugin/update.lp".
+#include "modules/map_plugin/actions.lp".
+
 % #include "modules/bisimulation.lp".
 
 %%% RUN CONFIGURATION %%%

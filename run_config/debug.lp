@@ -6,6 +6,14 @@
 % plan(4,shout_tail_a).
 % reached_goal(5).
 
+
+plan(0,open_a).
+plan(1,signal_a_c).
+plan(2,signal_a_b).
+plan(3,peek_a).
+reached_goal(4).
+
+
 % plan(0,right).
 % plan(1,sense).
 % plan(2,right).
@@ -14,14 +22,22 @@
 % reached_goal(5).
 
 
-plan(0,sense).
-plan(1,shout_10).
-plan(2,shout_10).
-plan(3,left).
-plan(4,shout_9).
-plan(5,left).
-plan(6,shout_8).
-reached_goal(7).
+% plan(0,sense).
+% plan(1,shout_10).
+% plan(2,shout_10).
+% plan(3,left).
+% plan(4,shout_9).
+% plan(5,left).
+% plan(6,shout_8).
+% reached_goal(7).
+
+
+% plan(0,share_a_sa_1).
+% plan(1,right_a).
+% plan(2,share_c_sc_1).
+% plan(3,right_b).
+% plan(4,share_b_sb_2).
+% reached_goal(5).
 
 #program check(t).
 % reached_goal(0).
