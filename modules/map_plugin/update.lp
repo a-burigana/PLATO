@@ -1,5 +1,7 @@
 % ********** mA^\rho PLUGIN **********
 
+semantics(possibilities).
+
 #defined ontic/1.
 #defined sensing/1.
 #defined announcement/1.
