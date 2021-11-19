@@ -3,13 +3,11 @@
 #program step(t).
 
 check_on_w(t, Tw , W , Ew , Hw , F ) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), pre(ACT, E, F), formula(F),
-                                        w(Tw, W, Ew, Hw), e(ACT, E, 0, _),
-                                        0 { time(T) : 0 <= T, T < t, check_on_w(T, Tw, W, Ew, Hw, F) } 0,
+                                        w(Tw, W, Ew, Hw), e(ACT, E, 0, _), 0 { time(T) : 0 <= T, T < t, check_on_w(T, Tw, W, Ew, Hw, F) } 0,
                                         same_path(t, Tw, W, Ew, Hw, E, _) : semantics(possibilities).
 
 check_on_w(t, Tw , W , Ew , Hw , F ) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), post(ACT, E, P, F), formula(F),
-                                        w(Tw, W, Ew, Hw), e(ACT, E, 0, 1),
-                                        0 { time(T) : 0 <= T, T < t, check_on_w(T, Tw, W, Ew, Hw, F) } 0,
+                                        w(Tw, W, Ew, Hw), e(ACT, E, 0, 1), 0 { time(T) : 0 <= T, T < t, check_on_w(T, Tw, W, Ew, Hw, F) } 0,
                                         same_path(t, Tw, W, Ew, Hw, E, _) : semantics(possibilities).
 
 check_on_w(t, t  , W , Ew , Hw , F ) :- time(t), goal(F), formula(F), dw(t, W, Ew, Hw).
