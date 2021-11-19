@@ -890,6 +890,11 @@ init_sf(-at_c_2).
 init_sf(-at_d_2).
 init_sf(-at_e_2).
 
+init_sf(sa).
+init_sf(sb).
+init_sf(sc).
+init_sf(sd).
+init_sf(se).
 
 % *** GOALS ***
 goal(b(a,sb)).
