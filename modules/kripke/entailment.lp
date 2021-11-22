@@ -13,13 +13,11 @@ entails(t, W, Ew, Hw,  or(F1, F2)) :- time(t),                                en
 entails(t, W, Ew, Hw,   b(AG , F)) :- time(t), not -entails(t, W, Ew, Hw, b(AG , F)),                    w(t, W, Ew, Hw), check_on_w(t, W, Ew, Hw, b(AG , F)),   formula(  b(AG , F)), formula(F), agent(AG).
 entails(t, W, Ew, Hw,   c(AGS, F)) :- time(t), not -entails(t, W, Ew, Hw, c(AGS, F)),                    w(t, W, Ew, Hw), check_on_w(t, W, Ew, Hw, c(AGS, F)),   formula(  c(AGS, F)), formula(F), agent_set(AGS).
 
--entails(t, W1, Ew1, Hw1, b(AG , F)) :- time(t), % time(Tw1), time(Tw2), Tw1 <= t, Tw2 <= Tw1, time(T), T <= t,
-                                        not entails(t, W2, Ew2, Hw2, F), w(t, W1, Ew1, Hw1), w(t, W2, Ew2, Hw2), 
+-entails(t, W1, Ew1, Hw1, b(AG , F)) :- time(t), not entails(t, W2, Ew2, Hw2, F), w(t, W1, Ew1, Hw1), w(t, W2, Ew2, Hw2), 
                                         check_on_w(t, W1, Ew1, Hw1, b(AG , F)), check_on_w(t, W2, Ew2, Hw2, F),
                                         r(t, W1, Ew1, Hw1, t, W2, Ew2, Hw2, AG), formula(b(AG , F)), formula(F), agent(AG).
 
--entails(t, W1, Ew1, Hw1, c(AGS, F)) :- time(t), % time(Tw1), time(Tw2), Tw1 <= t, Tw2 <= Tw1, time(T), T <= t,
-                                        not entails(t, W2, Ew2, Hw2, F), w(t, W1, Ew1, Hw1), w(t, W2, Ew2, Hw2),
+-entails(t, W1, Ew1, Hw1, c(AGS, F)) :- time(t), not entails(t, W2, Ew2, Hw2, F), w(t, W1, Ew1, Hw1), w(t, W2, Ew2, Hw2),
                                         check_on_w(t, W1, Ew1, Hw1, c(AGS, F)), check_on_w(t, W2, Ew2, Hw2, F),
                                         reaches(t, W1, Ew1, Hw1, t, W2, Ew2, Hw2, AGS), formula(c(AGS, F)), formula(F), agent_set(AGS).
 

@@ -35,10 +35,6 @@ dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(A
 dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew),
                       dpre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = Hwo + Ewo + (t+1)*Ew.
 
-
-% w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _),
-%                      dw(t, W, Ewo, Hwo), de(ACT, Ew), dw(t+1, W, Ew, Hw), Hw = Hwo + Ewo + (t+1)*Ew.
-
 % Sigma (ontic)
 w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 1,
                      pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew.
@@ -67,14 +63,6 @@ w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W,
 % Epsilon
 w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo), e(ACT, Ew, 1, 0), Ew = 0,
                      pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, obl).
-
-% rr(t , W, Ew, Hw,
-%    Tv, V, Ev, Hv) :- time(t), time(Tv), Tv <= t, dw(t, W, Ew, Hw), w(t, W, Ew, Hw), w(Tv, V, Ev, Hv),
-%                      r(t, W, Ew, Hw, Tv, V, Ev, Hv, AG), agent(AG).
-
-% rr(t , W, Ew, Hw,
-%    Tv, V, Ev, Hv) :- time(t), time(Tu), time(Tv), Tv <= Tu, Tu <= t, dw(t, W, Ew, Hw), w(t, W, Ew, Hw), w(Tv, V, Ev, Hv), w(Tu, U, Eu, Hu),
-%                      rr(t, W, Ew, Hw, Tu, U, Eu, Hu), r(Tu, U, Eu, Hu, Tv, V, Ev, Hv, AG), agent(AG).
 
 %%% Accessibility relations with meta-q
 r(t+1, W, Ew, Hw,
