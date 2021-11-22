@@ -4,13 +4,14 @@ DOMAIN="$1"      # Name of the domain
 shift            # Shift all arguments to the left (original $1 gets lost)
 ARGUMENTS=("$@") # Rebuild the array with rest of arguments
 PLATO_PATH=".."
-PYTHON_PATH="./python"
-OUT_PATH="../out/states"
+PYTHON_PATH="scripts/python"
+OUT_PATH="out/states"
 # DOMAIN_PATH="../exp/ICLP20"
 
 mkdir -p $OUT_PATH
 
-clingo $PLATO_PATH/plato.lp --configuration=frumpy --heuristic=Vsids -t 2 $DOMAIN > $OUT_PATH/output.txt;
+cd $PLATO_PATH
+clingo plato.lp --configuration=frumpy --heuristic=Vsids -t 2 $DOMAIN > $OUT_PATH/output.txt;
 python3 $PYTHON_PATH/out_render.py $OUT_PATH/output;
 dot -Tpdf $OUT_PATH/output.dot > $OUT_PATH/output.pdf;
 
