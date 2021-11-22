@@ -19,9 +19,9 @@ def last_designated(new_designated,designated):
 	np_splitted = new_designated.split(',')
 	p_splitted = designated.split(',')
 	if np_splitted[0] >= p_splitted[0]:
-		return np_splitted[0] + '_' + np_splitted[1] + '_' + np_splitted[3]
+		return np_splitted[0] + '_' + np_splitted[1] + '_' + np_splitted[2] + '_' + np_splitted[3]
 	else:
-		return p_splitted[0] + '_' + p_splitted[1] + '_' + p_splitted[3]
+		return p_splitted[0] + '_' + p_splitted[1] + '_' + np_splitted[2] + '_' + p_splitted[3]
 
 def generate_world_key(world):
 	replaced = re.sub('w\(', '', world)
@@ -31,7 +31,7 @@ def generate_world_key(world):
 def generate_world(world, designated):
 	key = generate_world_key(world)
 	splitted = key.split(',')
-	key = splitted[0] + '_' + splitted[1] + '_' + splitted[3]
+	key = splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
 	if (key) != designated:
 		print('\tnode [shape = circle] "' + key + '";', file = outputfile)
 	else:
@@ -41,12 +41,12 @@ def generate_world(world, designated):
 def initialize_rank(world, rank_map):
 	key = generate_world_key(world)
 	splitted = re.split(',', key)
-	rank_map[splitted[0]+splitted[3]] = SortedSet()
+	rank_map[(int(splitted[0])+1)*(int(splitted[2])+int(splitted[3])+1)] = SortedSet()
 
 def generate_rank(world, rank_map):
 	key = generate_world_key(world)
 	splitted = re.split(',', key)
-	rank_map[splitted[0]+splitted[3]].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[3] + '"')
+	rank_map[(int(splitted[0])+1)*(int(splitted[2])+int(splitted[3])+1)].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
 
 def generate_hold_key(hold):
 	replaced = re.sub('^holds\(', '', hold)
@@ -56,13 +56,13 @@ def generate_hold_key(hold):
 def initialize_atom_table(hold, atom_table, key_table):
 	hold_key = generate_hold_key(hold)
 	splitted = hold_key.split(',')
-	atom_table[splitted[0]+splitted[1]+splitted[3]] = SortedSet()
-	key_table[splitted[0]+splitted[1]+splitted[3]] = splitted[0]+'_'+splitted[1]+'_'+splitted[3]
+	atom_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]] = SortedSet()
+	key_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]] = splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
 
 def generate_atom_table(hold, atom_table):
 	hold_key = generate_hold_key(hold)
 	splitted = hold_key.split(',')
-	atom_table[splitted[0]+splitted[1]+splitted[3]].add(splitted[4])
+	atom_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]].add(splitted[4])
 
 
 def initialize_cluster(world, cluster_map):
@@ -73,7 +73,7 @@ def initialize_cluster(world, cluster_map):
 def generate_cluster(world, cluster_map):
 	key = generate_world_key(world)
 	splitted = key.split(',')
-	cluster_map[splitted[0]].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[3] + '"')
+	cluster_map[splitted[0]].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
 
 def generate_edge_key(edge):
 	replaced = re.sub('^r\(', '', edge)
@@ -83,12 +83,12 @@ def generate_edge_key(edge):
 def initialize_edges(edge, edges_map):
 	key = generate_edge_key(edge)
 	splitted = key.split(',')
-	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[3]+ '"'+' -> '+ '"' + splitted[4] + '_' + splitted[5] + '_' + splitted[7]+ '"'] = SortedSet()
+	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]+ '"'+' -> '+ '"' + splitted[4] + '_' + splitted[5] + '_' + splitted[6] + '_' + splitted[7]+ '"'] = SortedSet()
 
 def generate_edges(edge,edges_map):
 	key = generate_edge_key(edge)
 	splitted = key.split(',')
-	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[3]+ '"'+' -> '+ '"' + splitted[4] + '_' + splitted[5] + '_' + splitted[7]+ '"'].add(splitted[8])
+	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]+ '"'+' -> '+ '"' + splitted[4] + '_' + splitted[5] + '_' + splitted[6] + '_' + splitted[7]+ '"'].add(splitted[8])
 
 def compare_keys(key1,key2,edges_map,edges_map_both):
 	key1_mod = re.sub('\_|->|"', '', key1)
