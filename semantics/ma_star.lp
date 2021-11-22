@@ -1,6 +1,6 @@
-#include "modules/delphic/reachability.lp".
-#include "modules/delphic/formulae.lp".
-#include "modules/delphic/entailment.lp".
+#include "modules/kripke/reachability.lp".
+#include "modules/kripke/formulae.lp".
+#include "modules/kripke/entailment.lp".
 
 #include "modules/plugins/initial_state.lp".
 #include "modules/plugins/actions.lp".
