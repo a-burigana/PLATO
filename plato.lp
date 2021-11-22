@@ -8,17 +8,11 @@
 #program step(t).
 time(t).
 
-%%% MODULES %%%
-#include "modules/reachability.lp".
-#include "modules/formulae.lp".
-#include "modules/entailment.lp".
-#include "modules/transition_function.lp".
+%%% SEMANTICS %%%
+% #include "semantics/delphic.lp".
+% #include "semantics/ma_rho.lp".
+#include "semantics/ma_star.lp".
 
-#include "modules/map_plugin/initial_state.lp".
-#include "modules/map_plugin/update.lp".
-#include "modules/map_plugin/actions.lp".
-
-% #include "modules/bisimulation.lp".
 
 %%% RUN CONFIGURATION %%%
 #include "run_config/find_plan.lp".

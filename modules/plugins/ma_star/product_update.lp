@@ -17,6 +17,15 @@ semantics(kripke).
 
 #program step(t).
 
+%%% Applicability %%%
+applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), dpre(ACT, E, true).
+applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), w(t, W, Ew, Hw), dw(t, W, Ew, Hw),
+                               dpre(ACT, E, Fpre), formula(Fpre), entails(t, t, W, Ew, Hw, Fpre).
+
+not_applicable(t, ACT) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), not applicable_event(t, ACT, E).
+applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
+
+
 check_on_w(t, t, W, Ew, Hw, F) :- time(t), action(ACT), dpre(ACT, E, F), formula(F),
                                   w(t, W, Ew, Hw), e(ACT, E, 0, _), dw(t, W, Ew, Hw), de(ACT, E).
 
