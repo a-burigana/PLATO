@@ -69,14 +69,12 @@ r(t+1, W, Ew, Hw,
   t+1, V, Ev, Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS),
                          w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, Ev, _, _), obs_type(OBS), OBS != all,
                          w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), Hw = Hwo + Ewo + (t+1)*Ew, Hv = Hvo + Evo + (t+1)*Ev,
-                        %  rr(t, Wd, Ewd, Hwd, Tw, W, Ewo, Hwo), rr(t, Wd, Ewd, Hwd, Tv, V, Evo, Hvo),
                          r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, Ev, OBS).
 
 r(t+1, W, Ew, Hw,
   t+1, V, Ev, Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG),
                          w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, Ev, _, _),
                          w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), Hw = Hwo + Ewo + (t+1)*Ew, Hv = Hvo + Evo + (t+1)*Ev,
-                        %  rr(t, Wd, Ewd, Hwd, Tw, W, Ewo, Hwo), rr(t, Wd, Ewd, Hwd, Tv, V, Evo, Hvo),
                          r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, Ev, all).
 
 
@@ -90,22 +88,22 @@ holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(AC
 % Postcondition is satisfied
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), post(ACT, Ew,  P, Fpost), atom(P), entails(t, W, Ewo, Hwo, Fpost),
-                            Hw = Hwo + Ewo + (t+1)*Ew. % , rr(t, Wd, Ewd, Hwd, Tw, W, Ewo, Hwo).
+                            Hw = Hwo + Ewo + (t+1)*Ew.
 
 -holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), post(ACT, Ew, -P, Fpost), atom(P), entails(t, W, Ewo, Hwo, Fpost),
-                            Hw = Hwo + Ewo + (t+1)*Ew. % , rr(t, Wd, Ewd, Hwd, Tw, W, Ewo, Hwo).
+                            Hw = Hwo + Ewo + (t+1)*Ew.
 
 % Inertia in ontic actions
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1),
                             not post(ACT, Ew, P, _), not post(ACT, Ew, -P, _), atom(P), holds(t, W, Ewo, Hwo, P),
-                            w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), Hw = Hwo + Ewo + (t+1)*Ew. % , rr(t, Wd, Ewd, Hwd, Tw, W, Ewo, Hwo).
+                            w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), Hw = Hwo + Ewo + (t+1)*Ew.
 
 -holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost1), formula(Fpost2),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), holds(t, W, Ewo, Hwo, P),
-                            post(ACT, Ew, P, Fpost1), post(ACT, Ew, -P, Fpost2), atom(P), time(T1),% time(T2), T1 <= t, T2 <= t,
+                            post(ACT, Ew, P, Fpost1), post(ACT, Ew, -P, Fpost2), atom(P),
                             not entails(t, W, Ewo, Hwo, Fpost1), not entails(t, W, Ewo, Hwo, Fpost2),
-                            Hw = Hwo + Ewo + (t+1)*Ew. % , rr(t, Wd, Ewd, Hwd, Tw, W, Ewo, Hwo).
+                            Hw = Hwo + Ewo + (t+1)*Ew.
 
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 1, 0), Ew = 0,
                             atom(P), holds(t, W, Ewo, Hwo, P),
@@ -114,7 +112,7 @@ holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(AC
 % Epistemic actions
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, Ew, _, 0),
                             atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), 
-                            Hw = Hwo + Ewo + (t+1)*Ew. % , rr(t, Wd, Ewd, Hwd, Tw, W, Ewo, Hwo).
+                            Hw = Hwo + Ewo + (t+1)*Ew.
 
 %%% Checking observability relations %%%
 obs(t, AG, f_obs) :- time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, true), agent(AG).
