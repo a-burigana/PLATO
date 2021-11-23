@@ -41,12 +41,12 @@ def generate_world(world, designated):
 def initialize_rank(world, rank_map):
 	key = generate_world_key(world)
 	splitted = re.split(',', key)
-	rank_map[(int(splitted[0])+1)*(int(splitted[2])+int(splitted[3])+1)] = SortedSet()
+	rank_map[2**int(splitted[0])+int(splitted[3])+1] = SortedSet()
 
 def generate_rank(world, rank_map):
 	key = generate_world_key(world)
 	splitted = re.split(',', key)
-	rank_map[(int(splitted[0])+1)*(int(splitted[2])+int(splitted[3])+1)].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
+	rank_map[2**int(splitted[0])+int(splitted[3])+1].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
 
 def generate_hold_key(hold):
 	replaced = re.sub('^holds\(', '', hold)
