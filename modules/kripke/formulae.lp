@@ -3,10 +3,10 @@
 #program step(t).
 
 check_on_w(t, W , Ew , Hw , F ) :- time(t), plan(t, ACT), action(ACT), pre(ACT, E, F), formula(F),
-                                   w(t, W, Ew, Hw), e(ACT, E, 0, _).
+                                   w(t, W, Ew, Hw), e(ACT, Ew, 0, _).
 
 check_on_w(t, W , Ew , Hw , F ) :- time(t), plan(t, ACT), action(ACT), post(ACT, E, P, F), formula(F),
-                                   w(t, W, Ew, Hw), e(ACT, E, 0, 1).
+                                   w(t, W, Ew, Hw), e(ACT, Ew, 0, 1).
 
 check_on_w(t, W , Ew , Hw , F ) :- time(t), goal(F), formula(F), dw(t, W, Ew, Hw).
 
