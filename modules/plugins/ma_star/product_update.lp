@@ -39,25 +39,32 @@ dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(A
 w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 1,
                      pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 1,
-                     pre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre),
-                     Hw = Hwo + Ewo + (t+1)*Ew.
+% w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 1,
+%                      pre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre),
+%                      Hw = Hwo + Ewo + (t+1)*Ew.
 
 % Sigma (epistemic)
 w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 2,
                      pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew.
 
 w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 2,
-                     pre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre),
+                     pre(ACT, Ew,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre),
                      Hw = Hwo + Ewo + (t+1)*Ew.
 
+w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 2,
+                     pre(ACT, Ew, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
+                     Hw = Hwo + Ewo + (t+1)*Ew.
 
 % Tau
 w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, 0), Ew = 1,
                      pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, p_obs).
 
 w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, 0), Ew = 1,
-                     pre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre),
+                     pre(ACT, Ew,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre),
+                     Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, p_obs).
+
+w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, 0), Ew = 1,
+                     pre(ACT, Ew, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
                      Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, p_obs).
 
 % Epsilon
@@ -99,7 +106,7 @@ holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(AC
                             not post(ACT, Ew, P, _), not post(ACT, Ew, -P, _), atom(P), holds(t, W, Ewo, Hwo, P),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), Hw = Hwo + Ewo + (t+1)*Ew.
 
--holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost1), formula(Fpost2),
+holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost1), formula(Fpost2),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), holds(t, W, Ewo, Hwo, P),
                             post(ACT, Ew, P, Fpost1), post(ACT, Ew, -P, Fpost2), atom(P),
                             not entails(t, W, Ewo, Hwo, Fpost1), not entails(t, W, Ewo, Hwo, Fpost2),
