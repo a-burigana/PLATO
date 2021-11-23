@@ -5,7 +5,7 @@
 %%% Applicability %%%
 applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), dpre(ACT, E, true).
 applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), w(t, W, Ew, Hw), dw(t, W, Ew, Hw),
-                               dpre(ACT, E, Fpre), formula(Fpre), entails(t, t, W, Ew, Hw, Fpre).
+                               dpre(ACT, E, Fpre), formula(Fpre), entails(t, W, Ew, Hw, Fpre).
 
 not_applicable(t, ACT) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), not applicable_event(t, ACT, E).
 applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
