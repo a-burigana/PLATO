@@ -4,7 +4,7 @@
 0 { plan(t, ACT) : action(ACT), applicable(t, ACT) } 1 :- time(t).
 
 % Test
-not_reached_goal(t) :- w(t, W, Ew, Hw), dw(t, W, Ew, Hw), not entails(t, t, W, Ew, Hw, F), goal(F), formula(F).
+not_reached_goal(t) :- w(t, W, Ew, Hw), dw(t, W, Ew, Hw), not entails(t, W, Ew, Hw, F), goal(F), formula(F).
 
 :- time(t), 0 { plan(t, _) } 0, not_reached_goal(t).
 :- time(t), plan(t, _), not not_reached_goal(t).
