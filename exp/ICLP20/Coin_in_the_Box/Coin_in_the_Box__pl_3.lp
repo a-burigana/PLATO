@@ -315,19 +315,12 @@ agent_set(all_agents).
 contains_ag(all_agents,a).
 contains_ag(all_agents,b).
 contains_ag(all_agents,c).
-formula(c(all_agents,has_key_a)).
 initially(c(all_agents,has_key_a)).
-formula(c(all_agents,-has_key_b)).
 initially(c(all_agents,-has_key_b)).
-formula(c(all_agents,-has_key_c)).
 initially(c(all_agents,-has_key_c)).
-formula(c(all_agents,-opened)).
 initially(c(all_agents,-opened)).
-formula(c(all_agents,looking_a)).
 initially(c(all_agents,looking_a)).
-formula(c(all_agents,-looking_b)).
 initially(c(all_agents,-looking_b)).
-formula(c(all_agents,-looking_c)).
 initially(c(all_agents,-looking_c)).
 
 
