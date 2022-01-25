@@ -4,8 +4,8 @@
 
 reaches(t, W, Ew, Hw,
         t, V, Ev, Hv, AGS) :- time(t),formula(c(AGS, F)), formula(F),
-                              w(t, W, Ew, Hw), w(Tv, V, Ev, Hv), check_on_w(t, W, Ew, Hw, c(AGS, F)),
-                              r(t, W, Ew, Hw, Tv, V, Ev, Hv, AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
+                              w(t, W, Ew, Hw), w(t, V, Ev, Hv), check_on_w(t, W, Ew, Hw, c(AGS, F)),
+                              r(t, W, Ew, Hw, t, V, Ev, Hv, AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
 
 reaches(t, W, Ew, Hw,
         t, V, Ev, Hv, AGS) :- time(t), formula(c(AGS, F)), formula(F),
