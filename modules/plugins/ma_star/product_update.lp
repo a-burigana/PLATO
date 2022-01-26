@@ -1,4 +1,4 @@
-% ********** mA^\rho PLUGIN **********
+% ********** mA^* PLUGIN **********
 
 semantics(kripke).
 
@@ -36,53 +36,54 @@ dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(A
                       dpre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = Hwo + Ewo + (t+1)*Ew.
 
 % Sigma (ontic)
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 1,
-                     pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew.
-
-% w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 1,
-%                      pre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre),
-%                      Hw = Hwo + Ewo + (t+1)*Ew.
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _),
+                    pre(ACT, 1, true), Hw = Hwo + Ewo + t+1.
 
 % Sigma (epistemic)
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 2,
-                     pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew.
+w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
+                    pre(ACT, 2, true), Hw = Hwo + Ewo + (t+1)*2.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 2,
-                     pre(ACT, Ew,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre),
-                     Hw = Hwo + Ewo + (t+1)*Ew.
+w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
+                    pre(ACT, 2,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre), Hw = Hwo + Ewo + (t+1)*2.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), Ew = 2,
-                     pre(ACT, Ew, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
-                     Hw = Hwo + Ewo + (t+1)*Ew.
+w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
+                    pre(ACT, 2, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre), Hw = Hwo + Ewo + (t+1)*2.
 
 % Tau
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, 0), Ew = 1,
-                     pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, p_obs).
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
+                    pre(ACT, 1, true), agent(AG), obs(t, AG, p_obs), Hw = Hwo + Ewo + t+1.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, 0), Ew = 1,
-                     pre(ACT, Ew,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre),
-                     Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, p_obs).
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
+                    pre(ACT, 1,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre),
+                    agent(AG), obs(t, AG, p_obs), Hw = Hwo + Ewo + t+1.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, 0), Ew = 1,
-                     pre(ACT, Ew, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
-                     Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, p_obs).
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
+                    pre(ACT, 1, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
+                    agent(AG), obs(t, AG, p_obs), Hw = Hwo + Ewo + t+1.
 
 % Epsilon
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo), e(ACT, Ew, 1, 0), Ew = 0,
-                     pre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew, agent(AG), obs(t, AG, obl).
+w(t+1, W, 0, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo), e(ACT, 0, 1, 0),
+                    pre(ACT, 0, true), agent(AG), obs(t, AG, obl), Hw = Hwo + Ewo.
+
 
 %%% Accessibility relations with meta-q
 r(t+1, W, Ew, Hw,
   t+1, V, Ev, Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS),
-                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, Ev, _, _), obs_type(OBS), OBS != all,
+                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, 0, _), e(ACT, Ev, 0, _), obs_type(OBS), OBS != all,
                          w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), Hw = Hwo + Ewo + (t+1)*Ew, Hv = Hvo + Evo + (t+1)*Ev,
                          r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, Ev, OBS).
 
 r(t+1, W, Ew, Hw,
-  t+1, V, Ev, Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG),
-                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, Ev, _, _),
-                         w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), Hw = Hwo + Ewo + (t+1)*Ew, Hv = Hvo + Evo + (t+1)*Ev,
-                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, Ev, all).
+  t+1, V, 0 , Evo+Hvo, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, obl),
+                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, 0, 1, 0),
+                         w(t+1, W, Ew, Hw), w(t+1, V, 0, Evo+Hvo), Hw = Hwo + Ewo + (t+1)*Ew,
+                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, 0, obl).
+
+r(t+1, W, 0 , Ewo+Hwo,
+  t+1, V, 0 , Evo+Hvo, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG),
+                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, 0, 1, 0), e(ACT, 0, 1, 0),
+                         w(t+1, W, 0, Ewo+Hwo), w(t+1, V, 0, Evo+Hvo),
+                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, 0, 0, all).
 
 
 % STEP 4: determine the interpretation of the worlds
@@ -112,9 +113,8 @@ holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(AC
                             not entails(t, W, Ewo, Hwo, Fpost1), not entails(t, W, Ewo, Hwo, Fpost2),
                             Hw = Hwo + Ewo + (t+1)*Ew.
 
-holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 1, 0), Ew = 0,
-                            atom(P), holds(t, W, Ewo, Hwo, P),
-                            w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), Hw = Hwo + Ewo + (t+1)*Ew.
+holds(t+1, W, 0 , Hwo+Ewo, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 0, 1, 0),
+                            atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, 0, Hwo+Ewo), w(t, W, Ewo, Hwo).
 
 % Epistemic actions
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, Ew, _, 0),

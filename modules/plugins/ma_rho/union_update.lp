@@ -31,13 +31,17 @@ check_on_w(t, W, Ew, Hw, F) :- time(t), action(ACT), dpre(ACT, E, F), formula(F)
 same_path(t, W, Ewo, Hwo, Ew, Hw ) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _),
                                       dw(t, W, Ewo, Hwo), de(ACT, Ew), Hw = Hwo + Ewo + (t+1)*Ew.
 
-same_path(t, W, Ewo, Hwo, Ew, Hw ) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS), obs_type(OBS),% OBS != obl,
-                                      w(t, W, Ewo, Hwo), e(ACT, Ew, _, _), w(t, W2, Ew2, Hw2), e(ACT, E2, _, _), same_path(t, W2, Ew2, Hw2, E2, _),
+same_path(t, W, Ewo, Hwo, Ew, Hw ) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS), obs_type(OBS), OBS != obl, OBS != all,
+                                      w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), w(t, W2, Ew2, Hw2), e(ACT, E2, _, _), same_path(t, W2, Ew2, Hw2, E2, _),
                                       r(t, W2, Ew2, Hw2, t, W, Ewo, Hwo, AG), metaq(ACT, E2, Ew, OBS), Hw = Hwo + Ewo + (t+1)*Ew.
 
-same_path(t, W, Ewo, Hwo, Ew, Hw ) :- time(t), plan(t, ACT), action(ACT), agent(AG), Ew = 0,
-                                      w(t, W, Ewo, Hwo), e(ACT, Ew, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, 1, 0), same_path(t, W2, Ew2, Hw2, E2, _),
-                                      r(t, W2, Ew2, Hw2, t, W, Ewo, Hwo, AG), metaq(ACT, E2, Ew, all), Hw = Hwo + Ewo + (t+1)*Ew.
+same_path(t, W, Ewo, Hwo, 0 , Hw ) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, obl),
+                                      w(t, W, Ewo, Hwo), e(ACT, 0, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, _, _), same_path(t, W2, Ew2, Hw2, E2, _),
+                                      r(t, W2, Ew2, Hw2, t, W, Ewo, Hwo, AG), metaq(ACT, E2, 0, obl), Hw = Hwo + Ewo.
+
+same_path(t, W, Ewo, Hwo, 0 , Hw ) :- time(t), plan(t, ACT), action(ACT), agent(AG),
+                                      w(t, W, Ewo, Hwo), e(ACT, 0, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, 1, 0), same_path(t, W2, Ew2, Hw2, E2, _),
+                                      r(t, W2, Ew2, Hw2, t, W, Ewo, Hwo, AG), metaq(ACT, E2, 0, all), Hw = Hwo + Ewo.
 
 % same_path(t, W, Ewo, Hwo, Ew, Hwo) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, obl),
 %                                       w(t, W, Ewo, Hwo), e(ACT, Ew, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, 1, 0), same_path(t, W2, Ew2, Hw2, E2, _),
@@ -49,69 +53,62 @@ same_path(t, W, Ewo, Hwo, Ew, Hw ) :- time(t), plan(t, ACT), action(ACT), agent(
 
 
 dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew),
-                      dpre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew. % , same_path(t, W, Ewo, Hwo, Ew, Hw).
+                      dpre(ACT, Ew, true), Hw = Hwo + Ewo + (t+1)*Ew. % same_path(t, W, Ewo, Hwo, Ew, Hw).
 
 dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew),
-                      dpre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = Hwo + Ewo + (t+1)*Ew. % , same_path(t, W, Ewo, Hwo, Ew, Hw).
+                      dpre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = Hwo + Ewo + (t+1)*Ew. % same_path(t, W, Ewo, Hwo, Ew, Hw).
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), dw(t+1, W, Ew, Hw), de(ACT, Ew).
+% w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), dw(t+1, W, Ew, Hw), de(ACT, Ew).
 
 % Sigma (ontic)
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 0, 1), Ew = 1, pre(ACT, Ew, true), agent(AG), obs(t, AG, f_obs),
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
-
-% w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT),     w(t, W, Ewo, Hwo),
-%                      e(ACT, Ew, 0, 1), Ew = 1, pre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), agent(AG), obs(t, AG, f_obs),
-%                      same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 1),
+                    pre(ACT, 1, true), same_path(t, W, Ewo, Hwo, 1, Hw), Hw = Hwo + Ewo + t+1.
 
 % Sigma (epistemic)
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 0, 0), Ew = 2, pre(ACT, Ew, true), agent(AG), obs(t, AG, OBS), obs_type(OBS), OBS != obl, OBS != all,
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, 0),
+                    pre(ACT, 2, true), same_path(t, W, Ewo, Hwo, 2, Hw), Hw = Hwo + Ewo + (t+1)*2.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 0, 0), Ew = 2, pre(ACT, Ew,  Fpre), atom(Fpre),  holds(t, W, Ewo, Hwo, Fpre), agent(AG), obs(t, AG, OBS), obs_type(OBS), OBS != obl, OBS != all,
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, 0),
+                    pre(ACT, 2,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre), same_path(t, W, Ewo, Hwo, 2, Hw), Hw = Hwo + Ewo + (t+1)*2.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 0, 0), Ew = 2, pre(ACT, Ew, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre), agent(AG), obs(t, AG, OBS), obs_type(OBS), OBS != obl, OBS != all,
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, 0),
+                    pre(ACT, 2, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre), same_path(t, W, Ewo, Hwo, 2, Hw), Hw = Hwo + Ewo + (t+1)*2.
 
 % Tau
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 0, 0), Ew = 1, pre(ACT, Ew, true), agent(AG), obs(t, AG, p_obs),
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
+                    pre(ACT, 1, true), agent(AG), obs(t, AG, p_obs), same_path(t, W, Ewo, Hwo, 1, Hw), Hw = Hwo + Ewo + t+1.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 0, 0), Ew = 1, pre(ACT, Ew,  Fpre), atom(Fpre), holds(t, W, Ewo, Hwo, Fpre), agent(AG), obs(t, AG, p_obs),
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
+                    pre(ACT, 1,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre),
+                    agent(AG), obs(t, AG, p_obs), same_path(t, W, Ewo, Hwo, 1, Hw), Hw = Hwo + Ewo + t+1.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 0, 0), Ew = 1, pre(ACT, Ew, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre), agent(AG), obs(t, AG, p_obs),
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
+                    pre(ACT, 1, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
+                    agent(AG), obs(t, AG, p_obs), same_path(t, W, Ewo, Hwo, 1, Hw), Hw = Hwo + Ewo + t+1.
 
 % Epsilon
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 1, 0), Ew = 0, pre(ACT, Ew, true), agent(AG), obs(t, AG, obl),
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
+w(t+1, W, 0, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo), e(ACT, 0, 1, 0),
+                    pre(ACT, 0, true), agent(AG), obs(t, AG, obl), same_path(t, W, Ewo, Hwo, 0, Hw), Hw = Hwo + Ewo.
 
-w(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo),
-                     e(ACT, Ew, 1, 0), Ew = 0, pre(ACT, Ew, true), agent(AG),
-                     same_path(t, W, Ewo, Hwo, Ew, Hw).
 
 %%% Accessibility relations with meta-q
 r(t+1, W, Ew, Hw,
   t+1, V, Ev, Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS),
-                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, Ev, _, _), obs_type(OBS), OBS != all,
-                         w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), same_path(t, W, Ewo, Hwo, Ew, Hw), same_path(t, V, Evo, Hvo, Ev, Hv),
+                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, 0, _), e(ACT, Ev, 0, _), obs_type(OBS), OBS != obl, OBS != all,
+                         w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), same_path(t, W, Ewo, Hwo, Ew, Hw), same_path(t, V, Evo, Hvo, Ev, Hv), Hw = Hwo + Ewo + (t+1)*Ew, Hv = Hvo + Evo + (t+1)*Ev,
                          r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, Ev, OBS).
 
 r(t+1, W, Ew, Hw,
-  t+1, V, Ev, Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG),
-                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, Ev, _, _),
-                         w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), same_path(t, W, Ewo, Hwo, Ew, Hw), same_path(t, V, Evo, Hvo, Ev, Hv),
-                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, Ev, all).
+  t+1, V, 0 , Evo+Hvo, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, obl),
+                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, 0, 1, 0),
+                         w(t+1, W, Ew, Hw), w(t+1, V, 0, Evo+Hvo), same_path(t, W, Ewo, Hwo, Ew, Hw), same_path(t, V, Evo, Hvo, 0, Evo+Hvo), Hw = Hwo + Ewo + (t+1)*Ew,
+                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, 0, obl).
+
+r(t+1, W, 0 , Ewo+Hwo,
+  t+1, V, 0 , Evo+Hvo, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG),
+                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, 0, 1, 0), e(ACT, 0, 1, 0),
+                         w(t+1, W, 0, Ewo+Hwo), w(t+1, V, 0, Evo+Hvo), same_path(t, W, Ewo, Hwo, 0, Ewo+Hwo), same_path(t, V, Evo, Hvo, 0, Evo+Hvo),
+                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, 0, 0, all).
 
 
 % STEP 4: determine the interpretation of the worlds
@@ -124,31 +121,30 @@ holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(AC
 % Postcondition is satisfied
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), post(ACT, Ew,  P, Fpost), atom(P), entails(t, W, Ewo, Hwo, Fpost),
-                            same_path(t, W, Ewo, Hwo, Ew, Hw).
+                            same_path(t, W, Ewo, Hwo, Ew, Hw), Hw = Hwo + Ewo + (t+1)*Ew.
 
 -holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), post(ACT, Ew, -P, Fpost), atom(P), entails(t, W, Ewo, Hwo, Fpost),
-                            same_path(t, W, Ewo, Hwo, Ew, Hw).
+                            same_path(t, W, Ewo, Hwo, Ew, Hw), Hw = Hwo + Ewo + (t+1)*Ew.
 
 % Inertia in ontic actions
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1),
                             not post(ACT, Ew, P, _), not post(ACT, Ew, -P, _), atom(P), holds(t, W, Ewo, Hwo, P),
-                            w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), same_path(t, W, Ewo, Hwo, Ew, Hw).
+                            w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), same_path(t, W, Ewo, Hwo, Ew, Hw), Hw = Hwo + Ewo + (t+1)*Ew.
 
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 0, 1), formula(Fpost1), formula(Fpost2),
                             w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), holds(t, W, Ewo, Hwo, P),
                             post(ACT, Ew, P, Fpost1), post(ACT, Ew, -P, Fpost2), atom(P),
                             not entails(t, W, Ewo, Hwo, Fpost1), not entails(t, W, Ewo, Hwo, Fpost2),
-                            same_path(t, W, Ewo, Hwo, Ew, Hw).
+                            same_path(t, W, Ewo, Hwo, Ew, Hw), Hw = Hwo + Ewo + (t+1)*Ew.
 
-holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, Ew, 1, 0), Ew = 0,
-                            atom(P), holds(t, W, Ewo, Hwo, P),
-                            w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), same_path(t, W, Ewo, Hwo, Ew, Hw).
+holds(t+1, W, 0 , Hwo+Ewo, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 0, 1, 0),
+                            atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, 0, Hwo+Ewo), w(t, W, Ewo, Hwo), same_path(t, W, Ewo, Hwo, 0, Hwo+Ewo).
 
 % Epistemic actions
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, Ew, _, 0),
                             atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), 
-                            same_path(t, W, Ewo, Hwo, Ew, Hw).
+                            same_path(t, W, Ewo, Hwo, Ew, Hw), Hw = Hwo + Ewo + (t+1)*Ew.
 
 %%% Checking observability relations %%%
 obs(t, AG, f_obs) :- time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, true), agent(AG).
