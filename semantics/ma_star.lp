@@ -1,5 +1,5 @@
 #include "modules/kripke/reachability.lp".
-#include "modules/kripke/formulae.lp".
+% #include "modules/kripke/formulae.lp".
 #include "modules/kripke/entailment.lp".
 
 #include "modules/plugins/initial_state.lp".
