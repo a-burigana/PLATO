@@ -41,6 +41,8 @@ dpre(ACT, 2, F) :- action(ACT), sensing(ACT), executable(ACT, F), formula(F).
 pre(ACT, 2,  P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
 pre(ACT, 1, -P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
 
+% \todo: what if wd |= -P?
+
 formula(-P) :- action(ACT), sensing(ACT), determines(ACT, P), atom(P).
 
 metaq(ACT, 2, 2, f_obs) :- action(ACT), sensing(ACT).

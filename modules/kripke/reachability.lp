@@ -3,7 +3,7 @@
 #program step(t).
 
 reaches(t, W, Ew, Hw,
-        t, V, Ev, Hv, AGS) :- time(t),formula(c(AGS, F)), formula(F),
+        t, V, Ev, Hv, AGS) :- time(t), formula(c(AGS, F)), formula(F),
                               w(t, W, Ew, Hw), w(t, V, Ev, Hv), %* check_on_w(t, W, Ew, Hw, c(AGS, F)), *%
                               r(t, W, Ew, Hw, t, V, Ev, Hv, AG), agent(AG), agent_set(AGS), contains_ag(AGS, AG).
 
