@@ -9,30 +9,26 @@ from collections import defaultdict
 from sortedcontainers import SortedSet, SortedDict
 
 
-def generate_designated(new_designated):
-	new_designated = re.sub('dw\(', '', new_designated)
-	new_designated = re.sub('\)$', '', new_designated)
-	return new_designated
+def generate_designated_key(designated):
+	replaced = re.sub('dw\(', '', designated)
+	replaced = re.sub('\)$', '', replaced)
+	return replaced
 
-def last_designated(new_designated,designated):
-	new_designated = generate_designated(new_designated)
-	np_splitted = new_designated.split(',')
-	p_splitted = designated.split(',')
-	if np_splitted[0] >= p_splitted[0]:
-		return np_splitted[0] + '_' + np_splitted[1] + '_' + np_splitted[2] + '_' + np_splitted[3]
-	else:
-		return p_splitted[0] + '_' + p_splitted[1] + '_' + np_splitted[2] + '_' + p_splitted[3]
+def generate_designated(designated):
+	key = generate_designated_key(designated)
+	splitted = key.split(',')
+	return splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
 
 def generate_world_key(world):
 	replaced = re.sub('w\(', '', world)
 	replaced = re.sub('\)$', '', replaced)
 	return replaced
 
-def generate_world(world, designated):
+def generate_world(world, des_worlds):
 	key = generate_world_key(world)
 	splitted = key.split(',')
 	key = splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
-	if (key) != designated:
+	if key not in des_worlds:
 		print('\tnode [shape = circle] "' + key + '";', file = outputfile)
 	else:
 		print('\tnode [shape = doublecircle] "' + key + '";', file = outputfile)
@@ -41,12 +37,12 @@ def generate_world(world, designated):
 def initialize_rank(world, rank_map):
 	key = generate_world_key(world)
 	splitted = re.split(',', key)
-	rank_map[2**int(splitted[0])+int(splitted[3])+1] = SortedSet()
+	rank_map[2**int(splitted[0])+int(splitted[3])+int(splitted[1])+1] = SortedSet()
 
 def generate_rank(world, rank_map):
 	key = generate_world_key(world)
 	splitted = re.split(',', key)
-	rank_map[2**int(splitted[0])+int(splitted[3])+1].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
+	rank_map[2**int(splitted[0])+int(splitted[3])+int(splitted[1])+1].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
 
 def generate_hold_key(hold):
 	replaced = re.sub('^holds\(', '', hold)
@@ -167,16 +163,16 @@ with open(sys.argv[1]+'.txt', 'r') as n:
 	# n = simplify_names(n)
 
 	#DESIGNATED
+	des_worlds = set()
 	designateds = re.findall(n_designated, n)
-	for new_designated in designateds:
-		designated = last_designated(new_designated,designated)
-
+	for designated in designateds:
+		des_worlds.add(generate_designated(designated))
 
 	#WORLDS
 	poss_world = set()
 	worlds = re.findall(n_world, n)
 	for world in worlds:
-		poss_world.add(generate_world(world,designated))
+		poss_world.add(generate_world(world,des_worlds))
 
 	#RANK
 	cluster_map = SortedDict()
