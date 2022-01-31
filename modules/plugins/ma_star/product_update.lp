@@ -102,14 +102,12 @@ r(t+1, W, 0 , Hw,
 
 
 % STEP 4: determine the interpretation of the worlds
-holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            w(t+1, W, 1, Hw), post(ACT, 1,  P, true), atom(P).
+holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), w(t+1, W, 1, Hw), post(ACT, 1,  P, true), atom(P).
 
--holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            w(t+1, W, 1, Hw), post(ACT, 1, -P, true), atom(P).
+-holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), w(t+1, W, 1, Hw), post(ACT, 1, -P, true), atom(P).
 
 % Postcondition is satisfied
-holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost),
+holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost),
                             w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo), post(ACT, 1,  P, Fpost), atom(P), entails(t, W, Ewo, Hwo, Fpost),
                             Hw = (t+1) * Hwo + Ewo + 1.
 
@@ -118,23 +116,20 @@ holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT
                             Hw = (t+1) * Hwo + Ewo + 1.
 
 % Inertia in ontic actions
-holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
+holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
                             not post(ACT, 1, P, _), not post(ACT, 1, -P, _), atom(P), holds(t, W, Ewo, Hwo, P),
                             w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo), Hw = (t+1) * Hwo + Ewo + 1.
 
-holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost1), formula(Fpost2),
-                            w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo), holds(t, W, Ewo, Hwo, P),
-                            post(ACT, 1, P, Fpost1), post(ACT, 1, -P, Fpost2), atom(P),
-                            not entails(t, W, Ewo, Hwo, Fpost1), not entails(t, W, Ewo, Hwo, Fpost2),
-                            Hw = (t+1) * Hwo + Ewo + 1.
+holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost1), formula(Fpost2),
+                            post(ACT, 1, P, Fpost1), post(ACT, 1, -P, Fpost2), atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo),
+                            not entails(t, W, Ewo, Hwo, Fpost1), not entails(t, W, Ewo, Hwo, Fpost2), Hw = (t+1) * Hwo + Ewo + 1.
 
-holds(t+1, W, 0, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 0, 1, 0),
+holds(t+1, W, 0, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 0, 1, 0),
                             atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, 0, Hw), w(t, W, Ewo, Hwo), Hw = (t+1) * Hwo + Ewo.
 
 % Epistemic actions
 holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, Ew, _, 0),
-                            atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), 
-                            Hw = (t+1) * Hwo + Ewo + Ew.
+                            atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), Hw = (t+1) * Hwo + Ewo + Ew.
 
 
 %%% Checking observability relations %%%
