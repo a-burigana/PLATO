@@ -36,49 +36,22 @@ dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(A
                       dpre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + Ew.
 
 
-% rr(t, Wd, Ewd, Hwd) :- time(t), dw(t, Wd, Ewd, Hwd).
-% rr(t, W , Ew , Hw ) :- time(t), dw(t, Wd, Ewd, Hwd), w(t, W, Ew, Hw), r(t, Wd, Ewd, Hwd, t, W, Ew, Hw, AG), agent(AG).
-% rr(t, W , Ew , Hw ) :- time(t), w(t, W, Ew, Hw), w(t, V, Ev, Hv),
-%                        rr(t, V, Ev, Hv), r(t, V, Ev, Hv, t, W, Ew, Hw, AG), agent(AG).
-
-
 % Sigma (ontic)
 w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _),
-                    pre(ACT, 1, true), Hw = (t+1) * Hwo + Ewo + 1.%,
-                    % rr(t, Wo, Ewo, Hwo).
+                    pre(ACT, 1, true), Hw = (t+1) * Hwo + Ewo + 1.
 
 % Sigma (epistemic)
 w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
-                    pre(ACT, 2, true), Hw = (t+1) * Hwo + Ewo + 2.%,
-                    % rr(t, Wo, Ewo, Hwo).
-
-w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
-                    pre(ACT, 2,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + 2.%,
-                    % rr(t, Wo, Ewo, Hwo).
-
-% w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
-%                     pre(ACT, 2, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + 2.%,
-%                     % rr(t, Wo, Ewo, Hwo).
+                    pre(ACT, 2,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + 2.
 
 % Tau
 w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
-                    pre(ACT, 1, true), agent(AG), obs(t, AG, p_obs), Hw = (t+1) * Hwo + Ewo + 1.%,
-                    % rr(t, Wo, Ewo, Hwo).
-
-% w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
-%                     pre(ACT, 1,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre),
-%                     agent(AG), obs(t, AG, p_obs), Hw = (t+1) * Hwo + Ewo + 1.%,
-%                     % rr(t, Wo, Ewo, Hwo).
-
-w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
                     pre(ACT, 1, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
-                    agent(AG), obs(t, AG, p_obs), Hw = (t+1) * Hwo + Ewo + 1.%,
-                    % rr(t, Wo, Ewo, Hwo).
+                    agent(AG), obs(t, AG, p_obs), Hw = (t+1) * Hwo + Ewo + 1.
 
 % Epsilon
 w(t+1, W, 0, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo), e(ACT, 0, 1, 0),
-                    pre(ACT, 0, true), agent(AG), obs(t, AG, obl), Hw = (t+1) * Hwo + Ewo.%,
-                    % rr(t, Wo, Ewo, Hwo).
+                    pre(ACT, 0, true), agent(AG), obs(t, AG, obl), Hw = (t+1) * Hwo + Ewo.
 
 
 %%% Accessibility relations with meta-q
