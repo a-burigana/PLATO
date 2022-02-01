@@ -1,10 +1,3 @@
-#const maxT  = 2.
-#const n_fl  = 8.
-#const n_ag  = 3.
-#const n_ags = 7.
-
-%time(0..maxT).
-
 % *** ATOMS ***
 atom(has_key_a).
 formula(has_key_a).
@@ -333,9 +326,3 @@ init_sf(-opened).
 init_sf(looking_a).
 init_sf(-looking_b).
 init_sf(-looking_c).
-
-
-% *** GOALS ***
-goal(b(a,tail)).
-
-
