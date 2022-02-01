@@ -56,29 +56,13 @@ w(t+1, W, 1, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic
 
 % Sigma (epistemic)
 w(t+1, W, 2, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 2, 0, 0),
-                    pre(ACT, 2, true), same_path(t, Tw, W, Ewo, Hwo, 2, Hw).
-
-w(t+1, W, 2, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 2, 0, 0),
                     pre(ACT, 2,  Fpre), atom(Fpre),     holds(Tw, W, Ewo, Hwo, Fpre), same_path(t, Tw, W, Ewo, Hwo, 2, Hw).
-                    % pre(ACT, 2,  Fpre), atom(Fpre), dw(t, Wd, Ewd, Hwd),
-                    % holds(Tw, W, Ewo, Hwo, Fpre), holds(t, Wd, Ewd, Hwd, Fpre), same_path(t, Tw, W, Ewo, Hwo, 2, Hw).
-
-% w(t+1, W, 2, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 2, 0, 0),
-%                     pre(ACT, 2, -Fpre), atom(Fpre), not holds(Tw, W, Ewo, Hwo, Fpre), same_path(t, Tw, W, Ewo, Hwo, 2, Hw).
 
 % Tau
 w(t+1, W, 1, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 1, 0, 0),
-                    pre(ACT, 1, true), agent(AG), obs(t, AG, p_obs), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+                    pre(ACT, 1, -Fpre), atom(Fpre), not holds(Tw, W, Ewo, Hwo, Fpre), same_path(t, Tw, W, Ewo, Hwo, 1, Hw),
+                    agent(AG), obs(t, AG, p_obs).
 
-% w(t+1, W, 1, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 1, 0, 0),
-%                     pre(ACT, 1,  Fpre), atom(Fpre),     holds(Tw, W, Ewo, Hwo, Fpre),
-%                     agent(AG), obs(t, AG, p_obs), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
-
-w(t+1, W, 1, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 1, 0, 0),
-                    pre(ACT, 1, -Fpre), atom(Fpre), not holds(Tw, W, Ewo, Hwo, Fpre),
-                    agent(AG), obs(t, AG, p_obs), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
-                    % pre(ACT, 1, -Fpre), atom(Fpre), dw(t, Wd, Ewd, Hwd), agent(AG), obs(t, AG, p_obs),
-                    % not holds(Tw, W, Ewo, Hwo, Fpre), not holds(t, Wd, Ewd, Hwd, Fpre), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
 
 %%% Accessibility relations with meta-q
 r(t+1, W, Ew, Hw,
