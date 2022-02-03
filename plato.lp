@@ -11,11 +11,11 @@ time(t).
 %%% SEMANTICS %%%
 % #include "semantics/delphic.lp".
 % #include "semantics/ma_rho.lp".
-#include "semantics/ma_star.lp".
+% #include "semantics/ma_star.lp".
 
 
 %%% RUN CONFIGURATION %%%
-#include "run_config/find_plan.lp".
+% #include "run_config/find_plan.lp".
 % #include "run_config/debug.lp".
 
 
