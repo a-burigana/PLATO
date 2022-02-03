@@ -1,9 +1,6 @@
 # Project
 .vscode/
-testing/
 old_versions/
-modules/actions/
-exp/test/*
 run_config/debug.lp
 
 # Out files
