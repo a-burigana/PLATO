@@ -1,10 +1,4 @@
 % *** ATOMS ***
-atom(has_key_a).
-formula(has_key_a).
-atom(has_key_b).
-formula(has_key_b).
-atom(has_key_c).
-formula(has_key_c).
 atom(looking_a).
 formula(looking_a).
 atom(looking_b).
@@ -108,32 +102,11 @@ oblivious(distract_c_b, a).
 action(open_a).
 ontic(open_a).
 causes(open_a, opened, true).
-executable(open_a, true).
+formula(-opened).
+executable(open_a, -opened).
 observes(open_a, a, true).
 observes(open_a, b, looking_b).
 observes(open_a, c, looking_c).
-
-
-action(open_b).
-ontic(open_b).
-causes(open_b, opened, true).
-formula(b(b,has_key_b)).
-formula(and(b(b,has_key_b),has_key_b)).
-executable(open_b, and(b(b,has_key_b),has_key_b)).
-observes(open_b, a, looking_a).
-observes(open_b, b, true).
-observes(open_b, c, looking_c).
-
-
-action(open_c).
-ontic(open_c).
-causes(open_c, opened, true).
-formula(b(c,has_key_c)).
-formula(and(b(c,has_key_c),has_key_c)).
-executable(open_c, and(b(c,has_key_c),has_key_c)).
-observes(open_c, a, looking_a).
-observes(open_c, b, looking_b).
-observes(open_c, c, true).
 
 
 action(peek_a).
@@ -291,15 +264,9 @@ oblivious(signal_c_b, a).
 % *** INITIALLY ***
 
 % ** initial pointed **
-initially(has_key_a).
-formula(-has_key_b).
-initially(-has_key_b).
-formula(-has_key_c).
-initially(-has_key_c).
 initially(looking_a).
 initially(-looking_b).
 initially(-looking_c).
-formula(-opened).
 initially(-opened).
 initially(tail).
 
@@ -308,9 +275,6 @@ agent_set(all_agents).
 contains_ag(all_agents,a).
 contains_ag(all_agents,b).
 contains_ag(all_agents,c).
-initially(c(all_agents,has_key_a)).
-initially(c(all_agents,-has_key_b)).
-initially(c(all_agents,-has_key_c)).
 initially(c(all_agents,-opened)).
 initially(c(all_agents,looking_a)).
 initially(c(all_agents,-looking_b)).
