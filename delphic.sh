@@ -1,8 +1,5 @@
 
 #!/bin/bash
-# INSTANCE="$1"    # Name of the instance
-# shift            # Shift all arguments to the left (original $1 gets lost)
-# ARGUMENTS=("$@") # Rebuild the array with rest of arguments
 PYTHON_PATH="scripts/python"
 OUT_PATH="out/states"
 
