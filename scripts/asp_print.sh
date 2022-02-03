@@ -13,7 +13,7 @@ OUT_PATH="out/states"
 mkdir -p $OUT_PATH
 
 cd $PLATO_PATH
-clingo plato.lp --configuration=frumpy --heuristic=Vsids -t 2 $DOMAIN $INSTANCE > $OUT_PATH/output.txt;
+clingo plato.lp --configuration=frumpy --heuristic=Vsids -t 2 $DOMAIN/domain.lp $DOMAIN/$INSTANCE > $OUT_PATH/output.txt;
 python3 $PYTHON_PATH/out_render.py $OUT_PATH/output;
 dot -Tpdf $OUT_PATH/output.dot > $OUT_PATH/output.pdf;
 
