@@ -1,10 +1,3 @@
-#const maxT  = 4.
-#const n_fl  = 12.
-#const n_ag  = 4.
-#const n_ags = 15.
-
-%time(0..maxT).
-
 % *** ATOMS ***
 atom(at_a_1).
 formula(at_a_1).
@@ -22,6 +15,10 @@ atom(at_d_1).
 formula(at_d_1).
 atom(at_d_2).
 formula(at_d_2).
+atom(at_e_1).
+formula(at_e_1).
+atom(at_e_2).
+formula(at_e_2).
 atom(sa).
 formula(sa).
 atom(sb).
@@ -30,6 +27,8 @@ atom(sc).
 formula(sc).
 atom(sd).
 formula(sd).
+atom(se).
+formula(se).
 
 
 % *** AGENTS ***
@@ -37,6 +36,7 @@ agent(a).
 agent(b).
 agent(c).
 agent(d).
+agent(e).
 
 
 % *** ACTIONS ***
@@ -46,10 +46,11 @@ causes(left_a, at_a_1, true).
 formula(-at_a_2).
 causes(left_a, -at_a_2, true).
 executable(left_a, at_a_2).
-oblivious(left_a, a).
-oblivious(left_a, b).
-oblivious(left_a, c).
-oblivious(left_a, d).
+observes(left_a, a, at_a_2).
+observes(left_a, b, at_b_2).
+observes(left_a, c, at_c_2).
+observes(left_a, d, at_d_2).
+observes(left_a, e, at_e_2).
 
 
 action(left_b).
@@ -58,10 +59,11 @@ causes(left_b, at_b_1, true).
 formula(-at_b_2).
 causes(left_b, -at_b_2, true).
 executable(left_b, at_b_2).
-oblivious(left_b, a).
-oblivious(left_b, b).
-oblivious(left_b, c).
-oblivious(left_b, d).
+observes(left_b, a, at_a_2).
+observes(left_b, b, at_b_2).
+observes(left_b, c, at_c_2).
+observes(left_b, d, at_d_2).
+observes(left_b, e, at_e_2).
 
 
 action(left_c).
@@ -70,10 +72,11 @@ causes(left_c, at_c_1, true).
 formula(-at_c_2).
 causes(left_c, -at_c_2, true).
 executable(left_c, at_c_2).
-oblivious(left_c, a).
-oblivious(left_c, b).
-oblivious(left_c, c).
-oblivious(left_c, d).
+observes(left_c, a, at_a_2).
+observes(left_c, b, at_b_2).
+observes(left_c, c, at_c_2).
+observes(left_c, d, at_d_2).
+observes(left_c, e, at_e_2).
 
 
 action(left_d).
@@ -82,10 +85,24 @@ causes(left_d, at_d_1, true).
 formula(-at_d_2).
 causes(left_d, -at_d_2, true).
 executable(left_d, at_d_2).
-oblivious(left_d, a).
-oblivious(left_d, b).
-oblivious(left_d, c).
-oblivious(left_d, d).
+observes(left_d, a, at_a_2).
+observes(left_d, b, at_b_2).
+observes(left_d, c, at_c_2).
+observes(left_d, d, at_d_2).
+observes(left_d, e, at_e_2).
+
+
+action(left_e).
+ontic(left_e).
+causes(left_e, at_e_1, true).
+formula(-at_e_2).
+causes(left_e, -at_e_2, true).
+executable(left_e, at_e_2).
+observes(left_e, a, at_a_2).
+observes(left_e, b, at_b_2).
+observes(left_e, c, at_c_2).
+observes(left_e, d, at_d_2).
+observes(left_e, e, at_e_2).
 
 
 action(right_a).
@@ -94,10 +111,11 @@ formula(-at_a_1).
 causes(right_a, -at_a_1, true).
 causes(right_a, at_a_2, true).
 executable(right_a, at_a_1).
-oblivious(right_a, a).
-oblivious(right_a, b).
-oblivious(right_a, c).
-oblivious(right_a, d).
+observes(right_a, a, at_a_1).
+observes(right_a, b, at_b_1).
+observes(right_a, c, at_c_1).
+observes(right_a, d, at_d_1).
+observes(right_a, e, at_e_1).
 
 
 action(right_b).
@@ -106,10 +124,11 @@ formula(-at_b_1).
 causes(right_b, -at_b_1, true).
 causes(right_b, at_b_2, true).
 executable(right_b, at_b_1).
-oblivious(right_b, a).
-oblivious(right_b, b).
-oblivious(right_b, c).
-oblivious(right_b, d).
+observes(right_b, a, at_a_1).
+observes(right_b, b, at_b_1).
+observes(right_b, c, at_c_1).
+observes(right_b, d, at_d_1).
+observes(right_b, e, at_e_1).
 
 
 action(right_c).
@@ -118,10 +137,11 @@ formula(-at_c_1).
 causes(right_c, -at_c_1, true).
 causes(right_c, at_c_2, true).
 executable(right_c, at_c_1).
-oblivious(right_c, a).
-oblivious(right_c, b).
-oblivious(right_c, c).
-oblivious(right_c, d).
+observes(right_c, a, at_a_1).
+observes(right_c, b, at_b_1).
+observes(right_c, c, at_c_1).
+observes(right_c, d, at_d_1).
+observes(right_c, e, at_e_1).
 
 
 action(right_d).
@@ -130,10 +150,24 @@ formula(-at_d_1).
 causes(right_d, -at_d_1, true).
 causes(right_d, at_d_2, true).
 executable(right_d, at_d_1).
-oblivious(right_d, a).
-oblivious(right_d, b).
-oblivious(right_d, c).
-oblivious(right_d, d).
+observes(right_d, a, at_a_1).
+observes(right_d, b, at_b_1).
+observes(right_d, c, at_c_1).
+observes(right_d, d, at_d_1).
+observes(right_d, e, at_e_1).
+
+
+action(right_e).
+ontic(right_e).
+formula(-at_e_1).
+causes(right_e, -at_e_1, true).
+causes(right_e, at_e_2, true).
+executable(right_e, at_e_1).
+observes(right_e, a, at_a_1).
+observes(right_e, b, at_b_1).
+observes(right_e, c, at_c_1).
+observes(right_e, d, at_d_1).
+observes(right_e, e, at_e_1).
 
 
 action(share_a_sa_1).
@@ -146,6 +180,7 @@ observes(share_a_sa_1, a, at_a_1).
 observes(share_a_sa_1, b, at_b_1).
 observes(share_a_sa_1, c, at_c_1).
 observes(share_a_sa_1, d, at_d_1).
+observes(share_a_sa_1, e, at_e_1).
 
 
 action(share_a_sa_2).
@@ -157,6 +192,7 @@ observes(share_a_sa_2, a, at_a_2).
 observes(share_a_sa_2, b, at_b_2).
 observes(share_a_sa_2, c, at_c_2).
 observes(share_a_sa_2, d, at_d_2).
+observes(share_a_sa_2, e, at_e_2).
 
 
 action(share_a_sb_1).
@@ -169,6 +205,7 @@ observes(share_a_sb_1, a, at_a_1).
 observes(share_a_sb_1, b, at_b_1).
 observes(share_a_sb_1, c, at_c_1).
 observes(share_a_sb_1, d, at_d_1).
+observes(share_a_sb_1, e, at_e_1).
 
 
 action(share_a_sb_2).
@@ -180,6 +217,7 @@ observes(share_a_sb_2, a, at_a_2).
 observes(share_a_sb_2, b, at_b_2).
 observes(share_a_sb_2, c, at_c_2).
 observes(share_a_sb_2, d, at_d_2).
+observes(share_a_sb_2, e, at_e_2).
 
 
 action(share_a_sc_1).
@@ -192,6 +230,7 @@ observes(share_a_sc_1, a, at_a_1).
 observes(share_a_sc_1, b, at_b_1).
 observes(share_a_sc_1, c, at_c_1).
 observes(share_a_sc_1, d, at_d_1).
+observes(share_a_sc_1, e, at_e_1).
 
 
 action(share_a_sc_2).
@@ -203,6 +242,7 @@ observes(share_a_sc_2, a, at_a_2).
 observes(share_a_sc_2, b, at_b_2).
 observes(share_a_sc_2, c, at_c_2).
 observes(share_a_sc_2, d, at_d_2).
+observes(share_a_sc_2, e, at_e_2).
 
 
 action(share_a_sd_1).
@@ -215,6 +255,7 @@ observes(share_a_sd_1, a, at_a_1).
 observes(share_a_sd_1, b, at_b_1).
 observes(share_a_sd_1, c, at_c_1).
 observes(share_a_sd_1, d, at_d_1).
+observes(share_a_sd_1, e, at_e_1).
 
 
 action(share_a_sd_2).
@@ -226,6 +267,32 @@ observes(share_a_sd_2, a, at_a_2).
 observes(share_a_sd_2, b, at_b_2).
 observes(share_a_sd_2, c, at_c_2).
 observes(share_a_sd_2, d, at_d_2).
+observes(share_a_sd_2, e, at_e_2).
+
+
+action(share_a_se_1).
+announcement(share_a_se_1).
+announces(share_a_se_1, se).
+formula(b(a,se)).
+formula(and(b(a,se),at_a_1)).
+executable(share_a_se_1, and(b(a,se),at_a_1)).
+observes(share_a_se_1, a, at_a_1).
+observes(share_a_se_1, b, at_b_1).
+observes(share_a_se_1, c, at_c_1).
+observes(share_a_se_1, d, at_d_1).
+observes(share_a_se_1, e, at_e_1).
+
+
+action(share_a_se_2).
+announcement(share_a_se_2).
+announces(share_a_se_2, se).
+formula(and(b(a,se),at_a_2)).
+executable(share_a_se_2, and(b(a,se),at_a_2)).
+observes(share_a_se_2, a, at_a_2).
+observes(share_a_se_2, b, at_b_2).
+observes(share_a_se_2, c, at_c_2).
+observes(share_a_se_2, d, at_d_2).
+observes(share_a_se_2, e, at_e_2).
 
 
 action(share_b_sa_1).
@@ -238,6 +305,7 @@ observes(share_b_sa_1, a, at_a_1).
 observes(share_b_sa_1, b, at_b_1).
 observes(share_b_sa_1, c, at_c_1).
 observes(share_b_sa_1, d, at_d_1).
+observes(share_b_sa_1, e, at_e_1).
 
 
 action(share_b_sa_2).
@@ -249,6 +317,7 @@ observes(share_b_sa_2, a, at_a_2).
 observes(share_b_sa_2, b, at_b_2).
 observes(share_b_sa_2, c, at_c_2).
 observes(share_b_sa_2, d, at_d_2).
+observes(share_b_sa_2, e, at_e_2).
 
 
 action(share_b_sb_1).
@@ -261,6 +330,7 @@ observes(share_b_sb_1, a, at_a_1).
 observes(share_b_sb_1, b, at_b_1).
 observes(share_b_sb_1, c, at_c_1).
 observes(share_b_sb_1, d, at_d_1).
+observes(share_b_sb_1, e, at_e_1).
 
 
 action(share_b_sb_2).
@@ -272,6 +342,7 @@ observes(share_b_sb_2, a, at_a_2).
 observes(share_b_sb_2, b, at_b_2).
 observes(share_b_sb_2, c, at_c_2).
 observes(share_b_sb_2, d, at_d_2).
+observes(share_b_sb_2, e, at_e_2).
 
 
 action(share_b_sc_1).
@@ -284,6 +355,7 @@ observes(share_b_sc_1, a, at_a_1).
 observes(share_b_sc_1, b, at_b_1).
 observes(share_b_sc_1, c, at_c_1).
 observes(share_b_sc_1, d, at_d_1).
+observes(share_b_sc_1, e, at_e_1).
 
 
 action(share_b_sc_2).
@@ -295,6 +367,7 @@ observes(share_b_sc_2, a, at_a_2).
 observes(share_b_sc_2, b, at_b_2).
 observes(share_b_sc_2, c, at_c_2).
 observes(share_b_sc_2, d, at_d_2).
+observes(share_b_sc_2, e, at_e_2).
 
 
 action(share_b_sd_1).
@@ -307,6 +380,7 @@ observes(share_b_sd_1, a, at_a_1).
 observes(share_b_sd_1, b, at_b_1).
 observes(share_b_sd_1, c, at_c_1).
 observes(share_b_sd_1, d, at_d_1).
+observes(share_b_sd_1, e, at_e_1).
 
 
 action(share_b_sd_2).
@@ -318,6 +392,32 @@ observes(share_b_sd_2, a, at_a_2).
 observes(share_b_sd_2, b, at_b_2).
 observes(share_b_sd_2, c, at_c_2).
 observes(share_b_sd_2, d, at_d_2).
+observes(share_b_sd_2, e, at_e_2).
+
+
+action(share_b_se_1).
+announcement(share_b_se_1).
+announces(share_b_se_1, se).
+formula(b(b,se)).
+formula(and(b(b,se),at_b_1)).
+executable(share_b_se_1, and(b(b,se),at_b_1)).
+observes(share_b_se_1, a, at_a_1).
+observes(share_b_se_1, b, at_b_1).
+observes(share_b_se_1, c, at_c_1).
+observes(share_b_se_1, d, at_d_1).
+observes(share_b_se_1, e, at_e_1).
+
+
+action(share_b_se_2).
+announcement(share_b_se_2).
+announces(share_b_se_2, se).
+formula(and(b(b,se),at_b_2)).
+executable(share_b_se_2, and(b(b,se),at_b_2)).
+observes(share_b_se_2, a, at_a_2).
+observes(share_b_se_2, b, at_b_2).
+observes(share_b_se_2, c, at_c_2).
+observes(share_b_se_2, d, at_d_2).
+observes(share_b_se_2, e, at_e_2).
 
 
 action(share_c_sa_1).
@@ -330,6 +430,7 @@ observes(share_c_sa_1, a, at_a_1).
 observes(share_c_sa_1, b, at_b_1).
 observes(share_c_sa_1, c, at_c_1).
 observes(share_c_sa_1, d, at_d_1).
+observes(share_c_sa_1, e, at_e_1).
 
 
 action(share_c_sa_2).
@@ -341,6 +442,7 @@ observes(share_c_sa_2, a, at_a_2).
 observes(share_c_sa_2, b, at_b_2).
 observes(share_c_sa_2, c, at_c_2).
 observes(share_c_sa_2, d, at_d_2).
+observes(share_c_sa_2, e, at_e_2).
 
 
 action(share_c_sb_1).
@@ -353,6 +455,7 @@ observes(share_c_sb_1, a, at_a_1).
 observes(share_c_sb_1, b, at_b_1).
 observes(share_c_sb_1, c, at_c_1).
 observes(share_c_sb_1, d, at_d_1).
+observes(share_c_sb_1, e, at_e_1).
 
 
 action(share_c_sb_2).
@@ -364,6 +467,7 @@ observes(share_c_sb_2, a, at_a_2).
 observes(share_c_sb_2, b, at_b_2).
 observes(share_c_sb_2, c, at_c_2).
 observes(share_c_sb_2, d, at_d_2).
+observes(share_c_sb_2, e, at_e_2).
 
 
 action(share_c_sc_1).
@@ -376,6 +480,7 @@ observes(share_c_sc_1, a, at_a_1).
 observes(share_c_sc_1, b, at_b_1).
 observes(share_c_sc_1, c, at_c_1).
 observes(share_c_sc_1, d, at_d_1).
+observes(share_c_sc_1, e, at_e_1).
 
 
 action(share_c_sc_2).
@@ -387,6 +492,7 @@ observes(share_c_sc_2, a, at_a_2).
 observes(share_c_sc_2, b, at_b_2).
 observes(share_c_sc_2, c, at_c_2).
 observes(share_c_sc_2, d, at_d_2).
+observes(share_c_sc_2, e, at_e_2).
 
 
 action(share_c_sd_1).
@@ -399,6 +505,7 @@ observes(share_c_sd_1, a, at_a_1).
 observes(share_c_sd_1, b, at_b_1).
 observes(share_c_sd_1, c, at_c_1).
 observes(share_c_sd_1, d, at_d_1).
+observes(share_c_sd_1, e, at_e_1).
 
 
 action(share_c_sd_2).
@@ -410,6 +517,32 @@ observes(share_c_sd_2, a, at_a_2).
 observes(share_c_sd_2, b, at_b_2).
 observes(share_c_sd_2, c, at_c_2).
 observes(share_c_sd_2, d, at_d_2).
+observes(share_c_sd_2, e, at_e_2).
+
+
+action(share_c_se_1).
+announcement(share_c_se_1).
+announces(share_c_se_1, se).
+formula(b(c,se)).
+formula(and(b(c,se),at_c_1)).
+executable(share_c_se_1, and(b(c,se),at_c_1)).
+observes(share_c_se_1, a, at_a_1).
+observes(share_c_se_1, b, at_b_1).
+observes(share_c_se_1, c, at_c_1).
+observes(share_c_se_1, d, at_d_1).
+observes(share_c_se_1, e, at_e_1).
+
+
+action(share_c_se_2).
+announcement(share_c_se_2).
+announces(share_c_se_2, se).
+formula(and(b(c,se),at_c_2)).
+executable(share_c_se_2, and(b(c,se),at_c_2)).
+observes(share_c_se_2, a, at_a_2).
+observes(share_c_se_2, b, at_b_2).
+observes(share_c_se_2, c, at_c_2).
+observes(share_c_se_2, d, at_d_2).
+observes(share_c_se_2, e, at_e_2).
 
 
 action(share_d_sa_1).
@@ -422,6 +555,7 @@ observes(share_d_sa_1, a, at_a_1).
 observes(share_d_sa_1, b, at_b_1).
 observes(share_d_sa_1, c, at_c_1).
 observes(share_d_sa_1, d, at_d_1).
+observes(share_d_sa_1, e, at_e_1).
 
 
 action(share_d_sa_2).
@@ -433,6 +567,7 @@ observes(share_d_sa_2, a, at_a_2).
 observes(share_d_sa_2, b, at_b_2).
 observes(share_d_sa_2, c, at_c_2).
 observes(share_d_sa_2, d, at_d_2).
+observes(share_d_sa_2, e, at_e_2).
 
 
 action(share_d_sb_1).
@@ -445,6 +580,7 @@ observes(share_d_sb_1, a, at_a_1).
 observes(share_d_sb_1, b, at_b_1).
 observes(share_d_sb_1, c, at_c_1).
 observes(share_d_sb_1, d, at_d_1).
+observes(share_d_sb_1, e, at_e_1).
 
 
 action(share_d_sb_2).
@@ -456,6 +592,7 @@ observes(share_d_sb_2, a, at_a_2).
 observes(share_d_sb_2, b, at_b_2).
 observes(share_d_sb_2, c, at_c_2).
 observes(share_d_sb_2, d, at_d_2).
+observes(share_d_sb_2, e, at_e_2).
 
 
 action(share_d_sc_1).
@@ -468,6 +605,7 @@ observes(share_d_sc_1, a, at_a_1).
 observes(share_d_sc_1, b, at_b_1).
 observes(share_d_sc_1, c, at_c_1).
 observes(share_d_sc_1, d, at_d_1).
+observes(share_d_sc_1, e, at_e_1).
 
 
 action(share_d_sc_2).
@@ -479,6 +617,7 @@ observes(share_d_sc_2, a, at_a_2).
 observes(share_d_sc_2, b, at_b_2).
 observes(share_d_sc_2, c, at_c_2).
 observes(share_d_sc_2, d, at_d_2).
+observes(share_d_sc_2, e, at_e_2).
 
 
 action(share_d_sd_1).
@@ -491,6 +630,7 @@ observes(share_d_sd_1, a, at_a_1).
 observes(share_d_sd_1, b, at_b_1).
 observes(share_d_sd_1, c, at_c_1).
 observes(share_d_sd_1, d, at_d_1).
+observes(share_d_sd_1, e, at_e_1).
 
 
 action(share_d_sd_2).
@@ -502,6 +642,157 @@ observes(share_d_sd_2, a, at_a_2).
 observes(share_d_sd_2, b, at_b_2).
 observes(share_d_sd_2, c, at_c_2).
 observes(share_d_sd_2, d, at_d_2).
+observes(share_d_sd_2, e, at_e_2).
+
+
+action(share_d_se_1).
+announcement(share_d_se_1).
+announces(share_d_se_1, se).
+formula(b(d,se)).
+formula(and(b(d,se),at_d_1)).
+executable(share_d_se_1, and(b(d,se),at_d_1)).
+observes(share_d_se_1, a, at_a_1).
+observes(share_d_se_1, b, at_b_1).
+observes(share_d_se_1, c, at_c_1).
+observes(share_d_se_1, d, at_d_1).
+observes(share_d_se_1, e, at_e_1).
+
+
+action(share_d_se_2).
+announcement(share_d_se_2).
+announces(share_d_se_2, se).
+formula(and(b(d,se),at_d_2)).
+executable(share_d_se_2, and(b(d,se),at_d_2)).
+observes(share_d_se_2, a, at_a_2).
+observes(share_d_se_2, b, at_b_2).
+observes(share_d_se_2, c, at_c_2).
+observes(share_d_se_2, d, at_d_2).
+observes(share_d_se_2, e, at_e_2).
+
+
+action(share_e_sa_1).
+announcement(share_e_sa_1).
+announces(share_e_sa_1, sa).
+formula(b(e,sa)).
+formula(and(b(e,sa),at_e_1)).
+executable(share_e_sa_1, and(b(e,sa),at_e_1)).
+observes(share_e_sa_1, a, at_a_1).
+observes(share_e_sa_1, b, at_b_1).
+observes(share_e_sa_1, c, at_c_1).
+observes(share_e_sa_1, d, at_d_1).
+observes(share_e_sa_1, e, at_e_1).
+
+
+action(share_e_sa_2).
+announcement(share_e_sa_2).
+announces(share_e_sa_2, sa).
+formula(and(b(e,sa),at_e_2)).
+executable(share_e_sa_2, and(b(e,sa),at_e_2)).
+observes(share_e_sa_2, a, at_a_2).
+observes(share_e_sa_2, b, at_b_2).
+observes(share_e_sa_2, c, at_c_2).
+observes(share_e_sa_2, d, at_d_2).
+observes(share_e_sa_2, e, at_e_2).
+
+
+action(share_e_sb_1).
+announcement(share_e_sb_1).
+announces(share_e_sb_1, sb).
+formula(b(e,sb)).
+formula(and(b(e,sb),at_e_1)).
+executable(share_e_sb_1, and(b(e,sb),at_e_1)).
+observes(share_e_sb_1, a, at_a_1).
+observes(share_e_sb_1, b, at_b_1).
+observes(share_e_sb_1, c, at_c_1).
+observes(share_e_sb_1, d, at_d_1).
+observes(share_e_sb_1, e, at_e_1).
+
+
+action(share_e_sb_2).
+announcement(share_e_sb_2).
+announces(share_e_sb_2, sb).
+formula(and(b(e,sb),at_e_2)).
+executable(share_e_sb_2, and(b(e,sb),at_e_2)).
+observes(share_e_sb_2, a, at_a_2).
+observes(share_e_sb_2, b, at_b_2).
+observes(share_e_sb_2, c, at_c_2).
+observes(share_e_sb_2, d, at_d_2).
+observes(share_e_sb_2, e, at_e_2).
+
+
+action(share_e_sc_1).
+announcement(share_e_sc_1).
+announces(share_e_sc_1, sc).
+formula(b(e,sc)).
+formula(and(b(e,sc),at_e_1)).
+executable(share_e_sc_1, and(b(e,sc),at_e_1)).
+observes(share_e_sc_1, a, at_a_1).
+observes(share_e_sc_1, b, at_b_1).
+observes(share_e_sc_1, c, at_c_1).
+observes(share_e_sc_1, d, at_d_1).
+observes(share_e_sc_1, e, at_e_1).
+
+
+action(share_e_sc_2).
+announcement(share_e_sc_2).
+announces(share_e_sc_2, sc).
+formula(and(b(e,sc),at_e_2)).
+executable(share_e_sc_2, and(b(e,sc),at_e_2)).
+observes(share_e_sc_2, a, at_a_2).
+observes(share_e_sc_2, b, at_b_2).
+observes(share_e_sc_2, c, at_c_2).
+observes(share_e_sc_2, d, at_d_2).
+observes(share_e_sc_2, e, at_e_2).
+
+
+action(share_e_sd_1).
+announcement(share_e_sd_1).
+announces(share_e_sd_1, sd).
+formula(b(e,sd)).
+formula(and(b(e,sd),at_e_1)).
+executable(share_e_sd_1, and(b(e,sd),at_e_1)).
+observes(share_e_sd_1, a, at_a_1).
+observes(share_e_sd_1, b, at_b_1).
+observes(share_e_sd_1, c, at_c_1).
+observes(share_e_sd_1, d, at_d_1).
+observes(share_e_sd_1, e, at_e_1).
+
+
+action(share_e_sd_2).
+announcement(share_e_sd_2).
+announces(share_e_sd_2, sd).
+formula(and(b(e,sd),at_e_2)).
+executable(share_e_sd_2, and(b(e,sd),at_e_2)).
+observes(share_e_sd_2, a, at_a_2).
+observes(share_e_sd_2, b, at_b_2).
+observes(share_e_sd_2, c, at_c_2).
+observes(share_e_sd_2, d, at_d_2).
+observes(share_e_sd_2, e, at_e_2).
+
+
+action(share_e_se_1).
+announcement(share_e_se_1).
+announces(share_e_se_1, se).
+formula(b(e,se)).
+formula(and(b(e,se),at_e_1)).
+executable(share_e_se_1, and(b(e,se),at_e_1)).
+observes(share_e_se_1, a, at_a_1).
+observes(share_e_se_1, b, at_b_1).
+observes(share_e_se_1, c, at_c_1).
+observes(share_e_se_1, d, at_d_1).
+observes(share_e_se_1, e, at_e_1).
+
+
+action(share_e_se_2).
+announcement(share_e_se_2).
+announces(share_e_se_2, se).
+formula(and(b(e,se),at_e_2)).
+executable(share_e_se_2, and(b(e,se),at_e_2)).
+observes(share_e_se_2, a, at_a_2).
+observes(share_e_se_2, b, at_b_2).
+observes(share_e_se_2, c, at_c_2).
+observes(share_e_se_2, d, at_d_2).
+observes(share_e_se_2, e, at_e_2).
 
 
 
@@ -517,10 +808,13 @@ initially(at_c_1).
 initially(-at_c_2).
 initially(at_d_1).
 initially(-at_d_2).
+initially(at_e_1).
+initially(-at_e_2).
 initially(sa).
 initially(sb).
 initially(sc).
 initially(sd).
+initially(se).
 
 % ** initial beliefs **
 agent_set(all_agents).
@@ -528,6 +822,7 @@ contains_ag(all_agents,a).
 contains_ag(all_agents,b).
 contains_ag(all_agents,c).
 contains_ag(all_agents,d).
+contains_ag(all_agents,e).
 formula(c(all_agents,at_a_1)).
 initially(c(all_agents,at_a_1)).
 formula(c(all_agents,at_b_1)).
@@ -536,6 +831,8 @@ formula(c(all_agents,at_c_1)).
 initially(c(all_agents,at_c_1)).
 formula(c(all_agents,at_d_1)).
 initially(c(all_agents,at_d_1)).
+formula(c(all_agents,at_e_1)).
+initially(c(all_agents,at_e_1)).
 formula(c(all_agents,-at_a_2)).
 initially(c(all_agents,-at_a_2)).
 formula(c(all_agents,-at_b_2)).
@@ -544,6 +841,8 @@ formula(c(all_agents,-at_c_2)).
 initially(c(all_agents,-at_c_2)).
 formula(c(all_agents,-at_d_2)).
 initially(c(all_agents,-at_d_2)).
+formula(c(all_agents,-at_e_2)).
+initially(c(all_agents,-at_e_2)).
 formula(neg(sa)).
 formula(b(a,neg(sa))).
 formula(or(b(a,sa),b(a,neg(sa)))).
@@ -564,6 +863,11 @@ formula(b(d,neg(sd))).
 formula(or(b(d,sd),b(d,neg(sd)))).
 formula(c(all_agents,or(b(d,sd),b(d,neg(sd))))).
 initially(c(all_agents,or(b(d,sd),b(d,neg(sd))))).
+formula(neg(se)).
+formula(b(e,neg(se))).
+formula(or(b(e,se),b(e,neg(se)))).
+formula(c(all_agents,or(b(e,se),b(e,neg(se))))).
+initially(c(all_agents,or(b(e,se),b(e,neg(se))))).
 
 
 
@@ -572,21 +876,15 @@ init_sf(at_a_1).
 init_sf(at_b_1).
 init_sf(at_c_1).
 init_sf(at_d_1).
+init_sf(at_e_1).
 init_sf(-at_a_2).
 init_sf(-at_b_2).
 init_sf(-at_c_2).
 init_sf(-at_d_2).
+init_sf(-at_e_2).
 
 init_sf(sa).
 init_sf(sb).
 init_sf(sc).
 init_sf(sd).
-
-% *** GOALS ***
-goal(b(a,sb)).
-goal(b(b,sc)).
-goal(b(c,sa)).
-formula(neg(b(a,sc))).
-goal(neg(b(a,sc))).
-
-
+init_sf(se).

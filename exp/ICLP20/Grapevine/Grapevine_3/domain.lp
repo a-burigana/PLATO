@@ -1,10 +1,3 @@
-#const maxT  = 6.
-#const n_fl  = 9.
-#const n_ag  = 3.
-#const n_ags = 7.
-
-%time(0..maxT).
-
 % *** ATOMS ***
 atom(at_a_1).
 formula(at_a_1).
@@ -349,19 +342,3 @@ init_sf(-at_c_2).
 init_sf(sa).
 init_sf(sb).
 init_sf(sc).
-
-% *** GOALS ***
-goal(b(a,sb)).
-goal(b(b,sc)).
-goal(b(c,sa)).
-formula(neg(b(a,sc))).
-goal(neg(b(a,sc))).
-formula(neg(b(c,sb))).
-goal(neg(b(c,sb))).
-formula(b(c,neg(sa))).
-formula(or(b(c,sa),b(c,neg(sa)))).
-formula(b(b,or(b(c,sa),b(c,neg(sa))))).
-formula(neg(b(b,or(b(c,sa),b(c,neg(sa)))))).
-goal(neg(b(b,or(b(c,sa),b(c,neg(sa)))))).
-
-
