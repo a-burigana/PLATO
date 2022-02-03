@@ -13,6 +13,8 @@ semantics(possibilities).
 #defined aware_of/3.
 #defined oblivious/2.
 
+#defined init_sf/1.
+
 #program step(t).
 
 %%% Applicability %%%
@@ -43,16 +45,25 @@ same_path(t, Tw, W, Ewo, Hwo, Ew, Hwo) :- time(t), time(Tw), Tw <= t, plan(t, AC
                                           w(Tw, W, Ewo, Hwo), e(ACT, Ew, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, 1, 0), same_path(t, t, W2, Ew2, Hw2, E2, _),
                                           r(t, W2, Ew2, Hw2, Tw, W, Ewo, Hwo, AG), metaq(ACT, E2, Ew, all  ).
 
+% Designated worlds (ontic)
+dw(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _), dw(t, W, Ewo, Hwo), de(ACT, 1),
+                     dpre(ACT, 1, true), same_path(t, t, W, Ewo, Hwo, 1, Hw).
 
-dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew),
-                      dpre(ACT, Ew, true), same_path(t, t, W, Ewo, Hwo, Ew, Hw).
+dw(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _), dw(t, W, Ewo, Hwo), de(ACT, 1),
+                     dpre(ACT, 1, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), same_path(t, t, W, Ewo, Hwo, 1, Hw).
 
-dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew),
-                      dpre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), same_path(t, t, W, Ewo, Hwo, Ew, Hw).
+% Designated worlds (epistemic)
+dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew), Ew != 0,
+                      dpre(ACT, Ew, true), pre(ACT, Ew, L), formula(L), entails(t, W, Ewo, Hwo, L),
+                      same_path(t, t, W, Ewo, Hwo, Ew, Hw).
+
+dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew), Ew != 0,
+                      dpre(ACT, Ew, Fpre), pre(ACT, Ew, L), formula(Fpre), formula(L), entails(t, W, Ewo, Hwo, Fpre), entails(t, W, Ewo, Hwo, L),
+                      same_path(t, t, W, Ewo, Hwo, Ew, Hw).
 
 % Sigma (ontic)
 w(t+1, W, 1, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 1, 0, 1),
-                    pre(ACT, 1, true), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+                    same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
 
 % Sigma (epistemic)
 w(t+1, W, 2, Hw) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), w(Tw, W, Ewo, Hwo), e(ACT, 2, 0, 0),

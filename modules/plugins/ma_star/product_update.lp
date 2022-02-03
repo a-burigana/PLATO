@@ -13,6 +13,7 @@ semantics(kripke).
 #defined aware_of/3.
 #defined oblivious/2.
 
+#defined init_sf/1.
 #defined same_path/7.
 
 #program step(t).
@@ -29,16 +30,25 @@ applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
 % check_on_w(t, W, Ew, Hw, F) :- time(t), action(ACT), dpre(ACT, E, F), formula(F),
 %                                w(t, W, Ew, Hw), e(ACT, E, 0, _), dw(t, W, Ew, Hw), de(ACT, E).
 
-dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew),
-                      dpre(ACT, Ew, true), Hw = (t+1) * Hwo + Ewo + Ew.
+% Designated worlds (ontic)
+dw(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _), dw(t, W, Ewo, Hwo), de(ACT, 1),
+                     dpre(ACT, 1, true), Hw = (t+1) * Hwo + Ewo + 1.
 
-dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew),
-                      dpre(ACT, Ew, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + Ew.
+dw(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _), dw(t, W, Ewo, Hwo), de(ACT, 1),
+                     dpre(ACT, 1, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + 1.
 
+% Designated worlds (epistemic)
+dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew), Ew != 0,
+                      dpre(ACT, Ew, true), pre(ACT, Ew, L), formula(L), entails(t, W, Ewo, Hwo, L),
+                      Hw = (t+1) * Hwo + Ewo + Ew.
+
+dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew), Ew != 0,
+                      dpre(ACT, Ew, Fpre), pre(ACT, Ew, L), formula(Fpre), formula(L), entails(t, W, Ewo, Hwo, Fpre), entails(t, W, Ewo, Hwo, L),
+                      Hw = (t+1) * Hwo + Ewo + Ew.
 
 % Sigma (ontic)
 w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _),
-                    pre(ACT, 1, true), Hw = (t+1) * Hwo + Ewo + 1.
+                    Hw = (t+1) * Hwo + Ewo + 1.
 
 % Sigma (epistemic)
 w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
