@@ -1,10 +1,3 @@
-#const maxT  = 5.
-#const n_fl  = 4.
-#const n_ag  = 2.
-#const n_ags = 3.
-
-%time(0..maxT).
-
 % *** ATOMS ***
 atom(assemble).
 formula(assemble).
@@ -111,18 +104,3 @@ initially(qualify_a).
 initially(qualify_b).
 formula(-restart).
 initially(-restart).
-
-% ** initial beliefs **
-
-
-
-% ** commonly known fluent formulae **
-
-
-% *** GOALS ***
-formula(b(a,assemble)).
-goal(b(a,assemble)).
-formula(b(b,assemble)).
-goal(b(b,assemble)).
-
-

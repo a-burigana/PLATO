@@ -1,10 +1,3 @@
-#const maxT  = 5.
-#const n_fl  = 4.
-#const n_ag  = 2.
-#const n_ags = 3.
-
-%time(0..maxT).
-
 % *** ATOMS ***
 atom(assemble).
 formula(assemble).
@@ -33,6 +26,10 @@ formula(b(a,b(b,b(a,b(b,b(a,qualify_a)))))).
 formula(b(b,b(a,b(b,b(a,b(b,b(a,qualify_a))))))).
 formula(b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a)))))))).
 formula(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a))))))))).
+formula(b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a)))))))))).
+formula(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a))))))))))).
+formula(b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a)))))))))))).
+formula(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a))))))))))))).
 formula(b(b,qualify_b)).
 formula(b(a,b(b,qualify_b))).
 formula(b(b,b(a,b(b,qualify_b)))).
@@ -41,8 +38,12 @@ formula(b(b,b(a,b(b,b(a,b(b,qualify_b)))))).
 formula(b(a,b(b,b(a,b(b,b(a,b(b,qualify_b))))))).
 formula(b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b)))))))).
 formula(b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b))))))))).
-formula(and(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a)))))))),b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b)))))))))).
-executable(act_assemble, and(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a)))))))),b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b)))))))))).
+formula(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b)))))))))).
+formula(b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b))))))))))).
+formula(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b)))))))))))).
+formula(b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b))))))))))))).
+formula(and(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a)))))))))))),b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b)))))))))))))).
+executable(act_assemble, and(b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,qualify_a)))))))))))),b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,b(a,b(b,qualify_b)))))))))))))).
 observes(act_assemble, a, true).
 observes(act_assemble, b, true).
 
@@ -113,18 +114,3 @@ initially(qualify_a).
 initially(qualify_b).
 formula(-restart).
 initially(-restart).
-
-% ** initial beliefs **
-
-
-
-% ** commonly known fluent formulae **
-
-
-% *** GOALS ***
-formula(b(a,assemble)).
-goal(b(a,assemble)).
-formula(b(b,assemble)).
-goal(b(b,assemble)).
-
-
