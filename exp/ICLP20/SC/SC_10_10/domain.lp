@@ -1,10 +1,3 @@
-#const maxT  = 10.
-#const n_fl  = 11.
-#const n_ag  = 8.
-#const n_ags = 255.
-
-%time(0..maxT).
-
 % *** ATOMS ***
 atom(at_1).
 formula(at_1).
@@ -39,6 +32,7 @@ agent(e).
 agent(f).
 agent(g).
 agent(h).
+agent(j).
 
 
 % *** ACTIONS ***
@@ -46,6 +40,9 @@ action(left).
 ontic(left).
 ce_formula(at_2).
 causes(left, at_1, at_2).
+formula(-at_10).
+ce_formula(at_10).
+causes(left, -at_10, at_10).
 ce_formula(at_3).
 causes(left, at_2, at_3).
 formula(-at_2).
@@ -70,8 +67,13 @@ ce_formula(at_8).
 causes(left, at_7, at_8).
 formula(-at_7).
 causes(left, -at_7, at_7).
+ce_formula(at_9).
+causes(left, at_8, at_9).
 formula(-at_8).
 causes(left, -at_8, at_8).
+causes(left, at_9, at_10).
+formula(-at_9).
+causes(left, -at_9, at_9).
 formula(-at_1).
 executable(left, -at_1).
 observes(left, a, true).
@@ -82,12 +84,14 @@ observes(left, e, true).
 observes(left, f, true).
 observes(left, g, true).
 observes(left, h, true).
+observes(left, j, true).
 
 
 action(right).
 ontic(right).
 ce_formula(at_1).
 causes(right, -at_1, at_1).
+causes(right, at_10, at_9).
 causes(right, at_2, at_1).
 causes(right, -at_2, at_2).
 causes(right, at_3, at_2).
@@ -101,7 +105,10 @@ causes(right, -at_6, at_6).
 causes(right, at_7, at_6).
 causes(right, -at_7, at_7).
 causes(right, at_8, at_7).
-executable(right, -at_8).
+causes(right, -at_8, at_8).
+causes(right, at_9, at_8).
+causes(right, -at_9, at_9).
+executable(right, -at_10).
 observes(right, a, true).
 observes(right, b, true).
 observes(right, c, true).
@@ -110,6 +117,7 @@ observes(right, e, true).
 observes(right, f, true).
 observes(right, g, true).
 observes(right, h, true).
+observes(right, j, true).
 
 
 action(sense).
@@ -124,6 +132,7 @@ oblivious(sense, e).
 oblivious(sense, f).
 oblivious(sense, g).
 oblivious(sense, h).
+oblivious(sense, j).
 
 
 action(shout_1).
@@ -140,6 +149,7 @@ oblivious(shout_1, d).
 oblivious(shout_1, e).
 oblivious(shout_1, g).
 oblivious(shout_1, h).
+oblivious(shout_1, j).
 
 
 action(shout_10).
@@ -149,6 +159,7 @@ formula(and(b(a,q),at_10)).
 executable(shout_10, and(b(a,q),at_10)).
 observes(shout_10, a, true).
 observes(shout_10, h, true).
+observes(shout_10, j, true).
 oblivious(shout_10, b).
 oblivious(shout_10, c).
 oblivious(shout_10, d).
@@ -170,6 +181,7 @@ oblivious(shout_2, d).
 oblivious(shout_2, e).
 oblivious(shout_2, g).
 oblivious(shout_2, h).
+oblivious(shout_2, j).
 
 
 action(shout_3).
@@ -185,6 +197,7 @@ oblivious(shout_3, e).
 oblivious(shout_3, f).
 oblivious(shout_3, g).
 oblivious(shout_3, h).
+oblivious(shout_3, j).
 
 
 action(shout_4).
@@ -200,6 +213,7 @@ oblivious(shout_4, e).
 oblivious(shout_4, f).
 oblivious(shout_4, g).
 oblivious(shout_4, h).
+oblivious(shout_4, j).
 
 
 action(shout_5).
@@ -215,6 +229,7 @@ oblivious(shout_5, c).
 oblivious(shout_5, f).
 oblivious(shout_5, g).
 oblivious(shout_5, h).
+oblivious(shout_5, j).
 
 
 action(shout_6).
@@ -230,6 +245,7 @@ oblivious(shout_6, b).
 oblivious(shout_6, c).
 oblivious(shout_6, f).
 oblivious(shout_6, h).
+oblivious(shout_6, j).
 
 
 action(shout_7).
@@ -240,11 +256,12 @@ executable(shout_7, and(b(a,q),at_7)).
 observes(shout_7, a, true).
 observes(shout_7, e, true).
 observes(shout_7, g, true).
-observes(shout_7, h, true).
 oblivious(shout_7, b).
 oblivious(shout_7, c).
 oblivious(shout_7, d).
 oblivious(shout_7, f).
+oblivious(shout_7, h).
+oblivious(shout_7, j).
 
 
 action(shout_8).
@@ -254,12 +271,13 @@ formula(and(b(a,q),at_8)).
 executable(shout_8, and(b(a,q),at_8)).
 observes(shout_8, a, true).
 observes(shout_8, g, true).
-observes(shout_8, h, true).
 oblivious(shout_8, b).
 oblivious(shout_8, c).
 oblivious(shout_8, d).
 oblivious(shout_8, e).
 oblivious(shout_8, f).
+oblivious(shout_8, h).
+oblivious(shout_8, j).
 
 
 action(shout_9).
@@ -269,6 +287,7 @@ formula(and(b(a,q),at_9)).
 executable(shout_9, and(b(a,q),at_9)).
 observes(shout_9, a, true).
 observes(shout_9, h, true).
+observes(shout_9, j, true).
 oblivious(shout_9, b).
 oblivious(shout_9, c).
 oblivious(shout_9, d).
@@ -283,7 +302,6 @@ oblivious(shout_9, g).
 
 % ** initial pointed **
 initially(at_1).
-formula(-at_10).
 initially(-at_10).
 initially(-at_2).
 initially(-at_3).
@@ -292,7 +310,6 @@ initially(-at_5).
 initially(-at_6).
 initially(-at_7).
 initially(-at_8).
-formula(-at_9).
 initially(-at_9).
 initially(q).
 
@@ -306,6 +323,7 @@ contains_ag(all_agents,e).
 contains_ag(all_agents,f).
 contains_ag(all_agents,g).
 contains_ag(all_agents,h).
+contains_ag(all_agents,j).
 formula(c(all_agents,at_1)).
 initially(c(all_agents,at_1)).
 formula(c(all_agents,-at_2)).
@@ -340,12 +358,3 @@ init_sf(-at_7).
 init_sf(-at_8).
 init_sf(-at_9).
 init_sf(-at_10).
-
-
-% *** GOALS ***
-formula(b(e,b(a,q))).
-goal(b(e,b(a,q))).
-formula(b(h,b(a,q))).
-goal(b(h,b(a,q))).
-
-

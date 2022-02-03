@@ -1,10 +1,3 @@
-#const maxT  = 5.
-#const n_fl  = 12.
-#const n_ag  = 9.
-#const n_ags = 511.
-
-%time(0..maxT).
-
 % *** ATOMS ***
 atom(at_1).
 formula(at_1).
@@ -393,15 +386,3 @@ init_sf(-at_8).
 init_sf(-at_9).
 init_sf(-at_10).
 init_sf(at_11).
-
-
-% *** GOALS ***
-goal(b(a,q)).
-formula(b(h,q)).
-goal(b(h,q)).
-formula(b(j,q)).
-goal(b(j,q)).
-formula(b(g,q)).
-goal(b(g,q)).
-
-
