@@ -1,0 +1,20 @@
+% *** GOALS ***
+goal(b(a,at_b1_1)).
+goal(b(b,at_b1_1)).
+goal(b(a,at_b2_3)).
+goal(b(b,at_b2_3)).
+formula(neg(b(b,at_b2_3))).
+formula(b(a,neg(b(b,at_b2_3)))).
+goal(b(a,neg(b(b,at_b2_3)))).
+formula(neg(b(a,at_b2_3))).
+formula(b(b,neg(b(a,at_b2_3)))).
+goal(b(b,neg(b(a,at_b2_3)))).
+formula(neg(b(b,at_b1_1))).
+formula(b(a,neg(b(b,at_b1_1)))).
+goal(b(a,neg(b(b,at_b1_1)))).
+formula(neg(b(a,at_b1_1))).
+formula(b(b,neg(b(a,at_b1_1)))).
+goal(b(b,neg(b(a,at_b1_1)))).
+goal(b(a,at_a_3)).
+formula(b(b,at_a_3)).
+goal(b(b,at_a_3)).

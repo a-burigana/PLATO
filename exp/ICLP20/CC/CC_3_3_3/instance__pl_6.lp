@@ -1,0 +1,15 @@
+% *** GOALS ***
+goal(b(b,at_b1_1)).
+goal(b(b,at_b2_3)).
+agent_set(ab).
+contains_ag(ab,a).
+contains_ag(ab,b).
+formula(c(ab,at_b2_3)).
+goal(c(ab,at_b2_3)).
+goal(b(a,at_b1_1)).
+formula(b(b,-at_b1_1)).
+formula(neg(b(b,-at_b1_1))).
+formula(and(b(b,at_b1_1),neg(b(b,-at_b1_1)))).
+formula(neg(and(b(b,at_b1_1),neg(b(b,-at_b1_1))))).
+formula(b(a,neg(and(b(b,at_b1_1),neg(b(b,-at_b1_1)))))).
+goal(b(a,neg(and(b(b,at_b1_1),neg(b(b,-at_b1_1)))))).
