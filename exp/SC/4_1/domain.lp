@@ -20,13 +20,10 @@ agent(c).
 % *** ACTIONS ***
 action(left).
 ontic(left).
-ce_formula(at_2).
 causes(left, at_1, at_2).
-ce_formula(at_3).
 causes(left, at_2, at_3).
 formula(-at_2).
 causes(left, -at_2, at_2).
-ce_formula(at_4).
 causes(left, at_3, at_4).
 formula(-at_3).
 causes(left, -at_3, at_3).
@@ -41,7 +38,6 @@ observes(left, c, true).
 
 action(right).
 ontic(right).
-ce_formula(at_1).
 causes(right, -at_1, at_1).
 causes(right, at_2, at_1).
 causes(right, -at_2, at_2).
