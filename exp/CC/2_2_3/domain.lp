@@ -137,7 +137,7 @@ announces(tell_a_b1_1, at_b1_1).
 formula(b(a,at_b1_1)).
 executable(tell_a_b1_1, b(a,at_b1_1)).
 observes(tell_a_b1_1, b, true).
-oblivious(tell_a_b1_1, a).
+observes(tell_a_b1_1, a, true).
 
 
 action(tell_a_b1_3).
