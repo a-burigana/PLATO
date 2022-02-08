@@ -208,9 +208,7 @@ oblivious(c_check_b3_3, b).
 
 action(left_a).
 ontic(left_a).
-ce_formula(at_a_2).
 causes(left_a, at_a_1, at_a_2).
-ce_formula(at_a_3).
 causes(left_a, at_a_2, at_a_3).
 formula(-at_a_2).
 causes(left_a, -at_a_2, at_a_2).
@@ -225,9 +223,7 @@ observes(left_a, c, true).
 
 action(left_b).
 ontic(left_b).
-ce_formula(at_b_2).
 causes(left_b, at_b_1, at_b_2).
-ce_formula(at_b_3).
 causes(left_b, at_b_2, at_b_3).
 formula(-at_b_2).
 causes(left_b, -at_b_2, at_b_2).
@@ -242,9 +238,7 @@ observes(left_b, c, true).
 
 action(left_c).
 ontic(left_c).
-ce_formula(at_c_2).
 causes(left_c, at_c_1, at_c_2).
-ce_formula(at_c_3).
 causes(left_c, at_c_2, at_c_3).
 formula(-at_c_2).
 causes(left_c, -at_c_2, at_c_2).
@@ -259,7 +253,6 @@ observes(left_c, c, true).
 
 action(right_a).
 ontic(right_a).
-ce_formula(at_a_1).
 causes(right_a, -at_a_1, at_a_1).
 causes(right_a, at_a_2, at_a_1).
 causes(right_a, -at_a_2, at_a_2).
@@ -272,7 +265,6 @@ observes(right_a, c, true).
 
 action(right_b).
 ontic(right_b).
-ce_formula(at_b_1).
 causes(right_b, -at_b_1, at_b_1).
 causes(right_b, at_b_2, at_b_1).
 causes(right_b, -at_b_2, at_b_2).
@@ -285,7 +277,6 @@ observes(right_b, c, true).
 
 action(right_c).
 ontic(right_c).
-ce_formula(at_c_1).
 causes(right_c, -at_c_1, at_c_1).
 causes(right_c, at_c_2, at_c_1).
 causes(right_c, -at_c_2, at_c_2).

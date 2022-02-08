@@ -40,40 +40,30 @@ agent(j).
 % *** ACTIONS ***
 action(left).
 ontic(left).
-ce_formula(at_2).
 causes(left, at_1, at_2).
-ce_formula(at_11).
 causes(left, at_10, at_11).
 formula(-at_10).
-ce_formula(at_10).
 causes(left, -at_10, at_10).
 formula(-at_11).
 causes(left, -at_11, at_11).
-ce_formula(at_3).
 causes(left, at_2, at_3).
 formula(-at_2).
 causes(left, -at_2, at_2).
-ce_formula(at_4).
 causes(left, at_3, at_4).
 formula(-at_3).
 causes(left, -at_3, at_3).
-ce_formula(at_5).
 causes(left, at_4, at_5).
 formula(-at_4).
 causes(left, -at_4, at_4).
-ce_formula(at_6).
 causes(left, at_5, at_6).
 formula(-at_5).
 causes(left, -at_5, at_5).
-ce_formula(at_7).
 causes(left, at_6, at_7).
 formula(-at_6).
 causes(left, -at_6, at_6).
-ce_formula(at_8).
 causes(left, at_7, at_8).
 formula(-at_7).
 causes(left, -at_7, at_7).
-ce_formula(at_9).
 causes(left, at_8, at_9).
 formula(-at_8).
 causes(left, -at_8, at_8).
@@ -95,7 +85,6 @@ observes(left, j, true).
 
 action(right).
 ontic(right).
-ce_formula(at_1).
 causes(right, -at_1, at_1).
 causes(right, at_10, at_9).
 causes(right, -at_10, at_10).
