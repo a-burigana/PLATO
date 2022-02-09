@@ -107,7 +107,7 @@ observes(right, e, true).
 observes(right, f, true).
 observes(right, g, true).
 observes(right, h, true).
-oblivious(right, j).
+observes(right, j, true).
 
 
 action(sense).
