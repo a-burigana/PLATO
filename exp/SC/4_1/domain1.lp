@@ -141,7 +141,6 @@ announcement(shout_4).
 applicable(t, shout_4) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, at_4), not -applicable(t, shout_4).
 
 -applicable(t, shout_4) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), not holds(Tv, V, Ev, Hv, q).
-#show -applicable/2.
 
 announces(shout_4, q).
 
