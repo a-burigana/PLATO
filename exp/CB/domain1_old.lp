@@ -205,6 +205,7 @@ observes(t, open_a, c) :- plan(t, open_a), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw,
 
 action(peek_a).
 sensing(peek_a).
+determines(peek_a, tail).
 % formula(b(a,opened)).
 % formula(and(b(a,opened),b(a,looking_a))).
 % formula(and(looking_a,opened)).
@@ -223,7 +224,6 @@ applicable(t, peek_a) :-  dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, opened), holds(t
 -applicable(t, peek_a) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a),
                           holds(Tv, V, Ev, Hv, -looking_a).
 
-determines(peek_a, tail).
 observes(t, peek_a, a) :- plan(t, peek_a).
 aware_of(t, peek_a, b) :- plan(t, peek_a), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
 aware_of(t, peek_a, c) :- plan(t, peek_a), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
@@ -232,6 +232,7 @@ aware_of(t, peek_a, c) :- plan(t, peek_a), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw,
 
 action(peek_b).
 sensing(peek_b).
+determines(peek_b, tail).
 % formula(b(b,opened)).
 % formula(and(b(b,opened),b(b,looking_b))).
 % formula(and(looking_b,opened)).
@@ -250,7 +251,6 @@ applicable(t, peek_b) :-  dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, opened), holds(t
 -applicable(t, peek_b) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b),
                           holds(Tv, V, Ev, Hv, -looking_b).
 
-determines(peek_b, tail).
 observes(t, peek_b, b) :- plan(t, peek_b).
 aware_of(t, peek_b, a) :- plan(t, peek_b), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
 aware_of(t, peek_b, c) :- plan(t, peek_b), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
@@ -259,6 +259,7 @@ aware_of(t, peek_b, c) :- plan(t, peek_b), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw,
 
 action(peek_c).
 sensing(peek_c).
+determines(peek_c, tail).
 % formula(b(c,opened)).
 % formula(and(b(c,opened),b(c,looking_c))).
 % formula(and(looking_c,opened)).
@@ -277,7 +278,6 @@ applicable(t, peek_c) :-  dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, opened), holds(t
 -applicable(t, peek_c) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c),
                           holds(Tv, V, Ev, Hv, -looking_c).
 
-determines(peek_c, tail).
 observes(t, peek_c, c) :- plan(t, peek_c).
 aware_of(t, peek_c, a) :- plan(t, peek_c), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
 aware_of(t, peek_c, b) :- plan(t, peek_c), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
@@ -286,6 +286,7 @@ aware_of(t, peek_c, b) :- plan(t, peek_c), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw,
 
 action(shout_tail_a).
 announcement(shout_tail_a).
+announces(shout_tail_a, tail).
 % formula(b(a,tail)).
 % formula(and(b(a,tail),tail)).
 
@@ -298,7 +299,6 @@ applicable(t, shout_tail_a) :-  dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, tail),
 -applicable(t, shout_tail_a) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a),
                                 holds(Tv, V, Ev, Hv, -tail).
 
-announces(shout_tail_a, tail).
 observes(t, shout_tail_a, a) :- plan(t, shout_tail_a).
 observes(t, shout_tail_a, b) :- plan(t, shout_tail_a), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
 observes(t, shout_tail_a, c) :- plan(t, shout_tail_a), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
@@ -307,6 +307,7 @@ observes(t, shout_tail_a, c) :- plan(t, shout_tail_a), dw(t, W, Ew, Hw), holds(t
 
 action(shout_tail_b).
 announcement(shout_tail_b).
+announces(shout_tail_b, tail).
 % formula(b(b,tail)).
 % formula(and(b(b,tail),tail)).
 
@@ -319,7 +320,6 @@ applicable(t, shout_tail_b) :-  dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, tail),
 -applicable(t, shout_tail_b) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b),
                                 holds(Tv, V, Ev, Hv, -tail).
 
-announces(shout_tail_b, tail).
 observes(t, shout_tail_b, b) :- plan(t, shout_tail_b).
 observes(t, shout_tail_b, a) :- plan(t, shout_tail_b), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
 observes(t, shout_tail_b, c) :- plan(t, shout_tail_b), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
@@ -328,6 +328,7 @@ observes(t, shout_tail_b, c) :- plan(t, shout_tail_b), dw(t, W, Ew, Hw), holds(t
 
 action(shout_tail_c).
 announcement(shout_tail_c).
+announces(shout_tail_c, tail).
 % formula(b(c,tail)).
 % formula(and(b(c,tail),tail)).
 
@@ -340,7 +341,6 @@ applicable(t, shout_tail_c) :-  dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, tail),
 -applicable(t, shout_tail_c) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c),
                                 holds(Tv, V, Ev, Hv, -tail).
 
-announces(shout_tail_c, tail).
 observes(t, shout_tail_c, c) :- plan(t, shout_tail_c).
 observes(t, shout_tail_c, a) :- plan(t, shout_tail_c), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
 observes(t, shout_tail_c, b) :- plan(t, shout_tail_c), dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
