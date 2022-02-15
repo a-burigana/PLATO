@@ -3,12 +3,15 @@
 PYTHON_PATH="scripts/python"
 OUT_PATH="out/states"
 
-clingo_args=""
+clingo_args="-t 2 --configuration=frumpy"
+# frumpy, many
+# --heuristic=Vsids
 instance=""
 domain_path=""
 semantics="semantics/ma_rho.lp"
 config="run_config/find_plan.lp"
 print=false
+new_features=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -38,6 +41,16 @@ while [[ $# -gt 0 ]]; do
         print=true
         shift # past argument with no value
         ;;
+    ---n)
+        config="run_config/find_plan1.lp"
+        semantics="semantics/ma_rho1.lp"
+        new_features=true
+        shift
+        ;;
+    ---c)
+        semantics="semantics/ma_rho2.lp"
+        shift
+        ;;
     -*|--*)
         clingo_args+=" ${1}"
         shift # past argument
@@ -50,11 +63,19 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "$print" = false ] ; then
-    clingo plato.lp $clingo_args $config $semantics --configuration=frumpy --heuristic=Vsids -t 2 $domain_path/domain.lp $instance
+    if [ "$new_features" = false ] ; then
+        clingo plato.lp $clingo_args $domain_path/domain.lp $instance $semantics $config
+    else
+        clingo plato.lp $clingo_args $domain_path/domain1.lp $instance $semantics $config
+    fi
 else
     mkdir -p $OUT_PATH
 
-    clingo plato.lp $clingo_args $config $semantics run_config/print.lp --configuration=frumpy --heuristic=Vsids -t 2 $domain_path/domain.lp $instance > $OUT_PATH/output.txt;
+    if [ "$new_features" = false ] ; then
+        clingo plato.lp $clingo_args run_config/print.lp $domain_path/domain.lp $instance $semantics $config > $OUT_PATH/output.txt;
+    else
+        clingo plato.lp $clingo_args run_config/print.lp $domain_path/domain1.lp $instance $semantics $config > $OUT_PATH/output.txt;
+    fi
     python3 $PYTHON_PATH/out_render.py $OUT_PATH/output;
     dot -Tpdf $OUT_PATH/output.dot > $OUT_PATH/output.pdf;
 
