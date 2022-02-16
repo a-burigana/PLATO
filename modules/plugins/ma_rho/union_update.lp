@@ -120,18 +120,6 @@ idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :-
                                          post(ACT, 1, -P, Fpost1), not entails(Tw, W, Ewo, Hwo, Fpost1),
                                          not post(ACT, 1,  P, _).
 
-% #show idle_atom/7.
-% #show holds/5.
-
-
-% holds(t+1, W, 1, Hw,  P) :-
-%                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-%                             holds(Tw, W, Ewo, Hwo,  P), post(ACT, 1, -P, Fpost), not entails(Tw, W, Ewo, Hwo, Fpost).
-
-% holds(t+1, W, 1, Hw, -P) :-
-%                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-%                             holds(Tw, W, Ewo, Hwo, -P), post(ACT, 1,  P, Fpost), not entails(Tw, W, Ewo, Hwo, Fpost).
-
 holds(t+1, W, 1, Hw,  P) :- 
                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
                             idle_atom(t, Tw, W, Ewo, Hwo, ACT, P), holds(Tw, W, Ewo, Hwo,  P).
@@ -147,9 +135,6 @@ holds(t+1, W, 1, Hw,  P) :-
 holds(t+1, W, 1, Hw, -P) :-
                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
                             idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo, -P).
-
-% holds(t+1, W, 0, Hw, P) :-  time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 0, 1, 0),
-%                             atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, 0, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 0, Hw).
 
 % Epistemic actions
 holds(t+1, W, Ew, Hw,  P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, Ew, _, 0),
