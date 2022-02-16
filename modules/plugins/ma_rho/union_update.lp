@@ -104,11 +104,15 @@ holds(t+1, W, 1, Hw, -P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT
 
 % Inertia in ontic actions
 holds(t+1, W, 1, Hw,  P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            not post(ACT, 1, P, _), not post(ACT, 1, -P, _), atom(P), holds(Tw, W, Ewo, Hwo,  P),
+                            % not post(ACT, 1, P, _), not post(ACT, 1, -P, _),
+                            idle_atom(ACT, P),
+                            atom(P), holds(Tw, W, Ewo, Hwo,  P),
                             w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
 
 holds(t+1, W, 1, Hw, -P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            not post(ACT, 1, P, _), not post(ACT, 1, -P, _), atom(P), holds(Tw, W, Ewo, Hwo, -P),
+                            % not post(ACT, 1, P, _), not post(ACT, 1, -P, _),
+                            idle_atom(ACT, P),
+                            atom(P), holds(Tw, W, Ewo, Hwo, -P),
                             w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
 
 holds(t+1, W, 1, Hw,  P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost1), formula(Fpost2),

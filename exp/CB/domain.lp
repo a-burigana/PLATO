@@ -32,6 +32,11 @@ observes(distract_a_b, a, true).
 observes(distract_a_b, b, true).
 oblivious(distract_a_b, c).
 
+idle_atom(distract_a_b, looking_a).
+idle_atom(distract_a_b, looking_c).
+idle_atom(distract_a_b, opened).
+idle_atom(distract_a_b, tail).
+
 
 action(distract_a_c).
 ontic(distract_a_c).
@@ -45,6 +50,11 @@ executable(distract_a_c, and(and(b(a,looking_a),b(a,looking_c)),and(looking_a,lo
 observes(distract_a_c, a, true).
 observes(distract_a_c, c, true).
 oblivious(distract_a_c, b).
+
+idle_atom(distract_a_c, looking_a).
+idle_atom(distract_a_c, looking_b).
+idle_atom(distract_a_c, opened).
+idle_atom(distract_a_c, tail).
 
 
 action(distract_b_a).
@@ -60,6 +70,11 @@ observes(distract_b_a, a, true).
 observes(distract_b_a, b, true).
 oblivious(distract_b_a, c).
 
+idle_atom(distract_b_a, looking_b).
+idle_atom(distract_b_a, looking_c).
+idle_atom(distract_b_a, opened).
+idle_atom(distract_b_a, tail).
+
 
 action(distract_b_c).
 ontic(distract_b_c).
@@ -72,6 +87,11 @@ executable(distract_b_c, and(and(b(b,looking_b),b(b,looking_c)),and(looking_b,lo
 observes(distract_b_c, b, true).
 observes(distract_b_c, c, true).
 oblivious(distract_b_c, a).
+
+idle_atom(distract_b_c, looking_a).
+idle_atom(distract_b_c, looking_b).
+idle_atom(distract_b_c, opened).
+idle_atom(distract_b_c, tail).
 
 
 action(distract_c_a).
@@ -86,6 +106,11 @@ observes(distract_c_a, a, true).
 observes(distract_c_a, c, true).
 oblivious(distract_c_a, b).
 
+idle_atom(distract_c_a, looking_b).
+idle_atom(distract_c_a, looking_c).
+idle_atom(distract_c_a, opened).
+idle_atom(distract_c_a, tail).
+
 
 action(distract_c_b).
 ontic(distract_c_b).
@@ -98,6 +123,11 @@ observes(distract_c_b, b, true).
 observes(distract_c_b, c, true).
 oblivious(distract_c_b, a).
 
+idle_atom(distract_c_b, looking_a).
+idle_atom(distract_c_b, looking_c).
+idle_atom(distract_c_b, opened).
+idle_atom(distract_c_b, tail).
+
 
 action(open_a).
 ontic(open_a).
@@ -108,6 +138,10 @@ observes(open_a, a, true).
 observes(open_a, b, looking_b).
 observes(open_a, c, looking_c).
 
+idle_atom(open_a, looking_a).
+idle_atom(open_a, looking_b).
+idle_atom(open_a, looking_c).
+idle_atom(open_a, tail).
 
 action(peek_a).
 sensing(peek_a).
@@ -193,6 +227,11 @@ observes(signal_a_b, a, true).
 observes(signal_a_b, b, true).
 oblivious(signal_a_b, c).
 
+idle_atom(signal_a_b, looking_a).
+idle_atom(signal_a_b, looking_c).
+idle_atom(signal_a_b, opened).
+idle_atom(signal_a_b, tail).
+
 
 action(signal_a_c).
 ontic(signal_a_c).
@@ -205,6 +244,11 @@ executable(signal_a_c, and(and(b(a,looking_a),b(a,-looking_c)),and(looking_a,-lo
 observes(signal_a_c, a, true).
 observes(signal_a_c, c, true).
 oblivious(signal_a_c, b).
+
+idle_atom(signal_a_c, looking_a).
+idle_atom(signal_a_c, looking_b).
+idle_atom(signal_a_c, opened).
+idle_atom(signal_a_c, tail).
 
 
 action(signal_b_a).
@@ -219,6 +263,11 @@ observes(signal_b_a, a, true).
 observes(signal_b_a, b, true).
 oblivious(signal_b_a, c).
 
+idle_atom(signal_b_a, looking_b).
+idle_atom(signal_b_a, looking_c).
+idle_atom(signal_b_a, opened).
+idle_atom(signal_b_a, tail).
+
 
 action(signal_b_c).
 ontic(signal_b_c).
@@ -231,6 +280,11 @@ executable(signal_b_c, and(and(b(b,looking_b),b(b,-looking_c)),and(looking_b,-lo
 observes(signal_b_c, b, true).
 observes(signal_b_c, c, true).
 oblivious(signal_b_c, a).
+
+idle_atom(signal_b_c, looking_a).
+idle_atom(signal_b_c, looking_b).
+idle_atom(signal_b_c, opened).
+idle_atom(signal_b_c, tail).
 
 
 action(signal_c_a).
@@ -245,6 +299,11 @@ observes(signal_c_a, a, true).
 observes(signal_c_a, c, true).
 oblivious(signal_c_a, b).
 
+idle_atom(signal_c_a, looking_b).
+idle_atom(signal_c_a, looking_c).
+idle_atom(signal_c_a, opened).
+idle_atom(signal_c_a, tail).
+
 
 action(signal_c_b).
 ontic(signal_c_b).
@@ -258,6 +317,10 @@ observes(signal_c_b, b, true).
 observes(signal_c_b, c, true).
 oblivious(signal_c_b, a).
 
+idle_atom(signal_c_b, looking_a).
+idle_atom(signal_c_b, looking_c).
+idle_atom(signal_c_b, opened).
+idle_atom(signal_c_b, tail).
 
 
 

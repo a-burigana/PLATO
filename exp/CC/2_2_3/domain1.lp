@@ -1,24 +1,24 @@
 % *** ATOMS ***
-atom(at_a_1).
-formula(at_a_1).
-atom(at_a_2).
-formula(at_a_2).
-atom(at_a_3).
-formula(at_a_3).
-atom(at_b1_1).
-formula(at_b1_1).
 atom(at_b1_3).
-formula(at_b1_3).
 atom(at_b2_1).
-formula(at_b2_1).
+atom(at_b1_1).
 atom(at_b2_3).
-formula(at_b2_3).
+atom(at_a_3).
 atom(at_b_1).
-formula(at_b_1).
+atom(at_a_2).
 atom(at_b_2).
-formula(at_b_2).
+atom(at_a_1).
 atom(at_b_3).
-formula(at_b_3).
+% formula(at_a_1).
+% formula(at_a_2).
+% formula(at_a_3).
+% formula(at_b1_1).
+% formula(at_b1_3).
+% formula(at_b2_1).
+% formula(at_b2_3).
+% formula(at_b_1).
+% formula(at_b_2).
+% formula(at_b_3).
 
 
 % *** AGENTS ***
@@ -104,6 +104,14 @@ ontic(left_a).
 % formula(neg(at_a_1)).
 % formula(and(neg(at_a_1),b(a,-at_a_1))).
 
+idle_atom(left_a, at_b1_3).
+idle_atom(left_a, at_b2_1).
+idle_atom(left_a, at_b1_1).
+idle_atom(left_a, at_b2_3).
+idle_atom(left_a, at_b_1).
+idle_atom(left_a, at_b_2).
+idle_atom(left_a, at_b_3).
+
 #program step(t).
 
 applicable(t, left_a) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, -at_a_1), not -applicable(t, left_a).
@@ -129,7 +137,13 @@ ontic(left_b).
 % formula(b(b,-at_b_1)).
 % formula(and(b(b,-at_b_1),neg(at_b_1))).
 
-executable(left_b, and(b(b,-at_b_1),neg(at_b_1))).
+idle_atom(left_b, at_b1_3).
+idle_atom(left_b, at_b2_1).
+idle_atom(left_b, at_b1_1).
+idle_atom(left_b, at_b2_3).
+idle_atom(left_b, at_a_1).
+idle_atom(left_b, at_a_2).
+idle_atom(left_b, at_a_3).
 
 #program step(t).
 
@@ -153,6 +167,14 @@ ontic(right_a).
 % formula(b(a,-at_a_3)).
 % formula(and(b(a,-at_a_3),neg(at_a_3))).
 
+idle_atom(right_a, at_b1_3).
+idle_atom(right_a, at_b2_1).
+idle_atom(right_a, at_b1_1).
+idle_atom(right_a, at_b2_3).
+idle_atom(right_a, at_b_1).
+idle_atom(right_a, at_b_2).
+idle_atom(right_a, at_b_3).
+
 #program step(t).
 
 applicable(t, right_a) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, -at_a_3), not -applicable(t, right_a).
@@ -174,6 +196,14 @@ ontic(right_b).
 % formula(neg(at_b_3)).
 % formula(b(b,-at_b_3)).
 % formula(and(b(b,-at_b_3),neg(at_b_3))).
+
+idle_atom(right_b, at_b1_3).
+idle_atom(right_b, at_b2_1).
+idle_atom(right_b, at_b1_1).
+idle_atom(right_b, at_b2_3).
+idle_atom(right_b, at_a_1).
+idle_atom(right_b, at_a_2).
+idle_atom(right_b, at_a_3).
 
 #program step(t).
 

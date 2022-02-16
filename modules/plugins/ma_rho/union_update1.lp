@@ -18,7 +18,7 @@ semantics(possibilities).
 
 #program step(t).
 
-applicable(t, ACT) :- action_pre(ACT, F), entails(t, W, Ew, Hw, F).
+% applicable(t, ACT) :- action_pre(ACT, F), entails(t, W, Ew, Hw, F).
 
 %%% Same path with meta-q
 same_path(t, t , W, Ewo, Hwo, Ew, Hw ) :- dw(t, W, Ewo, Hwo), plan(t, ACT), de(ACT, Ew), e(ACT, Ew, 0, _),
@@ -88,32 +88,16 @@ holds(t+1, W, 1, Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, H
 holds(t+1, W, 1, Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
                             causes(t, Tw, W, Ewo, Hwo, ACT, -P).
 
-
-% holds(t+1, W, 1, Hw, P) :-  time(t), time(Tw), Tw <= t, plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-%                             w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), causes(t, ACT,  P), atom(P),
-%                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
-
-% -holds(t+1, W, 1, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-%                             w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), causes(t, ACT, -P), atom(P),
-%                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
-
 % Inertia in ontic actions
 holds(t+1, W, 1, Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            not causes(t, Tw, W, Ewo, Hwo, ACT, P), not causes(t, Tw, W, Ewo, Hwo, ACT, -P), holds(Tw, W, Ewo, Hwo,  P).
+                            % not causes(t, Tw, W, Ewo, Hwo, ACT, P), not causes(t, Tw, W, Ewo, Hwo, ACT, -P),
+                            idle_atom(ACT, P),
+                            holds(Tw, W, Ewo, Hwo,  P).
 
 holds(t+1, W, 1, Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            not causes(t, Tw, W, Ewo, Hwo, ACT, P), not causes(t, Tw, W, Ewo, Hwo, ACT, -P), holds(Tw, W, Ewo, Hwo, -P).
-
-% holds(t+1, W, 1, Hw, P) :-  time(t), time(Tw), Tw <= t, plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-%                             not causes(t, ACT, P), not causes(t, ACT, -P), atom(P), holds(Tw, W, Ewo, Hwo, P),
-%                             w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
-
-% holds(t+1, W, 1, Hw, P) :-  time(t), time(Tw), Tw <= t, plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost1), formula(Fpost2),
-%                             post(ACT, 1, P, Fpost1), post(ACT, 1, -P, Fpost2), atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo),
-%                             not entails(Tw, W, Ewo, Hwo, Fpost1), not entails(Tw, W, Ewo, Hwo, Fpost2), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
-
-% holds(t+1, W, 0, Hw, P) :-  time(t), time(Tw), Tw <= t, plan(t, ACT), ontic(ACT), e(ACT, 0, 1, 0),
-%                             atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, 0, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 0, Hw).
+                            % not causes(t, Tw, W, Ewo, Hwo, ACT, P), not causes(t, Tw, W, Ewo, Hwo, ACT, -P),
+                            idle_atom(ACT, P),
+                            holds(Tw, W, Ewo, Hwo, -P).
 
 % Epistemic actions
 holds(t+1, W, Ew, Hw,  P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT), e(ACT, Ew, _, 0),
@@ -131,19 +115,3 @@ obs(t, AG, obl  ) :- plan(t, ACT),                        oblivious(t, ACT, AG).
 obs(t, AG, obl  ) :- plan(t, ACT),                    not observes (t, ACT, AG),                           agent(AG).
 obs(t, AG, obl  ) :- plan(t, ACT),      sensing(ACT), not observes (t, ACT, AG), not aware_of(t, ACT, AG), agent(AG).
 obs(t, AG, obl  ) :- plan(t, ACT), announcement(ACT), not observes (t, ACT, AG), not aware_of(t, ACT, AG), agent(AG).
-
-% obs(t, AG, f_obs) :- time(t), plan(t, ACT),        observes(ACT, AG, true), agent(AG).
-% obs(t, AG, p_obs) :- time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, true), agent(AG).
-% obs(t, AG, p_obs) :- time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, true), agent(AG).
-% obs(t, AG, obl  ) :- time(t), plan(t, ACT),       oblivious(ACT, AG),       agent(AG).
-
-% obs(t, AG, f_obs) :- time(t), plan(t, ACT),        observes(ACT, AG, F   ), agent(AG), formula(F),     entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-% obs(t, AG, p_obs) :- time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-% obs(t, AG, p_obs) :- time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-% obs(t, AG, obl  ) :- time(t), plan(t, ACT),        observes(ACT, AG, F   ), agent(AG), formula(F), not entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-% obs(t, AG, obl  ) :- time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-% obs(t, AG, obl  ) :- time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-
-% check_on_w(t, W, Ew, Hw, F) :- time(t), plan(t, ACT),       observes(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew, Hw).
-% check_on_w(t, W, Ew, Hw, F) :- time(t), plan(t, ACT),      sensing(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew, Hw).
-% check_on_w(t, W, Ew, Hw, F) :- time(t), plan(t, ACT), announcement(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew, Hw).
