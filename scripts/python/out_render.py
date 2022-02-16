@@ -49,16 +49,16 @@ def generate_hold_key(hold):
 	replaced = re.sub('\)$', '', replaced)
 	return replaced
 
-def initialize_atom_table(hold, atom_table, key_table):
+def initialize_literal_table(hold, literal_table, key_table):
 	hold_key = generate_hold_key(hold)
 	splitted = hold_key.split(',')
-	atom_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]] = SortedSet()
+	literal_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]] = SortedSet()
 	key_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]] = splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
 
-def generate_atom_table(hold, atom_table):
+def generate_literal_table(hold, literal_table):
 	hold_key = generate_hold_key(hold)
 	splitted = hold_key.split(',')
-	atom_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]].add(splitted[4])
+	literal_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]].add(splitted[4])
 
 
 def initialize_cluster(world, cluster_map):
@@ -147,7 +147,7 @@ n_designated = re.compile('dw\(\S*\)')
 n_world = re.compile('w\(\S*\)')
 n_edge = re.compile('r\(\S*\)')
 n_holds = re.compile('holds\(\S*\)')
-n_atom = re.compile('atom\(\S*\)')
+n_atom = re.compile('atom\([\w\d]+\)')
 
 with open(sys.argv[1]+'.txt', 'r') as n:
 	n = n.read()
@@ -252,41 +252,42 @@ with open(sys.argv[1]+'.txt', 'r') as n:
 					print(',', end ="", file = outputfile)
 			print('"];', file = outputfile)
 
-#ATOMS-TABLE
+	#LITERALS-TABLE
 
-#reading all the ATOMS for complete table
-	ATOMS = SortedSet()
-	atom_predicates = re.findall(n_atom, n)
-	for atom_predicate in atom_predicates:
-		atom_predicate = re.sub('^atom\(', '', atom_predicate)
-		atom_predicate = re.sub('\)$', '', atom_predicate)
-		ATOMS.add(atom_predicate)
+	#reading all the atoms for complete table
+	atom_set = SortedSet()
+	literal_list = re.findall(n_atom, n)
+	for l in literal_list:
+		l = re.sub('^atom\(', '', l)
+		l = re.sub('\)$', '', l)
+		atom_set.add(l)
 
 #table print
 	holds = re.findall(n_holds, n)
-	atom_table = SortedDict()
+	literal_table = SortedDict()
 	ft_keys = SortedDict()
 
 	for hold in holds:
-		initialize_atom_table(hold, atom_table,ft_keys)
+		initialize_literal_table(hold, literal_table,ft_keys)
 
 	for hold in holds:
-		generate_atom_table(hold, atom_table)
+		generate_literal_table(hold, literal_table)
 
 	print('\n//WORLDS description Table:\n\tnode [shape = plain]description[label=<\n\t<table border = "0" cellborder = "1" cellspacing = "0" >', end ="\n", file = outputfile)
-	for key,values in atom_table.items(): # \todo: AGGIUNGI CASO IN CUI TUTTI GLI ATOMI SONO FALSE!!!
+	for key,values in literal_table.items(): # \todo: AGGIUNGI CASO IN CUI TUTTI GLI ATOMI SONO FALSE!!!
 		if ft_keys[key] in poss_world:
 			#counter_rank+=1
 			print("\t\t", end ="", file = outputfile)
 			#print(key, end ="")
 			#print('{rank = ' + str(counter_rank) + '; ', end ="", file = outputfile)
 			print('<tr><td>'+ ft_keys[key] + '</td>\t<td>', end ="", file = outputfile)
-			for atom in ATOMS:
-				if atom in atom_table[key]:
-					print('<font color="#0000ff"> '+atom + '</font>', end ="", file = outputfile)
-				else:
-					print('<font color="#ff1020">-'+atom+"</font>", end ="", file = outputfile)
-				if ATOMS.index(atom) != len(ATOMS)-1:
+			for atom in atom_set:
+				neg_atom = "-" + atom
+				if atom in literal_table[key]:
+					print('<font color="#0000ff"> ' + atom     + '</font>', end ="", file = outputfile)
+				if neg_atom in literal_table[key]:
+					print('<font color="#ff1020">'  + neg_atom + "</font>", end ="", file = outputfile)
+				if atom_set.index(atom) != len(atom_set)-1:
 					print(', ', end ="", file = outputfile)
 			print('</td></tr>', end ="\n", file = outputfile)
 	print('\t</table>>]',end ="\n", file = outputfile)
