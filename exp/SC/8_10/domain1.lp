@@ -1,26 +1,27 @@
 % *** ATOMS ***
 atom(at_1).
-formula(at_1).
 atom(at_10).
-formula(at_10).
 atom(at_2).
-formula(at_2).
 atom(at_3).
-formula(at_3).
 atom(at_4).
-formula(at_4).
 atom(at_5).
-formula(at_5).
 atom(at_6).
-formula(at_6).
 atom(at_7).
-formula(at_7).
 atom(at_8).
-formula(at_8).
 atom(at_9).
-formula(at_9).
 atom(q).
-formula(q).
+
+% formula(at_1).
+% formula(at_10).
+% formula(at_2).
+% formula(at_3).
+% formula(at_4).
+% formula(at_5).
+% formula(at_6).
+% formula(at_7).
+% formula(at_8).
+% formula(at_9).
+% formula(q).
 
 
 % *** AGENTS ***
@@ -49,6 +50,7 @@ ontic(left).
 % formula(-at_9).
 % formula(-at_1).
 
+idle_atom(left, q).
 
 #program step(t).
 
@@ -87,6 +89,8 @@ observes(t, left, j).
 
 action(right).
 ontic(right).
+
+idle_atom(right, q).
 
 #program step(t).
 

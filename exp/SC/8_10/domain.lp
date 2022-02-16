@@ -77,6 +77,8 @@ observes(left, g, true).
 observes(left, h, true).
 observes(left, j, true).
 
+idle_atom(left, q).
+
 
 action(right).
 ontic(right).
@@ -108,6 +110,8 @@ observes(right, f, true).
 observes(right, g, true).
 observes(right, h, true).
 observes(right, j, true).
+
+idle_atom(right, q).
 
 
 action(sense).
