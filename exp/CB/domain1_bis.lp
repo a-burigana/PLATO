@@ -11,6 +11,65 @@ agent(b).
 agent(c).
 
 
+idle_atom(distract_a_b, looking_a).
+idle_atom(distract_a_b, looking_c).
+idle_atom(distract_a_b, opened).
+idle_atom(distract_a_b, tail).
+
+idle_atom(distract_a_c, looking_a).
+idle_atom(distract_a_c, looking_b).
+idle_atom(distract_a_c, opened).
+idle_atom(distract_a_c, tail).
+
+idle_atom(distract_b_a, looking_b).
+idle_atom(distract_b_a, looking_c).
+idle_atom(distract_b_a, opened).
+idle_atom(distract_b_a, tail).
+idle_atom(distract_b_c, looking_a).
+idle_atom(distract_b_c, looking_b).
+idle_atom(distract_b_c, opened).
+idle_atom(distract_b_c, tail).
+idle_atom(distract_c_a, looking_b).
+idle_atom(distract_c_a, looking_c).
+idle_atom(distract_c_a, opened).
+idle_atom(distract_c_a, tail).
+
+idle_atom(distract_c_b, looking_a).
+idle_atom(distract_c_b, looking_c).
+idle_atom(distract_c_b, opened).
+idle_atom(distract_c_b, tail).
+
+idle_atom(open_a, looking_a).
+idle_atom(open_a, looking_b).
+idle_atom(open_a, looking_c).
+idle_atom(open_a, tail).
+
+idle_atom(signal_a_b, looking_a).
+idle_atom(signal_a_b, looking_c).
+idle_atom(signal_a_b, opened).
+idle_atom(signal_a_b, tail).
+idle_atom(signal_a_c, looking_a).
+idle_atom(signal_a_c, looking_b).
+idle_atom(signal_a_c, opened).
+idle_atom(signal_a_c, tail).
+idle_atom(signal_b_a, looking_b).
+idle_atom(signal_b_a, looking_c).
+idle_atom(signal_b_a, opened).
+idle_atom(signal_b_a, tail).
+idle_atom(signal_b_c, looking_a).
+idle_atom(signal_b_c, looking_b).
+idle_atom(signal_b_c, opened).
+idle_atom(signal_b_c, tail).
+idle_atom(signal_c_a, looking_b).
+idle_atom(signal_c_a, looking_c).
+idle_atom(signal_c_a, opened).
+idle_atom(signal_c_a, tail).
+idle_atom(signal_c_b, looking_a).
+idle_atom(signal_c_b, looking_c).
+idle_atom(signal_c_b, opened).
+idle_atom(signal_c_b, tail).
+
+
 % *** ACTIONS ***
 action(distract_a_b).
 ontic(distract_a_b).
