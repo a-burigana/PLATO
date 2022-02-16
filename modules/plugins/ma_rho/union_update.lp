@@ -31,19 +31,11 @@ applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
 
 %%% Same path with meta-q
 same_path(t, t , W, Ewo, Hwo, Ew, Hw ) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _),
-                                          dw(t, W, Ewo, Hwo), de(ACT, Ew), Hw = t+1 + Hwo * Ew.
+                                          dw(t, W, Ewo, Hwo), de(ACT, Ew), Hw = t+1 + Hwo * (Ewo+Ew).
 
 same_path(t, Tw, W, Ewo, Hwo, Ew, Hw ) :- time(t), time(Tw), time(Tw2), Tw <= Tw2, Tw2 <= t, plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS), obs_type(OBS), OBS != obl,
                                           w(Tw, W, Ewo, Hwo), e(ACT, Ew, 0, _), w(Tw2, W2, Ew2, Hw2), e(ACT, E2, 0, _), same_path(t, Tw2, W2, Ew2, Hw2, E2, _),
-                                          r(Tw2, W2, Ew2, Hw2, Tw, W, Ewo, Hwo, AG), metaq(ACT, E2, Ew, OBS), Hw = t+1 + Hwo * Ew.
-
-same_path(t, Tw, W, Ewo, Hwo, Ew, Hwo) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), agent(AG), obs(t, AG, obl),
-                                          w(Tw, W, Ewo, Hwo), e(ACT, Ew, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, 1, 0), same_path(t, t, W2, Ew2, Hw2, E2, _),
-                                          r(t, W2, Ew2, Hw2, Tw, W, Ewo, Hwo, AG), metaq(ACT, E2, Ew, obl  ).
-
-same_path(t, Tw, W, Ewo, Hwo, Ew, Hwo) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), agent(AG),
-                                          w(Tw, W, Ewo, Hwo), e(ACT, Ew, 1, 0), w(t, W2, Ew2, Hw2), e(ACT, E2, 1, 0), same_path(t, t, W2, Ew2, Hw2, E2, _),
-                                          r(t, W2, Ew2, Hw2, Tw, W, Ewo, Hwo, AG), metaq(ACT, E2, Ew, all  ).
+                                          r(Tw2, W2, Ew2, Hw2, Tw, W, Ewo, Hwo, AG), metaq(ACT, E2, Ew, OBS), Hw = t+1 + Hwo * (Ewo+Ew).
 
 % Designated worlds (ontic)
 dw(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _), dw(t, W, Ewo, Hwo), de(ACT, 1),

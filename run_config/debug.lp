@@ -6,11 +6,11 @@
 % plan(4,shout_tail_a).
 % goal(6).
 
-plan(0,signal_a_c).
-plan(1,open_a).
-plan(2,peek_c).
+plan(0,open_a).
+plan(1,peek_a).
+plan(2,signal_a_c).
 plan(3,signal_c_b).
-plan(4,shout_tail_c).
+plan(4,shout_tail_a).
 goal(5).
 
 
