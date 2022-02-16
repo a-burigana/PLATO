@@ -5,17 +5,6 @@ atom(looking_c).
 atom(opened).
 atom(tail).
 
-literal(looking_a).
-literal(looking_b).
-literal(looking_c).
-literal(opened).
-literal(tail).
-literal(-looking_a).
-literal(-looking_b).
-literal(-looking_c).
-literal(-opened).
-literal(-tail).
-
 % *** AGENTS ***
 agent(a).
 agent(b).
