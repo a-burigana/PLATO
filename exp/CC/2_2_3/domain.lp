@@ -79,6 +79,14 @@ executable(left_a, and(neg(at_a_1),b(a,-at_a_1))).
 observes(left_a, a, true).
 observes(left_a, b, true).
 
+idle_atom(left_a, at_b1_3).
+idle_atom(left_a, at_b2_1).
+idle_atom(left_a, at_b1_1).
+idle_atom(left_a, at_b2_3).
+idle_atom(left_a, at_b_1).
+idle_atom(left_a, at_b_2).
+idle_atom(left_a, at_b_3).
+
 
 action(left_b).
 ontic(left_b).
@@ -97,6 +105,15 @@ observes(left_b, a, true).
 observes(left_b, b, true).
 
 
+idle_atom(left_b, at_b1_3).
+idle_atom(left_b, at_b2_1).
+idle_atom(left_b, at_b1_1).
+idle_atom(left_b, at_b2_3).
+idle_atom(left_b, at_a_1).
+idle_atom(left_b, at_a_2).
+idle_atom(left_b, at_a_3).
+
+
 action(right_a).
 ontic(right_a).
 causes(right_a, -at_a_1, at_a_1).
@@ -109,6 +126,14 @@ formula(and(b(a,-at_a_3),neg(at_a_3))).
 executable(right_a, and(b(a,-at_a_3),neg(at_a_3))).
 observes(right_a, a, true).
 observes(right_a, b, true).
+
+idle_atom(right_a, at_b1_3).
+idle_atom(right_a, at_b2_1).
+idle_atom(right_a, at_b1_1).
+idle_atom(right_a, at_b2_3).
+idle_atom(right_a, at_b_1).
+idle_atom(right_a, at_b_2).
+idle_atom(right_a, at_b_3).
 
 
 action(right_b).
@@ -123,6 +148,14 @@ formula(and(b(b,-at_b_3),neg(at_b_3))).
 executable(right_b, and(b(b,-at_b_3),neg(at_b_3))).
 observes(right_b, a, true).
 observes(right_b, b, true).
+
+idle_atom(right_b, at_b1_3).
+idle_atom(right_b, at_b2_1).
+idle_atom(right_b, at_b1_1).
+idle_atom(right_b, at_b2_3).
+idle_atom(right_b, at_a_1).
+idle_atom(right_b, at_a_2).
+idle_atom(right_b, at_a_3).
 
 
 action(tell_a_b1_1).
