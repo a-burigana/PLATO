@@ -86,34 +86,67 @@ holds(t+1, W, 1, Hw,  P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(AC
 holds(t+1, W, 1, Hw, -P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), w(t+1, W, 1, Hw), post(ACT, 1, -P, true), atom(P).
 
 % Postcondition is satisfied
-holds(t+1, W, 1, Hw,  P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost),
-                            w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), post(ACT, 1,  P, Fpost), atom(P), entails(Tw, W, Ewo, Hwo, Fpost),
-                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+holds(t+1, W, 1, Hw,  P) :- 
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            post(ACT, 1,  P, Fpost), entails(Tw, W, Ewo, Hwo, Fpost), not post(ACT, 1, -P, _).
 
-holds(t+1, W, 1, Hw, -P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost),
-                            w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), post(ACT, 1, -P, Fpost), atom(P), entails(Tw, W, Ewo, Hwo, Fpost),
-                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+holds(t+1, W, 1, Hw, -P) :- 
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            post(ACT, 1, -P, Fpost), entails(Tw, W, Ewo, Hwo, Fpost), not post(ACT, 1,  P, _).
+
+holds(t+1, W, 1, Hw,  P) :- 
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            post(ACT, 1,  P, Fpost1),     entails(Tw, W, Ewo, Hwo, Fpost1),
+                            post(ACT, 1, -P, Fpost2), not entails(Tw, W, Ewo, Hwo, Fpost2).
+
+holds(t+1, W, 1, Hw, -P) :- 
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            post(ACT, 1, -P, Fpost1),     entails(Tw, W, Ewo, Hwo, Fpost1),
+                            post(ACT, 1,  P, Fpost2), not entails(Tw, W, Ewo, Hwo, Fpost2).
 
 % Inertia in ontic actions
-holds(t+1, W, 1, Hw,  P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            % not post(ACT, 1, P, _), not post(ACT, 1, -P, _),
-                            idle_atom(ACT, P),
-                            atom(P), holds(Tw, W, Ewo, Hwo,  P),
-                            w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :-
+                                         same_path(t, Tw, W, Ewo, Hwo, _, _), plan(t, ACT), atom(P), formula(Fpost1), formula(Fpost2),
+                                         post(ACT, 1,  P, Fpost1), not entails(Tw, W, Ewo, Hwo, Fpost1),
+                                         post(ACT, 1, -P, Fpost2), not entails(Tw, W, Ewo, Hwo, Fpost2).
 
-holds(t+1, W, 1, Hw, -P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            % not post(ACT, 1, P, _), not post(ACT, 1, -P, _),
-                            idle_atom(ACT, P),
-                            atom(P), holds(Tw, W, Ewo, Hwo, -P),
-                            w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :-
+                                         same_path(t, Tw, W, Ewo, Hwo, _, _), plan(t, ACT), atom(P), formula(Fpost1),
+                                         post(ACT, 1,  P, Fpost1), not entails(Tw, W, Ewo, Hwo, Fpost1),
+                                         not post(ACT, 1, -P, _).
 
-holds(t+1, W, 1, Hw,  P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost1), formula(Fpost2),
-                            post(ACT, 1, P, Fpost1), post(ACT, 1, -P, Fpost2), atom(P), holds(Tw, W, Ewo, Hwo,  P), w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo),
-                            not entails(Tw, W, Ewo, Hwo, Fpost1), not entails(Tw, W, Ewo, Hwo, Fpost2), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :-
+                                         same_path(t, Tw, W, Ewo, Hwo, _, _), plan(t, ACT), atom(P), formula(Fpost1),
+                                         post(ACT, 1, -P, Fpost1), not entails(Tw, W, Ewo, Hwo, Fpost1),
+                                         not post(ACT, 1,  P, _).
 
-holds(t+1, W, 1, Hw, -P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost1), formula(Fpost2),
-                            post(ACT, 1, P, Fpost1), post(ACT, 1, -P, Fpost2), atom(P), holds(Tw, W, Ewo, Hwo, -P), w(t+1, W, 1, Hw), w(Tw, W, Ewo, Hwo),
-                            not entails(Tw, W, Ewo, Hwo, Fpost1), not entails(Tw, W, Ewo, Hwo, Fpost2), same_path(t, Tw, W, Ewo, Hwo, 1, Hw).
+% #show idle_atom/7.
+% #show holds/5.
+
+
+% holds(t+1, W, 1, Hw,  P) :-
+%                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+%                             holds(Tw, W, Ewo, Hwo,  P), post(ACT, 1, -P, Fpost), not entails(Tw, W, Ewo, Hwo, Fpost).
+
+% holds(t+1, W, 1, Hw, -P) :-
+%                             same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+%                             holds(Tw, W, Ewo, Hwo, -P), post(ACT, 1,  P, Fpost), not entails(Tw, W, Ewo, Hwo, Fpost).
+
+holds(t+1, W, 1, Hw,  P) :- 
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            idle_atom(t, Tw, W, Ewo, Hwo, ACT, P), holds(Tw, W, Ewo, Hwo,  P).
+
+holds(t+1, W, 1, Hw, -P) :-
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            idle_atom(t, Tw, W, Ewo, Hwo, ACT, P), holds(Tw, W, Ewo, Hwo, -P).
+
+holds(t+1, W, 1, Hw,  P) :-
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo,  P).
+
+holds(t+1, W, 1, Hw, -P) :-
+                            same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
+                            idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo, -P).
 
 % holds(t+1, W, 0, Hw, P) :-  time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 0, 1, 0),
 %                             atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, 0, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, 0, Hw).

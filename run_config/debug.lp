@@ -27,9 +27,9 @@
 
 plan(0,right).
 plan(1,sense).
-% plan(2,right).
-% plan(3,right).
-% plan(4,shout_4).
+plan(2,right).
+plan(3,right).
+plan(4,shout_4).
 goal(5).
 
 
@@ -61,4 +61,4 @@ goal(5).
 #show goal/1.
 % #show reaches/9.
 
-#show holds/5.
+% #show holds/5.
