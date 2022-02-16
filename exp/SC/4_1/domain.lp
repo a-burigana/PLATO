@@ -35,6 +35,8 @@ observes(left, a, true).
 observes(left, b, true).
 observes(left, c, true).
 
+idle_atom(left, q).
+
 
 action(right).
 ontic(right).
@@ -48,6 +50,8 @@ executable(right, -at_4).
 observes(right, a, true).
 observes(right, b, true).
 observes(right, c, true).
+
+idle_atom(right, q).
 
 
 action(sense).

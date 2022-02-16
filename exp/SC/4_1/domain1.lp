@@ -1,14 +1,15 @@
 % *** ATOMS ***
 atom(at_1).
-formula(at_1).
 atom(at_2).
-formula(at_2).
 atom(at_3).
-formula(at_3).
 atom(at_4).
-formula(at_4).
 atom(q).
-formula(q).
+
+% formula(at_1).
+% formula(at_2).
+% formula(at_3).
+% formula(at_4).
+% formula(q).
 
 
 % *** AGENTS ***
@@ -24,6 +25,8 @@ ontic(left).
 % formula(-at_3).
 % formula(-at_4).
 % formula(-at_1).
+
+idle_atom(left, q).
 
 #program step(t).
 
@@ -44,6 +47,8 @@ observes(t, left, c).
 
 action(right).
 ontic(right).
+
+idle_atom(right, q).
 
 #program step(t).
 
