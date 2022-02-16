@@ -25,11 +25,12 @@
 % goal(3).
 
 
-plan(0,right).
-plan(1,sense).
-plan(2,right).
-plan(3,right).
-plan(4,shout_4).
+plan(0,sense).
+% plan(0,right).
+% plan(1,sense).
+% plan(2,right).
+% plan(3,right).
+% plan(4,shout_4).
 goal(5).
 
 
