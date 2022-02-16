@@ -6,12 +6,12 @@
 % plan(4,shout_tail_a).
 % goal(6).
 
-% plan(0,signal_a_b).
-% plan(1,signal_a_c).
-% plan(2,open_a).
-% plan(3,peek_b).
-% plan(4,shout_tail_b).
-% goal(5).
+plan(0,signal_a_c).
+plan(1,open_a).
+plan(2,peek_c).
+plan(3,signal_c_b).
+plan(4,shout_tail_c).
+goal(5).
 
 
 % plan(0,signal_a_b).
@@ -19,10 +19,10 @@
 % goal(2).
 
 
-plan(0,left_b).
-plan(1,b_check_1).
-plan(2,tell_b_b1_1).
-goal(3).
+% plan(0,left_b).
+% plan(1,b_check_1).
+% plan(2,tell_b_b1_1).
+% goal(3).
 
 
 % plan(0,right).

@@ -82,28 +82,24 @@ r(t+1, W, Ew, Hw,
 
 % STEP 4: determine the interpretation of the worlds
 % Postcondition is satisfied
-holds(t+1, W, 1, Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            causes(t, Tw, W, Ewo, Hwo, ACT,  P).
+holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
+                             causes(t, Tw, W, Ewo, Hwo, ACT,  P).
 
-holds(t+1, W, 1, Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            causes(t, Tw, W, Ewo, Hwo, ACT, -P).
+holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
+                             causes(t, Tw, W, Ewo, Hwo, ACT, -P).
 
 % Inertia in ontic actions
-holds(t+1, W, 1, Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            % not causes(t, Tw, W, Ewo, Hwo, ACT, P), not causes(t, Tw, W, Ewo, Hwo, ACT, -P),
-                            idle_atom(ACT, P),
-                            holds(Tw, W, Ewo, Hwo,  P).
+holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
+                             idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo,  P).
 
-holds(t+1, W, 1, Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            % not causes(t, Tw, W, Ewo, Hwo, ACT, P), not causes(t, Tw, W, Ewo, Hwo, ACT, -P),
-                            idle_atom(ACT, P),
-                            holds(Tw, W, Ewo, Hwo, -P).
+holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
+                             idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo, -P).
 
 % Epistemic actions
-holds(t+1, W, Ew, Hw,  P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT), e(ACT, Ew, _, 0),
+holds(t+1, W, Ew, Hw,  P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT), e(ACT, Ew, 0, 0),
                              holds(Tw, W, Ewo, Hwo,  P).
 
-holds(t+1, W, Ew, Hw, -P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT), e(ACT, Ew, _, 0),
+holds(t+1, W, Ew, Hw, -P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT), e(ACT, Ew, 0, 0),
                              holds(Tw, W, Ewo, Hwo, -P).
 
 %%% Checking observability relations %%%
@@ -112,6 +108,6 @@ obs(t, AG, p_obs) :- plan(t, ACT),      sensing(ACT),     aware_of (t, ACT, AG).
 obs(t, AG, p_obs) :- plan(t, ACT), announcement(ACT),     aware_of (t, ACT, AG).
 
 obs(t, AG, obl  ) :- plan(t, ACT),                        oblivious(t, ACT, AG).
-obs(t, AG, obl  ) :- plan(t, ACT),                    not observes (t, ACT, AG),                           agent(AG).
+obs(t, AG, obl  ) :- plan(t, ACT),        ontic(ACT), not observes (t, ACT, AG),                           agent(AG).
 obs(t, AG, obl  ) :- plan(t, ACT),      sensing(ACT), not observes (t, ACT, AG), not aware_of(t, ACT, AG), agent(AG).
 obs(t, AG, obl  ) :- plan(t, ACT), announcement(ACT), not observes (t, ACT, AG), not aware_of(t, ACT, AG), agent(AG).
