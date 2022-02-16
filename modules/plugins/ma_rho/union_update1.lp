@@ -89,11 +89,20 @@ holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, 
                              causes(t, Tw, W, Ewo, Hwo, ACT, -P).
 
 % Inertia in ontic actions
+idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :- same_path(t, Tw, W, Ewo, Hwo, _, _), plan(t, ACT), atom(P),
+                                         not causes(t, Tw, W, Ewo, Hwo, ACT,  P), not causes(t, Tw, W, Ewo, Hwo, ACT, -P).
+
 holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
                              idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo,  P).
 
 holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
                              idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo, -P).
+
+holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
+                             idle_atom(t, Tw, W, Ewo, Hwo, ACT, P), holds(Tw, W, Ewo, Hwo,  P).
+
+holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1),
+                             idle_atom(t, Tw, W, Ewo, Hwo, ACT, P), holds(Tw, W, Ewo, Hwo, -P).
 
 % Epistemic actions
 holds(t+1, W, Ew, Hw,  P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT), e(ACT, Ew, 0, 0),
