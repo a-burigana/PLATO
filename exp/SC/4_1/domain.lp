@@ -1,14 +1,15 @@
 % *** ATOMS ***
 atom(at_1).
-formula(at_1).
 atom(at_2).
-formula(at_2).
 atom(at_3).
-formula(at_3).
 atom(at_4).
-formula(at_4).
 atom(q).
-formula(q).
+
+% formula(at_1).
+% formula(at_2).
+% formula(at_3).
+% formula(at_4).
+% formula(q).
 
 
 % *** AGENTS ***
@@ -20,89 +21,139 @@ agent(c).
 % *** ACTIONS ***
 action(left).
 ontic(left).
-causes(left, at_1, at_2).
-causes(left, at_2, at_3).
-formula(-at_2).
-causes(left, -at_2, at_2).
-causes(left, at_3, at_4).
-formula(-at_3).
-causes(left, -at_3, at_3).
-formula(-at_4).
-causes(left, -at_4, at_4).
-formula(-at_1).
-executable(left, -at_1).
-observes(left, a, true).
-observes(left, b, true).
-observes(left, c, true).
+% formula(-at_2).
+% formula(-at_3).
+% formula(-at_4).
+% formula(-at_1).
 
 idle_atom(left, q).
 
+#program step(t).
+
+applicable(t, left) :- dw(t, W, Ew, Hw), not holds(t, W, Ew, Hw, at_1).
+
+causes(t, Tw, W, Ew, Hw, left,  at_1) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_2).
+causes(t, Tw, W, Ew, Hw, left,  at_2) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_3).
+causes(t, Tw, W, Ew, Hw, left, -at_2) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_2).
+causes(t, Tw, W, Ew, Hw, left,  at_3) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_4).
+causes(t, Tw, W, Ew, Hw, left, -at_3) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_3).
+causes(t, Tw, W, Ew, Hw, left, -at_4) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_4).
+
+observes(t, left, a).
+observes(t, left, b).
+observes(t, left, c).
+
+#program base.
 
 action(right).
 ontic(right).
-causes(right, -at_1, at_1).
-causes(right, at_2, at_1).
-causes(right, -at_2, at_2).
-causes(right, at_3, at_2).
-causes(right, -at_3, at_3).
-causes(right, at_4, at_3).
-executable(right, -at_4).
-observes(right, a, true).
-observes(right, b, true).
-observes(right, c, true).
 
 idle_atom(right, q).
 
+#program step(t).
+
+applicable(t, right) :- dw(t, W, Ew, Hw), not holds(t, W, Ew, Hw, at_4).
+
+causes(t, Tw, W, Ew, Hw, right, -at_1) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_1).
+causes(t, Tw, W, Ew, Hw, right,  at_2) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_1).
+causes(t, Tw, W, Ew, Hw, right, -at_2) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_2).
+causes(t, Tw, W, Ew, Hw, right,  at_3) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_2).
+causes(t, Tw, W, Ew, Hw, right, -at_3) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_3).
+causes(t, Tw, W, Ew, Hw, right,  at_4) :- same_path(t, Tw, W, Ew, Hw, _, _), holds(Tw, W, Ew, Hw, at_3).
+
+observes(t, right, a).
+observes(t, right, b).
+observes(t, right, c).
+
+#program base.
 
 action(sense).
 sensing(sense).
-determines(sense, q).
-executable(sense, at_2).
-observes(sense, a, true).
-oblivious(sense, b).
-oblivious(sense, c).
 
+#program step(t).
+
+applicable(t, sense) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, at_2).
+
+determines(sense, q).
+
+observes(t, sense, a).
+oblivious(t, sense, b).
+oblivious(t, sense, c).
+
+#program base.
 
 action(shout_1).
 announcement(shout_1).
-announces(shout_1, q).
-formula(b(a,q)).
-formula(and(b(a,q),at_1)).
-executable(shout_1, and(b(a,q),at_1)).
-observes(shout_1, a, true).
-observes(shout_1, b, true).
-oblivious(shout_1, c).
+% formula(b(a,q)).
+% formula(and(b(a,q),at_1)).
 
+#program step(t).
+
+applicable(t, shout_1) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, at_1), not -applicable(t, shout_1).
+
+-applicable(t, shout_1) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), not holds(Tv, V, Ev, Hv, q).
+
+announces(shout_1, q).
+
+observes(t, shout_1, a).
+observes(t, shout_1, b).
+oblivious(t, shout_1, c).
+
+#program base.
 
 action(shout_2).
 announcement(shout_2).
-announces(shout_2, q).
-formula(and(b(a,q),at_2)).
-executable(shout_2, and(b(a,q),at_2)).
-observes(shout_2, a, true).
-observes(shout_2, b, true).
-observes(shout_2, c, true).
+% formula(and(b(a,q),at_2)).
 
+#program step(t).
+
+applicable(t, shout_2) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, at_2), not -applicable(t, shout_2).
+
+-applicable(t, shout_2) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), not holds(Tv, V, Ev, Hv, q).
+
+announces(shout_2, q).
+
+observes(t, shout_2, a).
+observes(t, shout_2, b).
+observes(t, shout_2, c).
+
+#program base.
 
 action(shout_3).
 announcement(shout_3).
-announces(shout_3, q).
-formula(and(b(a,q),at_3)).
-executable(shout_3, and(b(a,q),at_3)).
-observes(shout_3, a, true).
-observes(shout_3, b, true).
-observes(shout_3, c, true).
+% formula(and(b(a,q),at_3)).
 
+#program step(t).
+
+applicable(t, shout_3) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, at_3), not -applicable(t, shout_3).
+
+-applicable(t, shout_3) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), not holds(Tv, V, Ev, Hv, q).
+
+announces(shout_3, q).
+
+observes(t, shout_3, a).
+observes(t, shout_3, b).
+observes(t, shout_3, c).
+
+#program base.
 
 action(shout_4).
 announcement(shout_4).
-announces(shout_4, q).
-formula(and(b(a,q),at_4)).
-executable(shout_4, and(b(a,q),at_4)).
-observes(shout_4, a, true).
-observes(shout_4, c, true).
-oblivious(shout_4, b).
+% formula(and(b(a,q),at_4)).
 
+#program step(t).
+
+applicable(t, shout_4) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, at_4), not -applicable(t, shout_4).
+
+-applicable(t, shout_4) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), not holds(Tv, V, Ev, Hv, q).
+
+announces(shout_4, q).
+
+observes(t, shout_4, a).
+observes(t, shout_4, c).
+oblivious(t, shout_4, b).
+
+#program base.
 
 
 
