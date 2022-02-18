@@ -14,24 +14,23 @@
 % goal(5).
 
 
-% plan(0,signal_a_b).
-% plan(1,signal_b_c).
-% goal(2).
-
-
 % plan(0,left_b).
 % plan(1,b_check_1).
 % plan(2,tell_b_b1_1).
 % goal(3).
 
+plan(0,right_a).
+plan(1,a_check_3).
+plan(2,tell_b_b1_1).
+goal(3).
 
-plan(0,sense).
+% plan(0,sense).
 % plan(0,right).
 % plan(1,sense).
 % plan(2,right).
 % plan(3,right).
 % plan(4,shout_4).
-goal(5).
+% goal(5).
 
 
 % plan(0,right).

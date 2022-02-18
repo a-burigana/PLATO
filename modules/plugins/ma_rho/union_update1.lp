@@ -22,12 +22,14 @@ applicable(t, ACT) :- action_pre(ACT, F), entails(t, t, W, Ew, Hw, F).
 
 %%% Same path with meta-q
 same_path(t, t , W, Ewo, Hwo, Ew, Hw ) :- dw(t, W, Ewo, Hwo), plan(t, ACT), de(ACT, Ew), e(ACT, Ew, 0, _),
-                                          Hw = t+1 + Hwo * (Ewo+Ew).
+                                          Hw = h(Hwo, t, Ew).
+                                        %   Hw = t+1 + Hwo * (Ewo+Ew).
 
 same_path(t, Tw, W, Ewo, Hwo, Ew, Hw ) :- same_path(t, Tw2, W2, Ew2, Hw2, E2, _), plan(t, ACT), e(ACT, Ew, 0, _), e(ACT, E2, 0, _),
                                           obs(t, AG, OBS), obs_type(OBS), OBS != obl, metaq(ACT, E2, Ew, OBS),
                                           r(Tw2, W2, Ew2, Hw2, Tw, W, Ewo, Hwo, AG), time(Tw), time(Tw2), Tw <= Tw2, Tw2 <= t,
-                                          Hw = t+1 + Hwo * (Ewo+Ew).
+                                          Hw = h(Hwo, t, Ew).
+                                        %   Hw = t+1 + Hwo * (Ewo+Ew).
 
 % Designated worlds (ontic)
 dw(t+1, W, 1, Hw) :- plan(t, ACT), ontic(ACT), dw(t, W, Ewo, Hwo), applicable(t, ACT),
