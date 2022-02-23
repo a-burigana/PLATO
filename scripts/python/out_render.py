@@ -4,7 +4,7 @@
 #after that run "dot -Tpng output.dot >> output.png" or "dot -Tpdf output.dot >> output.pdf"
 
 import sys
-import re
+import regex as re
 from collections import defaultdict
 from sortedcontainers import SortedSet, SortedDict
 
@@ -16,8 +16,8 @@ def generate_designated_key(designated):
 
 def generate_designated(designated):
 	key = generate_designated_key(designated)
-	splitted = key.split(',')
-	return splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
+	splitted = key.split(',', 1)
+	return splitted[0] + '_' + splitted[1] # + '_' + splitted[2]
 
 def generate_world_key(world):
 	replaced = re.sub('w\(', '', world)
@@ -26,8 +26,9 @@ def generate_world_key(world):
 
 def generate_world(world, des_worlds):
 	key = generate_world_key(world)
-	splitted = key.split(',')
-	key = splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
+	splitted = key.split(',', 1)
+	# print(key+"->"+splitted[2])
+	key = splitted[0] + '_' + splitted[1] # + '_' + splitted[2]
 	if key not in des_worlds:
 		print('\tnode [shape = circle] "' + key + '";', file = outputfile)
 	else:
@@ -36,13 +37,13 @@ def generate_world(world, des_worlds):
 
 def initialize_rank(world, rank_map):
 	key = generate_world_key(world)
-	splitted = re.split(',', key)
-	rank_map[2**int(splitted[0])+int(splitted[2])+int(splitted[3])+1] = SortedSet()
+	splitted = key.split(',', 1)
+	rank_map[str(2**int(splitted[0])+1)] = SortedSet()
 
 def generate_rank(world, rank_map):
 	key = generate_world_key(world)
-	splitted = re.split(',', key)
-	rank_map[2**int(splitted[0])+int(splitted[2])+int(splitted[3])+1].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
+	splitted = key.split(',', 2)
+	rank_map[str(2**int(splitted[0])+1)].add('"' + splitted[0] + '_' + splitted[1] + '"')
 
 def generate_hold_key(hold):
 	replaced = re.sub('^holds\(', '', hold)
@@ -51,25 +52,39 @@ def generate_hold_key(hold):
 
 def initialize_literal_table(hold, literal_table, key_table):
 	hold_key = generate_hold_key(hold)
-	splitted = hold_key.split(',')
-	literal_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]] = SortedSet()
-	key_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]] = splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]
+	hs = re.findall(r"\((?:[^()]|(?:(?R)))+\)", hold_key)
+	if (len(hs) == 0):
+		splitted = hold_key.split(',')
+		literal_table[splitted[0]+splitted[1]] = SortedSet()
+		key_table[splitted[0]+splitted[1]] = splitted[0] + '_' + splitted[1]
+	elif (len(hs) == 1):
+		hold_key = re.sub(r"\((?:[^()]|(?:(?R)))+\),", "", hold_key)
+		splitted = hold_key.split(',')
+		literal_table[splitted[0]+str(hs[0])] = SortedSet()
+		key_table[splitted[0]+str(hs[0])] = splitted[0] + '_' + str(hs[0])
+	
 
 def generate_literal_table(hold, literal_table):
 	hold_key = generate_hold_key(hold)
-	splitted = hold_key.split(',')
-	literal_table[splitted[0]+splitted[1]+splitted[2]+splitted[3]].add(splitted[4])
+	hs = re.findall(r"\((?:[^()]|(?:(?R)))+\)", hold_key)
+	if (len(hs) == 0):
+		splitted = hold_key.split(',')
+		literal_table[splitted[0]+splitted[1]].add(splitted[2])
+	elif (len(hs) == 1):
+		hold_key = re.sub(r"\((?:[^()]|(?:(?R)))+\),", "", hold_key)
+		splitted = hold_key.split(',')
+		literal_table[splitted[0]+str(hs[0])].add(splitted[1])
 
 
 def initialize_cluster(world, cluster_map):
 	key = generate_world_key(world)
-	splitted = key.split(',')
+	splitted = key.split(',', 1)
 	cluster_map[splitted[0]] = SortedSet()
 
 def generate_cluster(world, cluster_map):
 	key = generate_world_key(world)
-	splitted = key.split(',')
-	cluster_map[splitted[0]].add('"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3] + '"')
+	splitted = key.split(',', 1)
+	cluster_map[splitted[0]].add('"' + splitted[0] + '_' + splitted[1] + '"')
 
 def generate_edge_key(edge):
 	replaced = re.sub('^r\(', '', edge)
@@ -78,13 +93,32 @@ def generate_edge_key(edge):
 
 def initialize_edges(edge, edges_map):
 	key = generate_edge_key(edge)
-	splitted = key.split(',')
-	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]+ '"'+' -> '+ '"' + splitted[4] + '_' + splitted[5] + '_' + splitted[6] + '_' + splitted[7]+ '"'] = SortedSet()
+	hs = re.findall(r"\((?:[^()]|(?:(?R)))+\)", key)
+	if (len(hs) == 0):
+		splitted = key.split(',')
+		edges_map['"' + splitted[0] + '_' + splitted[1] + '"'+' -> '+ '"' + splitted[2] + '_' + splitted[3] + '"'] = SortedSet()
+	else:
+		key = re.sub(r"\((?:[^()]|(?:(?R)))+\),", "", key)
+		splitted = key.split(',')
+		if (len(hs) == 1):
+			edges_map['"' + splitted[0] + '_' + str(hs[0]) + '"'+' -> '+ '"' + splitted[1] + '_' + splitted[2] + '"'] = SortedSet()
+		elif (len(hs) == 2):
+			edges_map['"' + splitted[0] + '_' + str(hs[0]) + '"'+' -> '+ '"' + splitted[1] + '_' + str(hs[1])  + '"'] = SortedSet()
+
 
 def generate_edges(edge,edges_map):
 	key = generate_edge_key(edge)
-	splitted = key.split(',')
-	edges_map['"' + splitted[0] + '_' + splitted[1] + '_' + splitted[2] + '_' + splitted[3]+ '"'+' -> '+ '"' + splitted[4] + '_' + splitted[5] + '_' + splitted[6] + '_' + splitted[7]+ '"'].add(splitted[8])
+	hs = re.findall(r"\((?:[^()]|(?:(?R)))+\)", key)
+	if (len(hs) == 0):
+		splitted = key.split(',')
+		edges_map['"' + splitted[0] + '_' + splitted[1] + '"'+' -> '+ '"' + splitted[2] + '_' + splitted[3] + '"'].add(splitted[4])
+	else:
+		key = re.sub(r"\((?:[^()]|(?:(?R)))+\),", "", key)
+		splitted = key.split(',')
+		if (len(hs) == 1):
+			edges_map['"' + splitted[0] + '_' + str(hs[0]) + '"'+' -> '+ '"' + splitted[1] + '_' + splitted[2] + '"'].add(splitted[3])
+		elif (len(hs) == 2):
+			edges_map['"' + splitted[0] + '_' + str(hs[0]) + '"'+' -> '+ '"' + splitted[1] + '_' + str(hs[1])  + '"'].add(splitted[2])
 
 def compare_keys(key1,key2,edges_map,edges_map_both):
 	key1_mod = re.sub('\_|->|"', '', key1)
