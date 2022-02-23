@@ -7,7 +7,7 @@ semantics(possibilities).
 #defined announcement/1.
 
 #defined causes/2.
-#defined causes/7.
+#defined causes/3.
 #defined determines/2.
 #defined announces/2.
 
@@ -18,119 +18,114 @@ semantics(possibilities).
 
 #program step(t).
 
-applicable(t, ACT) :- action_pre(ACT, F), entails(t, t, W, Ew, Hw, F).
+applicable(t, ACT) :- action_pre(ACT, F), entails(t, t, W', F).
 
 %%% Same path with meta-q
-same_path(t, t , W, Ewo, Hwo, Ew, Hw ) :- dw(t, W, Ewo, Hwo), plan(t, ACT), de(ACT, Ew), e(ACT, Ew, 0, _),
-                                          Hw = h(Hwo, t, Ew).
-                                        %   Hw = t+1 + Hwo * (Ewo+Ew).
+update(t, t, W, E, (W, t, E)) :- dw(t, W), plan(t, ACT), applicable(t, ACT), de(ACT, E).
 
-same_path(t, Tw, W, Ewo, Hwo, Ew, Hw ) :- same_path(t, Tw2, W2, Ew2, Hw2, E2, _), plan(t, ACT), e(ACT, Ew, 0, _), e(ACT, E2, 0, _),
-                                          obs(t, AG, OBS), obs_type(OBS), OBS != obl, metaq(ACT, E2, Ew, OBS),
-                                          r(Tw2, W2, Ew2, Hw2, Tw, W, Ewo, Hwo, AG), time(Tw), time(Tw2), Tw <= Tw2, Tw2 <= t,
-                                          Hw = h(Hwo, t, Ew).
-                                        %   Hw = t+1 + Hwo * (Ewo+Ew).
+update(t, T, W, E, (W, t, E)) :- update(t, T2, W2, E2, _), plan(t, ACT), applicable(t, ACT), e(ACT, E), e(ACT, E2), E2 > 0,
+                                 obs(t, AG, OBS), obs_type(OBS), OBS != obl, metaq(ACT, E2, E, OBS),
+                                 r(T2, W2, T, W, AG), time(T), time(T2), T <= T2, T2 <= t.
 
-% Designated worlds (ontic)
-dw(t+1, W, 1, Hw) :- plan(t, ACT), ontic(ACT), dw(t, W, Ewo, Hwo), applicable(t, ACT),
-                     de(ACT, 1), e(ACT, 1, 0, _), same_path(t, t, W, Ewo, Hwo, 1, Hw).
-
-% Designated worlds (epistemic)
-% Sigma
-dw(t+1, W, 2, Hw) :- plan(t, ACT), sensing(ACT), dw(t, W, Ewo, Hwo), applicable(t, ACT),
-                     de(ACT, 2), e(ACT, 2, 0, _), determines(ACT, P), holds(t, W, Ewo, Hwo, P), same_path(t, t, W, Ewo, Hwo, 2, Hw).
-
-% Tau
-dw(t+1, W, 1, Hw) :- plan(t, ACT), sensing(ACT), dw(t, W, Ewo, Hwo), applicable(t, ACT),
-                     de(ACT, 1), e(ACT, 1, 0, _), determines(ACT, P), holds(t, W, Ewo, Hwo, -P), same_path(t, t, W, Ewo, Hwo, 1, Hw).
-
-dw(t+1, W, 2, Hw) :- plan(t, ACT), announcement(ACT), dw(t, W, Ewo, Hwo), applicable(t, ACT),
-                     de(ACT, 2), e(ACT, 2, 0, _), announces(ACT, P), holds(t, W, Ewo, Hwo, P), same_path(t, t, W, Ewo, Hwo, 2, Hw).
-
-% Tau
-dw(t+1, W, 1, Hw) :- plan(t, ACT), announcement(ACT), dw(t, W, Ewo, Hwo), applicable(t, ACT),
-                     de(ACT, 1), e(ACT, 1, 0, _), announces(ACT, P), holds(t, W, Ewo, Hwo, -P), same_path(t, t, W, Ewo, Hwo, 1, Hw).
-
+%%% Designated worlds
 % Sigma (ontic)
-w(t+1, W, 1, Hw) :- same_path(t, Tw, W, Ewo, Hwo, 1, Hw), time(Tw), Tw <= t, plan(t, ACT), ontic(ACT), e(ACT, 1, 0, 1).
+dw(t+1, W') :- update(t, t, W, 1, W'), plan(t, ACT), applicable(t, ACT), ontic(ACT),
+               de(ACT, 1), e(ACT, 1), dw(t, W).
 
-% Sigma (epistemic)
-w(t+1, W, 2, Hw) :- same_path(t, Tw, W, Ewo, Hwo, 2, Hw), time(Tw), Tw <= t, plan(t, ACT), sensing(ACT), e(ACT, 2, 0, 0),
-                    determines(ACT, P), holds(Tw, W, Ewo, Hwo, P).
+% Sigma (sensing)
+dw(t+1, W') :- update(t, t, W, 2, W'), plan(t, ACT), applicable(t, ACT), sensing(ACT),
+               de(ACT, 2), e(ACT, 2), dw(t, W), determines(ACT, P), holds(t, W,  P).
 
-% Tau
-w(t+1, W, 1, Hw) :- same_path(t, Tw, W, Ewo, Hwo, 1, Hw), time(Tw), Tw <= t, plan(t, ACT), sensing(ACT), e(ACT, 1, 0, 0),
-                    obs(t, _, p_obs), determines(ACT, P), holds(Tw, W, Ewo, Hwo, -P).
+% Tau (sensing)
+dw(t+1, W') :- update(t, t, W, 1, W'), plan(t, ACT), applicable(t, ACT), sensing(ACT),
+               de(ACT, 1), e(ACT, 1), dw(t, W), determines(ACT, P), holds(t, W, -P).
 
-% Sigma (epistemic)
-w(t+1, W, 2, Hw) :- same_path(t, Tw, W, Ewo, Hwo, 2, Hw), time(Tw), Tw <= t, plan(t, ACT), announcement(ACT), e(ACT, 2, 0, 0),
-                    announces(ACT, P), holds(Tw, W, Ewo, Hwo, P).
+% Sigma (announcement)
+dw(t+1, W') :- update(t, t, W, 2, W'), plan(t, ACT), applicable(t, ACT), announcement(ACT),
+               de(ACT, 2), e(ACT, 2), dw(t, W), announces(ACT, P),  holds(t, W,  P).
 
-% % Tau
-w(t+1, W, 1, Hw) :- same_path(t, Tw, W, Ewo, Hwo, 1, Hw), time(Tw), Tw <= t, plan(t, ACT), announcement(ACT), e(ACT, 1, 0, 0),
-                    obs(t, _, p_obs), announces(ACT, P), holds(Tw, W, Ewo, Hwo, -P).
+% Tau (announcement)
+dw(t+1, W') :- update(t, t, W, 1, W'), plan(t, ACT), applicable(t, ACT), announcement(ACT),
+               de(ACT, 1), e(ACT, 1), dw(t, W), announces(ACT, P),  holds(t, W, -P).
+
+%%% Worlds
+% Sigma (ontic)
+w(t+1, W') :- update(t, Tw, W, 1, W'), time(Tw), Tw <= t, plan(t, ACT), ontic(ACT), e(ACT, 1).
+
+% Sigma (sensing)
+w(t+1, W') :- update(t, Tw, W, 2, W'), time(Tw), Tw <= t, plan(t, ACT), sensing(ACT), e(ACT, 2),
+              determines(ACT, P), holds(Tw, W, P).
+
+% Tau (sensing)
+w(t+1, W') :- update(t, Tw, W, 1, W'), time(Tw), Tw <= t, plan(t, ACT), sensing(ACT), e(ACT, 1),
+              obs(t, _, p_obs), determines(ACT, P), holds(Tw, W, -P).
+
+% Sigma (announcement)
+w(t+1, W') :- update(t, Tw, W, 2, W'), time(Tw), Tw <= t, plan(t, ACT), announcement(ACT), e(ACT, 2),
+              announces(ACT, P), holds(Tw, W, P).
+
+% Tau (announcement)
+w(t+1, W') :- update(t, Tw, W, 1, W'), time(Tw), Tw <= t, plan(t, ACT), announcement(ACT), e(ACT, 1),
+              obs(t, _, p_obs), announces(ACT, P),  holds(Tw, W, -P).
 
 
 %%% Accessibility relations with meta-q
-r(t+1, W, Ew, Hw,
-  t+1, V, Ev, Hv, AG) :- w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), same_path(t, Tv, V, Evo, Hvo, Ev, Hv),
-                         plan(t, ACT), e(ACT, Ew, 0, _), e(ACT, Ev, 0, _), obs(t, AG, OBS), obs_type(OBS), OBS != obl,
-                         metaq(ACT, Ew, Ev, OBS), r(Tw, W, Ewo, Hwo, Tv, V, Evo, Hvo, AG).
+r(t+1, W',
+  t+1, V', AG) :- w(t+1, W'), w(t+1, V'), update(t, Tw, W, Ew, W'), update(t, Tv, V, Ev, V'),
+                  plan(t, ACT), e(ACT, Ew), e(ACT, Ev), obs(t, AG, OBS), obs_type(OBS), OBS != obl,
+                  metaq(ACT, Ew, Ev, OBS), r(Tw, W, Tv, V, AG).
 
-r(t+1, W, Ew, Hw,
-  Tv , V, Ev, Hv, AG) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw),
-                         plan(t, ACT), e(ACT, Ew, 0, _), e(ACT, E, 1, 0), obs(t, AG, obl),
-                         metaq(ACT, Ew, E, obl), r(Tw, W, Ewo, Hwo, Tv, V, Ev, Hv, AG).
+r(t+1, W',
+  Tv , V', AG) :- w(t+1, W'), update(t, Tw, W, Ew, W'),
+                  plan(t, ACT), e(ACT, Ew), obs(t, AG, obl),
+                  metaq(ACT, Ew, 0, obl), r(Tw, W, Tv, V', AG).
 
 % STEP 4: determine the interpretation of the worlds
 % Postcondition is satisfied
-holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             causes(ACT,  P).
+holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      causes(ACT,  P).
 
-holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             causes(ACT, -P).
+holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      causes(ACT, -P).
 
-holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             causes(ACT,  P, F), entails(t, Tw, W, Ewo, Hwo, F).
+holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      causes(ACT,  P, F), entails(t, Tw, W, F).
 
-holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             causes(ACT, -P, F), entails(t, Tw, W, Ewo, Hwo, F).
+holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      causes(ACT, -P, F), entails(t, Tw, W, F).
 
 % Inertia in ontic actions
-idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :-
-                                         same_path(t, Tw, W, Ewo, Hwo, _, _), plan(t, ACT), atom(P),
-                                         causes(ACT,  P, Fpost1), not entails(t, Tw, W, Ewo, Hwo, Fpost1),
-                                         causes(ACT, -P, Fpost2), not entails(t, Tw, W, Ewo, Hwo, Fpost2).
+idle_atom(t, Tw, W, ACT, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
+                               causes(ACT,  P, Fpost1), not entails(t, Tw, W, Fpost1),
+                               causes(ACT, -P, Fpost2), not entails(t, Tw, W, Fpost2).
 
-idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :-
-                                         same_path(t, Tw, W, Ewo, Hwo, _, _), plan(t, ACT), atom(P),
-                                         causes(ACT,  P, Fpost1), not entails(t, Tw, W, Ewo, Hwo, Fpost1),
-                                         not causes(ACT, -P, _).
+idle_atom(t, Tw, W, ACT, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
+                               causes(ACT,  P, Fpost1), not entails(t, Tw, W, Fpost1),
+                               not causes(ACT, -P, _).
 
-idle_atom(t, Tw, W, Ewo, Hwo, ACT, P) :-
-                                         same_path(t, Tw, W, Ewo, Hwo, _, _), plan(t, ACT), atom(P),
-                                         causes(ACT, -P, Fpost1), not entails(t, Tw, W, Ewo, Hwo, Fpost1),
-                                         not causes(ACT,  P, _).
+idle_atom(t, Tw, W, ACT, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
+                               causes(ACT, -P, Fpost1), not entails(t, Tw, W, Fpost1),
+                               not causes(ACT,  P, _).
 
 
-holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo,  P).
+holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      idle_atom(ACT, P), holds(Tw, W,  P).
 
-holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             idle_atom(ACT, P), holds(Tw, W, Ewo, Hwo, -P).
+holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      idle_atom(ACT, P), holds(Tw, W, -P).
 
-holds(t+1, W, 1 , Hw,  P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             idle_atom(t, Tw, W, Ewo, Hwo, ACT, P), holds(Tw, W, Ewo, Hwo,  P).
+holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      idle_atom(t, Tw, W, ACT, P), holds(Tw, W,  P).
 
-holds(t+1, W, 1 , Hw, -P) :- w(t+1, W, 1, Hw), same_path(t, Tw, W, Ewo, Hwo, 1, Hw), plan(t, ACT), ontic(ACT),
-                             idle_atom(t, Tw, W, Ewo, Hwo, ACT, P), holds(Tw, W, Ewo, Hwo, -P).
+holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
+                      idle_atom(t, Tw, W, ACT, P), holds(Tw, W, -P).
 
 % Epistemic actions
-holds(t+1, W, Ew, Hw,  P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT),
-                             holds(Tw, W, Ewo, Hwo,  P).
+holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, Ew, W'), plan(t, ACT), epistemic(ACT),
+                      holds(Tw, W,  P).
 
-holds(t+1, W, Ew, Hw, -P) :- w(t+1, W, Ew, Hw), same_path(t, Tw, W, Ewo, Hwo, Ew, Hw), plan(t, ACT), epistemic(ACT),
-                             holds(Tw, W, Ewo, Hwo, -P).
+holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, Ew, W'), plan(t, ACT), epistemic(ACT),
+                      holds(Tw, W, -P).
 
 %%% Checking observability relations %%%
 obs(t, AG, f_obs) :- plan(t, ACT),                        observes (t, ACT, AG).
