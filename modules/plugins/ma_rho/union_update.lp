@@ -2,6 +2,8 @@
 
 semantics(possibilities).
 
+#defined once/1.
+
 #defined ontic/1.
 #defined sensing/1.
 #defined announcement/1.

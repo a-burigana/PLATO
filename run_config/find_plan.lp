@@ -11,6 +11,7 @@
 :- time(t), not dw(t, _), not goal(t).
 :- time(t), holds(t, Hw, P), holds(t, Hw, -P), atom(P).
 
+:- time(t), t > 0, time(T), T < t, plan(T, ACT), plan(t, ACT), once(ACT).
 :- time(t), t > 0, plan(t-1, ACT), plan(t, ACT), epistemic(ACT).
 
 #program check(t).

@@ -2,6 +2,8 @@
 
 semantics(kripke).
 
+#defined once/1.
+
 #defined ontic/1.
 #defined sensing/1.
 #defined announcement/1.
@@ -19,7 +21,8 @@ semantics(kripke).
 
 #program step(t).
 
-applicable(t, ACT) :- action_pre(ACT, F), entails(t, W', F).
+applicable(t, ACT) :- action_pre(ACT, F), entails(t, W', F), not once(ACT).
+applicable(t, ACT) :- action_pre(ACT, F), entails(t, W', F), once(ACT), not plan(T, ACT), T < t.
 
 %%% Update condition
 % update(t, W, E, (W, t, E)) :- w(t, W), plan(t, ACT), applicable(t, ACT), e(ACT, E).

@@ -16,6 +16,7 @@ action(distract_a_b).
 ontic(distract_a_b).
 action_pre(distract_a_b,and(b(a,and(looking_a,looking_b)),and(looking_a,looking_b))).
 causes(distract_a_b, -looking_b).
+once(distract_a_b).
 
 % formula(-looking_b).
 % formula(b(a,looking_a)).
@@ -48,6 +49,7 @@ action(distract_a_c).
 ontic(distract_a_c).
 action_pre(distract_a_c,and(b(a,and(looking_a,looking_c)),and(looking_a,looking_c))).
 causes(distract_a_c, -looking_c).
+once(distract_a_c).
 
 % formula(-looking_c).
 % formula(b(a,looking_c)).
@@ -80,6 +82,7 @@ action(distract_b_a).
 ontic(distract_b_a).
 action_pre(distract_b_a,and(b(b,and(looking_b,looking_a)),and(looking_b,looking_a))).
 causes(distract_b_a, -looking_a).
+once(distract_b_a).
 
 % formula(-looking_a).
 % formula(b(b,looking_b)).
@@ -112,6 +115,7 @@ action(distract_b_c).
 ontic(distract_b_c).
 action_pre(distract_b_c,and(b(b,and(looking_b,looking_c)),and(looking_b,looking_c))).
 causes(distract_b_c, -looking_c).
+once(distract_b_c).
 
 % formula(b(b,looking_c)).
 % formula(and(b(b,looking_b),b(b,looking_c))).
@@ -143,6 +147,7 @@ action(distract_c_a).
 ontic(distract_c_a).
 action_pre(distract_c_a,and(b(c,and(looking_c,looking_a)),and(looking_c,looking_a))).
 causes(distract_c_a, -looking_a).
+once(distract_c_a).
 
 % formula(b(c,looking_c)).
 % formula(b(c,looking_a)).
@@ -174,6 +179,7 @@ action(distract_c_b).
 ontic(distract_c_b).
 action_pre(distract_c_b,and(b(c,and(looking_c,looking_b)),and(looking_c,looking_b))).
 causes(distract_c_b, -looking_b).
+once(distract_c_b).
 
 % formula(b(c,looking_b)).
 % formula(and(b(c,looking_c),b(c,looking_b))).
@@ -204,6 +210,7 @@ action(open_a).
 ontic(open_a).
 action_pre(open_a,-opened).
 causes(open_a, opened).
+once(open_a).
 
 % formula(-opened).
 
@@ -365,6 +372,7 @@ action(signal_a_b).
 ontic(signal_a_b).
 action_pre(signal_a_b,and(b(a,and(looking_a,-looking_b)),and(looking_a,-looking_b))).
 causes(signal_a_b, looking_b).
+once(signal_a_b).
 
 % formula(b(a,-looking_b)).
 % formula(and(b(a,looking_a),b(a,-looking_b))).
@@ -396,6 +404,7 @@ action(signal_a_c).
 ontic(signal_a_c).
 action_pre(signal_a_c,and(b(a,and(looking_a,-looking_c)),and(looking_a,-looking_c))).
 causes(signal_a_c, looking_c).
+once(signal_a_c).
 
 % formula(b(a,-looking_c)).
 % formula(and(b(a,looking_a),b(a,-looking_c))).
@@ -427,6 +436,7 @@ action(signal_b_a).
 ontic(signal_b_a).
 action_pre(signal_b_a,and(b(b,and(looking_b,-looking_a)),and(looking_b,-looking_a))).
 causes(signal_b_a, looking_a).
+once(signal_b_a).
 
 % formula(b(b,-looking_a)).
 % formula(and(b(b,looking_b),b(b,-looking_a))).
@@ -458,6 +468,7 @@ action(signal_b_c).
 ontic(signal_b_c).
 action_pre(signal_b_c,and(b(b,and(looking_b,-looking_c)),and(looking_b,-looking_c))).
 causes(signal_b_c, looking_c).
+once(signal_b_c).
 
 % formula(b(b,-looking_c)).
 % formula(and(b(b,looking_b),b(b,-looking_c))).
@@ -489,6 +500,7 @@ action(signal_c_a).
 ontic(signal_c_a).
 action_pre(signal_c_a,and(b(c,and(looking_c,-looking_a)),and(looking_c,-looking_a))).
 causes(signal_c_a, looking_a).
+once(signal_c_a).
 
 % formula(b(c,-looking_a)).
 % formula(and(b(c,looking_c),b(c,-looking_a))).
@@ -520,6 +532,7 @@ action(signal_c_b).
 ontic(signal_c_b).
 action_pre(signal_c_b,and(b(c,and(looking_c,-looking_b)),and(looking_c,-looking_b))).
 causes(signal_c_b, looking_b).
+once(signal_c_b).
 
 % formula(b(c,-looking_b)).
 % formula(and(b(c,looking_c),b(c,-looking_b))).
