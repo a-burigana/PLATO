@@ -16,6 +16,12 @@ semantics(possibilities).
 
 #defined init_sf/1.
 
+% TODO LIST:
+%  - Update domains and instances with new worlds representation
+%  - Implement new representation in Kripke semantics
+%  - Implement extended Delphic semantics
+%
+
 #program step(t).
 
 applicable(t, ACT) :- action_pre(ACT, F), entails(t, t, W', F).
