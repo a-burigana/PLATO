@@ -34,6 +34,7 @@ while [[ $# -gt 0 ]]; do
         ;;
     -d|--debug)
         config="run_config/debug.lp"
+        clingo_args+=" --verbose=0"
         shift # past argument=value
         ;;
     -p|--print)
