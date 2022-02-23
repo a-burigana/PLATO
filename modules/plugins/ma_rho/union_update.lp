@@ -26,7 +26,7 @@ semantics(possibilities).
 
 applicable(t, ACT) :- action_pre(ACT, F), entails(t, t, W', F).
 
-%%% Same path with meta-q
+%%% Update condition
 update(t, t, W, E, (W, t, E)) :- dw(t, W), plan(t, ACT), applicable(t, ACT), de(ACT, E).
 
 update(t, T, W, E, (W, t, E)) :- update(t, T2, W2, E2, _), plan(t, ACT), applicable(t, ACT), e(ACT, E), e(ACT, E2), E2 > 0,
@@ -101,15 +101,15 @@ holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(A
                       causes(ACT, -P, F), entails(t, Tw, W, F).
 
 % Inertia in ontic actions
-idle_atom(t, Tw, W, ACT, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
+idle_atom(t, Tw, W, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
                                causes(ACT,  P, Fpost1), not entails(t, Tw, W, Fpost1),
                                causes(ACT, -P, Fpost2), not entails(t, Tw, W, Fpost2).
 
-idle_atom(t, Tw, W, ACT, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
+idle_atom(t, Tw, W, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
                                causes(ACT,  P, Fpost1), not entails(t, Tw, W, Fpost1),
                                not causes(ACT, -P, _).
 
-idle_atom(t, Tw, W, ACT, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
+idle_atom(t, Tw, W, P) :- update(t, Tw, W, 1, _), plan(t, ACT), ontic(ACT), atom(P),
                                causes(ACT, -P, Fpost1), not entails(t, Tw, W, Fpost1),
                                not causes(ACT,  P, _).
 
@@ -121,17 +121,17 @@ holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(A
                       idle_atom(ACT, P), holds(Tw, W, -P).
 
 holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
-                      idle_atom(t, Tw, W, ACT, P), holds(Tw, W,  P).
+                      idle_atom(t, Tw, W, P), holds(Tw, W,  P).
 
 holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, 1, W'), plan(t, ACT), ontic(ACT),
-                      idle_atom(t, Tw, W, ACT, P), holds(Tw, W, -P).
+                      idle_atom(t, Tw, W, P), holds(Tw, W, -P).
 
 % Epistemic actions
 holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, Ew, W'), plan(t, ACT), epistemic(ACT),
-                      holds(Tw, W,  P).
+                      holds(Tw, W,  P), atom(P).
 
 holds(t+1, W', -P) :- w(t+1, W'), update(t, Tw, W, Ew, W'), plan(t, ACT), epistemic(ACT),
-                      holds(Tw, W, -P).
+                      holds(Tw, W, -P), atom(P).
 
 %%% Checking observability relations %%%
 obs(t, AG, f_obs) :- plan(t, ACT),                        observes (t, ACT, AG).
