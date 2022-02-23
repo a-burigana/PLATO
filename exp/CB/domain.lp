@@ -31,12 +31,12 @@ idle_atom(distract_a_b, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(a,and(looking_a,looking_b)),and(looking_a,looking_b))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a), holds(t, W, Ew, Hw, looking_b),
-    not -entails(t, t, W, Ew, Hw, b(a,and(looking_a,looking_b))).
+entails(t, t, W, and(b(a,and(looking_a,looking_b)),and(looking_a,looking_b))) :-
+    dw(t, W), holds(t, W, looking_a), holds(t, W, looking_b),
+    not -entails(t, t, W, b(a,and(looking_a,looking_b))).
 
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -looking_a).
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -looking_b).
+-entails(t, t, W, b(a,and(looking_a,looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
+-entails(t, t, W, b(a,and(looking_a,looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_b).
 
 observes(t, distract_a_b, a).
 observes(t, distract_a_b, b).
@@ -62,12 +62,12 @@ idle_atom(distract_a_c, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(a,and(looking_a,looking_c)),and(looking_a,looking_c))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a), holds(t, W, Ew, Hw, looking_c),
-    not -entails(t, t, W, Ew, Hw, b(a,and(looking_a,looking_c))).
+entails(t, t, W, and(b(a,and(looking_a,looking_c)),and(looking_a,looking_c))) :-
+    dw(t, W), holds(t, W, looking_a), holds(t, W, looking_c),
+    not -entails(t, t, W, b(a,and(looking_a,looking_c))).
 
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -looking_a).
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -looking_c).
+-entails(t, t, W, b(a,and(looking_a,looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
+-entails(t, t, W, b(a,and(looking_a,looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_c).
 
 observes(t, distract_a_c, a).
 observes(t, distract_a_c, c).
@@ -94,12 +94,12 @@ idle_atom(distract_b_a, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(b,and(looking_b,looking_a)),and(looking_b,looking_a))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b), holds(t, W, Ew, Hw, looking_a),
-    not -entails(t, t, W, Ew, Hw, b(b,and(looking_b,looking_a))).
+entails(t, t, W, and(b(b,and(looking_b,looking_a)),and(looking_b,looking_a))) :-
+    dw(t, W), holds(t, W, looking_b), holds(t, W, looking_a),
+    not -entails(t, t, W, b(b,and(looking_b,looking_a))).
 
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -looking_b).
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -looking_a).
+-entails(t, t, W, b(b,and(looking_b,looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
+-entails(t, t, W, b(b,and(looking_b,looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_a).
 
 observes(t, distract_b_a, b).
 observes(t, distract_b_a, a).
@@ -125,12 +125,12 @@ idle_atom(distract_b_c, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(b,and(looking_b,looking_c)),and(looking_b,looking_c))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b), holds(t, W, Ew, Hw, looking_c),
-    not -entails(t, t, W, Ew, Hw, b(b,and(looking_b,looking_c))).
+entails(t, t, W, and(b(b,and(looking_b,looking_c)),and(looking_b,looking_c))) :-
+    dw(t, W), holds(t, W, looking_b), holds(t, W, looking_c),
+    not -entails(t, t, W, b(b,and(looking_b,looking_c))).
 
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -looking_b).
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -looking_c).
+-entails(t, t, W, b(b,and(looking_b,looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
+-entails(t, t, W, b(b,and(looking_b,looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_c).
 
 observes(t, distract_b_c, b).
 observes(t, distract_b_c, c).
@@ -156,12 +156,12 @@ idle_atom(distract_c_a, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(c,and(looking_c,looking_a)),and(looking_c,looking_a))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c), holds(t, W, Ew, Hw, looking_a),
-    not -entails(t, t, W, Ew, Hw, b(c,and(looking_c,looking_a))).
+entails(t, t, W, and(b(c,and(looking_c,looking_a)),and(looking_c,looking_a))) :-
+    dw(t, W), holds(t, W, looking_c), holds(t, W, looking_a),
+    not -entails(t, t, W, b(c,and(looking_c,looking_a))).
 
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -looking_c).
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -looking_a).
+-entails(t, t, W, b(c,and(looking_c,looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
+-entails(t, t, W, b(c,and(looking_c,looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_a).
 
 observes(t, distract_c_a, c).
 observes(t, distract_c_a, a).
@@ -186,12 +186,12 @@ idle_atom(distract_c_b, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(c,and(looking_c,looking_b)),and(looking_c,looking_b))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c), holds(t, W, Ew, Hw, looking_b),
-    not -entails(t, t, W, Ew, Hw, b(c,and(looking_c,looking_b))).
+entails(t, t, W, and(b(c,and(looking_c,looking_b)),and(looking_c,looking_b))) :-
+    dw(t, W), holds(t, W, looking_c), holds(t, W, looking_b),
+    not -entails(t, t, W, b(c,and(looking_c,looking_b))).
 
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -looking_c).
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -looking_b).
+-entails(t, t, W, b(c,and(looking_c,looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
+-entails(t, t, W, b(c,and(looking_c,looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_b).
 
 observes(t, distract_c_b, c).
 observes(t, distract_c_b, b).
@@ -214,11 +214,11 @@ idle_atom(open_a, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, -opened) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, -opened).
+entails(t, t, W, -opened) :- dw(t, W), holds(t, W, -opened).
 
 observes(t, open_a, a).
-observes(t, open_a, b) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
-observes(t, open_a, c) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
+observes(t, open_a, b) :- dw(t, W), holds(t, W, looking_b).
+observes(t, open_a, c) :- dw(t, W), holds(t, W, looking_c).
 
 #program base.
 
@@ -234,16 +234,16 @@ determines(peek_a, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(a,and(opened,looking_a)),and(opened,looking_a))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, opened), holds(t, W, Ew, Hw, looking_a),
-    not -entails(t, t, W, Ew, Hw, b(a,and(opened,looking_a))).
+entails(t, t, W, and(b(a,and(opened,looking_a)),and(opened,looking_a))) :-
+    dw(t, W), holds(t, W, opened), holds(t, W, looking_a),
+    not -entails(t, t, W, b(a,and(opened,looking_a))).
 
--entails(t, t, W, Ew, Hw, b(a,and(opened,looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -opened).
--entails(t, t, W, Ew, Hw, b(a,and(opened,looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -looking_a).
+-entails(t, t, W, b(a,and(opened,looking_a))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -opened).
+-entails(t, t, W, b(a,and(opened,looking_a))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
 
 observes(t, peek_a, a).
-aware_of(t, peek_a, b) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
-aware_of(t, peek_a, c) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
+aware_of(t, peek_a, b) :- dw(t, W), holds(t, W, looking_b).
+aware_of(t, peek_a, c) :- dw(t, W), holds(t, W, looking_c).
 
 #program base.
 
@@ -259,16 +259,16 @@ determines(peek_b, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(b,and(opened,looking_b)),and(opened,looking_b))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, opened), holds(t, W, Ew, Hw, looking_b),
-    not -entails(t, t, W, Ew, Hw, b(b,and(opened,looking_b))).
+entails(t, t, W, and(b(b,and(opened,looking_b)),and(opened,looking_b))) :-
+    dw(t, W), holds(t, W, opened), holds(t, W, looking_b),
+    not -entails(t, t, W, b(b,and(opened,looking_b))).
 
--entails(t, t, W, Ew, Hw, b(b,and(opened,looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -opened).
--entails(t, t, W, Ew, Hw, b(b,and(opened,looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -looking_b).
+-entails(t, t, W, b(b,and(opened,looking_b))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -opened).
+-entails(t, t, W, b(b,and(opened,looking_b))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
 
 observes(t, peek_b, b).
-aware_of(t, peek_b, a) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
-aware_of(t, peek_b, c) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
+aware_of(t, peek_b, a) :- dw(t, W), holds(t, W, looking_a).
+aware_of(t, peek_b, c) :- dw(t, W), holds(t, W, looking_c).
 
 #program base.
 
@@ -284,16 +284,16 @@ determines(peek_c, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(c,and(opened,looking_c)),and(opened,looking_c))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, opened), holds(t, W, Ew, Hw, looking_c),
-    not -entails(t, t, W, Ew, Hw, b(c,and(opened,looking_c))).
+entails(t, t, W, and(b(c,and(opened,looking_c)),and(opened,looking_c))) :-
+    dw(t, W), holds(t, W, opened), holds(t, W, looking_c),
+    not -entails(t, t, W, b(c,and(opened,looking_c))).
 
--entails(t, t, W, Ew, Hw, b(c,and(opened,looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -opened).
--entails(t, t, W, Ew, Hw, b(c,and(opened,looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -looking_c).
+-entails(t, t, W, b(c,and(opened,looking_c))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -opened).
+-entails(t, t, W, b(c,and(opened,looking_c))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
 
 observes(t, peek_c, c).
-aware_of(t, peek_c, a) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
-aware_of(t, peek_c, b) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
+aware_of(t, peek_c, a) :- dw(t, W), holds(t, W, looking_a).
+aware_of(t, peek_c, b) :- dw(t, W), holds(t, W, looking_b).
 
 #program base.
 
@@ -307,14 +307,14 @@ announces(shout_tail_a, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(a,tail),tail)) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, tail), not -entails(t, t, W, Ew, Hw, b(a,tail)).
+entails(t, t, W, and(b(a,tail),tail)) :-
+    dw(t, W), holds(t, W, tail), not -entails(t, t, W, b(a,tail)).
 
--entails(t, t, W, Ew, Hw, b(a,tail)) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -tail).
+-entails(t, t, W, b(a,tail)) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -tail).
 
 observes(t, shout_tail_a, a).
-observes(t, shout_tail_a, b) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
-observes(t, shout_tail_a, c) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
+observes(t, shout_tail_a, b) :- dw(t, W), holds(t, W, looking_b).
+observes(t, shout_tail_a, c) :- dw(t, W), holds(t, W, looking_c).
 
 #program base.
 
@@ -328,14 +328,14 @@ announces(shout_tail_b, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(b,tail),tail)) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, tail), not -entails(t, t, W, Ew, Hw, b(b,tail)).
+entails(t, t, W, and(b(b,tail),tail)) :-
+    dw(t, W), holds(t, W, tail), not -entails(t, t, W, b(b,tail)).
 
--entails(t, t, W, Ew, Hw, b(b,tail)) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -tail).
+-entails(t, t, W, b(b,tail)) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -tail).
 
 observes(t, shout_tail_b, b).
-observes(t, shout_tail_b, a) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
-observes(t, shout_tail_b, c) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c).
+observes(t, shout_tail_b, a) :- dw(t, W), holds(t, W, looking_a).
+observes(t, shout_tail_b, c) :- dw(t, W), holds(t, W, looking_c).
 
 #program base.
 
@@ -349,14 +349,14 @@ announces(shout_tail_c, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(c,tail),tail)) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, tail), not -entails(t, t, W, Ew, Hw, b(c,tail)).
+entails(t, t, W, and(b(c,tail),tail)) :-
+    dw(t, W), holds(t, W, tail), not -entails(t, t, W, b(c,tail)).
 
--entails(t, t, W, Ew, Hw, b(c,tail)) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -tail).
+-entails(t, t, W, b(c,tail)) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -tail).
 
 observes(t, shout_tail_c, c).
-observes(t, shout_tail_c, a) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a).
-observes(t, shout_tail_c, b) :- dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b).
+observes(t, shout_tail_c, a) :- dw(t, W), holds(t, W, looking_a).
+observes(t, shout_tail_c, b) :- dw(t, W), holds(t, W, looking_b).
 
 #program base.
 
@@ -378,12 +378,12 @@ idle_atom(signal_a_b, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(a,and(looking_a,-looking_b)),and(looking_a,-looking_b))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a), holds(t, W, Ew, Hw, -looking_b),
-    not -entails(t, t, W, Ew, Hw, b(a,and(looking_a,-looking_b))).
+entails(t, t, W, and(b(a,and(looking_a,-looking_b)),and(looking_a,-looking_b))) :-
+    dw(t, W), holds(t, W, looking_a), holds(t, W, -looking_b),
+    not -entails(t, t, W, b(a,and(looking_a,-looking_b))).
 
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,-looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -looking_a).
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,-looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv,  looking_b).
+-entails(t, t, W, b(a,and(looking_a,-looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
+-entails(t, t, W, b(a,and(looking_a,-looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V,  looking_b).
 
 observes(t, signal_a_b, a).
 observes(t, signal_a_b, b).
@@ -409,12 +409,12 @@ idle_atom(signal_a_c, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(a,and(looking_a,-looking_c)),and(looking_a,-looking_c))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_a), holds(t, W, Ew, Hw, -looking_c),
-    not -entails(t, t, W, Ew, Hw, b(a,and(looking_a,-looking_c))).
+entails(t, t, W, and(b(a,and(looking_a,-looking_c)),and(looking_a,-looking_c))) :-
+    dw(t, W), holds(t, W, looking_a), holds(t, W, -looking_c),
+    not -entails(t, t, W, b(a,and(looking_a,-looking_c))).
 
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,-looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv, -looking_a).
--entails(t, t, W, Ew, Hw, b(a,and(looking_a,-looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, a), holds(Tv, V, Ev, Hv,  looking_c).
+-entails(t, t, W, b(a,and(looking_a,-looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
+-entails(t, t, W, b(a,and(looking_a,-looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V,  looking_c).
 
 observes(t, signal_a_c, a).
 observes(t, signal_a_c, c).
@@ -440,12 +440,12 @@ idle_atom(signal_b_a, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(b,and(looking_b,-looking_a)),and(looking_b,-looking_a))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b), holds(t, W, Ew, Hw, -looking_a),
-    not -entails(t, t, W, Ew, Hw, b(b,and(looking_b,-looking_a))).
+entails(t, t, W, and(b(b,and(looking_b,-looking_a)),and(looking_b,-looking_a))) :-
+    dw(t, W), holds(t, W, looking_b), holds(t, W, -looking_a),
+    not -entails(t, t, W, b(b,and(looking_b,-looking_a))).
 
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,-looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -looking_b).
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,-looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv,  looking_a).
+-entails(t, t, W, b(b,and(looking_b,-looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
+-entails(t, t, W, b(b,and(looking_b,-looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V,  looking_a).
 
 observes(t, signal_b_a, b).
 observes(t, signal_b_a, a).
@@ -471,12 +471,12 @@ idle_atom(signal_b_c, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(b,and(looking_b,-looking_c)),and(looking_b,-looking_c))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_b), holds(t, W, Ew, Hw, -looking_c),
-    not -entails(t, t, W, Ew, Hw, b(b,and(looking_b,-looking_c))).
+entails(t, t, W, and(b(b,and(looking_b,-looking_c)),and(looking_b,-looking_c))) :-
+    dw(t, W), holds(t, W, looking_b), holds(t, W, -looking_c),
+    not -entails(t, t, W, b(b,and(looking_b,-looking_c))).
 
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,-looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv, -looking_b).
--entails(t, t, W, Ew, Hw, b(b,and(looking_b,-looking_c))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, b), holds(Tv, V, Ev, Hv,  looking_c).
+-entails(t, t, W, b(b,and(looking_b,-looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
+-entails(t, t, W, b(b,and(looking_b,-looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V,  looking_c).
 
 observes(t, signal_b_c, b).
 observes(t, signal_b_c, c).
@@ -502,12 +502,12 @@ idle_atom(signal_c_a, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(c,and(looking_c,-looking_a)),and(looking_c,-looking_a))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c), holds(t, W, Ew, Hw, -looking_a),
-    not -entails(t, t, W, Ew, Hw, b(c,and(looking_c,-looking_a))).
+entails(t, t, W, and(b(c,and(looking_c,-looking_a)),and(looking_c,-looking_a))) :-
+    dw(t, W), holds(t, W, looking_c), holds(t, W, -looking_a),
+    not -entails(t, t, W, b(c,and(looking_c,-looking_a))).
 
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,-looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -looking_c).
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,-looking_a))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv,  looking_a).
+-entails(t, t, W, b(c,and(looking_c,-looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
+-entails(t, t, W, b(c,and(looking_c,-looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V,  looking_a).
 
 observes(t, signal_c_a, c).
 observes(t, signal_c_a, a).
@@ -533,12 +533,12 @@ idle_atom(signal_c_b, tail).
 
 #program step(t).
 
-entails(t, t, W, Ew, Hw, and(b(c,and(looking_c,-looking_b)),and(looking_c,-looking_b))) :-
-    dw(t, W, Ew, Hw), holds(t, W, Ew, Hw, looking_c), holds(t, W, Ew, Hw, -looking_b),
-    not -entails(t, t, W, Ew, Hw, b(c,and(looking_c,-looking_b))).
+entails(t, t, W, and(b(c,and(looking_c,-looking_b)),and(looking_c,-looking_b))) :-
+    dw(t, W), holds(t, W, looking_c), holds(t, W, -looking_b),
+    not -entails(t, t, W, b(c,and(looking_c,-looking_b))).
 
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,-looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv, -looking_c).
--entails(t, t, W, Ew, Hw, b(c,and(looking_c,-looking_b))) :- dw(t, W, Ew, Hw), r(t, W, Ew, Hw, Tv, V, Ev, Hv, c), holds(Tv, V, Ev, Hv,  looking_b).
+-entails(t, t, W, b(c,and(looking_c,-looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
+-entails(t, t, W, b(c,and(looking_c,-looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V,  looking_b).
 
 observes(t, signal_c_b, c).
 observes(t, signal_c_b, b).
