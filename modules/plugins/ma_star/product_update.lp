@@ -71,10 +71,9 @@ w(t+1, W') :- W' = (W, t, 0), w(t, W), plan(t, ACT), e(ACT, 0), obs(t, _, obl).
 
 
 %%% Accessibility relations with meta-q
-r(t+1, W',
-  t+1, V', AG) :- w(t+1, W'), w(t+1, V'), W' = (W, t, Ew), V' = (V, t, Ev),
-                  plan(t, ACT), e(ACT, Ew), e(ACT, Ev), obs(t, AG, OBS), obs_type(OBS),
-                  metaq(ACT, Ew, Ev, OBS), r(t, W, t, V, AG).
+r(t+1, W', V', AG) :- w(t+1, W'), w(t+1, V'), W' = (W, t, Ew), V' = (V, t, Ev),
+                      plan(t, ACT), e(ACT, Ew), e(ACT, Ev), obs(t, AG, OBS), obs_type(OBS),
+                      metaq(ACT, Ew, Ev, OBS), r(t, W, V, AG).
 
 
 % STEP 4: determine the interpretation of the worlds
