@@ -6,6 +6,7 @@ semantics(kripke).
 #defined sensing/1.
 #defined announcement/1.
 
+#defined causes/2.
 #defined causes/3.
 #defined determines/2.
 #defined announces/2.
@@ -14,120 +15,128 @@ semantics(kripke).
 #defined oblivious/2.
 
 #defined init_sf/1.
-#defined same_path/7.
+#defined update/5.
 
 #program step(t).
 
-%%% Applicability %%%
-applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), dpre(ACT, E, true).
-applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), w(t, W, Ew, Hw), dw(t, W, Ew, Hw),
-                               dpre(ACT, E, Fpre), formula(Fpre), entails(t, W, Ew, Hw, Fpre).
+applicable(t, ACT) :- action_pre(ACT, F), entails(t, W', F).
 
-not_applicable(t, ACT) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), not applicable_event(t, ACT, E).
-applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
+%%% Update condition
+% update(t, W, E, (W, t, E)) :- w(t, W), plan(t, ACT), applicable(t, ACT), e(ACT, E).
 
-
-% check_on_w(t, W, Ew, Hw, F) :- time(t), action(ACT), dpre(ACT, E, F), formula(F),
-%                                w(t, W, Ew, Hw), e(ACT, E, 0, _), dw(t, W, Ew, Hw), de(ACT, E).
-
-% Designated worlds (ontic)
-dw(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _), dw(t, W, Ewo, Hwo), de(ACT, 1),
-                     dpre(ACT, 1, true), Hw = (t+1) * Hwo + Ewo + 1.
-
-dw(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _), dw(t, W, Ewo, Hwo), de(ACT, 1),
-                     dpre(ACT, 1, Fpre), formula(Fpre), entails(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + 1.
-
-% Designated worlds (epistemic)
-dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew), Ew != 0,
-                      dpre(ACT, Ew, true), pre(ACT, Ew, L), formula(L), entails(t, W, Ewo, Hwo, L),
-                      Hw = (t+1) * Hwo + Ewo + Ew.
-
-dw(t+1, W, Ew, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, Ew, 0, _), dw(t, W, Ewo, Hwo), de(ACT, Ew), Ew != 0,
-                      dpre(ACT, Ew, Fpre), pre(ACT, Ew, L), formula(Fpre), formula(L), entails(t, W, Ewo, Hwo, Fpre), entails(t, W, Ewo, Hwo, L),
-                      Hw = (t+1) * Hwo + Ewo + Ew.
-
+%%% Designated worlds
 % Sigma (ontic)
-w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, _),
-                    Hw = (t+1) * Hwo + Ewo + 1.
+dw(t+1, W') :- W' = (W, t, 1), plan(t, ACT), applicable(t, ACT), ontic(ACT),
+               de(ACT, 1), e(ACT, 1), dw(t, W).
 
-% Sigma (epistemic)
-w(t+1, W, 2, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 2, 0, _),
-                    pre(ACT, 2,  Fpre), atom(Fpre),     holds(t, W, Ewo, Hwo, Fpre), Hw = (t+1) * Hwo + Ewo + 2.
+% Sigma (sensing)
+dw(t+1, W') :- W' = (W, t, 2), plan(t, ACT), applicable(t, ACT), sensing(ACT),
+               de(ACT, 2), e(ACT, 2), dw(t, W), determines(ACT, P), holds(t, W,  P).
 
-% Tau
-w(t+1, W, 1, Hw) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), w(t, W, Ewo, Hwo), e(ACT, 1, 0, 0),
-                    pre(ACT, 1, -Fpre), atom(Fpre), not holds(t, W, Ewo, Hwo, Fpre),
-                    agent(AG), obs(t, AG, p_obs), Hw = (t+1) * Hwo + Ewo + 1.
+% Tau (sensing)
+dw(t+1, W') :- W' = (W, t, 1), plan(t, ACT), applicable(t, ACT), sensing(ACT),
+               de(ACT, 1), e(ACT, 1), dw(t, W), determines(ACT, P), holds(t, W, -P).
+
+% Sigma (announcement)
+dw(t+1, W') :- W' = (W, t, 2), plan(t, ACT), applicable(t, ACT), announcement(ACT),
+               de(ACT, 2), e(ACT, 2), dw(t, W), announces(ACT, P),  holds(t, W,  P).
+
+% Tau (announcement)
+dw(t+1, W') :- W' = (W, t, 1), plan(t, ACT), applicable(t, ACT), announcement(ACT),
+               de(ACT, 1), e(ACT, 1), dw(t, W), announces(ACT, P),  holds(t, W, -P).
+
+
+%%% Worlds
+% Sigma (ontic)
+w(t+1, W') :- W' = (W, t, 1), w(t, W), plan(t, ACT), ontic(ACT), e(ACT, 1).
+
+% Sigma (sensing)
+w(t+1, W') :- W' = (W, t, 2), w(t, W), plan(t, ACT), sensing(ACT), e(ACT, 2),
+              determines(ACT, P), holds(t, W, P).
+
+% Tau (sensing)
+w(t+1, W') :- W' = (W, t, 1), w(t, W), plan(t, ACT), sensing(ACT), e(ACT, 1),
+              obs(t, _, p_obs), determines(ACT, P), holds(t, W, -P).
+
+% Sigma (announcement)
+w(t+1, W') :- W' = (W, t, 2), w(t, W), plan(t, ACT), announcement(ACT), e(ACT, 2),
+              announces(ACT, P), holds(t, W, P).
+
+% Tau (announcement)
+w(t+1, W') :- W' = (W, t, 1), w(t, W), plan(t, ACT), announcement(ACT), e(ACT, 1),
+              obs(t, _, p_obs), announces(ACT, P),  holds(t, W, -P).
 
 % Epsilon
-w(t+1, W, 0, Hw) :- time(t), plan(t, ACT), action(ACT),                 w(t, W, Ewo, Hwo), e(ACT, 0, 1, 0),
-                    pre(ACT, 0, true), agent(AG), obs(t, AG, obl), Hw = (t+1) * Hwo + Ewo.
+w(t+1, W') :- W' = (W, t, 0), w(t, W), plan(t, ACT), e(ACT, 0), obs(t, _, obl).
 
 
 %%% Accessibility relations with meta-q
-r(t+1, W, Ew, Hw,
-  t+1, V, Ev, Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, OBS),
-                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, 0, _), e(ACT, Ev, 0, _), obs_type(OBS), OBS != obl, OBS != all,
-                         w(t+1, W, Ew, Hw), w(t+1, V, Ev, Hv), Hw = (t+1) * Hwo + Ewo + Ew, Hv = (t+1) * Hvo + Evo + Ev,
-                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, Ev, OBS).
-
-r(t+1, W, Ew, Hw,
-  t+1, V, 0 , Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG), obs(t, AG, obl),
-                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, Ew, _, _), e(ACT, 0, 1, 0),
-                         w(t+1, W, Ew, Hw), w(t+1, V, 0, Hv), Hw = (t+1) * Hwo + Ewo + Ew, Hv = (t+1) * Hvo + Evo,
-                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, Ew, 0, obl).
-
-r(t+1, W, 0 , Hw,
-  t+1, V, 0 , Hv, AG) :- time(t), plan(t, ACT), action(ACT), agent(AG),
-                         w(t, W, Ewo, Hwo), w(t, V, Evo, Hvo), e(ACT, 0, 1, 0), e(ACT, 0, 1, 0),
-                         w(t+1, W, 0, Hw), w(t+1, V, 0, Hv), Hw = (t+1) * Hwo + Ewo, Hv = (t+1) * Hvo + Evo,
-                         r(t, W, Ewo, Hwo, t, V, Evo, Hvo, AG), metaq(ACT, 0, 0, all).
+r(t+1, W',
+  t+1, V', AG) :- w(t+1, W'), w(t+1, V'), W' = (W, t, Ew), V' = (V, t, Ev),
+                  plan(t, ACT), e(ACT, Ew), e(ACT, Ev), obs(t, AG, OBS), obs_type(OBS),
+                  metaq(ACT, Ew, Ev, OBS), r(t, W, t, V, AG).
 
 
 % STEP 4: determine the interpretation of the worlds
-holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), w(t+1, W, 1, Hw), post(ACT, 1,  P, true), atom(P).
-
--holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), w(t+1, W, 1, Hw), post(ACT, 1, -P, true), atom(P).
-
 % Postcondition is satisfied
-holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost),
-                            w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo), post(ACT, 1,  P, Fpost), atom(P), entails(t, W, Ewo, Hwo, Fpost),
-                            Hw = (t+1) * Hwo + Ewo + 1.
+holds(t+1, W',  P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      causes(ACT,  P).
 
--holds(t+1, W, 1, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost),
-                            w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo), post(ACT, 1, -P, Fpost), atom(P), entails(t, W, Ewo, Hwo, Fpost),
-                            Hw = (t+1) * Hwo + Ewo + 1.
+holds(t+1, W', -P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      causes(ACT, -P).
+
+holds(t+1, W',  P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      causes(ACT,  P, F), entails(t, W, F).
+
+holds(t+1, W', -P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      causes(ACT, -P, F), entails(t, W, F).
 
 % Inertia in ontic actions
-holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1),
-                            not post(ACT, 1, P, _), not post(ACT, 1, -P, _), atom(P), holds(t, W, Ewo, Hwo, P),
-                            w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo), Hw = (t+1) * Hwo + Ewo + 1.
+idle_atom(t, W, P) :- W' = (W, t, 1), plan(t, ACT), ontic(ACT), atom(P),
+                      causes(ACT,  P, Fpost1), not entails(t, W, Fpost1),
+                      causes(ACT, -P, Fpost2), not entails(t, W, Fpost2).
 
-holds(t+1, W, 1, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 1, 0, 1), formula(Fpost1), formula(Fpost2),
-                            post(ACT, 1, P, Fpost1), post(ACT, 1, -P, Fpost2), atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, 1, Hw), w(t, W, Ewo, Hwo),
-                            not entails(t, W, Ewo, Hwo, Fpost1), not entails(t, W, Ewo, Hwo, Fpost2), Hw = (t+1) * Hwo + Ewo + 1.
+idle_atom(t, W, P) :- W' = (W, t, 1), plan(t, ACT), ontic(ACT), atom(P),
+                      causes(ACT,  P, Fpost1), not entails(t, W, Fpost1),
+                      not causes(ACT, -P, _).
 
-holds(t+1, W, 0, Hw, P) :-  time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, 0, 1, 0),
-                            atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, 0, Hw), w(t, W, Ewo, Hwo), Hw = (t+1) * Hwo + Ewo.
+idle_atom(t, W, P) :- W' = (W, t, 1), plan(t, ACT), ontic(ACT), atom(P),
+                      causes(ACT, -P, Fpost1), not entails(t, W, Fpost1),
+                      not causes(ACT,  P, _).
+
+
+holds(t+1, W',  P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      idle_atom(ACT, P), holds(t, W,  P).
+
+holds(t+1, W', -P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      idle_atom(ACT, P), holds(t, W, -P).
+
+holds(t+1, W',  P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      idle_atom(t, W, P), holds(t, W,  P).
+
+holds(t+1, W', -P) :- w(t+1, W'), W' = (W, t, 1), plan(t, ACT), ontic(ACT),
+                      idle_atom(t, W, P), holds(t, W, -P).
+
+holds(t+1, W',  P) :- w(t+1, W'), W' = (W, t, 0), plan(t, ACT), ontic(ACT),
+                      holds(t, W,  P), atom(P).
+
+holds(t+1, W', -P) :- w(t+1, W'), W' = (W, t, 0), plan(t, ACT), ontic(ACT),
+                      holds(t, W, -P), atom(P).
 
 % Epistemic actions
-holds(t+1, W, Ew, Hw, P) :- time(t), plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, Ew, _, 0),
-                            atom(P), holds(t, W, Ewo, Hwo, P), w(t+1, W, Ew, Hw), w(t, W, Ewo, Hwo), Hw = (t+1) * Hwo + Ewo + Ew.
+holds(t+1, W',  P) :- w(t+1, W'), W' = (W, t, E), e(ACT, E), plan(t, ACT), epistemic(ACT),
+                      holds(Tw, W,  P), atom(P).
+
+holds(t+1, W', -P) :- w(t+1, W'), W' = (W, t, E), e(ACT, E), plan(t, ACT), epistemic(ACT),
+                      holds(Tw, W, -P), atom(P).
 
 
 %%% Checking observability relations %%%
-obs(t, AG, f_obs) :- time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, true), agent(AG).
-obs(t, AG, p_obs) :- time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, true), agent(AG).
-obs(t, AG, p_obs) :- time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, true), agent(AG).
-obs(t, AG, obl  ) :- time(t), plan(t, ACT),       action(ACT), oblivious(ACT, AG),       agent(AG).
+obs(t, AG, f_obs) :- plan(t, ACT),                        observes (t, ACT, AG).
+obs(t, AG, p_obs) :- plan(t, ACT),      sensing(ACT),     aware_of (t, ACT, AG).
+obs(t, AG, p_obs) :- plan(t, ACT), announcement(ACT),     aware_of (t, ACT, AG).
 
-obs(t, AG, f_obs) :- time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F),     entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-obs(t, AG, p_obs) :- time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-obs(t, AG, p_obs) :- time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F),     entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-obs(t, AG, obl  ) :- time(t), plan(t, ACT),       action(ACT),  observes(ACT, AG, F   ), agent(AG), formula(F), not entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-obs(t, AG, obl  ) :- time(t), plan(t, ACT),      sensing(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-obs(t, AG, obl  ) :- time(t), plan(t, ACT), announcement(ACT),  aware_of(ACT, AG, F   ), agent(AG), formula(F), not entails(t, W, Ewo, Hw, F), dw(t, W, Ewo, Hw).
-
-% check_on_w(t, W, Ew, Hw, F) :- time(t), plan(t, ACT),       action(ACT), observes(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew, Hw).
-% check_on_w(t, W, Ew, Hw, F) :- time(t), plan(t, ACT),      sensing(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew, Hw).
-% check_on_w(t, W, Ew, Hw, F) :- time(t), plan(t, ACT), announcement(ACT), aware_of(ACT, AG, F), agent(AG), formula(F), dw(t, W, Ew, Hw).
+obs(t, AG, obl  ) :- plan(t, ACT),                        oblivious(t, ACT, AG).
+obs(t, AG, obl  ) :- plan(t, ACT),        ontic(ACT), not observes (t, ACT, AG),                           agent(AG).
+obs(t, AG, obl  ) :- plan(t, ACT),      sensing(ACT), not observes (t, ACT, AG), not aware_of(t, ACT, AG), agent(AG).
+obs(t, AG, obl  ) :- plan(t, ACT), announcement(ACT), not observes (t, ACT, AG), not aware_of(t, ACT, AG), agent(AG).
