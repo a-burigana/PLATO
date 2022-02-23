@@ -5,7 +5,6 @@ epistemic(ACT) :- announcement(ACT).
 obs_type(f_obs).
 obs_type(p_obs).
 obs_type(obl  ).
-obs_type(all  ).
 
 %%% Generating event spectrum %%%
 
