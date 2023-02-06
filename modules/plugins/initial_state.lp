@@ -40,6 +40,7 @@ holds(0, W, -P) :- initially(c(all_agents, -P)), initial_w(W), atom(P).
 % We impose that all the initial possibilities have a different atom set
 K/2 { holds(0, W,  P) : initial_w(W) } K/2 :- unknown_initially(P), initial_state_dimension(K).
 K/2 { holds(0, W, -P) : initial_w(W) } K/2 :- unknown_initially(P), initial_state_dimension(K).
+% TODO: use "not holds(0, W, P)" instead of "holds(0, W, -P)"
 
 % An atom is valuated either true or false in a world
 :- holds(0, W, P), holds(0, W, -P), initial_w(W).

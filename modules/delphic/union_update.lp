@@ -1,108 +1,62 @@
-% ********** TRANSITION FUNCTION **********
+% ********** UNION UPDATE **********
+
+semantics(possibilities).
 
 #program step(t).
 
-%%% Applicability %%%
-applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), dpre(ACT, E, true).
-applicable_event(t, ACT, E) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), w(t, W, Ew, Hw), dw(t, W, Ew, Hw),
-                               dpre(ACT, E, Fpre), formula(Fpre), entails(t, W, Ew, Hw, Fpre).
+applicable(t, ACT) :- action_pre(ACT, F), entails(t, t, W', F).
 
-not_applicable(t, ACT) :- time(t), action(ACT), e(ACT, E, 0, _), de(ACT, E), not applicable_event(t, ACT, E).
-applicable(t, ACT)     :- time(t), action(ACT), not not_applicable(t, ACT).
+%%% Update condition
+update(t, t, W, E, (W, t, E)) :- dw(t, W), plan(t, ACT), applicable(t, ACT), de(ACT, E).
 
+update(t, T, W, E, (W, t, E)) :- update(t, T2, W2, E2, _), plan(t, ACT), e(ACT, E), not idle(ACT, E),
+                                 obs(t, AG, OBS), metaq(ACT, E2, E, OBS),
+                                 r(T2, W2, T, W, AG), time(T), time(T2), T <= T2, T2 <= t.
 
-% pf(t+1, Hwo, Hw) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), e(ACT, E), w(T, W, Hwo),
-%                     same_path(t, T, W, Hwo, E), Hw = (Hwo+t+1)*(Hwo+t+2)/2 + t+1.
+%%% Worlds
+w(t+1, W') :- update(t, Tw, W, E, W'), time(Tw), Tw <= t, plan(t, ACT), e(ACT, E).
 
-% STEP 1: determine the new designated worlds. The computation of the other worlds begins from the designated worlds
-% Important: we assume that the designate event is *not* null
-% dw(t+1, w(t, W, Ew), e(ACT, E)) :- time(t), plan(t, ACT), action(ACT),
-%                                    w(t, W, Ew), e(ACT, E), pre(ACT, E, true),
-%                                    dw(t, W, Ew), de(ACT, E).
+% w(t+1, W') :- update(t, Tw, W, E, W').
 
-% dw(t+1, W, E, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Hwo), e(ACT, E), pre(ACT, E, true),
-%                   dw(t, W, Hwo), de(ACT, E), pf(t+1, Hwo, Hw).
+%%% Designated worlds
+dw(t+1, W') :- update(t, t, W, E, W'), plan(t, ACT), applicable(t, ACT),
+               de(ACT, E), e(ACT, E), dw(t, W).
 
-% dw(t+1, W, E, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Hwo), e(ACT, E), pre(ACT, E, Fpre),
-%                   dw(t, W, Hwo), de(ACT, E), entails(t, W, Ew, Fpre), pf(t+1, Hwo, Hw).
+dw(t+1, W') :- update(t, t, W, E, W'), de(ACT, E), dw(t, W).
 
-% % STEP 2: determine the new possible worlds
-% %          - 2.1: a designated world is a possible world
-% w(t+1, W, E, Hw) :- time(t), plan(t, ACT), action(ACT), w(t, W, Hwo), e(ACT, E), not ne(ACT, E),
-%                  dw(t, W, Hwo), de(ACT, E), dw(t+1, W, E, Hw), pf(t+1, Hwo, Hw).
+%%% Accessibility relations with meta-q
+r(t+1, W',
+  t+1, V', AG) :- w(t+1, W'), w(t+1, V'), update(t, Tw, W, Ew, W'), update(t, Tv, V, Ev, V'),
+                  plan(t, ACT), e(ACT, Ew), e(ACT, Ev), obs(t, AG, OBS), not idle(ACT, E),      % TODO: implement idle in input
+                  metaq(ACT, Ew, Ev, OBS), r(Tw, W, Tv, V, AG).
 
-% %          - 2.2: apply recursive step
+r(t+1, W',
+  Tv , V', AG) :- w(t+1, W'), update(t, Tw, W, Ew, W'),
+                  plan(t, ACT), e(ACT, Ew), obs(t, AG, OBS), idle(ACT, E),
+                  metaq(ACT, Ew, E, OBS), r(Tw, W, Tv, V', AG).
 
-% % Confronto lo stato a tempo t-1 con l'azione che eseguo a tempo t e guardo le somiglianze nei path
-% % Caso base: un designated world e un designated event hanno lo stesso path
-% % same_path(t, w(t, W, Ew), e(ACT, E)) :- time(t), plan(t, ACT), action(ACT), w(t, W, Ew), e(ACT, E),
-% %                                         dw(t, W, Ew), de(ACT, E).
+% STEP 4: determine the interpretation of the worlds
+% Postcondition is satisfied
+holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
+                      post(ACT, E,  P, F), entails(t+1, W', F).
 
-% same_path(t, t, W, Hw, E) :- time(t), plan(t, ACT), action(ACT), w(t, W, Hw), e(ACT, E),
-%                              dw(t, W, Hw), de(ACT, E).
+:- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
+   holds(t+1, W', P), post(ACT, E, -P, F), entails(t+1, W', F).
 
-% % Passo induttivo: se W2 e E2 hanno lo stesso path e W2 -AG-> W & E2 -AG-> E, allora W ed E hanno lo stesso path
-% same_path(t, T, W, Hw, E) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), agent(AG),
-%                              w(T, W, Hw), e(ACT, E), w(t, W2, Hw2), e(ACT, E2),
-%                              same_path(t, t, W2, Hw2, E2), r(t, W2, Hw2, T, W, Hw, AG), q(t, ACT, E2, E, AG).
+% Inertia in ontic actions
+holds(t+1, W', P) :- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
+                     inertia(ACT, E, P), holds(Tw, W, P).
 
-% w(t+1, W, E, Hw) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), w(T, W, Hwo), e(ACT, E), not ne(ACT, E),
-%                  pre(ACT, E, true), same_path(t, T, W, Hwo, E), pf(t+1, Hwo, Hw).
+:- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
+   inertia(ACT, E, P), holds(t+1, W', P), not holds(Tw, W, P).
 
-% w(t+1, W, E, Hw) :- time(t), time(T), T <= t, plan(t, ACT), action(ACT), w(T, W, Hwo), e(ACT, E), not ne(ACT, E),
-%                  pre(ACT, E, Fpre), formula(Fpre), entails(T, W, Hwo, Fpre),
-%                  same_path(t, T, W, Hwo, E), pf(t+1, Hwo, Hw).
-
-
-% STEP 3: determine the accessibility relations
-% r(t+1, W, E, Hw,
-%   t+1, V, Hv , AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG),
-%                       w(Tw, W, Ewo, Hwo), w(Tv, V, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), not ne(ACT, E2),
-%                       w(t+1, W, E, Hw), w(t+1, V, Hv), pf(t+1, Hwo, Hw), pf(t+1, Hvo, Hv),
-%                       same_path(t, Tw, W, Ewo, Hwo, E1), same_path(t, Tv, V, Hvo, E2),
-%                       r(Tw, W, Ewo, Hwo, Tv, V, Hvo, AG), q(t, ACT, E1, E2, AG).
-
-% r(t+1, W, E, Hw ,
-%   Tv , V, Hvo, AG) :- time(t), time(Tw), time(Tv), Tw <= t, Tv <= t, plan(t, ACT), action(ACT), agent(AG),
-%                       w(Tw, W, Ewo, Hwo), w(Tv, V, Hvo), e(ACT, E1), e(ACT, E2), not ne(ACT, E1), ne(ACT, E2),
-%                       w(t+1, W, E, Hw), pf(t+1, Hwo, Hw), same_path(t, Tv, V, Hvo, E2),
-%                       r(Tw, W, Ewo, Hwo, Tv, V, Hvo, AG), q(t, ACT, E1, E2, AG).
+% Epistemic actions
+holds(t+1, W', P) :- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), epistemic(ACT, E),
+                     holds(Tw, W, P).
 
 
-% % STEP 4: determine the interpretation of the worlds
-% holds(t+1, W, E, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
-%                            w(t+1, W, E, Hw), post(ACT, E,  P, true), atom(P).
+%%% Checking observability relations %%%
+obs(t, AG, OBS) :- plan(t, ACT), obs_cond(ACT, OBS, true).
+obs(t, AG, OBS) :- plan(t, ACT), obs_cond(ACT, OBS, F), entails(t, W, F), dw(t, W).
 
-% -holds(t+1, W, E, Hw, P) :- time(t), plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
-%                            w(t+1, W, E, Hw), post(ACT, E, -P, true), atom(P).
-
-% % Postcondition is satisfied
-% holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1), formula(Fpost),
-%                            w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), post(ACT, E,  P, Fpost), atom(P), entails(T, Tw, W, Ewo, Hwo, Fpost),
-%                            time(T), T <= t, same_path(t, Tw, W, Ewo, Hwo, E, Hw) : semantics(possibilities).
-
-% -holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1), formula(Fpost),
-%                            w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), post(ACT, E, -P, Fpost), atom(P), entails(T, Tw, W, Ewo, Hwo, Fpost),
-%                            time(T), T <= t, same_path(t, Tw, W, Ewo, Hwo, E, Hw) : semantics(possibilities).
-
-% % Inertia in ontic actions
-% holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1),
-%                            not post(ACT, E, P, _), not post(ACT, E, -P, _), atom(P), holds(Tw, W, Ewo, Hwo, P),
-%                            w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw) : semantics(possibilities).
-
-% holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 1), formula(Fpost1), formula(Fpost2),
-%                            w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), holds(Tw, W, Ewo, Hwo, P),
-%                            post(ACT, E, P, Fpost1), post(ACT, E, -P, Fpost2), atom(P), time(T1), time(T2), T1 <= t, T2 <= t,
-%                            not entails(_, Tw, W, Ewo, Hwo, Fpost1), not entails(_, Tw, W, Ewo, Hwo, Fpost2),
-%                            same_path(t, Tw, W, Ewo, Hwo, E, Hw) : semantics(possibilities).
-
-% % % Event with no postconditions in ontic action
-% % holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), ontic(ACT), e(ACT, E, 0, 0),
-% %                            atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), same_path(t, Tw, W, Ewo, Hwo, E, Hw).
-
-% %%% ^^^ IN mAp NON CE NE SONO!!
-
-% % Epistemic actions
-% holds(t+1, W, E, Hw, P) :- time(t), time(Tw), Tw <= t, plan(t, ACT), action(ACT), epistemic(ACT), e(ACT, E, 0, 0),
-%                            atom(P), holds(Tw, W, Ewo, Hwo, P), w(t+1, W, E, Hw), w(Tw, W, Ewo, Hwo), 
-%                            same_path(t, Tw, W, Ewo, Hwo, E, Hw) : semantics(possibilities).
+:- obs(t, AG, OBS1), obs(t, AG, OBS2), OBS1 != OBS2.
