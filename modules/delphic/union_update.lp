@@ -10,11 +10,6 @@ obs(t, AG, OBS)     :- plan(t, ACT), obs_cond(ACT, AG, OBS, COND), dw(t-1, W, Ew
 qt(t, E, F, AG)     :- plan(t, ACT), q(ACT, E, F, OBS), obs(t, AG, OBS).
 
 % ***** APPLICABILITY *****
-% -applicable(t, ACT, W, Ew) :- dw(t-1, W, Ew), action(ACT), 0 { de(ACT, E) : precond(ACT, E, PRE), holds(t-1, W, Ew, PRE) } 0.
-% -applicable(t, ACT)        :- action(ACT), dw(t-1, W, Ew), -applicable(t, ACT, W, Ew).
-% applicable(t, ACT)         :- action(ACT), not -applicable(t, ACT).
-% 0 { dw(t-1, W, Ew) : -applicable(t, ACT, W, Ew) } 0.% 
-
 -applicable(t, ACT) :- dw(t-1, W, Ew), action_pre(ACT, PRE), not holds(t-1, W, Ew, PRE).
 applicable(t, ACT)  :- action(ACT), not -applicable(t, ACT).
 
