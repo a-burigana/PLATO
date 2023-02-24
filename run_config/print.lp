@@ -1,5 +1,5 @@
-#show w/2.
-#show dw/2.
-#show r/5.
-#show holds/3.
+#show w/3.
+#show dw/3.
+#show r/7.
+#show v/4.
 #show atom/1.

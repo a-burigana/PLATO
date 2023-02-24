@@ -5,7 +5,7 @@
 #defined agent_set/1.
 #defined contains_ag/2.
 
-#program step(t).
+#program check(t).
 time(t).
 
 %%% SEMANTICS %%%

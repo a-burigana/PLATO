@@ -1,62 +1,43 @@
 % ********** UNION UPDATE **********
 
-semantics(possibilities).
-
 #program step(t).
 
-applicable(t, ACT) :- action_pre(ACT, F), entails(t, t, W', F).
+% ***** CONDITIONS *****
+pre( t, E,    PRE)  :- plan(t, ACT),  precond(ACT, E,    PRE ).
+post(t, E, P, POST) :- plan(t, ACT), postcond(ACT, E, P, POST).
 
-%%% Update condition
-update(t, t, W, E, (W, t, E)) :- dw(t, W), plan(t, ACT), applicable(t, ACT), de(ACT, E).
+obs(t, AG, OBS)     :- plan(t, ACT), obs_cond(ACT, AG, OBS, COND), dw(t-1, W, Ew), holds(t-1, W, Ew, COND).
+qt(t, E, F, AG)     :- plan(t, ACT), q(ACT, E, F, OBS), obs(t, AG, OBS).
 
-update(t, T, W, E, (W, t, E)) :- update(t, T2, W2, E2, _), plan(t, ACT), e(ACT, E), not idle(ACT, E),
-                                 obs(t, AG, OBS), metaq(ACT, E2, E, OBS),
-                                 r(T2, W2, T, W, AG), time(T), time(T2), T <= T2, T2 <= t.
+% ***** APPLICABILITY *****
+% -applicable(t, ACT, W, Ew) :- dw(t-1, W, Ew), action(ACT), 0 { de(ACT, E) : precond(ACT, E, PRE), holds(t-1, W, Ew, PRE) } 0.
+% -applicable(t, ACT)        :- action(ACT), dw(t-1, W, Ew), -applicable(t, ACT, W, Ew).
+% applicable(t, ACT)         :- action(ACT), not -applicable(t, ACT).
+% 0 { dw(t-1, W, Ew) : -applicable(t, ACT, W, Ew) } 0.% 
 
-%%% Worlds
-w(t+1, W') :- update(t, Tw, W, E, W'), time(Tw), Tw <= t, plan(t, ACT), e(ACT, E).
+-applicable(t, ACT) :- dw(t-1, W, Ew), action_pre(ACT, PRE), not holds(t-1, W, Ew, PRE).
+applicable(t, ACT)  :- action(ACT), not -applicable(t, ACT).
 
-% w(t+1, W') :- update(t, Tw, W, E, W').
+% ***** DESIGNATED WORLDS *****
+dw(t, (t-1, W, Ew), E) :- dw(t-1, W, Ew), de(ACT, E), pre(t, E, PRE), holds(t-1, W, Ew, PRE).
 
-%%% Designated worlds
-dw(t+1, W') :- update(t, t, W, E, W'), plan(t, ACT), applicable(t, ACT),
-               de(ACT, E), e(ACT, E), dw(t, W).
+% ***** WORLDS *****
+w(t, (t-1, W, Ew), E)  :- dw(t, (t-1, W, Ew), E).
 
-dw(t+1, W') :- update(t, t, W, E, W'), de(ACT, E), dw(t, W).
+w(t, (Tw, W, Ew), E)  :- w(Tw, W, Ew), w(t, (Tv, V, Ev), F), e(ACT, F), -idle(ACT, E),
+                         r(Tv, V, Ev, Tw, W, Ew, AG), qt(t, F, E, AG), pre(t, E, PRE), holds(Tw, W, Ew, PRE).
 
-%%% Accessibility relations with meta-q
-r(t+1, W',
-  t+1, V', AG) :- w(t+1, W'), w(t+1, V'), update(t, Tw, W, Ew, W'), update(t, Tv, V, Ev, V'),
-                  plan(t, ACT), e(ACT, Ew), e(ACT, Ev), obs(t, AG, OBS), not idle(ACT, E),      % TODO: implement idle in input
-                  metaq(ACT, Ew, Ev, OBS), r(Tw, W, Tv, V, AG).
+% ***** ACCESSIBILITY RELATIONS *****
+r(t, (Tw, W, Ew), E,
+  t, (Tv, V, Ev), F,  AG) :- w(t, (Tw, W, Ew), E), w(t, (Tv, V, Ev), F),
+                             r(Tw, W, Ew, Tv, V, Ev, AG), qt(t, E, F, AG).
 
-r(t+1, W',
-  Tv , V', AG) :- w(t+1, W'), update(t, Tw, W, Ew, W'),
-                  plan(t, ACT), e(ACT, Ew), obs(t, AG, OBS), idle(ACT, E),
-                  metaq(ACT, Ew, E, OBS), r(Tw, W, Tv, V', AG).
+r(t, (Tw, W, Ew), E,
+  Tv , V,         Ev, AG) :- w(t, (Tw, W, Ew), E), w(Tv, V, Ev), idle(ACT, F),
+                             r(Tw, W, Ew, Tv, V, Ev, AG), qt(t, E, F, AG).
 
-% STEP 4: determine the interpretation of the worlds
-% Postcondition is satisfied
-holds(t+1, W',  P) :- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
-                      post(ACT, E,  P, F), entails(t+1, W', F).
-
-:- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
-   holds(t+1, W', P), post(ACT, E, -P, F), entails(t+1, W', F).
+% ***** VALUATION FUNCTION *****
+v(t, (Tw, W, Ew), E, P) :- w(t, (Tw, W, Ew), E), post(t, E, P, POST), holds(Tw, W, Ew, POST).
 
 % Inertia in ontic actions
-holds(t+1, W', P) :- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
-                     inertia(ACT, E, P), holds(Tw, W, P).
-
-:- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), ontic(ACT, E),
-   inertia(ACT, E, P), holds(t+1, W', P), not holds(Tw, W, P).
-
-% Epistemic actions
-holds(t+1, W', P) :- w(t+1, W'), update(t, Tw, W, E, W'), plan(t, ACT), epistemic(ACT, E),
-                     holds(Tw, W, P).
-
-
-%%% Checking observability relations %%%
-obs(t, AG, OBS) :- plan(t, ACT), obs_cond(ACT, OBS, true).
-obs(t, AG, OBS) :- plan(t, ACT), obs_cond(ACT, OBS, F), entails(t, W, F), dw(t, W).
-
-:- obs(t, AG, OBS1), obs(t, AG, OBS2), OBS1 != OBS2.
+v(t, (Tw, W, Ew), E, P) :- w(t, (Tw, W, Ew), E), plan(t, ACT), inertia(ACT, E, P), v(Tw, W, Ew, P).

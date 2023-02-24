@@ -1,17 +1,18 @@
 %%% DEBUG
-% plan(0,open_a).
-% plan(1,peek_a).
+% plan(1,open_a).
+% plan(2,peek_a).
 % plan(2,signal_a_c).
 % plan(3,signal_c_b).
 % plan(4,shout_tail_a).
-% goal(6).
+% goal_at(2).
 
-% plan(0,signal_a_b).
+plan(1,signal_a_c).
+plan(2,signal_c_b).
 % plan(1,open_a).
 % plan(2,peek_b).
 % plan(3,signal_c_b).
 % plan(4,shout_tail_a).
-% goal(5).
+goal_at(2).
 
 
 % plan(0,left_b).
@@ -24,13 +25,13 @@
 % plan(2,tell_b_b1_1).
 % goal(3).
 
-plan(0,sense).
-plan(0,right).
-plan(1,sense).
-plan(2,right).
-plan(3,right).
-plan(4,shout_4).
-goal(5).
+% plan(0,sense).
+% plan(0,right).
+% plan(1,sense).
+% plan(2,right).
+% plan(3,right).
+% plan(4,shout_4).
+% goal(5).
 
 
 % plan(0,right).
@@ -51,14 +52,23 @@ goal(5).
 % goal(5).
 
 #program check(t).
-% not_reached_goal(t) :- w(t, W, Ew, Hw), dw(t, W, Ew, Hw), not entails(t, W, Ew, Hw, F), goal(F), formula(F).
-% goal(t) :- not not_reached_goal(t).
+not_goal_at(t) :- time(t), dw(t, W, E), goal(G), not holds(t, W, E, G).
+real_goal_at(t) :- not not_goal_at(t).
 
-:- not goal(t), query(t).
+:- not goal_at(t), query(t).
 
 % Display
 #show plan/2.
-% #show goal/1.
+% #show goal_at/1.
+% #show not_goal_at/1.
+#show real_goal_at/1.
+
+#show w/3.
+% #show dw/3.
+% #show r/7.
+% #show v/4.
+% #show holds/4.
+
 % #show reaches/9.
 
 % #show holds/5.

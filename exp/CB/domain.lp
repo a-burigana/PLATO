@@ -11,581 +11,299 @@ agent(b).
 agent(c).
 
 
+% *** OBSERVABILITY GROUPS %%%
+obs_group(f_obs).
+obs_group(p_obs).
+obs_group(obl  ).
+
+
 % *** ACTIONS ***
 action(distract_a_b).
 ontic(distract_a_b).
-action_pre(distract_a_b,and(b(a,and(looking_a,looking_b)),and(looking_a,looking_b))).
-causes(distract_a_b, -looking_b).
-once(distract_a_b).
 
-% formula(-looking_b).
-% formula(b(a,looking_a)).
-% formula(b(a,looking_b)).
-% formula(and(b(a,looking_a),b(a,looking_b))).
-% formula(and(looking_a,looking_b)).
-% formula(and(and(b(a,looking_a),b(a,looking_b)),and(looking_a,looking_b))).
+causes(distract_a_b, neg(looking_b), true).
+action_pre(distract_a_b, and(and(box(a,looking_a),box(a,looking_b)),and(looking_a,looking_b))).
 
-idle_atom(distract_a_b, looking_a).
-idle_atom(distract_a_b, looking_c).
-idle_atom(distract_a_b, opened).
-idle_atom(distract_a_b, tail).
+obs_cond(distract_a_b, a, f_obs, true).
+obs_cond(distract_a_b, b, f_obs, true).
+obs_cond(distract_a_b, c, obl,   true).
 
-#program step(t).
-
-entails(t, t, W, and(b(a,and(looking_a,looking_b)),and(looking_a,looking_b))) :-
-    dw(t, W), holds(t, W, looking_a), holds(t, W, looking_b),
-    not -entails(t, t, W, b(a,and(looking_a,looking_b))).
-
--entails(t, t, W, b(a,and(looking_a,looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
--entails(t, t, W, b(a,and(looking_a,looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_b).
-
-observes(t, distract_a_b, a).
-observes(t, distract_a_b, b).
-oblivious(t, distract_a_b, c).
-
-#program base.
 
 action(distract_a_c).
 ontic(distract_a_c).
-action_pre(distract_a_c,and(b(a,and(looking_a,looking_c)),and(looking_a,looking_c))).
-causes(distract_a_c, -looking_c).
-once(distract_a_c).
 
-% formula(-looking_c).
-% formula(b(a,looking_c)).
-% formula(and(b(a,looking_a),b(a,looking_c))).
-% formula(and(looking_a,looking_c)).
-% formula(and(and(b(a,looking_a),b(a,looking_c)),and(looking_a,looking_c))).
+causes(distract_a_c, neg(looking_c), true).
+action_pre(distract_a_c, and(and(box(a,looking_a),box(a,looking_c)),and(looking_a,looking_c))).
 
-idle_atom(distract_a_c, looking_a).
-idle_atom(distract_a_c, looking_b).
-idle_atom(distract_a_c, opened).
-idle_atom(distract_a_c, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(a,and(looking_a,looking_c)),and(looking_a,looking_c))) :-
-    dw(t, W), holds(t, W, looking_a), holds(t, W, looking_c),
-    not -entails(t, t, W, b(a,and(looking_a,looking_c))).
-
--entails(t, t, W, b(a,and(looking_a,looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
--entails(t, t, W, b(a,and(looking_a,looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_c).
-
-observes(t, distract_a_c, a).
-observes(t, distract_a_c, c).
-oblivious(t, distract_a_c, b).
-
-#program base.
+obs_cond(distract_a_c, a, f_obs, true).
+obs_cond(distract_a_c, c, f_obs, true).
+obs_cond(distract_a_c, b, obl,   true).
 
 
 action(distract_b_a).
 ontic(distract_b_a).
-action_pre(distract_b_a,and(b(b,and(looking_b,looking_a)),and(looking_b,looking_a))).
-causes(distract_b_a, -looking_a).
-once(distract_b_a).
 
-% formula(-looking_a).
-% formula(b(b,looking_b)).
-% formula(b(b,looking_a)).
-% formula(and(b(b,looking_b),b(b,looking_a))).
-% formula(and(and(b(b,looking_b),b(b,looking_a)),and(looking_a,looking_b))).
+causes(distract_b_a, neg(looking_a), true).
+action_pre(distract_b_a, and(and(box(b,looking_b),box(b,looking_a)),and(looking_a,looking_b))).
 
-idle_atom(distract_b_a, looking_b).
-idle_atom(distract_b_a, looking_c).
-idle_atom(distract_b_a, opened).
-idle_atom(distract_b_a, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(b,and(looking_b,looking_a)),and(looking_b,looking_a))) :-
-    dw(t, W), holds(t, W, looking_b), holds(t, W, looking_a),
-    not -entails(t, t, W, b(b,and(looking_b,looking_a))).
-
--entails(t, t, W, b(b,and(looking_b,looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
--entails(t, t, W, b(b,and(looking_b,looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_a).
-
-observes(t, distract_b_a, b).
-observes(t, distract_b_a, a).
-oblivious(t, distract_b_a, c).
-
-#program base.
+obs_cond(distract_b_a, a, f_obs, true).
+obs_cond(distract_b_a, b, f_obs, true).
+obs_cond(distract_b_a, c, obl,   true).
 
 
 action(distract_b_c).
 ontic(distract_b_c).
-action_pre(distract_b_c,and(b(b,and(looking_b,looking_c)),and(looking_b,looking_c))).
-causes(distract_b_c, -looking_c).
-once(distract_b_c).
 
-% formula(b(b,looking_c)).
-% formula(and(b(b,looking_b),b(b,looking_c))).
-% formula(and(looking_b,looking_c)).
-% formula(and(and(b(b,looking_b),b(b,looking_c)),and(looking_b,looking_c))).
+causes(distract_b_c, neg(looking_c), true).
+action_pre(distract_b_c, and(and(box(b,looking_b),box(b,looking_c)),and(looking_b,looking_c))).
 
-idle_atom(distract_b_c, looking_a).
-idle_atom(distract_b_c, looking_b).
-idle_atom(distract_b_c, opened).
-idle_atom(distract_b_c, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(b,and(looking_b,looking_c)),and(looking_b,looking_c))) :-
-    dw(t, W), holds(t, W, looking_b), holds(t, W, looking_c),
-    not -entails(t, t, W, b(b,and(looking_b,looking_c))).
-
--entails(t, t, W, b(b,and(looking_b,looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
--entails(t, t, W, b(b,and(looking_b,looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_c).
-
-observes(t, distract_b_c, b).
-observes(t, distract_b_c, c).
-oblivious(t, distract_b_c, a).
-
-#program base.
+obs_cond(distract_b_c, b, f_obs, true).
+obs_cond(distract_b_c, c, f_obs, true).
+obs_cond(distract_b_c, a, obl,   true).
 
 
 action(distract_c_a).
 ontic(distract_c_a).
-action_pre(distract_c_a,and(b(c,and(looking_c,looking_a)),and(looking_c,looking_a))).
-causes(distract_c_a, -looking_a).
-once(distract_c_a).
 
-% formula(b(c,looking_c)).
-% formula(b(c,looking_a)).
-% formula(and(b(c,looking_c),b(c,looking_a))).
-% formula(and(and(b(c,looking_c),b(c,looking_a)),and(looking_a,looking_c))).
+causes(distract_c_a, neg(looking_a), true).
+action_pre(distract_c_a, and(and(box(c,looking_c),box(c,looking_a)),and(looking_a,looking_c))).
 
-idle_atom(distract_c_a, looking_b).
-idle_atom(distract_c_a, looking_c).
-idle_atom(distract_c_a, opened).
-idle_atom(distract_c_a, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(c,and(looking_c,looking_a)),and(looking_c,looking_a))) :-
-    dw(t, W), holds(t, W, looking_c), holds(t, W, looking_a),
-    not -entails(t, t, W, b(c,and(looking_c,looking_a))).
-
--entails(t, t, W, b(c,and(looking_c,looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
--entails(t, t, W, b(c,and(looking_c,looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_a).
-
-observes(t, distract_c_a, c).
-observes(t, distract_c_a, a).
-oblivious(t, distract_c_a, b).
-
-#program base.
+obs_cond(distract_c_a, a, f_obs, true).
+obs_cond(distract_c_a, c, f_obs, true).
+obs_cond(distract_c_a, b, obl,   true).
 
 
 action(distract_c_b).
 ontic(distract_c_b).
-action_pre(distract_c_b,and(b(c,and(looking_c,looking_b)),and(looking_c,looking_b))).
-causes(distract_c_b, -looking_b).
-once(distract_c_b).
 
-% formula(b(c,looking_b)).
-% formula(and(b(c,looking_c),b(c,looking_b))).
-% formula(and(and(b(c,looking_c),b(c,looking_b)),and(looking_b,looking_c))).
+causes(distract_c_b, neg(looking_b), true).
+action_pre(distract_c_b, and(and(box(c,looking_c),box(c,looking_b)),and(looking_b,looking_c))).
 
-idle_atom(distract_c_b, looking_a).
-idle_atom(distract_c_b, looking_c).
-idle_atom(distract_c_b, opened).
-idle_atom(distract_c_b, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(c,and(looking_c,looking_b)),and(looking_c,looking_b))) :-
-    dw(t, W), holds(t, W, looking_c), holds(t, W, looking_b),
-    not -entails(t, t, W, b(c,and(looking_c,looking_b))).
-
--entails(t, t, W, b(c,and(looking_c,looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
--entails(t, t, W, b(c,and(looking_c,looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_b).
-
-observes(t, distract_c_b, c).
-observes(t, distract_c_b, b).
-oblivious(t, distract_c_b, a).
-
-#program base.
+obs_cond(distract_c_b, b, f_obs, true).
+obs_cond(distract_c_b, c, f_obs, true).
+obs_cond(distract_c_b, a, obl,   true).
 
 
 action(open_a).
 ontic(open_a).
-action_pre(open_a,-opened).
-causes(open_a, opened).
-once(open_a).
 
-% formula(-opened).
+causes(open_a, opened, true).
+action_pre(open_a, and(looking_a, neg(opened))).
 
-idle_atom(open_a, looking_a).
-idle_atom(open_a, looking_b).
-idle_atom(open_a, looking_c).
-idle_atom(open_a, tail).
+obs_cond(open_a, a, f_obs, true).
+obs_cond(open_a, b, f_obs, looking_b).
+obs_cond(open_a, c, f_obs, looking_c).
+obs_cond(open_a, b, obl,   neg(looking_b)).
+obs_cond(open_a, c, obl,   neg(looking_c)).
 
-#program step(t).
 
-entails(t, t, W, -opened) :- dw(t, W), holds(t, W, -opened).
+action(open_b).
+ontic(open_b).
 
-observes(t, open_a, a).
-observes(t, open_a, b) :- dw(t, W), holds(t, W, looking_b).
-observes(t, open_a, c) :- dw(t, W), holds(t, W, looking_c).
+causes(open_b, opened, true).
+action_pre(open_b, and(looking_b, neg(opened))).
 
-#program base.
+obs_cond(open_b, b, f_obs, true).
+obs_cond(open_b, a, f_obs, looking_a).
+obs_cond(open_b, c, f_obs, looking_c).
+obs_cond(open_b, a, obl,   neg(looking_a)).
+obs_cond(open_b, c, obl,   neg(looking_c)).
+
+
+action(open_c).
+ontic(open_c).
+
+causes(open_c, opened, true).
+action_pre(open_c, and(looking_c, neg(opened))).
+
+obs_cond(open_c, c, f_obs, true).
+obs_cond(open_c, a, f_obs, looking_a).
+obs_cond(open_c, b, f_obs, looking_b).
+obs_cond(open_c, a, obl,   neg(looking_a)).
+obs_cond(open_c, b, obl,   neg(looking_b)).
 
 
 action(peek_a).
 sensing(peek_a).
-action_pre(peek_a,and(b(a,and(opened,looking_a)),and(opened,looking_a))).
+
 determines(peek_a, tail).
-% formula(b(a,opened)).
-% formula(and(b(a,opened),b(a,looking_a))).
-% formula(and(looking_a,opened)).
-% formula(and(and(b(a,opened),b(a,looking_a)),and(looking_a,opened))).
+action_pre(peek_a, and(and(box(a,opened),box(a,looking_a)),and(looking_a,opened))).
 
-#program step(t).
-
-entails(t, t, W, and(b(a,and(opened,looking_a)),and(opened,looking_a))) :-
-    dw(t, W), holds(t, W, opened), holds(t, W, looking_a),
-    not -entails(t, t, W, b(a,and(opened,looking_a))).
-
--entails(t, t, W, b(a,and(opened,looking_a))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -opened).
--entails(t, t, W, b(a,and(opened,looking_a))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
-
-observes(t, peek_a, a).
-aware_of(t, peek_a, b) :- dw(t, W), holds(t, W, looking_b).
-aware_of(t, peek_a, c) :- dw(t, W), holds(t, W, looking_c).
-
-#program base.
+obs_cond(peek_a, a, f_obs, true).
+obs_cond(peek_a, b, p_obs, looking_b).
+obs_cond(peek_a, c, p_obs, looking_c).
+obs_cond(peek_a, b, obl,   neg(looking_b)).
+obs_cond(peek_a, c, obl,   neg(looking_c)).
 
 
 action(peek_b).
 sensing(peek_b).
-action_pre(peek_b,and(b(b,and(opened,looking_b)),and(opened,looking_b))).
+
 determines(peek_b, tail).
-% formula(b(b,opened)).
-% formula(and(b(b,opened),b(b,looking_b))).
-% formula(and(looking_b,opened)).
-% formula(and(and(b(b,opened),b(b,looking_b)),and(looking_b,opened))).
+action_pre(peek_b, and(and(box(b,opened),box(b,looking_b)),and(looking_b,opened))).
 
-#program step(t).
-
-entails(t, t, W, and(b(b,and(opened,looking_b)),and(opened,looking_b))) :-
-    dw(t, W), holds(t, W, opened), holds(t, W, looking_b),
-    not -entails(t, t, W, b(b,and(opened,looking_b))).
-
--entails(t, t, W, b(b,and(opened,looking_b))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -opened).
--entails(t, t, W, b(b,and(opened,looking_b))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
-
-observes(t, peek_b, b).
-aware_of(t, peek_b, a) :- dw(t, W), holds(t, W, looking_a).
-aware_of(t, peek_b, c) :- dw(t, W), holds(t, W, looking_c).
-
-#program base.
+obs_cond(peek_b, b, f_obs, true).
+obs_cond(peek_b, a, p_obs, looking_a).
+obs_cond(peek_b, c, p_obs, looking_c).
+obs_cond(peek_b, a, obl,   neg(looking_a)).
+obs_cond(peek_b, c, obl,   neg(looking_c)).
 
 
 action(peek_c).
 sensing(peek_c).
-action_pre(peek_c,and(b(c,and(opened,looking_c)),and(opened,looking_c))).
+
 determines(peek_c, tail).
-% formula(b(c,opened)).
-% formula(and(b(c,opened),b(c,looking_c))).
-% formula(and(looking_c,opened)).
-% formula(and(and(b(c,opened),b(c,looking_c)),and(looking_c,opened))).
+action_pre(peek_c, and(and(box(c,opened),box(c,looking_c)),and(looking_c,opened))).
 
-#program step(t).
-
-entails(t, t, W, and(b(c,and(opened,looking_c)),and(opened,looking_c))) :-
-    dw(t, W), holds(t, W, opened), holds(t, W, looking_c),
-    not -entails(t, t, W, b(c,and(opened,looking_c))).
-
--entails(t, t, W, b(c,and(opened,looking_c))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -opened).
--entails(t, t, W, b(c,and(opened,looking_c))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
-
-observes(t, peek_c, c).
-aware_of(t, peek_c, a) :- dw(t, W), holds(t, W, looking_a).
-aware_of(t, peek_c, b) :- dw(t, W), holds(t, W, looking_b).
-
-#program base.
+obs_cond(peek_c, c, f_obs, true).
+obs_cond(peek_c, a, p_obs, looking_a).
+obs_cond(peek_c, b, p_obs, looking_b).
+obs_cond(peek_c, a, obl,   neg(looking_a)).
+obs_cond(peek_c, b, obl,   neg(looking_b)).
 
 
 action(shout_tail_a).
 announcement(shout_tail_a).
-action_pre(shout_tail_a,and(b(a,tail),tail)).
+
 announces(shout_tail_a, tail).
-% formula(b(a,tail)).
-% formula(and(b(a,tail),tail)).
+action_pre(shout_tail_a, and(box(a,tail),tail)).
 
-#program step(t).
-
-entails(t, t, W, and(b(a,tail),tail)) :-
-    dw(t, W), holds(t, W, tail), not -entails(t, t, W, b(a,tail)).
-
--entails(t, t, W, b(a,tail)) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -tail).
-
-observes(t, shout_tail_a, a).
-observes(t, shout_tail_a, b) :- dw(t, W), holds(t, W, looking_b).
-observes(t, shout_tail_a, c) :- dw(t, W), holds(t, W, looking_c).
-
-#program base.
+obs_cond(shout_tail_a, a, f_obs, true).
+obs_cond(shout_tail_a, b, p_obs, looking_b).
+obs_cond(shout_tail_a, c, p_obs, looking_c).
+obs_cond(shout_tail_a, b, obl,   neg(looking_b)).
+obs_cond(shout_tail_a, c, obl,   neg(looking_c)).
 
 
 action(shout_tail_b).
 announcement(shout_tail_b).
-action_pre(shout_tail_b,and(b(b,tail),tail)).
+
 announces(shout_tail_b, tail).
-% formula(b(b,tail)).
-% formula(and(b(b,tail),tail)).
+action_pre(shout_tail_b, and(box(b,tail),tail)).
 
-#program step(t).
-
-entails(t, t, W, and(b(b,tail),tail)) :-
-    dw(t, W), holds(t, W, tail), not -entails(t, t, W, b(b,tail)).
-
--entails(t, t, W, b(b,tail)) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -tail).
-
-observes(t, shout_tail_b, b).
-observes(t, shout_tail_b, a) :- dw(t, W), holds(t, W, looking_a).
-observes(t, shout_tail_b, c) :- dw(t, W), holds(t, W, looking_c).
-
-#program base.
+obs_cond(shout_tail_b, b, f_obs, true).
+obs_cond(shout_tail_b, a, p_obs, looking_a).
+obs_cond(shout_tail_b, c, p_obs, looking_c).
+obs_cond(shout_tail_b, a, obl,   neg(looking_a)).
+obs_cond(shout_tail_b, c, obl,   neg(looking_c)).
 
 
 action(shout_tail_c).
 announcement(shout_tail_c).
-action_pre(shout_tail_c,and(b(c,tail),tail)).
+
 announces(shout_tail_c, tail).
-% formula(b(c,tail)).
-% formula(and(b(c,tail),tail)).
+action_pre(shout_tail_c, and(box(c,tail),tail)).
 
-#program step(t).
-
-entails(t, t, W, and(b(c,tail),tail)) :-
-    dw(t, W), holds(t, W, tail), not -entails(t, t, W, b(c,tail)).
-
--entails(t, t, W, b(c,tail)) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -tail).
-
-observes(t, shout_tail_c, c).
-observes(t, shout_tail_c, a) :- dw(t, W), holds(t, W, looking_a).
-observes(t, shout_tail_c, b) :- dw(t, W), holds(t, W, looking_b).
-
-#program base.
+obs_cond(shout_tail_c, c, f_obs, true).
+obs_cond(shout_tail_c, a, p_obs, looking_a).
+obs_cond(shout_tail_c, b, p_obs, looking_b).
+obs_cond(shout_tail_c, a, obl,   neg(looking_a)).
+obs_cond(shout_tail_c, b, obl,   neg(looking_b)).
 
 
 action(signal_a_b).
 ontic(signal_a_b).
-action_pre(signal_a_b,and(b(a,and(looking_a,-looking_b)),and(looking_a,-looking_b))).
-causes(signal_a_b, looking_b).
-once(signal_a_b).
 
-% formula(b(a,-looking_b)).
-% formula(and(b(a,looking_a),b(a,-looking_b))).
-% formula(and(looking_a,-looking_b)).
-% formula(and(and(b(a,looking_a),b(a,-looking_b)),and(looking_a,-looking_b))).
+causes(signal_a_b, looking_b, true).
+action_pre(signal_a_b, and(and(box(a,looking_a),box(a,neg(looking_b))),and(looking_a,neg(looking_b)))).
 
-idle_atom(signal_a_b, looking_a).
-idle_atom(signal_a_b, looking_c).
-idle_atom(signal_a_b, opened).
-idle_atom(signal_a_b, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(a,and(looking_a,-looking_b)),and(looking_a,-looking_b))) :-
-    dw(t, W), holds(t, W, looking_a), holds(t, W, -looking_b),
-    not -entails(t, t, W, b(a,and(looking_a,-looking_b))).
-
--entails(t, t, W, b(a,and(looking_a,-looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
--entails(t, t, W, b(a,and(looking_a,-looking_b))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V,  looking_b).
-
-observes(t, signal_a_b, a).
-observes(t, signal_a_b, b).
-oblivious(t, signal_a_b, c).
-
-#program base.
+obs_cond(signal_a_b, a, f_obs, true).
+obs_cond(signal_a_b, b, f_obs, true).
+obs_cond(signal_a_b, c, obl,   true).
 
 
 action(signal_a_c).
 ontic(signal_a_c).
-action_pre(signal_a_c,and(b(a,and(looking_a,-looking_c)),and(looking_a,-looking_c))).
-causes(signal_a_c, looking_c).
-once(signal_a_c).
 
-% formula(b(a,-looking_c)).
-% formula(and(b(a,looking_a),b(a,-looking_c))).
-% formula(and(looking_a,-looking_c)).
-% formula(and(and(b(a,looking_a),b(a,-looking_c)),and(looking_a,-looking_c))).
+causes(signal_a_c, looking_c, true).
+action_pre(signal_a_c, and(and(box(a,looking_a),box(a,neg(looking_c))),and(looking_a,neg(looking_c)))).
 
-idle_atom(signal_a_c, looking_a).
-idle_atom(signal_a_c, looking_b).
-idle_atom(signal_a_c, opened).
-idle_atom(signal_a_c, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(a,and(looking_a,-looking_c)),and(looking_a,-looking_c))) :-
-    dw(t, W), holds(t, W, looking_a), holds(t, W, -looking_c),
-    not -entails(t, t, W, b(a,and(looking_a,-looking_c))).
-
--entails(t, t, W, b(a,and(looking_a,-looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V, -looking_a).
--entails(t, t, W, b(a,and(looking_a,-looking_c))) :- dw(t, W), r(t, W, Tv, V, a), holds(Tv, V,  looking_c).
-
-observes(t, signal_a_c, a).
-observes(t, signal_a_c, c).
-oblivious(t, signal_a_c, b).
-
-#program base.
+obs_cond(signal_a_c, a, f_obs, true).
+obs_cond(signal_a_c, c, f_obs, true).
+obs_cond(signal_a_c, b, obl,   true).
 
 
 action(signal_b_a).
 ontic(signal_b_a).
-action_pre(signal_b_a,and(b(b,and(looking_b,-looking_a)),and(looking_b,-looking_a))).
-causes(signal_b_a, looking_a).
-once(signal_b_a).
 
-% formula(b(b,-looking_a)).
-% formula(and(b(b,looking_b),b(b,-looking_a))).
-% formula(and(-looking_a,looking_b)).
-% formula(and(and(b(b,looking_b),b(b,-looking_a)),and(-looking_a,looking_b))).
+causes(signal_b_a, looking_a, true).
+action_pre(signal_b_a, and(and(box(b,looking_b),box(b,neg(looking_a))),and(neg(looking_a),looking_b))).
 
-idle_atom(signal_b_a, looking_b).
-idle_atom(signal_b_a, looking_c).
-idle_atom(signal_b_a, opened).
-idle_atom(signal_b_a, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(b,and(looking_b,-looking_a)),and(looking_b,-looking_a))) :-
-    dw(t, W), holds(t, W, looking_b), holds(t, W, -looking_a),
-    not -entails(t, t, W, b(b,and(looking_b,-looking_a))).
-
--entails(t, t, W, b(b,and(looking_b,-looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
--entails(t, t, W, b(b,and(looking_b,-looking_a))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V,  looking_a).
-
-observes(t, signal_b_a, b).
-observes(t, signal_b_a, a).
-oblivious(t, signal_b_a, c).
-
-#program base.
+obs_cond(signal_b_a, a, f_obs, true).
+obs_cond(signal_b_a, b, f_obs, true).
+obs_cond(signal_b_a, c, obl,   true).
 
 
 action(signal_b_c).
 ontic(signal_b_c).
-action_pre(signal_b_c,and(b(b,and(looking_b,-looking_c)),and(looking_b,-looking_c))).
-causes(signal_b_c, looking_c).
-once(signal_b_c).
 
-% formula(b(b,-looking_c)).
-% formula(and(b(b,looking_b),b(b,-looking_c))).
-% formula(and(looking_b,-looking_c)).
-% formula(and(and(b(b,looking_b),b(b,-looking_c)),and(looking_b,-looking_c))).
+causes(signal_b_c, looking_c, true).
+action_pre(signal_b_c, and(and(box(b,looking_b),box(b,neg(looking_c))),and(looking_b,neg(looking_c)))).
 
-idle_atom(signal_b_c, looking_a).
-idle_atom(signal_b_c, looking_b).
-idle_atom(signal_b_c, opened).
-idle_atom(signal_b_c, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(b,and(looking_b,-looking_c)),and(looking_b,-looking_c))) :-
-    dw(t, W), holds(t, W, looking_b), holds(t, W, -looking_c),
-    not -entails(t, t, W, b(b,and(looking_b,-looking_c))).
-
--entails(t, t, W, b(b,and(looking_b,-looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V, -looking_b).
--entails(t, t, W, b(b,and(looking_b,-looking_c))) :- dw(t, W), r(t, W, Tv, V, b), holds(Tv, V,  looking_c).
-
-observes(t, signal_b_c, b).
-observes(t, signal_b_c, c).
-oblivious(t, signal_b_c, a).
-
-#program base.
+obs_cond(signal_b_c, b, f_obs, true).
+obs_cond(signal_b_c, c, f_obs, true).
+obs_cond(signal_b_c, a, obl,   true).
 
 
 action(signal_c_a).
 ontic(signal_c_a).
-action_pre(signal_c_a,and(b(c,and(looking_c,-looking_a)),and(looking_c,-looking_a))).
-causes(signal_c_a, looking_a).
-once(signal_c_a).
 
-% formula(b(c,-looking_a)).
-% formula(and(b(c,looking_c),b(c,-looking_a))).
-% formula(and(-looking_a,looking_c)).
-% formula(and(and(b(c,looking_c),b(c,-looking_a)),and(-looking_a,looking_c))).
+causes(signal_c_a, looking_a, true).
+action_pre(signal_c_a, and(and(box(c,looking_c),box(c,neg(looking_a))),and(neg(looking_a),looking_c))).
 
-idle_atom(signal_c_a, looking_b).
-idle_atom(signal_c_a, looking_c).
-idle_atom(signal_c_a, opened).
-idle_atom(signal_c_a, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(c,and(looking_c,-looking_a)),and(looking_c,-looking_a))) :-
-    dw(t, W), holds(t, W, looking_c), holds(t, W, -looking_a),
-    not -entails(t, t, W, b(c,and(looking_c,-looking_a))).
-
--entails(t, t, W, b(c,and(looking_c,-looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
--entails(t, t, W, b(c,and(looking_c,-looking_a))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V,  looking_a).
-
-observes(t, signal_c_a, c).
-observes(t, signal_c_a, a).
-oblivious(t, signal_c_a, b).
-
-#program base.
+obs_cond(signal_c_a, a, f_obs, true).
+obs_cond(signal_c_a, c, f_obs, true).
+obs_cond(signal_c_a, b, obl,   true).
 
 
 action(signal_c_b).
 ontic(signal_c_b).
-action_pre(signal_c_b,and(b(c,and(looking_c,-looking_b)),and(looking_c,-looking_b))).
-causes(signal_c_b, looking_b).
-once(signal_c_b).
 
-% formula(b(c,-looking_b)).
-% formula(and(b(c,looking_c),b(c,-looking_b))).
-% formula(and(-looking_b,looking_c)).
-% formula(and(and(b(c,looking_c),b(c,-looking_b)),and(-looking_b,looking_c))).
+causes(signal_c_b, looking_b, true).
+action_pre(signal_c_b, and(and(box(c,looking_c),box(c,neg(looking_b))),and(neg(looking_b),looking_c))).
 
-idle_atom(signal_c_b, looking_a).
-idle_atom(signal_c_b, looking_c).
-idle_atom(signal_c_b, opened).
-idle_atom(signal_c_b, tail).
-
-#program step(t).
-
-entails(t, t, W, and(b(c,and(looking_c,-looking_b)),and(looking_c,-looking_b))) :-
-    dw(t, W), holds(t, W, looking_c), holds(t, W, -looking_b),
-    not -entails(t, t, W, b(c,and(looking_c,-looking_b))).
-
--entails(t, t, W, b(c,and(looking_c,-looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V, -looking_c).
--entails(t, t, W, b(c,and(looking_c,-looking_b))) :- dw(t, W), r(t, W, Tv, V, c), holds(Tv, V,  looking_b).
-
-observes(t, signal_c_b, c).
-observes(t, signal_c_b, b).
-oblivious(t, signal_c_b, a).
-
-#program base.
-
-
-% *** INITIALLY ***
-
-% ** initial pointed **
-initially(looking_a).
-initially(-looking_b).
-initially(-looking_c).
-initially(-opened).
-initially(tail).
-
-% ** initial beliefs **
-agent_set(all_agents).
-contains_ag(all_agents,a).
-contains_ag(all_agents,b).
-contains_ag(all_agents,c).
-initially(c(all_agents,-opened)).
-initially(c(all_agents,looking_a)).
-initially(c(all_agents,-looking_b)).
-initially(c(all_agents,-looking_c)).
+obs_cond(signal_c_b, b, f_obs, true).
+obs_cond(signal_c_b, c, f_obs, true).
+obs_cond(signal_c_b, a, obl,   true).
 
 
 
-% ** commonly known fluent formulae **
-init_sf(has_key_a).
-init_sf(-has_key_b).
-init_sf(-has_key_c).
-init_sf(-opened).
-init_sf(looking_a).
-init_sf(-looking_b).
-init_sf(-looking_c).
+
+% *** INITIAL STATE ***
+
+w(0, w1, null).
+w(0, w2, null).
+
+r(0, W1, null, 0, W2, null, AG) :- w(0, W1, null), w(0, W2, null), agent(AG).
+
+v(0, w1, null, looking_a).
+v(0, w1, null, tail).
+v(0, w2, null, looking_a).
+
+dw(0, w1, null).
+
+
+% % ** initial pointed **
+% initially(looking_a).
+% initially(neg(looking_b)).
+% initially(neg(looking_c)).
+% initially(neg(opened)).
+% initially(tail).
+
+% % ** initial beliefs **
+% agent_set(all_agents).
+% contains_ag(all_agents,a).
+% contains_ag(all_agents,b).
+% contains_ag(all_agents,c).
+% initially(c(all_agents,neg(opened))).
+% initially(c(all_agents,looking_a)).
+% initially(c(all_agents,neg(looking_b))).
+% initially(c(all_agents,neg(looking_c))).
+
+
+
+% % ** commonly known atom
+% init_sf(neg(opened)).
+% init_sf(looking_a).
+% init_sf(neg(looking_b)).
+% init_sf(neg(looking_c)).

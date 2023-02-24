@@ -183,17 +183,21 @@ n_edge = re.compile('r\(\S*\)')
 n_holds = re.compile('holds\(\S*\)')
 n_atom = re.compile('atom\([\w\d]+\)')
 
+i = 0
+# TODO: IMPLEMENTA TUTTO CON CLINGO API. USA "ON_MODEL"
+
 with open(sys.argv[1]+'.txt', 'r') as n:
 	n = n.read()
-	print('digraph K_structure{',end="\n", file = outputfile)
-	print("\tlabelloc=\"t\";", end ="\n", file = outputfile)
-	print("\tlabel=\"" + generate_plan(n) + "\";", end ="\n\n", file = outputfile)
+	
+	print('digraph K_structure{',                  end = "\n",   file = outputfile)
+	print("\tlabelloc=\"t\";",                     end = "\n",   file = outputfile)
+	print("\tlabel=\"" + generate_plan(n) + "\";", end = "\n\n", file = outputfile)
 
-	print('\trankdir=BT;',end="\n", file = outputfile)
-	print('\tranksep=0.75',end="\n", file = outputfile)
-	print('\tnewrank=true;',end="\n", file = outputfile)
-	print('\tsize="8,5;"',end="\n", file = outputfile)
-	print('\n//WORLDS List:',end="\n", file = outputfile)
+	print('\trankdir=BT;',                         end = "\n",   file = outputfile)
+	print('\tranksep=0.75',                        end = "\n",   file = outputfile)
+	print('\tnewrank=true;',                       end = "\n",   file = outputfile)
+	print('\tsize="8,5;"',                         end = "\n",   file = outputfile)
+	print('\n//WORLDS List:',                      end = "\n",   file = outputfile)
 	# n = simplify_names(n)
 
 	#DESIGNATED
@@ -267,9 +271,9 @@ with open(sys.argv[1]+'.txt', 'r') as n:
 	print("\n//EDGES List:", end ="\n", file = outputfile)
 	for key,values in edges_map.items():
 		if len(values) > 0:
-			print("\t", end ="", file = outputfile)
-			print(key, end ="", file = outputfile)
-			print(' [label="', end ="", file = outputfile)
+			print("\t",        end = "", file = outputfile)
+			print(key,         end = "", file = outputfile)
+			print(' [label="', end = "", file = outputfile)
 			for val in values:
 				print(val, end ="", file = outputfile)
 				if values.index(val) != len(values)-1:
