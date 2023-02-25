@@ -2,9 +2,9 @@
 
 #program step(t).
 
-reaches(t , W,
-        Tv, V, AGS) :- w(t, W), contains_ag(AGS, AG), r(t, W, Tv, V, AG), time(Tv), Tv <= t.
+reaches(t , W, Ew,
+        Tv, V, Ev, AGS) :- r(t, W, Ew, Tv, V, Ev, AG), contains_ag(AGS, AG), Tv <= t.
 
-reaches(t , W,
-        Tv, V, AGS) :- w(t, W), reaches(t, W, Tu, U, AGS), time(Tu), Tu <= t,
-                       contains_ag(AGS, AG), r(Tu, U, Tv, V, AG), time(Tv), Tv <= Tu.
+reaches(t , W, Ew,
+        Tv, V, Ev, AGS) :- reaches(t, W, Ew, Tx, X, Ex, AGS), r(Tx, X, Ex, Tv, V, AG),
+                           contains_ag(AGS, AG), Tv <= Tx, Tx <= t.
