@@ -1,16 +1,12 @@
 
 #!/bin/bash
-PYTHON_PATH="scripts/python"
-OUT_PATH="out/states"
-
 clingo_args="-t 2 --configuration=frumpy"
 # frumpy, many
 # --heuristic=Vsids
 instance=""
 domain_path=""
-semantics="semantics/ma_rho.lp"
+semantics="semantics/delphic.lp"
 config="run_config/find_plan.lp"
-print=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -37,10 +33,6 @@ while [[ $# -gt 0 ]]; do
         clingo_args+=" --verbose=0"
         shift # past argument=value
         ;;
-    -p|--print)
-        print=true
-        shift # past argument with no value
-        ;;
     -*|--*)
         clingo_args+=" ${1}"
         shift # past argument
@@ -52,16 +44,4 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [ "$print" = false ] ; then
-    clingo plato.lp $clingo_args $domain_path/domain.lp $instance $semantics $config
-else
-    mkdir -p $OUT_PATH
-
-    clingo plato.lp $clingo_args run_config/print.lp $domain_path/domain.lp $instance $semantics $config > $OUT_PATH/output.txt;
-
-    python3 $PYTHON_PATH/out_render.py $OUT_PATH/output;
-    dot -Tpdf $OUT_PATH/output.dot > $OUT_PATH/output.pdf;
-
-    rm $OUT_PATH/output.txt;
-    rm $OUT_PATH/output.dot;
-fi
+clingo plato.lp $clingo_args $domain_path/domain.lp $instance $semantics $config
