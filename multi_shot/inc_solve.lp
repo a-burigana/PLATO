@@ -24,13 +24,12 @@ def main(prg):
     
         # ret  = prg.solve()
         ret  = prg.solve(on_model=print_states)
-        # if step == 3: break
         step = step + 1
 #
 def print_states(m):
     all_worlds  = {s for s in m.symbols(atoms=True) if s.name == 'w'}
-    all_rels    = {s for s in m.symbols(atoms=True) if s.name == 'r'}
-    all_rels    = build_rels(all_worlds, all_rels)
+    # all_rels    = {s for s in m.symbols(atoms=True) if s.name == 'r'}
+    # all_rels    = build_rels(all_worlds, all_rels)
 
     states      = build_states(m, all_worlds)
     world_names = generate_world_names(all_worlds)
@@ -46,7 +45,7 @@ def print_states(m):
     print('\tfontname='       + font + ';',  end = '\n', file = outputfile)
     print('\tnode [fontname=' + font + '];', end = '\n', file = outputfile)
     print('\tedge [fontname=' + font + '];', end = '\n', file = outputfile)
-    print('\tlabelloc=b;',                   end = '\n', file = outputfile)
+    print('\tlabelloc=t;',                   end = '\n', file = outputfile)
     print('\tlabeljust=l;',                  end = '\n', file = outputfile)
     print('\trankdir=BT;',                   end = '\n', file = outputfile)
     print('\tranksep=0.75',                  end = '\n', file = outputfile)
@@ -56,37 +55,48 @@ def print_states(m):
     t = 0
     
     for s in states:
-        label = labels[t] if t == 0 else 's' + str(t-1) + ' * ' + labels[t]
-        print_cluster(t, s, world_names, all_rels, atoms, label, outputfile)
+        label = labels[t] if t == 0 else 's' + str(t) + ' = ' + 's' + str(t-1) + ' * ' + labels[t]
+        print_cluster(states, t, world_names, atoms, label, outputfile)
         t += 1
     
-    print_rels(all_rels, world_names, outputfile)
+    print_rels(states, world_names, outputfile)
+    print_vals(states, all_worlds, world_names, atoms, outputfile)
     print('}', file = outputfile)
     outputfile.close()
 
     os.system('dot -Tpdf test.dot > test.pdf')
 #
-def print_cluster(t, s, world_names, all_rels, atoms, label, outputfile):
+def print_cluster(states, t, world_names, atoms, label, outputfile):
     print('',                                   end = '\n',  file = outputfile)
     print('\tsubgraph cluster_' + str(t)+ ' {', end ='\n',   file = outputfile)
     print('\t\tlabel="' + label + '";',         end ='\n\n', file = outputfile)
 
-    print_worlds(s[0], s[3], world_names, all_rels, outputfile)
+    s = states[t]
+    
+    print_worlds(s[0], s[3], world_names, s[1], outputfile)
     print('', end ='\n', file = outputfile)
-    print_val(t, s[2], world_names, atoms, outputfile)
 
     print('\t}', end ='\n', file = outputfile)
 #
-def print_worlds(worlds, des, world_names, all_rels, outputfile):
+def print_worlds(worlds, des, world_names, rels, outputfile):
     ranked_worlds = SortedDict()
 
     for w in worlds:
-        in_edges = {world_names[v] for v in all_rels for ag in all_rels[v] if w in all_rels[v][ag]}
-        in_edges = list(in_edges)
-        in_edges.sort()
+        in_edges  = {world_names[v] for v in rels for ag in rels[v] if w in rels[v][ag]}
+        out_edges = {world_names[v] for ag in rels[w] for v in rels[w][ag]}
+
+        # in_edges = list(in_edges)
+        # in_edges.sort()
+
+        # out_edges = list(out_edges)
+        # out_edges.sort()
+
+        edges = in_edges.intersection(out_edges)
+        edges = list(edges)
+        edges.sort()
 
         e    = '' # w.arguments[2].name
-        rank = ''.join(in_edges) + e
+        rank = ''.join(edges) + e
 
         if (ranked_worlds.get(rank) == None):
             ranked_worlds[rank] = SortedSet({w})
@@ -102,29 +112,32 @@ def print_worlds(worlds, des, world_names, all_rels, outputfile):
         
         print('\t\t' + '{ rank=same; ' + wr + '}', end = '\n', file = outputfile)
 #
-def generate_pretty_rels(all_rels):
+def generate_pretty_rels(states):
     pretty_rels = SortedDict()
     
-    for w1 in all_rels:
-        w1_rels = all_rels[w1]
-        
-        for ag in w1_rels:
-            ag_worlds = w1_rels[ag]
-            
-            for w2 in ag_worlds:
-                both_dir = w1 != w2 and all_rels.get(w2) != None and all_rels[w2].get(ag) != None and w1 in all_rels[w2][ag]
+    for s in states:
+        rels = s[1]
 
-                if (not both_dir or (both_dir and w1 < w2)):
-                    if (pretty_rels.get((w1, w2)) == None):
-                        pretty_rels[(w1, w2)] = SortedSet({(ag, both_dir)})
-                    else:
-                        pretty_rels[(w1, w2)].add((ag, both_dir))
+        for w1 in rels:
+            w1_rels = rels[w1]
+            
+            for ag in w1_rels:
+                ag_worlds = w1_rels[ag]
+                
+                for w2 in ag_worlds:
+                    both_dir = w1 != w2 and rels.get(w2) != None and rels[w2].get(ag) != None and w1 in rels[w2][ag]
+
+                    if (not both_dir or (both_dir and w1 < w2)):
+                        if (pretty_rels.get((w1, w2)) == None):
+                            pretty_rels[(w1, w2)] = SortedSet({(ag, both_dir)})
+                        else:
+                            pretty_rels[(w1, w2)].add((ag, both_dir))
     
     return pretty_rels
 #
-def print_rels(all_rels, world_names, outputfile):
+def print_rels(states, world_names, outputfile):
     print('', end = '\n',  file = outputfile)
-    pretty_rels = generate_pretty_rels(all_rels)
+    pretty_rels = generate_pretty_rels(states)
     
     for (w1, w2) in pretty_rels:
         ags = pretty_rels[(w1, w2)]
@@ -144,28 +157,44 @@ def print_rels(all_rels, world_names, outputfile):
         if (label_both != ''):
             print('\t' + world_names[w1] + ' -> ' + world_names[w2] + ' [label="' + label_both[0:-2] + '" dir=both];', end = '\n', file = outputfile)
 #
-def print_val(t, val, world_names, atoms, outputfile):
-    print('\t\tnode [] val_' + str(t) + ' [shape=none label=<',                      end = '\n', file = outputfile)
+# def print_val(t, val, all_worlds, world_names, atoms, outputfile):
+def print_vals(states, all_worlds, world_names, atoms, outputfile):
+    print('\t\tnode [] val_table [shape=none label=<',                               end = '\n', file = outputfile)
     print('\t\t\t<TABLE border="0" cellspacing="0" cellborder="1" cellpadding="2">', end = '\n', file = outputfile)
 
-    for w in val:
-        w_val = val[w]
+    t = -1
 
-        print('\t\t\t\t<TR>',                              end = '\n', file = outputfile)
-        print('\t\t\t\t\t<TD>' + world_names[w] + '</TD>', end = '\n', file = outputfile)
-        print('\t\t\t\t\t<TD>',                            end = '\n', file = outputfile)
+    for s in states:
+        t += 1
+        val = s[2]
+        
+        for w in val:
+            w_val = val[w]
 
-        for p in atoms:
-            if (p in w_val):
-                print('\t\t\t\t\t\t<font color="#0000ff"> ' + p + '</font>', end = '', file = outputfile)
-            else:
-                print('\t\t\t\t\t\t<font color="#ff0000">-' + p + '</font>', end = '', file = outputfile)
+            print('\t\t\t\t<TR>',                              end = '\n', file = outputfile)
+            print('\t\t\t\t\t<TD>' + world_names[w] + '</TD>', end = '\n', file = outputfile)
             
-            sep = ', ' if atoms.index(p) < len(atoms)-1 else ''
-            print(sep, end = '\n', file = outputfile)
+            if (t == 0):
+                print('\t\t\t\t\t<TD>-</TD>',                          end = '\n', file = outputfile)
+            else:
+                old_w = world_names[find_world(all_worlds, w.arguments[1].arguments)]
+                e     = w.arguments[2].name
 
-        print('\t\t\t\t\t</TD>', end = '\n', file = outputfile)
-        print('\t\t\t\t</TR>',   end = '\n', file = outputfile)
+                print('\t\t\t\t\t<TD>(' + old_w + ', ' + e + ')</TD>', end = '\n', file = outputfile)
+
+            print('\t\t\t\t\t<TD>',                            end = '\n', file = outputfile)
+
+            for p in atoms:
+                if (p in w_val):
+                    print('\t\t\t\t\t\t<font color="#0000ff"> ' + p + '</font>', end = '', file = outputfile)
+                else:
+                    print('\t\t\t\t\t\t<font color="#ff0000">-' + p + '</font>', end = '', file = outputfile)
+                
+                sep = ', ' if atoms.index(p) < len(atoms)-1 else ''
+                print(sep, end = '\n', file = outputfile)
+
+            print('\t\t\t\t\t</TD>', end = '\n', file = outputfile)
+            print('\t\t\t\t</TR>',   end = '\n', file = outputfile)
 
     print('\t\t\t</TABLE>', end = '\n', file = outputfile)
     print('\t\t>];',        end = '\n', file = outputfile)
