@@ -19,9 +19,9 @@ q(ACT, sig, eps, obl  ) :- action(ACT), ontic(ACT).
 precond(ACT, sig, true) :- action(ACT), ontic(ACT), action_pre(ACT, F).
 precond(ACT, eps, true) :- action(ACT), ontic(ACT).
 
-postcond(ACT, sig, P, F     ) :- action(ACT), ontic(ACT), causes(ACT,  P, F), atom(P).
-postcond(ACT, sig, P, neg(F)) :- action(ACT), ontic(ACT), causes(ACT, -P, F), atom(P).
-inertia( ACT, sig, P        ) :- action(ACT), ontic(ACT), atom(P), 0 { causes(ACT, P, _) } 0, 0 { causes(ACT, -P, _) } 0.
+postcond(ACT, sig, P, F     ) :- action(ACT), ontic(ACT), causes(ACT,     P , F), atom(P).
+postcond(ACT, sig, P, neg(F)) :- action(ACT), ontic(ACT), causes(ACT, neg(P), F), atom(P).
+inertia( ACT, sig, P        ) :- action(ACT), ontic(ACT), atom(P), 0 { causes(ACT, P, _) } 0, 0 { causes(ACT, neg(P), _) } 0.
 
 de(ACT, sig) :- action(ACT), ontic(ACT).
 
