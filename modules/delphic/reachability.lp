@@ -1,10 +1,10 @@
 % ********** REACHABILITY **********
 
-#program step(t).
+#program check(t).
 
 reaches(t , W, Ew,
         Tv, V, Ev, AGS) :- r(t, W, Ew, Tv, V, Ev, AG), contains_ag(AGS, AG), Tv <= t.
 
 reaches(t , W, Ew,
-        Tv, V, Ev, AGS) :- reaches(t, W, Ew, Tx, X, Ex, AGS), r(Tx, X, Ex, Tv, V, AG),
+        Tv, V, Ev, AGS) :- reaches(t, W, Ew, Tx, X, Ex, AGS), r(Tx, X, Ex, Tv, V, Ev, AG),
                            contains_ag(AGS, AG), Tv <= Tx, Tx <= t.
