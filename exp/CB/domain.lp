@@ -10,6 +10,11 @@ agent(a).
 agent(b).
 agent(c).
 
+agent_set(all_agents).
+contains_ag(all_agents,a).
+contains_ag(all_agents,b).
+contains_ag(all_agents,c).
+
 
 % *** OBSERVABILITY GROUPS %%%
 obs_group(f_obs).
@@ -169,8 +174,8 @@ announces(shout_tail_a, tail).
 action_pre(shout_tail_a, and(box(a,tail),tail)).
 
 obs_cond(shout_tail_a, a, f_obs, true).
-obs_cond(shout_tail_a, b, p_obs, looking_b).
-obs_cond(shout_tail_a, c, p_obs, looking_c).
+obs_cond(shout_tail_a, b, f_obs, looking_b).
+obs_cond(shout_tail_a, c, f_obs, looking_c).
 obs_cond(shout_tail_a, b, obl,   neg(looking_b)).
 obs_cond(shout_tail_a, c, obl,   neg(looking_c)).
 
@@ -182,8 +187,8 @@ announces(shout_tail_b, tail).
 action_pre(shout_tail_b, and(box(b,tail),tail)).
 
 obs_cond(shout_tail_b, b, f_obs, true).
-obs_cond(shout_tail_b, a, p_obs, looking_a).
-obs_cond(shout_tail_b, c, p_obs, looking_c).
+obs_cond(shout_tail_b, a, f_obs, looking_a).
+obs_cond(shout_tail_b, c, f_obs, looking_c).
 obs_cond(shout_tail_b, a, obl,   neg(looking_a)).
 obs_cond(shout_tail_b, c, obl,   neg(looking_c)).
 
@@ -195,8 +200,8 @@ announces(shout_tail_c, tail).
 action_pre(shout_tail_c, and(box(c,tail),tail)).
 
 obs_cond(shout_tail_c, c, f_obs, true).
-obs_cond(shout_tail_c, a, p_obs, looking_a).
-obs_cond(shout_tail_c, b, p_obs, looking_b).
+obs_cond(shout_tail_c, a, f_obs, looking_a).
+obs_cond(shout_tail_c, b, f_obs, looking_b).
 obs_cond(shout_tail_c, a, obl,   neg(looking_a)).
 obs_cond(shout_tail_c, b, obl,   neg(looking_b)).
 
@@ -291,10 +296,6 @@ dw(0, w1, null).
 % initially(tail).
 
 % % ** initial beliefs **
-% agent_set(all_agents).
-% contains_ag(all_agents,a).
-% contains_ag(all_agents,b).
-% contains_ag(all_agents,c).
 % initially(c(all_agents,neg(opened))).
 % initially(c(all_agents,looking_a)).
 % initially(c(all_agents,neg(looking_b))).
