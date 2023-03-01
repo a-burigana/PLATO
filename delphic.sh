@@ -17,10 +17,10 @@ while [[ $# -gt 0 ]]; do
         shift # past value
         ;;
     -s|--semantics)
-        if [ "$2" = poss ] ; then
-            semantics="semantics/ma_rho.lp"
-        elif [ "$2" = kripke ] ; then
-            semantics="semantics/ma_star.lp"
+        if [ "$2" = p ] ; then
+            semantics="semantics/delphic.lp"
+        elif [ "$2" = k ] ; then
+            semantics="semantics/kripke.lp"
         else
             echo "Unknown semantics $input"
             exit 1
