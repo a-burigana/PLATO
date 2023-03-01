@@ -14,6 +14,9 @@ idle(ACT, eps)      :- action(ACT), ontic(ACT).
 q(ACT, sig, sig, f_obs) :- action(ACT), ontic(ACT).
 q(ACT, sig, eps, obl  ) :- action(ACT), ontic(ACT).
 
+q(ACT, eps, eps, f_obs) :- action(ACT), ontic(ACT).
+q(ACT, eps, eps, obl  ) :- action(ACT), ontic(ACT).
+
 % precond(ACT, sig, F)    :- action(ACT), ontic(ACT), action_pre(ACT, F).
 
 precond(ACT, sig, true) :- action(ACT), ontic(ACT), action_pre(ACT, F).
@@ -21,7 +24,9 @@ precond(ACT, eps, true) :- action(ACT), ontic(ACT).
 
 postcond(ACT, sig, P, F     ) :- action(ACT), ontic(ACT), causes(ACT,     P , F), atom(P).
 postcond(ACT, sig, P, neg(F)) :- action(ACT), ontic(ACT), causes(ACT, neg(P), F), atom(P).
+
 inertia( ACT, sig, P        ) :- action(ACT), ontic(ACT), atom(P), 0 { causes(ACT, P, _) } 0, 0 { causes(ACT, neg(P), _) } 0.
+inertia( ACT, eps, P        ) :- action(ACT), ontic(ACT), atom(P).
 
 de(ACT, sig) :- action(ACT), ontic(ACT).
 
@@ -45,6 +50,10 @@ q(ACT, tau, sig, p_obs) :- action(ACT), sensing(ACT).
 
 q(ACT, sig, eps, obl  ) :- action(ACT), sensing(ACT).
 q(ACT, tau, eps, obl  ) :- action(ACT), sensing(ACT).
+
+q(ACT, eps, eps, f_obs) :- action(ACT), sensing(ACT).
+q(ACT, eps, eps, p_obs) :- action(ACT), sensing(ACT).
+q(ACT, eps, eps, obl  ) :- action(ACT), sensing(ACT).
 
 % precond(ACT, sig, and(P, F))      :- action(ACT), sensing(ACT), action_pre(ACT, F), determines(ACT, P).
 % precond(ACT, tau, and(neg(P), F)) :- action(ACT), sensing(ACT), action_pre(ACT, F), determines(ACT, P).
@@ -78,6 +87,10 @@ q(ACT, tau, sig, p_obs) :- action(ACT), announcement(ACT).
 
 q(ACT, sig, eps, obl  ) :- action(ACT), announcement(ACT).
 q(ACT, tau, eps, obl  ) :- action(ACT), announcement(ACT).
+
+q(ACT, eps, eps, f_obs) :- action(ACT), announcement(ACT).
+q(ACT, eps, eps, p_obs) :- action(ACT), announcement(ACT).
+q(ACT, eps, eps, obl  ) :- action(ACT), announcement(ACT).
 
 % precond(ACT, sig, and(F2, F))      :- action(ACT), announcement(ACT), action_pre(ACT, F), announces(ACT, F2).
 % precond(ACT, tau, and(neg(F2), F)) :- action(ACT), announcement(ACT), action_pre(ACT, F), announces(ACT, F2).
