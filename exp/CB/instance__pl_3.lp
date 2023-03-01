@@ -1,2 +1,2 @@
 % *** GOALS ***
-goal(box(b, tail)).
+goal(neg(dia(b,neg(tail)))).
