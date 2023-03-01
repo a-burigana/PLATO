@@ -17,7 +17,7 @@ applicable(t, ACT)  :- action(ACT), not -applicable(t, ACT).
 dw(t, (t-1, W, Ew), E) :- dw(t-1, W, Ew), de(ACT, E), pre(t, E, PRE), holds(t-1, W, Ew, PRE).
 
 % ***** WORLDS *****
-w(t, (t-1, W, Ew), E)  :- dw(t, (t-1, W, Ew), E).
+w(t, (t-1, W, Ew), E)  :- de(ACT, E), dw(t, (t-1, W, Ew), E).
 
 w(t, (Tw , W, Ew), E)  :- w(Tw, W, Ew), w(t, (Tv, V, Ev), F), e(ACT, F), -idle(ACT, E),
                           r(Tv, V, Ev, Tw, W, Ew, AG), qt(t, F, E, AG), pre(t, E, PRE), holds(Tw, W, Ew, PRE).
