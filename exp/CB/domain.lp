@@ -27,7 +27,7 @@ action(distract_a_b).
 ontic(distract_a_b).
 
 causes(distract_a_b, neg(looking_b), true).
-action_pre(distract_a_b, and(and(box(a,looking_a),box(a,looking_b)),and(looking_a,looking_b))).
+action_pre(distract_a_b, and(and(neg(dia(a,neg(looking_a))),neg(dia(a,neg(looking_b)))),and(looking_a,looking_b))).
 
 obs_cond(distract_a_b, a, f_obs, true).
 obs_cond(distract_a_b, b, f_obs, true).
@@ -38,7 +38,7 @@ action(distract_a_c).
 ontic(distract_a_c).
 
 causes(distract_a_c, neg(looking_c), true).
-action_pre(distract_a_c, and(and(box(a,looking_a),box(a,looking_c)),and(looking_a,looking_c))).
+action_pre(distract_a_c, and(and(neg(dia(a,neg(looking_a))),neg(dia(a,neg(looking_c)))),and(looking_a,looking_c))).
 
 obs_cond(distract_a_c, a, f_obs, true).
 obs_cond(distract_a_c, c, f_obs, true).
@@ -49,7 +49,7 @@ action(distract_b_a).
 ontic(distract_b_a).
 
 causes(distract_b_a, neg(looking_a), true).
-action_pre(distract_b_a, and(and(box(b,looking_b),box(b,looking_a)),and(looking_a,looking_b))).
+action_pre(distract_b_a, and(and(neg(dia(b,neg(looking_b))),neg(dia(b,neg(looking_a)))),and(looking_a,looking_b))).
 
 obs_cond(distract_b_a, a, f_obs, true).
 obs_cond(distract_b_a, b, f_obs, true).
@@ -60,7 +60,7 @@ action(distract_b_c).
 ontic(distract_b_c).
 
 causes(distract_b_c, neg(looking_c), true).
-action_pre(distract_b_c, and(and(box(b,looking_b),box(b,looking_c)),and(looking_b,looking_c))).
+action_pre(distract_b_c, and(and(neg(dia(b,neg(looking_b))),neg(dia(b,neg(looking_c)))),and(looking_b,looking_c))).
 
 obs_cond(distract_b_c, b, f_obs, true).
 obs_cond(distract_b_c, c, f_obs, true).
@@ -71,7 +71,7 @@ action(distract_c_a).
 ontic(distract_c_a).
 
 causes(distract_c_a, neg(looking_a), true).
-action_pre(distract_c_a, and(and(box(c,looking_c),box(c,looking_a)),and(looking_a,looking_c))).
+action_pre(distract_c_a, and(and(neg(dia(c,neg(looking_c))),neg(dia(c,neg(looking_a)))),and(looking_a,looking_c))).
 
 obs_cond(distract_c_a, a, f_obs, true).
 obs_cond(distract_c_a, c, f_obs, true).
@@ -82,7 +82,7 @@ action(distract_c_b).
 ontic(distract_c_b).
 
 causes(distract_c_b, neg(looking_b), true).
-action_pre(distract_c_b, and(and(box(c,looking_c),box(c,looking_b)),and(looking_b,looking_c))).
+action_pre(distract_c_b, and(and(neg(dia(c,neg(looking_c))),neg(dia(c,neg(looking_b)))),and(looking_b,looking_c))).
 
 obs_cond(distract_c_b, b, f_obs, true).
 obs_cond(distract_c_b, c, f_obs, true).
@@ -132,7 +132,7 @@ action(peek_a).
 sensing(peek_a).
 
 determines(peek_a, tail).
-action_pre(peek_a, and(and(box(a,opened),box(a,looking_a)),and(looking_a,opened))).
+action_pre(peek_a, and(and(neg(dia(a,neg(opened))),neg(dia(a,neg(looking_a)))),and(looking_a,opened))).
 
 obs_cond(peek_a, a, f_obs, true).
 obs_cond(peek_a, b, p_obs, looking_b).
@@ -145,7 +145,7 @@ action(peek_b).
 sensing(peek_b).
 
 determines(peek_b, tail).
-action_pre(peek_b, and(and(box(b,opened),box(b,looking_b)),and(looking_b,opened))).
+action_pre(peek_b, and(and(neg(dia(b,neg(opened))),neg(dia(b,neg(looking_b)))),and(looking_b,opened))).
 
 obs_cond(peek_b, b, f_obs, true).
 obs_cond(peek_b, a, p_obs, looking_a).
@@ -158,7 +158,7 @@ action(peek_c).
 sensing(peek_c).
 
 determines(peek_c, tail).
-action_pre(peek_c, and(and(box(c,opened),box(c,looking_c)),and(looking_c,opened))).
+action_pre(peek_c, and(and(neg(dia(c,neg(opened))),neg(dia(c,neg(looking_c)))),and(looking_c,opened))).
 
 obs_cond(peek_c, c, f_obs, true).
 obs_cond(peek_c, a, p_obs, looking_a).
@@ -171,7 +171,7 @@ action(shout_tail_a).
 announcement(shout_tail_a).
 
 announces(shout_tail_a, tail).
-action_pre(shout_tail_a, and(box(a,tail),tail)).
+action_pre(shout_tail_a, and(neg(dia(a,neg(tail))),tail)).
 
 obs_cond(shout_tail_a, a, f_obs, true).
 obs_cond(shout_tail_a, b, f_obs, looking_b).
@@ -184,7 +184,7 @@ action(shout_tail_b).
 announcement(shout_tail_b).
 
 announces(shout_tail_b, tail).
-action_pre(shout_tail_b, and(box(b,tail),tail)).
+action_pre(shout_tail_b, and(neg(dia(b,neg(tail))),tail)).
 
 obs_cond(shout_tail_b, b, f_obs, true).
 obs_cond(shout_tail_b, a, f_obs, looking_a).
@@ -197,7 +197,7 @@ action(shout_tail_c).
 announcement(shout_tail_c).
 
 announces(shout_tail_c, tail).
-action_pre(shout_tail_c, and(box(c,tail),tail)).
+action_pre(shout_tail_c, and(neg(dia(c,neg(tail))),tail)).
 
 obs_cond(shout_tail_c, c, f_obs, true).
 obs_cond(shout_tail_c, a, f_obs, looking_a).
@@ -210,7 +210,7 @@ action(signal_a_b).
 ontic(signal_a_b).
 
 causes(signal_a_b, looking_b, true).
-action_pre(signal_a_b, and(and(box(a,looking_a),box(a,neg(looking_b))),and(looking_a,neg(looking_b)))).
+action_pre(signal_a_b, and(and(neg(dia(a,neg(looking_a))),neg(dia(a,looking_b))),and(looking_a,neg(looking_b)))).
 
 obs_cond(signal_a_b, a, f_obs, true).
 obs_cond(signal_a_b, b, f_obs, true).
@@ -221,7 +221,7 @@ action(signal_a_c).
 ontic(signal_a_c).
 
 causes(signal_a_c, looking_c, true).
-action_pre(signal_a_c, and(and(box(a,looking_a),box(a,neg(looking_c))),and(looking_a,neg(looking_c)))).
+action_pre(signal_a_c, and(and(neg(dia(a,neg(looking_a))),neg(dia(a,looking_c))),and(looking_a,neg(looking_c)))).
 
 obs_cond(signal_a_c, a, f_obs, true).
 obs_cond(signal_a_c, c, f_obs, true).
@@ -232,7 +232,7 @@ action(signal_b_a).
 ontic(signal_b_a).
 
 causes(signal_b_a, looking_a, true).
-action_pre(signal_b_a, and(and(box(b,looking_b),box(b,neg(looking_a))),and(neg(looking_a),looking_b))).
+action_pre(signal_b_a, and(and(neg(dia(b,neg(looking_b))),neg(dia(b,looking_a))),and(neg(looking_a),looking_b))).
 
 obs_cond(signal_b_a, a, f_obs, true).
 obs_cond(signal_b_a, b, f_obs, true).
@@ -243,7 +243,7 @@ action(signal_b_c).
 ontic(signal_b_c).
 
 causes(signal_b_c, looking_c, true).
-action_pre(signal_b_c, and(and(box(b,looking_b),box(b,neg(looking_c))),and(looking_b,neg(looking_c)))).
+action_pre(signal_b_c, and(and(neg(dia(b,neg(looking_b))),neg(dia(b,looking_c))),and(looking_b,neg(looking_c)))).
 
 obs_cond(signal_b_c, b, f_obs, true).
 obs_cond(signal_b_c, c, f_obs, true).
@@ -254,7 +254,7 @@ action(signal_c_a).
 ontic(signal_c_a).
 
 causes(signal_c_a, looking_a, true).
-action_pre(signal_c_a, and(and(box(c,looking_c),box(c,neg(looking_a))),and(neg(looking_a),looking_c))).
+action_pre(signal_c_a, and(and(neg(dia(c,neg(looking_c))),neg(dia(c,looking_a))),and(neg(looking_a),looking_c))).
 
 obs_cond(signal_c_a, a, f_obs, true).
 obs_cond(signal_c_a, c, f_obs, true).
@@ -265,7 +265,7 @@ action(signal_c_b).
 ontic(signal_c_b).
 
 causes(signal_c_b, looking_b, true).
-action_pre(signal_c_b, and(and(box(c,looking_c),box(c,neg(looking_b))),and(neg(looking_b),looking_c))).
+action_pre(signal_c_b, and(and(neg(dia(c,neg(looking_c))),neg(dia(c,looking_b))),and(neg(looking_b),looking_c))).
 
 obs_cond(signal_c_b, b, f_obs, true).
 obs_cond(signal_c_b, c, f_obs, true).
@@ -276,35 +276,12 @@ obs_cond(signal_c_b, a, obl,   true).
 
 % *** INITIAL STATE ***
 
-w(0, w1, null).
-w(0, w2, null).
+w_init(w1). w_init(w2).
 
-r(0, W1, null, 0, W2, null, AG) :- w(0, W1, null), w(0, W2, null), agent(AG).
+r_init(W1, W2, AG) :- w_init(W1), w_init(W2), agent(AG).
 
-v(0, w1, null, looking_a).
-v(0, w1, null, tail).
-v(0, w2, null, looking_a).
+v_init(w1, looking_a).
+v_init(w1, tail).
+v_init(w2, looking_a).
 
-dw(0, w1, null).
-
-
-% % ** initial pointed **
-% initially(looking_a).
-% initially(neg(looking_b)).
-% initially(neg(looking_c)).
-% initially(neg(opened)).
-% initially(tail).
-
-% % ** initial beliefs **
-% initially(c(all_agents,neg(opened))).
-% initially(c(all_agents,looking_a)).
-% initially(c(all_agents,neg(looking_b))).
-% initially(c(all_agents,neg(looking_c))).
-
-
-
-% % ** commonly known atom
-% init_sf(neg(opened)).
-% init_sf(looking_a).
-% init_sf(neg(looking_b)).
-% init_sf(neg(looking_c)).
+dw_init(w1).

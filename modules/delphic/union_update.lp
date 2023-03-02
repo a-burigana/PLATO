@@ -1,5 +1,13 @@
 % ********** UNION UPDATE **********
 
+#program base.
+
+% ***** INITIAL STATE *****
+w(0, W, null) :- w_init(W).
+r(0, W1, null, 0, W2, null, AG) :- w_init(W1), w_init(W2), agent(AG).
+v(0, W, null, P) :- v_init(W, P).
+dw(0, W, null) :- dw_init(W).
+
 #program step(t).
 
 % ***** CONDITIONS *****
