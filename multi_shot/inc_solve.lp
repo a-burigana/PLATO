@@ -1,5 +1,5 @@
 #script (python)
-import sys, os
+import sys, os, time, clingo
 from typing           import Optional
 from sortedcontainers import SortedSet, SortedDict
 from clingo           import Function, Number, SymbolType
@@ -7,6 +7,8 @@ from clingo           import Function, Number, SymbolType
 def main(prg):
     step = 0
     ret: Optional[SolveResult] = None
+    ground_time = 0
+    solve_time  = 0
 
     while (step == 0 or not ret.satisfiable):
         parts = []
@@ -19,23 +21,36 @@ def main(prg):
         else:
             parts.append(('base', []))
 
+        start = time.time()
         prg.ground(parts)
+        end   = time.time()
+        ground_time += end-start
+
+        # print('Grounding time at step ' + str(step) + ': ' + str(end-start))
+
         prg.assign_external(Function('query', [Number(step)]), True)
-    
+
+        start = time.time()
         # ret  = prg.solve()
-        ret  = prg.solve(on_model=print_states)
+        ret   = prg.solve(on_model=print_states)
+        end   = time.time()
+        solve_time += end-start
+
         step = step + 1
+    
+    # print('Total grounding time: ' + str(ground_time))
+    # print('Total solving   time: ' + str(solve_time ))
 #
 def print_states(m):
+    semantics = [s.arguments[0].string for s in m.symbols(atoms=True) if s.name == 'semantics'][0]
     all_worlds  = {s for s in m.symbols(atoms=True) if s.name == 'w'}
     # all_rels    = {s for s in m.symbols(atoms=True) if s.name == 'r'}
     # all_rels    = build_rels(all_worlds, all_rels)
 
-    states      = build_states(m, all_worlds)
+    states      = build_states(m, semantics, all_worlds)
     world_names = generate_world_names(all_worlds)
     atoms       = generate_atoms(m)
-    outputfile  = open('test.dot', 'w')
-
+    outputfile  = open('out/test.dot', 'w')
     labels      = [s.arguments[1].name for s in m.symbols(atoms=True) if s.name == 'plan']
     labels.insert(0, 's0')
 
@@ -48,9 +63,9 @@ def print_states(m):
     print('\tlabelloc=t;',                   end = '\n', file = outputfile)
     print('\tlabeljust=l;',                  end = '\n', file = outputfile)
     print('\trankdir=BT;',                   end = '\n', file = outputfile)
-    print('\tranksep=0.75',                  end = '\n', file = outputfile)
-    #print('\tnewrank=true;',                 end = '\n', file = outputfile)
-    print('\tsize="8,5";',                   end = '\n', file = outputfile)
+    print('\tranksep=1.5',                   end = '\n', file = outputfile)
+    # print('\tnewrank=true;',                 end = '\n', file = outputfile)
+    print('\tsize="3.5";',                   end = '\n', file = outputfile)
 
     t = 0
     
@@ -60,11 +75,11 @@ def print_states(m):
         t += 1
     
     print_rels(states, world_names, outputfile)
-    print_vals(states, all_worlds, world_names, atoms, outputfile)
+    print_vals(semantics, states, all_worlds, world_names, atoms, outputfile)
     print('}', file = outputfile)
     outputfile.close()
 
-    os.system('dot -Tpdf test.dot > test.pdf')
+    os.system('dot -Tpdf out/test.dot > out/test.pdf')
 #
 def print_cluster(states, t, world_names, atoms, label, outputfile):
     print('',                                   end = '\n',  file = outputfile)
@@ -80,7 +95,7 @@ def print_cluster(states, t, world_names, atoms, label, outputfile):
 #
 def print_worlds(worlds, des, world_names, rels, outputfile):
     ranked_worlds = SortedDict()
-
+    
     for w in worlds:
         in_edges  = {world_names[v] for v in rels for ag in rels[v] if w in rels[v][ag]}
         out_edges = {world_names[v] for ag in rels[w] for v in rels[w][ag]}
@@ -105,7 +120,7 @@ def print_worlds(worlds, des, world_names, rels, outputfile):
     
     for rank in ranked_worlds:
         wr = ''
-
+        
         for w in ranked_worlds[rank]:
             shape = ' [shape = doublecircle]' if (w in des) else ''
             wr += world_names[w] + shape + '; '
@@ -158,12 +173,12 @@ def print_rels(states, world_names, outputfile):
             print('\t' + world_names[w1] + ' -> ' + world_names[w2] + ' [label="' + label_both[0:-2] + '" dir=both];', end = '\n', file = outputfile)
 #
 # def print_val(t, val, all_worlds, world_names, atoms, outputfile):
-def print_vals(states, all_worlds, world_names, atoms, outputfile):
+def print_vals(semantics, states, all_worlds, world_names, atoms, outputfile):
     print('\t\tnode [] val_table [shape=none label=<',                               end = '\n', file = outputfile)
     print('\t\t\t<TABLE border="0" cellspacing="0" cellborder="1" cellpadding="2">', end = '\n', file = outputfile)
 
     t = -1
-
+    
     for s in states:
         t += 1
         val = s[2]
@@ -177,8 +192,9 @@ def print_vals(states, all_worlds, world_names, atoms, outputfile):
             if (t == 0):
                 print('\t\t\t\t\t<TD>-</TD>',                          end = '\n', file = outputfile)
             else:
-                old_w = world_names[find_world(all_worlds, w.arguments[1].arguments)]
-                e     = w.arguments[2].name
+                old_w_args = w.arguments[1].arguments if semantics == 'delphic' else [Number(t-1)] + w.arguments[1].arguments
+                old_w      = world_names[find_world(all_worlds, old_w_args)]
+                e          = w.arguments[2].name
 
                 print('\t\t\t\t\t<TD>(' + old_w + ', ' + e + ')</TD>', end = '\n', file = outputfile)
 
@@ -222,12 +238,12 @@ def generate_atoms(m):
     return atoms
 
 ### States generation
-def build_states(m, all_worlds):
+def build_states(m, semantics, all_worlds):
     max_t  = get_max_t(m)
     states = []
 
     for t in range(max_t+1):
-        states.append(build_state(m, t, all_worlds))
+        states.append(build_state(m, semantics, t, all_worlds))
 
     return states
 #
@@ -241,7 +257,7 @@ def get_max_t(m):
     #
     #return max_t
 #
-def build_state(m, t, all_worlds):
+def build_state(m, semantics, t, all_worlds):
     r_symbols = SortedSet()
     h_symbols = SortedSet()
     worlds    = SortedSet()
@@ -257,18 +273,18 @@ def build_state(m, t, all_worlds):
         elif (s.name == 'dw' and s.arguments[0].number == t):
             des.add(find_world(all_worlds, s.arguments))
     
-    rels = build_rels(all_worlds, r_symbols)
-    val  = build_val(all_worlds, h_symbols)
+    rels = build_rels(semantics, all_worlds, r_symbols)
+    val  = build_val(worlds, h_symbols)
 
     return (worlds, rels, val, des)
 #
-def build_rels(all_worlds, r_symbols):
+def build_rels(semantics, worlds, r_symbols):
     rels = SortedDict()
 
     for s in r_symbols:
-        w1 = find_world(all_worlds, s.arguments[0:3])
-        w2 = find_world(all_worlds, s.arguments[3:6])
-        ag = s.arguments[6].name
+        w1 = find_world(worlds, s.arguments[0:3]) if semantics == 'delphic' else find_world(worlds, s.arguments[0:3])
+        w2 = find_world(worlds, s.arguments[3:6]) if semantics == 'delphic' else find_world(worlds, [s.arguments[0]] + s.arguments[3:5])
+        ag = s.arguments[6].name                  if semantics == 'delphic' else s.arguments[5].name
 
         w1_map = rels.get(w1)
 
@@ -284,11 +300,11 @@ def build_rels(all_worlds, r_symbols):
 
     return rels
 #
-def build_val(all_worlds, h_symbols):
+def build_val(worlds, h_symbols):
     val = SortedDict()
 
     for s in h_symbols:
-        w = find_world(all_worlds, s.arguments[0:3])
+        w = find_world(worlds, s.arguments[0:3])
         p = s.arguments[3].name
 
         w_map = val.get(w)
@@ -298,6 +314,10 @@ def build_val(all_worlds, h_symbols):
         else:
             val[w].add(p)
 
+    for w in worlds:
+        if (val.get(w) == None):
+            val[w] = SortedSet()
+    
     return val
 #
 def find_world(all_worlds, args):
