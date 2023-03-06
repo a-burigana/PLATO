@@ -1,38 +1,21 @@
 % *** ATOMS ***
 atom(at_a_1).
-formula(at_a_1).
 atom(at_a_2).
-formula(at_a_2).
 atom(at_a_3).
-formula(at_a_3).
 atom(at_a_4).
-formula(at_a_4).
 atom(at_b1_1).
-formula(at_b1_1).
 atom(at_b1_3).
-formula(at_b1_3).
 atom(at_b1_4).
-formula(at_b1_4).
 atom(at_b2_1).
-formula(at_b2_1).
 atom(at_b2_3).
-formula(at_b2_3).
 atom(at_b2_4).
-formula(at_b2_4).
 atom(at_b3_1).
-formula(at_b3_1).
 atom(at_b3_3).
-formula(at_b3_3).
 atom(at_b3_4).
-formula(at_b3_4).
 atom(at_b_1).
-formula(at_b_1).
 atom(at_b_2).
-formula(at_b_2).
 atom(at_b_3).
-formula(at_b_3).
 atom(at_b_4).
-formula(at_b_4).
 
 
 % *** AGENTS ***
@@ -42,379 +25,343 @@ agent(b).
 
 % *** ACTIONS ***
 action(a_check_b1_1).
-sensing(a_check_b1_1).
+action_type(a_check_b1_1, sensing).
 determines(a_check_b1_1, at_b1_1).
-formula(b(a,at_a_1)).
-executable(a_check_b1_1, b(a,at_a_1)).
-observes(a_check_b1_1, a, true).
-oblivious(a_check_b1_1, b).
+action_pre(a_check_b1_1, neg(dia(a,neg(at_a_1)))).
+obs_cond(a_check_b1_1, a, f_obs, true).
+obs_cond(a_check_b1_1, b, obl  , true).
 
 
 action(a_check_b1_3).
-sensing(a_check_b1_3).
+action_type(a_check_b1_3, sensing).
 determines(a_check_b1_3, at_b1_3).
-formula(b(a,at_a_3)).
-executable(a_check_b1_3, b(a,at_a_3)).
-observes(a_check_b1_3, a, true).
-oblivious(a_check_b1_3, b).
+action_pre(a_check_b1_3, neg(dia(a,neg(at_a_3)))).
+obs_cond(a_check_b1_3, a, f_obs, true).
+obs_cond(a_check_b1_3, b, obl  , true).
 
 
 action(a_check_b1_4).
-sensing(a_check_b1_4).
+action_type(a_check_b1_4, sensing).
 determines(a_check_b1_4, at_b1_4).
-formula(b(a,at_a_4)).
-executable(a_check_b1_4, b(a,at_a_4)).
-observes(a_check_b1_4, a, true).
-oblivious(a_check_b1_4, b).
+action_pre(a_check_b1_4, neg(dia(a,neg(at_a_4)))).
+obs_cond(a_check_b1_4, a, f_obs, true).
+obs_cond(a_check_b1_4, b, obl  , true).
 
 
 action(a_check_b2_1).
-sensing(a_check_b2_1).
+action_type(a_check_b2_1, sensing).
 determines(a_check_b2_1, at_b2_1).
-executable(a_check_b2_1, b(a,at_a_1)).
-observes(a_check_b2_1, a, true).
-oblivious(a_check_b2_1, b).
+action_pre(a_check_b2_1, neg(dia(a,neg(at_a_1)))).
+obs_cond(a_check_b2_1, a, f_obs, true).
+obs_cond(a_check_b2_1, b, obl  , true).
 
 
 action(a_check_b2_3).
-sensing(a_check_b2_3).
+action_type(a_check_b2_3, sensing).
 determines(a_check_b2_3, at_b2_3).
-executable(a_check_b2_3, b(a,at_a_3)).
-observes(a_check_b2_3, a, true).
-oblivious(a_check_b2_3, b).
+action_pre(a_check_b2_3, neg(dia(a,neg(at_a_3)))).
+obs_cond(a_check_b2_3, a, f_obs, true).
+obs_cond(a_check_b2_3, b, obl  , true).
 
 
 action(a_check_b2_4).
-sensing(a_check_b2_4).
+action_type(a_check_b2_4, sensing).
 determines(a_check_b2_4, at_b2_4).
-executable(a_check_b2_4, b(a,at_a_4)).
-observes(a_check_b2_4, a, true).
-oblivious(a_check_b2_4, b).
+action_pre(a_check_b2_4, neg(dia(a,neg(at_a_4)))).
+obs_cond(a_check_b2_4, a, f_obs, true).
+obs_cond(a_check_b2_4, b, obl  , true).
 
 
 action(a_check_b3_1).
-sensing(a_check_b3_1).
+action_type(a_check_b3_1, sensing).
 determines(a_check_b3_1, at_b3_1).
-executable(a_check_b3_1, b(a,at_a_1)).
-observes(a_check_b3_1, a, true).
-oblivious(a_check_b3_1, b).
+action_pre(a_check_b3_1, neg(dia(a,neg(at_a_1)))).
+obs_cond(a_check_b3_1, a, f_obs, true).
+obs_cond(a_check_b3_1, b, obl  , true).
 
 
 action(a_check_b3_3).
-sensing(a_check_b3_3).
+action_type(a_check_b3_3, sensing).
 determines(a_check_b3_3, at_b3_3).
-executable(a_check_b3_3, b(a,at_a_3)).
-observes(a_check_b3_3, a, true).
-oblivious(a_check_b3_3, b).
+action_pre(a_check_b3_3, neg(dia(a,neg(at_a_3)))).
+obs_cond(a_check_b3_3, a, f_obs, true).
+obs_cond(a_check_b3_3, b, obl  , true).
 
 
 action(a_check_b3_4).
-sensing(a_check_b3_4).
+action_type(a_check_b3_4, sensing).
 determines(a_check_b3_4, at_b3_4).
-executable(a_check_b3_4, b(a,at_a_4)).
-observes(a_check_b3_4, a, true).
-oblivious(a_check_b3_4, b).
+action_pre(a_check_b3_4, neg(dia(a,neg(at_a_4)))).
+obs_cond(a_check_b3_4, a, f_obs, true).
+obs_cond(a_check_b3_4, b, obl  , true).
 
 
 action(b_check_b1_1).
-sensing(b_check_b1_1).
+action_type(b_check_b1_1, sensing).
 determines(b_check_b1_1, at_b1_1).
-formula(b(b,at_b_1)).
-executable(b_check_b1_1, b(b,at_b_1)).
-observes(b_check_b1_1, b, true).
-oblivious(b_check_b1_1, a).
+action_pre(b_check_b1_1, neg(dia(b,neg(at_b_1)))).
+obs_cond(b_check_b1_1, b, f_obs, true).
+obs_cond(b_check_b1_1, a, obl  , true).
 
 
 action(b_check_b1_3).
-sensing(b_check_b1_3).
+action_type(b_check_b1_3, sensing).
 determines(b_check_b1_3, at_b1_3).
-formula(b(b,at_b_3)).
-executable(b_check_b1_3, b(b,at_b_3)).
-observes(b_check_b1_3, b, true).
-oblivious(b_check_b1_3, a).
+action_pre(b_check_b1_3, neg(dia(b,neg(at_b_3)))).
+obs_cond(b_check_b1_3, b, f_obs, true).
+obs_cond(b_check_b1_3, a, obl  , true).
 
 
 action(b_check_b1_4).
-sensing(b_check_b1_4).
+action_type(b_check_b1_4, sensing).
 determines(b_check_b1_4, at_b1_4).
-formula(b(b,at_b_4)).
-executable(b_check_b1_4, b(b,at_b_4)).
-observes(b_check_b1_4, b, true).
-oblivious(b_check_b1_4, a).
+action_pre(b_check_b1_4, neg(dia(b,neg(at_b_4)))).
+obs_cond(b_check_b1_4, b, f_obs, true).
+obs_cond(b_check_b1_4, a, obl  , true).
 
 
 action(b_check_b2_1).
-sensing(b_check_b2_1).
+action_type(b_check_b2_1, sensing).
 determines(b_check_b2_1, at_b2_1).
-executable(b_check_b2_1, b(b,at_b_1)).
-observes(b_check_b2_1, b, true).
-oblivious(b_check_b2_1, a).
+action_pre(b_check_b2_1, neg(dia(b,neg(at_b_1)))).
+obs_cond(b_check_b2_1, b, f_obs, true).
+obs_cond(b_check_b2_1, a, obl  , true).
 
 
 action(b_check_b2_3).
-sensing(b_check_b2_3).
+action_type(b_check_b2_3, sensing).
 determines(b_check_b2_3, at_b2_3).
-executable(b_check_b2_3, b(b,at_b_3)).
-observes(b_check_b2_3, b, true).
-oblivious(b_check_b2_3, a).
+action_pre(b_check_b2_3, neg(dia(b,neg(at_b_3)))).
+obs_cond(b_check_b2_3, b, f_obs, true).
+obs_cond(b_check_b2_3, a, obl  , true).
 
 
 action(b_check_b2_4).
-sensing(b_check_b2_4).
+action_type(b_check_b2_4, sensing).
 determines(b_check_b2_4, at_b2_4).
-executable(b_check_b2_4, b(b,at_b_4)).
-observes(b_check_b2_4, b, true).
-oblivious(b_check_b2_4, a).
+action_pre(b_check_b2_4, neg(dia(b,neg(at_b_4)))).
+obs_cond(b_check_b2_4, b, f_obs, true).
+obs_cond(b_check_b2_4, a, obl  , true).
 
 
 action(b_check_b3_1).
-sensing(b_check_b3_1).
+action_type(b_check_b3_1, sensing).
 determines(b_check_b3_1, at_b3_1).
-executable(b_check_b3_1, b(b,at_b_1)).
-observes(b_check_b3_1, b, true).
-oblivious(b_check_b3_1, a).
+action_pre(b_check_b3_1, neg(dia(b,neg(at_b_1)))).
+obs_cond(b_check_b3_1, b, f_obs, true).
+obs_cond(b_check_b3_1, a, obl  , true).
 
 
 action(b_check_b3_3).
-sensing(b_check_b3_3).
+action_type(b_check_b3_3, sensing).
 determines(b_check_b3_3, at_b3_3).
-executable(b_check_b3_3, b(b,at_b_3)).
-observes(b_check_b3_3, b, true).
-oblivious(b_check_b3_3, a).
+action_pre(b_check_b3_3, neg(dia(b,neg(at_b_3)))).
+obs_cond(b_check_b3_3, b, f_obs, true).
+obs_cond(b_check_b3_3, a, obl  , true).
 
 
 action(b_check_b3_4).
-sensing(b_check_b3_4).
+action_type(b_check_b3_4, sensing).
 determines(b_check_b3_4, at_b3_4).
-executable(b_check_b3_4, b(b,at_b_4)).
-observes(b_check_b3_4, b, true).
-oblivious(b_check_b3_4, a).
+action_pre(b_check_b3_4, neg(dia(b,neg(at_b_4)))).
+obs_cond(b_check_b3_4, b, f_obs, true).
+obs_cond(b_check_b3_4, a, obl  , true).
 
 
 action(left_a).
-ontic(left_a).
+action_type(left_a, ontic).
 causes(left_a, at_a_1, at_a_2).
 causes(left_a, at_a_2, at_a_3).
-formula(-at_a_2).
-causes(left_a, -at_a_2, at_a_2).
+causes(left_a, neg(at_a_2), at_a_2).
 causes(left_a, at_a_3, at_a_4).
-formula(-at_a_3).
-causes(left_a, -at_a_3, at_a_3).
-formula(-at_a_4).
-causes(left_a, -at_a_4, at_a_4).
-formula(-at_a_1).
-formula(b(a,-at_a_1)).
-executable(left_a, b(a,-at_a_1)).
-observes(left_a, a, true).
-observes(left_a, b, true).
+causes(left_a, neg(at_a_3), at_a_3).
+causes(left_a, neg(at_a_4), at_a_4).
+action_pre(left_a, neg(at_a_1)).
+obs_cond(left_a, a, f_obs, true).
+obs_cond(left_a, b, f_obs, true).
 
 
 action(left_b).
-ontic(left_b).
+action_type(left_b, ontic).
 causes(left_b, at_b_1, at_b_2).
 causes(left_b, at_b_2, at_b_3).
-formula(-at_b_2).
-causes(left_b, -at_b_2, at_b_2).
+causes(left_b, neg(at_b_2), at_b_2).
 causes(left_b, at_b_3, at_b_4).
-formula(-at_b_3).
-causes(left_b, -at_b_3, at_b_3).
-formula(-at_b_4).
-causes(left_b, -at_b_4, at_b_4).
-formula(-at_b_1).
-formula(b(b,-at_b_1)).
-executable(left_b, b(b,-at_b_1)).
-observes(left_b, a, true).
-observes(left_b, b, true).
+causes(left_b, neg(at_b_3), at_b_3).
+causes(left_b, neg(at_b_4), at_b_4).
+action_pre(left_b, neg(at_b_1)).
+obs_cond(left_b, a, f_obs, true).
+obs_cond(left_b, b, f_obs, true).
 
 
 action(right_a).
-ontic(right_a).
-causes(right_a, -at_a_1, at_a_1).
+action_type(right_a, ontic).
+causes(right_a, neg(at_a_1), at_a_1).
 causes(right_a, at_a_2, at_a_1).
-causes(right_a, -at_a_2, at_a_2).
+causes(right_a, neg(at_a_2), at_a_2).
 causes(right_a, at_a_3, at_a_2).
-causes(right_a, -at_a_3, at_a_3).
+causes(right_a, neg(at_a_3), at_a_3).
 causes(right_a, at_a_4, at_a_3).
-formula(b(a,-at_a_4)).
-executable(right_a, b(a,-at_a_4)).
-observes(right_a, a, true).
-observes(right_a, b, true).
+action_pre(right_a, neg(at_a_4)).
+obs_cond(right_a, a, f_obs, true).
+obs_cond(right_a, b, f_obs, true).
 
 
 action(right_b).
-ontic(right_b).
-causes(right_b, -at_b_1, at_b_1).
+action_type(right_b, ontic).
+causes(right_b, neg(at_b_1), at_b_1).
 causes(right_b, at_b_2, at_b_1).
-causes(right_b, -at_b_2, at_b_2).
+causes(right_b, neg(at_b_2), at_b_2).
 causes(right_b, at_b_3, at_b_2).
-causes(right_b, -at_b_3, at_b_3).
+causes(right_b, neg(at_b_3), at_b_3).
 causes(right_b, at_b_4, at_b_3).
-formula(b(a,-at_b_4)).
-executable(right_b, b(a,-at_b_4)).
-observes(right_b, a, true).
-observes(right_b, b, true).
+action_pre(right_b, neg(at_b_4)).
+obs_cond(right_b, a, f_obs, true).
+obs_cond(right_b, b, f_obs, true).
 
 
 action(tell_a_b1_1).
-announcement(tell_a_b1_1).
+action_type(tell_a_b1_1, announcement).
 announces(tell_a_b1_1, at_b1_1).
-formula(b(a,at_b1_1)).
-executable(tell_a_b1_1, b(a,at_b1_1)).
-observes(tell_a_b1_1, a, true).
-observes(tell_a_b1_1, b, true).
+action_pre(tell_a_b1_1, neg(dia(a,neg(at_b1_1)))).
+obs_cond(tell_a_b1_1, a, f_obs, true).
+obs_cond(tell_a_b1_1, b, f_obs, true).
 
 
 action(tell_a_b1_3).
-announcement(tell_a_b1_3).
+action_type(tell_a_b1_3, announcement).
 announces(tell_a_b1_3, at_b1_3).
-formula(b(a,at_b1_3)).
-executable(tell_a_b1_3, b(a,at_b1_3)).
-observes(tell_a_b1_3, a, true).
-observes(tell_a_b1_3, b, true).
+action_pre(tell_a_b1_3, neg(dia(a,neg(at_b1_3)))).
+obs_cond(tell_a_b1_3, a, f_obs, true).
+obs_cond(tell_a_b1_3, b, f_obs, true).
 
 
 action(tell_a_b1_4).
-announcement(tell_a_b1_4).
+action_type(tell_a_b1_4, announcement).
 announces(tell_a_b1_4, at_b1_4).
-formula(b(a,at_b1_4)).
-executable(tell_a_b1_4, b(a,at_b1_4)).
-observes(tell_a_b1_4, a, true).
-observes(tell_a_b1_4, b, true).
+action_pre(tell_a_b1_4, neg(dia(a,neg(at_b1_4)))).
+obs_cond(tell_a_b1_4, a, f_obs, true).
+obs_cond(tell_a_b1_4, b, f_obs, true).
 
 
 action(tell_a_b2_1).
-announcement(tell_a_b2_1).
+action_type(tell_a_b2_1, announcement).
 announces(tell_a_b2_1, at_b2_1).
-formula(b(a,at_b2_1)).
-executable(tell_a_b2_1, b(a,at_b2_1)).
-observes(tell_a_b2_1, a, true).
-observes(tell_a_b2_1, b, true).
+action_pre(tell_a_b2_1, neg(dia(a,neg(at_b2_1)))).
+obs_cond(tell_a_b2_1, a, f_obs, true).
+obs_cond(tell_a_b2_1, b, f_obs, true).
 
 
 action(tell_a_b2_3).
-announcement(tell_a_b2_3).
+action_type(tell_a_b2_3, announcement).
 announces(tell_a_b2_3, at_b2_3).
-formula(b(a,at_b2_3)).
-executable(tell_a_b2_3, b(a,at_b2_3)).
-observes(tell_a_b2_3, a, true).
-observes(tell_a_b2_3, b, true).
+action_pre(tell_a_b2_3, neg(dia(a,neg(at_b2_3)))).
+obs_cond(tell_a_b2_3, a, f_obs, true).
+obs_cond(tell_a_b2_3, b, f_obs, true).
 
 
 action(tell_a_b2_4).
-announcement(tell_a_b2_4).
+action_type(tell_a_b2_4, announcement).
 announces(tell_a_b2_4, at_b2_4).
-formula(b(a,at_b2_4)).
-executable(tell_a_b2_4, b(a,at_b2_4)).
-observes(tell_a_b2_4, a, true).
-observes(tell_a_b2_4, b, true).
+action_pre(tell_a_b2_4, neg(dia(a,neg(at_b2_4)))).
+obs_cond(tell_a_b2_4, a, f_obs, true).
+obs_cond(tell_a_b2_4, b, f_obs, true).
 
 
 action(tell_a_b3_1).
-announcement(tell_a_b3_1).
+action_type(tell_a_b3_1, announcement).
 announces(tell_a_b3_1, at_b3_1).
-formula(b(a,at_b3_1)).
-executable(tell_a_b3_1, b(a,at_b3_1)).
-observes(tell_a_b3_1, a, true).
-observes(tell_a_b3_1, b, true).
+action_pre(tell_a_b3_1, neg(dia(a,neg(at_b3_1)))).
+obs_cond(tell_a_b3_1, a, f_obs, true).
+obs_cond(tell_a_b3_1, b, f_obs, true).
 
 
 action(tell_a_b3_3).
-announcement(tell_a_b3_3).
+action_type(tell_a_b3_3, announcement).
 announces(tell_a_b3_3, at_b3_3).
-formula(b(a,at_b3_3)).
-executable(tell_a_b3_3, b(a,at_b3_3)).
-observes(tell_a_b3_3, a, true).
-observes(tell_a_b3_3, b, true).
+action_pre(tell_a_b3_3, neg(dia(a,neg(at_b3_3)))).
+obs_cond(tell_a_b3_3, a, f_obs, true).
+obs_cond(tell_a_b3_3, b, f_obs, true).
 
 
 action(tell_a_b3_4).
-announcement(tell_a_b3_4).
+action_type(tell_a_b3_4, announcement).
 announces(tell_a_b3_4, at_b3_4).
-formula(b(a,at_b3_4)).
-executable(tell_a_b3_4, b(a,at_b3_4)).
-observes(tell_a_b3_4, a, true).
-observes(tell_a_b3_4, b, true).
+action_pre(tell_a_b3_4, neg(dia(a,neg(at_b3_4)))).
+obs_cond(tell_a_b3_4, a, f_obs, true).
+obs_cond(tell_a_b3_4, b, f_obs, true).
 
 
 action(tell_b_b1_1).
-announcement(tell_b_b1_1).
+action_type(tell_b_b1_1, announcement).
 announces(tell_b_b1_1, at_b1_1).
-formula(b(b,at_b1_1)).
-executable(tell_b_b1_1, b(b,at_b1_1)).
-observes(tell_b_b1_1, a, true).
-observes(tell_b_b1_1, b, true).
+action_pre(tell_b_b1_1, neg(dia(b,neg(at_b1_1)))).
+obs_cond(tell_b_b1_1, a, f_obs, true).
+obs_cond(tell_b_b1_1, b, f_obs, true).
 
 
 action(tell_b_b1_3).
-announcement(tell_b_b1_3).
+action_type(tell_b_b1_3, announcement).
 announces(tell_b_b1_3, at_b1_3).
-formula(b(b,at_b1_3)).
-executable(tell_b_b1_3, b(b,at_b1_3)).
-observes(tell_b_b1_3, a, true).
-observes(tell_b_b1_3, b, true).
+action_pre(tell_b_b1_3, neg(dia(b,neg(at_b1_3)))).
+obs_cond(tell_b_b1_3, a, f_obs, true).
+obs_cond(tell_b_b1_3, b, f_obs, true).
 
 
 action(tell_b_b1_4).
-announcement(tell_b_b1_4).
+action_type(tell_b_b1_4, announcement).
 announces(tell_b_b1_4, at_b1_4).
-formula(b(b,at_b1_4)).
-executable(tell_b_b1_4, b(b,at_b1_4)).
-observes(tell_b_b1_4, a, true).
-observes(tell_b_b1_4, b, true).
+action_pre(tell_b_b1_4, neg(dia(b,neg(at_b1_4)))).
+obs_cond(tell_b_b1_4, a, f_obs, true).
+obs_cond(tell_b_b1_4, b, f_obs, true).
 
 
 action(tell_b_b2_1).
-announcement(tell_b_b2_1).
+action_type(tell_b_b2_1, announcement).
 announces(tell_b_b2_1, at_b2_1).
-formula(b(b,at_b2_1)).
-executable(tell_b_b2_1, b(b,at_b2_1)).
-observes(tell_b_b2_1, a, true).
-observes(tell_b_b2_1, b, true).
+action_pre(tell_b_b2_1, neg(dia(b,neg(at_b2_1)))).
+obs_cond(tell_b_b2_1, a, f_obs, true).
+obs_cond(tell_b_b2_1, b, f_obs, true).
 
 
 action(tell_b_b2_3).
-announcement(tell_b_b2_3).
+action_type(tell_b_b2_3, announcement).
 announces(tell_b_b2_3, at_b2_3).
-formula(b(b,at_b2_3)).
-executable(tell_b_b2_3, b(b,at_b2_3)).
-observes(tell_b_b2_3, a, true).
-observes(tell_b_b2_3, b, true).
+action_pre(tell_b_b2_3, neg(dia(b,neg(at_b2_3)))).
+obs_cond(tell_b_b2_3, a, f_obs, true).
+obs_cond(tell_b_b2_3, b, f_obs, true).
 
 
 action(tell_b_b2_4).
-announcement(tell_b_b2_4).
+action_type(tell_b_b2_4, announcement).
 announces(tell_b_b2_4, at_b2_4).
-formula(b(b,at_b2_4)).
-executable(tell_b_b2_4, b(b,at_b2_4)).
-observes(tell_b_b2_4, a, true).
-observes(tell_b_b2_4, b, true).
+action_pre(tell_b_b2_4, neg(dia(b,neg(at_b2_4)))).
+obs_cond(tell_b_b2_4, a, f_obs, true).
+obs_cond(tell_b_b2_4, b, f_obs, true).
 
 
 action(tell_b_b3_1).
-announcement(tell_b_b3_1).
+action_type(tell_b_b3_1, announcement).
 announces(tell_b_b3_1, at_b3_1).
-formula(b(b,at_b3_1)).
-executable(tell_b_b3_1, b(b,at_b3_1)).
-observes(tell_b_b3_1, a, true).
-observes(tell_b_b3_1, b, true).
+action_pre(tell_b_b3_1, neg(dia(b,neg(at_b3_1)))).
+obs_cond(tell_b_b3_1, a, f_obs, true).
+obs_cond(tell_b_b3_1, b, f_obs, true).
 
 
 action(tell_b_b3_3).
-announcement(tell_b_b3_3).
+action_type(tell_b_b3_3, announcement).
 announces(tell_b_b3_3, at_b3_3).
-formula(b(b,at_b3_3)).
-executable(tell_b_b3_3, b(b,at_b3_3)).
-observes(tell_b_b3_3, a, true).
-observes(tell_b_b3_3, b, true).
+action_pre(tell_b_b3_3, neg(dia(b,neg(at_b3_3)))).
+obs_cond(tell_b_b3_3, a, f_obs, true).
+obs_cond(tell_b_b3_3, b, f_obs, true).
 
 
 action(tell_b_b3_4).
-announcement(tell_b_b3_4).
+action_type(tell_b_b3_4, announcement).
 announces(tell_b_b3_4, at_b3_4).
-formula(b(b,at_b3_4)).
-executable(tell_b_b3_4, b(b,at_b3_4)).
-observes(tell_b_b3_4, a, true).
-observes(tell_b_b3_4, b, true).
+action_pre(tell_b_b3_4, neg(dia(b,neg(at_b3_4)))).
+obs_cond(tell_b_b3_4, a, f_obs, true).
+obs_cond(tell_b_b3_4, b, f_obs, true).
 
 
 
@@ -422,134 +369,39 @@ observes(tell_b_b3_4, b, true).
 % *** INITIALLY ***
 
 % ** initial pointed **
-initially(-at_a_1).
+initially(neg(at_a_1)).
 initially(at_a_2).
-initially(-at_a_3).
-initially(-at_a_4).
+initially(neg(at_a_3)).
+initially(neg(at_a_4)).
 initially(at_b1_1).
-formula(-at_b1_3).
-initially(-at_b1_3).
-formula(-at_b1_4).
-initially(-at_b1_4).
-formula(-at_b2_1).
-initially(-at_b2_1).
+initially(neg(at_b1_3)).
+initially(neg(at_b1_4)).
+initially(neg(at_b2_1)).
 initially(at_b2_3).
-formula(-at_b2_4).
-initially(-at_b2_4).
-formula(-at_b3_1).
-initially(-at_b3_1).
+initially(neg(at_b2_4)).
+initially(neg(at_b3_1)).
 initially(at_b3_3).
-formula(-at_b3_4).
-initially(-at_b3_4).
-initially(-at_b_1).
+initially(neg(at_b3_4)).
+initially(neg(at_b_1)).
 initially(at_b_2).
-initially(-at_b_3).
-initially(-at_b_4).
+initially(neg(at_b_3)).
+initially(neg(at_b_4)).
 
 % ** initial beliefs **
 agent_set(all_agents).
 contains_ag(all_agents,a).
 contains_ag(all_agents,b).
-formula(c(all_agents,at_b_2)).
 initially(c(all_agents,at_b_2)).
-formula(c(all_agents,at_a_2)).
 initially(c(all_agents,at_a_2)).
-formula(c(all_agents,-at_a_1)).
-initially(c(all_agents,-at_a_1)).
-formula(c(all_agents,-at_b_1)).
-initially(c(all_agents,-at_b_1)).
-formula(c(all_agents,-at_a_3)).
-initially(c(all_agents,-at_a_3)).
-formula(c(all_agents,-at_b_3)).
-initially(c(all_agents,-at_b_3)).
-formula(c(all_agents,-at_a_4)).
-initially(c(all_agents,-at_a_4)).
-formula(c(all_agents,-at_b_4)).
-initially(c(all_agents,-at_b_4)).
-formula(and(-at_b1_3,-at_b1_4)).
-formula(and(at_b1_1,and(-at_b1_3,-at_b1_4))).
-formula(-at_b1_1).
-formula(and(at_b1_3,-at_b1_4)).
-formula(and(-at_b1_1,and(at_b1_3,-at_b1_4))).
-formula(and(-at_b1_3,at_b1_4)).
-formula(and(-at_b1_1,and(-at_b1_3,at_b1_4))).
-formula(or(and(-at_b1_1,and(at_b1_3,-at_b1_4)),and(-at_b1_1,and(-at_b1_3,at_b1_4)))).
-formula(or(and(at_b1_1,and(-at_b1_3,-at_b1_4)),or(and(-at_b1_1,and(at_b1_3,-at_b1_4)),and(-at_b1_1,and(-at_b1_3,at_b1_4))))).
-formula(c(all_agents,or(and(at_b1_1,and(-at_b1_3,-at_b1_4)),or(and(-at_b1_1,and(at_b1_3,-at_b1_4)),and(-at_b1_1,and(-at_b1_3,at_b1_4)))))).
-initially(c(all_agents,or(and(at_b1_1,and(-at_b1_3,-at_b1_4)),or(and(-at_b1_1,and(at_b1_3,-at_b1_4)),and(-at_b1_1,and(-at_b1_3,at_b1_4)))))).
-formula(-at_b2_3).
-formula(and(-at_b2_3,-at_b2_4)).
-formula(and(at_b2_1,and(-at_b2_3,-at_b2_4))).
-formula(and(at_b2_3,-at_b2_4)).
-formula(and(-at_b2_1,and(at_b2_3,-at_b2_4))).
-formula(and(-at_b2_3,at_b2_4)).
-formula(and(-at_b2_1,and(-at_b2_3,at_b2_4))).
-formula(or(and(-at_b2_1,and(at_b2_3,-at_b2_4)),and(-at_b2_1,and(-at_b2_3,at_b2_4)))).
-formula(or(and(at_b2_1,and(-at_b2_3,-at_b2_4)),or(and(-at_b2_1,and(at_b2_3,-at_b2_4)),and(-at_b2_1,and(-at_b2_3,at_b2_4))))).
-formula(c(all_agents,or(and(at_b2_1,and(-at_b2_3,-at_b2_4)),or(and(-at_b2_1,and(at_b2_3,-at_b2_4)),and(-at_b2_1,and(-at_b2_3,at_b2_4)))))).
-initially(c(all_agents,or(and(at_b2_1,and(-at_b2_3,-at_b2_4)),or(and(-at_b2_1,and(at_b2_3,-at_b2_4)),and(-at_b2_1,and(-at_b2_3,at_b2_4)))))).
-formula(-at_b3_3).
-formula(and(-at_b3_3,-at_b3_4)).
-formula(and(at_b3_1,and(-at_b3_3,-at_b3_4))).
-formula(and(at_b3_3,-at_b3_4)).
-formula(and(-at_b3_1,and(at_b3_3,-at_b3_4))).
-formula(and(-at_b3_3,at_b3_4)).
-formula(and(-at_b3_1,and(-at_b3_3,at_b3_4))).
-formula(or(and(-at_b3_1,and(at_b3_3,-at_b3_4)),and(-at_b3_1,and(-at_b3_3,at_b3_4)))).
-formula(or(and(at_b3_1,and(-at_b3_3,-at_b3_4)),or(and(-at_b3_1,and(at_b3_3,-at_b3_4)),and(-at_b3_1,and(-at_b3_3,at_b3_4))))).
-formula(c(all_agents,or(and(at_b3_1,and(-at_b3_3,-at_b3_4)),or(and(-at_b3_1,and(at_b3_3,-at_b3_4)),and(-at_b3_1,and(-at_b3_3,at_b3_4)))))).
-initially(c(all_agents,or(and(at_b3_1,and(-at_b3_3,-at_b3_4)),or(and(-at_b3_1,and(at_b3_3,-at_b3_4)),and(-at_b3_1,and(-at_b3_3,at_b3_4)))))).
+initially(c(all_agents,neg(at_a_1))).
+initially(c(all_agents,neg(at_b_1))).
+initially(c(all_agents,neg(at_a_3))).
+initially(c(all_agents,neg(at_b_3))).
+initially(c(all_agents,neg(at_a_4))).
+initially(c(all_agents,neg(at_b_4))).
+initially(c(all_agents,or(and(at_b1_1,and(neg(at_b1_3),neg(at_b1_4))),or(and(neg(at_b1_1),and(at_b1_3,neg(at_b1_4))),and(neg(at_b1_1),and(neg(at_b1_3),at_b1_4)))))).
+initially(c(all_agents,or(and(at_b2_1,and(neg(at_b2_3),neg(at_b2_4))),or(and(neg(at_b2_1),and(at_b2_3,neg(at_b2_4))),and(neg(at_b2_1),and(neg(at_b2_3),at_b2_4)))))).
+initially(c(all_agents,or(and(at_b3_1,and(neg(at_b3_3),neg(at_b3_4))),or(and(neg(at_b3_1),and(at_b3_3,neg(at_b3_4))),and(neg(at_b3_1),and(neg(at_b3_3),at_b3_4)))))).
 
 
 
-% ** commonly known fluent formulae **
-init_sf(at_b_2).
-init_sf(at_a_2).
-init_sf(-at_a_1).
-init_sf(-at_b_1).
-init_sf(-at_a_3).
-init_sf(-at_b_3).
-init_sf(-at_a_4).
-init_sf(-at_b_4).
-init_sf(at_b1_1).
-init_sf(-at_b1_3).
-init_sf(-at_b1_4).
-init_sf(and(-at_b1_3,-at_b1_4)).
-init_sf(and(at_b1_1,and(-at_b1_3,-at_b1_4))).
-init_sf(-at_b1_1).
-init_sf(at_b1_3).
-init_sf(and(at_b1_3,-at_b1_4)).
-init_sf(and(-at_b1_1,and(at_b1_3,-at_b1_4))).
-init_sf(at_b1_4).
-init_sf(and(-at_b1_3,at_b1_4)).
-init_sf(and(-at_b1_1,and(-at_b1_3,at_b1_4))).
-init_sf(or(and(-at_b1_1,and(at_b1_3,-at_b1_4)),and(-at_b1_1,and(-at_b1_3,at_b1_4)))).
-init_sf(or(and(at_b1_1,and(-at_b1_3,-at_b1_4)),or(and(-at_b1_1,and(at_b1_3,-at_b1_4)),and(-at_b1_1,and(-at_b1_3,at_b1_4))))).
-init_sf(at_b2_1).
-init_sf(-at_b2_3).
-init_sf(-at_b2_4).
-init_sf(and(-at_b2_3,-at_b2_4)).
-init_sf(and(at_b2_1,and(-at_b2_3,-at_b2_4))).
-init_sf(-at_b2_1).
-init_sf(at_b2_3).
-init_sf(and(at_b2_3,-at_b2_4)).
-init_sf(and(-at_b2_1,and(at_b2_3,-at_b2_4))).
-init_sf(at_b2_4).
-init_sf(and(-at_b2_3,at_b2_4)).
-init_sf(and(-at_b2_1,and(-at_b2_3,at_b2_4))).
-init_sf(or(and(-at_b2_1,and(at_b2_3,-at_b2_4)),and(-at_b2_1,and(-at_b2_3,at_b2_4)))).
-init_sf(or(and(at_b2_1,and(-at_b2_3,-at_b2_4)),or(and(-at_b2_1,and(at_b2_3,-at_b2_4)),and(-at_b2_1,and(-at_b2_3,at_b2_4))))).
-init_sf(at_b3_1).
-init_sf(-at_b3_3).
-init_sf(-at_b3_4).
-init_sf(and(-at_b3_3,-at_b3_4)).
-init_sf(and(at_b3_1,and(-at_b3_3,-at_b3_4))).
-init_sf(-at_b3_1).
-init_sf(at_b3_3).
-init_sf(and(at_b3_3,-at_b3_4)).
-init_sf(and(-at_b3_1,and(at_b3_3,-at_b3_4))).
-init_sf(at_b3_4).
-init_sf(and(-at_b3_3,at_b3_4)).
-init_sf(and(-at_b3_1,and(-at_b3_3,at_b3_4))).
-init_sf(or(and(-at_b3_1,and(at_b3_3,-at_b3_4)),and(-at_b3_1,and(-at_b3_3,at_b3_4)))).
-init_sf(or(and(at_b3_1,and(-at_b3_3,-at_b3_4)),or(and(-at_b3_1,and(at_b3_3,-at_b3_4)),and(-at_b3_1,and(-at_b3_3,at_b3_4))))).
