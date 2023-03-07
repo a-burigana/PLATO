@@ -1,3 +1,7 @@
+#defined causes/3.
+#defined determines/2.
+#defined announces/2.
+
 #program base.
 epistemic(ACT) :- action_type(ACT, sensing).
 epistemic(ACT) :- action_type(ACT, announcement).
