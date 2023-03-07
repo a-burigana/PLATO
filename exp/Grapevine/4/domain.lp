@@ -1,28 +1,16 @@
 % *** ATOMS ***
 atom(at_a_1).
-formula(at_a_1).
 atom(at_a_2).
-formula(at_a_2).
 atom(at_b_1).
-formula(at_b_1).
 atom(at_b_2).
-formula(at_b_2).
 atom(at_c_1).
-formula(at_c_1).
 atom(at_c_2).
-formula(at_c_2).
 atom(at_d_1).
-formula(at_d_1).
 atom(at_d_2).
-formula(at_d_2).
 atom(sa).
-formula(sa).
 atom(sb).
-formula(sb).
 atom(sc).
-formula(sc).
 atom(sd).
-formula(sd).
 
 
 % *** AGENTS ***
@@ -34,543 +22,605 @@ agent(d).
 
 % *** ACTIONS ***
 action(left_a).
-ontic(left_a).
+action_type(left_a, ontic).
 causes(left_a, at_a_1, true).
-formula(-at_a_2).
-causes(left_a, -at_a_2, true).
-executable(left_a, at_a_2).
-oblivious(left_a, a).
-oblivious(left_a, b).
-oblivious(left_a, c).
-oblivious(left_a, d).
+causes(left_a, at_a_2, false).
+action_pre(left_a, at_a_2).
+obs_cond(left_a, a, f_obs, true).
+obs_cond(left_a, b, f_obs, at_b_2).
+obs_cond(left_a, c, f_obs, at_c_2).
+obs_cond(left_a, d, f_obs, at_d_2).
+obs_cond(left_a, b, obl  , neg(at_b_2)).
+obs_cond(left_a, c, obl  , neg(at_c_2)).
+obs_cond(left_a, d, obl  , neg(at_d_2)).
 
 
 action(left_b).
-ontic(left_b).
+action_type(left_b, ontic).
 causes(left_b, at_b_1, true).
-formula(-at_b_2).
-causes(left_b, -at_b_2, true).
-executable(left_b, at_b_2).
-oblivious(left_b, a).
-oblivious(left_b, b).
-oblivious(left_b, c).
-oblivious(left_b, d).
+causes(left_b, at_b_2, false).
+action_pre(left_b, at_b_2).
+obs_cond(left_b, a, f_obs, at_a_2).
+obs_cond(left_b, b, f_obs, true).
+obs_cond(left_b, c, f_obs, at_c_2).
+obs_cond(left_b, d, f_obs, at_d_2).
+obs_cond(left_b, a, obl  , neg(at_a_2)).
+obs_cond(left_b, c, obl  , neg(at_c_2)).
+obs_cond(left_b, d, obl  , neg(at_d_2)).
 
 
 action(left_c).
-ontic(left_c).
+action_type(left_c, ontic).
 causes(left_c, at_c_1, true).
-formula(-at_c_2).
-causes(left_c, -at_c_2, true).
-executable(left_c, at_c_2).
-oblivious(left_c, a).
-oblivious(left_c, b).
-oblivious(left_c, c).
-oblivious(left_c, d).
+causes(left_c, at_c_2, false).
+action_pre(left_c, at_c_2).
+obs_cond(left_c, a, f_obs, at_a_2).
+obs_cond(left_c, b, f_obs, at_b_2).
+obs_cond(left_c, c, f_obs, true).
+obs_cond(left_c, d, f_obs, at_d_2).
+obs_cond(left_c, a, obl  , neg(at_a_2)).
+obs_cond(left_c, b, obl  , neg(at_b_2)).
+obs_cond(left_c, d, obl  , neg(at_d_2)).
 
 
 action(left_d).
-ontic(left_d).
+action_type(left_d, ontic).
 causes(left_d, at_d_1, true).
-formula(-at_d_2).
-causes(left_d, -at_d_2, true).
-executable(left_d, at_d_2).
-oblivious(left_d, a).
-oblivious(left_d, b).
-oblivious(left_d, c).
-oblivious(left_d, d).
+causes(left_d, at_d_2, false).
+action_pre(left_d, at_d_2).
+obs_cond(left_d, a, f_obs, at_a_2).
+obs_cond(left_d, b, f_obs, at_b_2).
+obs_cond(left_d, c, f_obs, at_c_2).
+obs_cond(left_d, d, f_obs, true).
+obs_cond(left_d, a, obl  , neg(at_a_2)).
+obs_cond(left_d, b, obl  , neg(at_b_2)).
+obs_cond(left_d, c, obl  , neg(at_c_2)).
 
 
 action(right_a).
-ontic(right_a).
-formula(-at_a_1).
-causes(right_a, -at_a_1, true).
+action_type(right_a, ontic).
+causes(right_a, at_a_1, false).
 causes(right_a, at_a_2, true).
-executable(right_a, at_a_1).
-oblivious(right_a, a).
-oblivious(right_a, b).
-oblivious(right_a, c).
-oblivious(right_a, d).
+action_pre(right_a, at_a_1).
+obs_cond(right_a, a, f_obs, true).
+obs_cond(right_a, b, f_obs, at_b_1).
+obs_cond(right_a, c, f_obs, at_c_1).
+obs_cond(right_a, d, f_obs, at_d_1).
+obs_cond(right_a, b, obl  , neg(at_b_1)).
+obs_cond(right_a, c, obl  , neg(at_c_1)).
+obs_cond(right_a, d, obl  , neg(at_d_1)).
 
 
 action(right_b).
-ontic(right_b).
-formula(-at_b_1).
-causes(right_b, -at_b_1, true).
+action_type(right_b, ontic).
+causes(right_b, at_b_1, false).
 causes(right_b, at_b_2, true).
-executable(right_b, at_b_1).
-oblivious(right_b, a).
-oblivious(right_b, b).
-oblivious(right_b, c).
-oblivious(right_b, d).
+action_pre(right_b, at_b_1).
+obs_cond(right_b, a, f_obs, at_a_1).
+obs_cond(right_b, b, f_obs, true).
+obs_cond(right_b, c, f_obs, at_c_1).
+obs_cond(right_b, d, f_obs, at_d_1).
+obs_cond(right_b, a, obl  , neg(at_a_1)).
+obs_cond(right_b, c, obl  , neg(at_c_1)).
+obs_cond(right_b, d, obl  , neg(at_d_1)).
 
 
 action(right_c).
-ontic(right_c).
-formula(-at_c_1).
-causes(right_c, -at_c_1, true).
+action_type(right_c, ontic).
+causes(right_c, at_c_1, false).
 causes(right_c, at_c_2, true).
-executable(right_c, at_c_1).
-oblivious(right_c, a).
-oblivious(right_c, b).
-oblivious(right_c, c).
-oblivious(right_c, d).
+action_pre(right_c, at_c_1).
+obs_cond(right_c, a, f_obs, at_a_1).
+obs_cond(right_c, b, f_obs, at_b_1).
+obs_cond(right_c, c, f_obs, true).
+obs_cond(right_c, d, f_obs, at_d_1).
+obs_cond(right_c, a, obl  , neg(at_a_1)).
+obs_cond(right_c, b, obl  , neg(at_b_1)).
+obs_cond(right_c, d, obl  , neg(at_d_1)).
 
 
 action(right_d).
-ontic(right_d).
-formula(-at_d_1).
-causes(right_d, -at_d_1, true).
+action_type(right_d, ontic).
+causes(right_d, at_d_1, false).
 causes(right_d, at_d_2, true).
-executable(right_d, at_d_1).
-oblivious(right_d, a).
-oblivious(right_d, b).
-oblivious(right_d, c).
-oblivious(right_d, d).
+action_pre(right_d, at_d_1).
+obs_cond(right_d, a, f_obs, at_a_1).
+obs_cond(right_d, b, f_obs, at_b_1).
+obs_cond(right_d, c, f_obs, at_c_1).
+obs_cond(right_d, d, f_obs, true).
+obs_cond(right_d, a, obl  , neg(at_a_1)).
+obs_cond(right_d, b, obl  , neg(at_b_1)).
+obs_cond(right_d, c, obl  , neg(at_c_1)).
 
 
 action(share_a_sa_1).
-announcement(share_a_sa_1).
+action_type(share_a_sa_1, announcement).
 announces(share_a_sa_1, sa).
-formula(b(a,sa)).
-formula(and(b(a,sa),at_a_1)).
-executable(share_a_sa_1, and(b(a,sa),at_a_1)).
-observes(share_a_sa_1, a, at_a_1).
-observes(share_a_sa_1, b, at_b_1).
-observes(share_a_sa_1, c, at_c_1).
-observes(share_a_sa_1, d, at_d_1).
+action_pre(share_a_sa_1, and(neg(dia(a,neg(sa))),at_a_1)).
+obs_cond(share_a_sa_1, a, f_obs, true).
+obs_cond(share_a_sa_1, b, f_obs, at_b_1).
+obs_cond(share_a_sa_1, b, obl  , neg(at_b_1)).
+obs_cond(share_a_sa_1, c, f_obs, at_c_1).
+obs_cond(share_a_sa_1, c, obl  , neg(at_c_1)).
+obs_cond(share_a_sa_1, d, f_obs, at_d_1).
+obs_cond(share_a_sa_1, d, obl  , neg(at_d_1)).
 
 
 action(share_a_sa_2).
-announcement(share_a_sa_2).
+action_type(share_a_sa_2, announcement).
 announces(share_a_sa_2, sa).
-formula(and(b(a,sa),at_a_2)).
-executable(share_a_sa_2, and(b(a,sa),at_a_2)).
-observes(share_a_sa_2, a, at_a_2).
-observes(share_a_sa_2, b, at_b_2).
-observes(share_a_sa_2, c, at_c_2).
-observes(share_a_sa_2, d, at_d_2).
+action_pre(share_a_sa_2, and(neg(dia(a,neg(sa))),at_a_2)).
+obs_cond(share_a_sa_2, a, f_obs, true).
+obs_cond(share_a_sa_2, b, f_obs, at_b_2).
+obs_cond(share_a_sa_2, b, obl  , neg(at_b_2)).
+obs_cond(share_a_sa_2, c, f_obs, at_c_2).
+obs_cond(share_a_sa_2, c, obl  , neg(at_c_2)).
+obs_cond(share_a_sa_2, d, f_obs, at_d_2).
+obs_cond(share_a_sa_2, d, obl  , neg(at_d_2)).
 
 
 action(share_a_sb_1).
-announcement(share_a_sb_1).
+action_type(share_a_sb_1, announcement).
 announces(share_a_sb_1, sb).
-formula(b(a,sb)).
-formula(and(b(a,sb),at_a_1)).
-executable(share_a_sb_1, and(b(a,sb),at_a_1)).
-observes(share_a_sb_1, a, at_a_1).
-observes(share_a_sb_1, b, at_b_1).
-observes(share_a_sb_1, c, at_c_1).
-observes(share_a_sb_1, d, at_d_1).
+action_pre(share_a_sb_1, and(neg(dia(a,neg(sb))),at_a_1)).
+obs_cond(share_a_sb_1, a, f_obs, true).
+obs_cond(share_a_sb_1, b, f_obs, at_b_1).
+obs_cond(share_a_sb_1, b, obl  , neg(at_b_1)).
+obs_cond(share_a_sb_1, c, f_obs, at_c_1).
+obs_cond(share_a_sb_1, c, obl  , neg(at_c_1)).
+obs_cond(share_a_sb_1, d, f_obs, at_d_1).
+obs_cond(share_a_sb_1, d, obl  , neg(at_d_1)).
 
 
 action(share_a_sb_2).
-announcement(share_a_sb_2).
+action_type(share_a_sb_2, announcement).
 announces(share_a_sb_2, sb).
-formula(and(b(a,sb),at_a_2)).
-executable(share_a_sb_2, and(b(a,sb),at_a_2)).
-observes(share_a_sb_2, a, at_a_2).
-observes(share_a_sb_2, b, at_b_2).
-observes(share_a_sb_2, c, at_c_2).
-observes(share_a_sb_2, d, at_d_2).
+action_pre(share_a_sb_2, and(neg(dia(a,neg(sb))),at_a_2)).
+obs_cond(share_a_sb_2, a, f_obs, true).
+obs_cond(share_a_sb_2, b, f_obs, at_b_2).
+obs_cond(share_a_sb_2, b, obl  , neg(at_b_2)).
+obs_cond(share_a_sb_2, c, f_obs, at_c_2).
+obs_cond(share_a_sb_2, c, obl  , neg(at_c_2)).
+obs_cond(share_a_sb_2, d, f_obs, at_d_2).
+obs_cond(share_a_sb_2, d, obl  , neg(at_d_2)).
 
 
 action(share_a_sc_1).
-announcement(share_a_sc_1).
+action_type(share_a_sc_1, announcement).
 announces(share_a_sc_1, sc).
-formula(b(a,sc)).
-formula(and(b(a,sc),at_a_1)).
-executable(share_a_sc_1, and(b(a,sc),at_a_1)).
-observes(share_a_sc_1, a, at_a_1).
-observes(share_a_sc_1, b, at_b_1).
-observes(share_a_sc_1, c, at_c_1).
-observes(share_a_sc_1, d, at_d_1).
+action_pre(share_a_sc_1, and(neg(dia(a,neg(sc))),at_a_1)).
+obs_cond(share_a_sc_1, a, f_obs, true).
+obs_cond(share_a_sc_1, b, f_obs, at_b_1).
+obs_cond(share_a_sc_1, b, obl  , neg(at_b_1)).
+obs_cond(share_a_sc_1, c, f_obs, at_c_1).
+obs_cond(share_a_sc_1, c, obl  , neg(at_c_1)).
+obs_cond(share_a_sc_1, d, f_obs, at_d_1).
+obs_cond(share_a_sc_1, d, obl  , neg(at_d_1)).
 
 
 action(share_a_sc_2).
-announcement(share_a_sc_2).
+action_type(share_a_sc_2, announcement).
 announces(share_a_sc_2, sc).
-formula(and(b(a,sc),at_a_2)).
-executable(share_a_sc_2, and(b(a,sc),at_a_2)).
-observes(share_a_sc_2, a, at_a_2).
-observes(share_a_sc_2, b, at_b_2).
-observes(share_a_sc_2, c, at_c_2).
-observes(share_a_sc_2, d, at_d_2).
+action_pre(share_a_sc_2, and(neg(dia(a,neg(sc))),at_a_2)).
+obs_cond(share_a_sc_2, a, f_obs, true).
+obs_cond(share_a_sc_2, b, f_obs, at_b_2).
+obs_cond(share_a_sc_2, b, obl  , neg(at_b_2)).
+obs_cond(share_a_sc_2, c, f_obs, at_c_2).
+obs_cond(share_a_sc_2, c, obl  , neg(at_c_2)).
+obs_cond(share_a_sc_2, d, f_obs, at_d_2).
+obs_cond(share_a_sc_2, d, obl  , neg(at_d_2)).
 
 
 action(share_a_sd_1).
-announcement(share_a_sd_1).
+action_type(share_a_sd_1, announcement).
 announces(share_a_sd_1, sd).
-formula(b(a,sd)).
-formula(and(b(a,sd),at_a_1)).
-executable(share_a_sd_1, and(b(a,sd),at_a_1)).
-observes(share_a_sd_1, a, at_a_1).
-observes(share_a_sd_1, b, at_b_1).
-observes(share_a_sd_1, c, at_c_1).
-observes(share_a_sd_1, d, at_d_1).
+action_pre(share_a_sd_1, and(neg(dia(a,neg(sd))),at_a_1)).
+obs_cond(share_a_sd_1, a, f_obs, true).
+obs_cond(share_a_sd_1, b, f_obs, at_b_1).
+obs_cond(share_a_sd_1, b, obl  , neg(at_b_1)).
+obs_cond(share_a_sd_1, c, f_obs, at_c_1).
+obs_cond(share_a_sd_1, c, obl  , neg(at_c_1)).
+obs_cond(share_a_sd_1, d, f_obs, at_d_1).
+obs_cond(share_a_sd_1, d, obl  , neg(at_d_1)).
 
 
 action(share_a_sd_2).
-announcement(share_a_sd_2).
+action_type(share_a_sd_2, announcement).
 announces(share_a_sd_2, sd).
-formula(and(b(a,sd),at_a_2)).
-executable(share_a_sd_2, and(b(a,sd),at_a_2)).
-observes(share_a_sd_2, a, at_a_2).
-observes(share_a_sd_2, b, at_b_2).
-observes(share_a_sd_2, c, at_c_2).
-observes(share_a_sd_2, d, at_d_2).
+action_pre(share_a_sd_2, and(neg(dia(a,neg(sd))),at_a_2)).
+obs_cond(share_a_sd_2, a, f_obs, true).
+obs_cond(share_a_sd_2, b, f_obs, at_b_2).
+obs_cond(share_a_sd_2, b, obl  , neg(at_b_2)).
+obs_cond(share_a_sd_2, c, f_obs, at_c_2).
+obs_cond(share_a_sd_2, c, obl  , neg(at_c_2)).
+obs_cond(share_a_sd_2, d, f_obs, at_d_2).
+obs_cond(share_a_sd_2, d, obl  , neg(at_d_2)).
 
 
 action(share_b_sa_1).
-announcement(share_b_sa_1).
+action_type(share_b_sa_1, announcement).
 announces(share_b_sa_1, sa).
-formula(b(b,sa)).
-formula(and(b(b,sa),at_b_1)).
-executable(share_b_sa_1, and(b(b,sa),at_b_1)).
-observes(share_b_sa_1, a, at_a_1).
-observes(share_b_sa_1, b, at_b_1).
-observes(share_b_sa_1, c, at_c_1).
-observes(share_b_sa_1, d, at_d_1).
+action_pre(share_b_sa_1, and(neg(dia(b,neg(sa))),at_b_1)).
+obs_cond(share_b_sa_1, a, f_obs, at_a_1).
+obs_cond(share_b_sa_1, a, obl  , neg(at_a_1)).
+obs_cond(share_b_sa_1, b, f_obs, true).
+obs_cond(share_b_sa_1, c, f_obs, at_c_1).
+obs_cond(share_b_sa_1, c, obl  , neg(at_c_1)).
+obs_cond(share_b_sa_1, d, f_obs, at_d_1).
+obs_cond(share_b_sa_1, d, obl  , neg(at_d_1)).
 
 
 action(share_b_sa_2).
-announcement(share_b_sa_2).
+action_type(share_b_sa_2, announcement).
 announces(share_b_sa_2, sa).
-formula(and(b(b,sa),at_b_2)).
-executable(share_b_sa_2, and(b(b,sa),at_b_2)).
-observes(share_b_sa_2, a, at_a_2).
-observes(share_b_sa_2, b, at_b_2).
-observes(share_b_sa_2, c, at_c_2).
-observes(share_b_sa_2, d, at_d_2).
+action_pre(share_b_sa_2, and(neg(dia(b,neg(sa))),at_b_2)).
+obs_cond(share_b_sa_2, a, f_obs, at_a_2).
+obs_cond(share_b_sa_2, a, obl  , neg(at_a_2)).
+obs_cond(share_b_sa_2, b, f_obs, true).
+obs_cond(share_b_sa_2, c, f_obs, at_c_2).
+obs_cond(share_b_sa_2, c, obl  , neg(at_c_2)).
+obs_cond(share_b_sa_2, d, f_obs, at_d_2).
+obs_cond(share_b_sa_2, d, obl  , neg(at_d_2)).
 
 
 action(share_b_sb_1).
-announcement(share_b_sb_1).
+action_type(share_b_sb_1, announcement).
 announces(share_b_sb_1, sb).
-formula(b(b,sb)).
-formula(and(b(b,sb),at_b_1)).
-executable(share_b_sb_1, and(b(b,sb),at_b_1)).
-observes(share_b_sb_1, a, at_a_1).
-observes(share_b_sb_1, b, at_b_1).
-observes(share_b_sb_1, c, at_c_1).
-observes(share_b_sb_1, d, at_d_1).
+action_pre(share_b_sb_1, and(neg(dia(b,neg(sb))),at_b_1)).
+obs_cond(share_b_sb_1, a, f_obs, at_a_1).
+obs_cond(share_b_sb_1, a, obl  , neg(at_a_1)).
+obs_cond(share_b_sb_1, b, f_obs, true).
+obs_cond(share_b_sb_1, c, f_obs, at_c_1).
+obs_cond(share_b_sb_1, c, obl  , neg(at_c_1)).
+obs_cond(share_b_sb_1, d, f_obs, at_d_1).
+obs_cond(share_b_sb_1, d, obl  , neg(at_d_1)).
 
 
 action(share_b_sb_2).
-announcement(share_b_sb_2).
+action_type(share_b_sb_2, announcement).
 announces(share_b_sb_2, sb).
-formula(and(b(b,sb),at_b_2)).
-executable(share_b_sb_2, and(b(b,sb),at_b_2)).
-observes(share_b_sb_2, a, at_a_2).
-observes(share_b_sb_2, b, at_b_2).
-observes(share_b_sb_2, c, at_c_2).
-observes(share_b_sb_2, d, at_d_2).
+action_pre(share_b_sb_2, and(neg(dia(b,neg(sb))),at_b_2)).
+obs_cond(share_b_sb_2, a, f_obs, at_a_2).
+obs_cond(share_b_sb_2, a, obl  , neg(at_a_2)).
+obs_cond(share_b_sb_2, b, f_obs, true).
+obs_cond(share_b_sb_2, c, f_obs, at_c_2).
+obs_cond(share_b_sb_2, c, obl  , neg(at_c_2)).
+obs_cond(share_b_sb_2, d, f_obs, at_d_2).
+obs_cond(share_b_sb_2, d, obl  , neg(at_d_2)).
 
 
 action(share_b_sc_1).
-announcement(share_b_sc_1).
+action_type(share_b_sc_1, announcement).
 announces(share_b_sc_1, sc).
-formula(b(b,sc)).
-formula(and(b(b,sc),at_b_1)).
-executable(share_b_sc_1, and(b(b,sc),at_b_1)).
-observes(share_b_sc_1, a, at_a_1).
-observes(share_b_sc_1, b, at_b_1).
-observes(share_b_sc_1, c, at_c_1).
-observes(share_b_sc_1, d, at_d_1).
+action_pre(share_b_sc_1, and(neg(dia(b,neg(sc))),at_b_1)).
+obs_cond(share_b_sc_1, a, f_obs, at_a_1).
+obs_cond(share_b_sc_1, a, obl  , neg(at_a_1)).
+obs_cond(share_b_sc_1, b, f_obs, true).
+obs_cond(share_b_sc_1, c, f_obs, at_c_1).
+obs_cond(share_b_sc_1, c, obl  , neg(at_c_1)).
+obs_cond(share_b_sc_1, d, f_obs, at_d_1).
+obs_cond(share_b_sc_1, d, obl  , neg(at_d_1)).
 
 
 action(share_b_sc_2).
-announcement(share_b_sc_2).
+action_type(share_b_sc_2, announcement).
 announces(share_b_sc_2, sc).
-formula(and(b(b,sc),at_b_2)).
-executable(share_b_sc_2, and(b(b,sc),at_b_2)).
-observes(share_b_sc_2, a, at_a_2).
-observes(share_b_sc_2, b, at_b_2).
-observes(share_b_sc_2, c, at_c_2).
-observes(share_b_sc_2, d, at_d_2).
+action_pre(share_b_sc_2, and(neg(dia(b,neg(sc))),at_b_2)).
+obs_cond(share_b_sc_2, a, f_obs, at_a_2).
+obs_cond(share_b_sc_2, a, obl  , neg(at_a_2)).
+obs_cond(share_b_sc_2, b, f_obs, true).
+obs_cond(share_b_sc_2, c, f_obs, at_c_2).
+obs_cond(share_b_sc_2, c, obl  , neg(at_c_2)).
+obs_cond(share_b_sc_2, d, f_obs, at_d_2).
+obs_cond(share_b_sc_2, d, obl  , neg(at_d_2)).
 
 
 action(share_b_sd_1).
-announcement(share_b_sd_1).
+action_type(share_b_sd_1, announcement).
 announces(share_b_sd_1, sd).
-formula(b(b,sd)).
-formula(and(b(b,sd),at_b_1)).
-executable(share_b_sd_1, and(b(b,sd),at_b_1)).
-observes(share_b_sd_1, a, at_a_1).
-observes(share_b_sd_1, b, at_b_1).
-observes(share_b_sd_1, c, at_c_1).
-observes(share_b_sd_1, d, at_d_1).
+action_pre(share_b_sd_1, and(neg(dia(b,neg(sd))),at_b_1)).
+obs_cond(share_b_sd_1, a, f_obs, at_a_1).
+obs_cond(share_b_sd_1, a, obl  , neg(at_a_1)).
+obs_cond(share_b_sd_1, b, f_obs, true).
+obs_cond(share_b_sd_1, c, f_obs, at_c_1).
+obs_cond(share_b_sd_1, c, obl  , neg(at_c_1)).
+obs_cond(share_b_sd_1, d, f_obs, at_d_1).
+obs_cond(share_b_sd_1, d, obl  , neg(at_d_1)).
 
 
 action(share_b_sd_2).
-announcement(share_b_sd_2).
+action_type(share_b_sd_2, announcement).
 announces(share_b_sd_2, sd).
-formula(and(b(b,sd),at_b_2)).
-executable(share_b_sd_2, and(b(b,sd),at_b_2)).
-observes(share_b_sd_2, a, at_a_2).
-observes(share_b_sd_2, b, at_b_2).
-observes(share_b_sd_2, c, at_c_2).
-observes(share_b_sd_2, d, at_d_2).
+action_pre(share_b_sd_2, and(neg(dia(b,neg(sd))),at_b_2)).
+obs_cond(share_b_sd_2, a, f_obs, at_a_2).
+obs_cond(share_b_sd_2, a, obl  , neg(at_a_2)).
+obs_cond(share_b_sd_2, b, f_obs, true).
+obs_cond(share_b_sd_2, c, f_obs, at_c_2).
+obs_cond(share_b_sd_2, c, obl  , neg(at_c_2)).
+obs_cond(share_b_sd_2, d, f_obs, at_d_2).
+obs_cond(share_b_sd_2, d, obl  , neg(at_d_2)).
 
 
 action(share_c_sa_1).
-announcement(share_c_sa_1).
+action_type(share_c_sa_1, announcement).
 announces(share_c_sa_1, sa).
-formula(b(c,sa)).
-formula(and(b(c,sa),at_c_1)).
-executable(share_c_sa_1, and(b(c,sa),at_c_1)).
-observes(share_c_sa_1, a, at_a_1).
-observes(share_c_sa_1, b, at_b_1).
-observes(share_c_sa_1, c, at_c_1).
-observes(share_c_sa_1, d, at_d_1).
+action_pre(share_c_sa_1, and(neg(dia(c,neg(sa))),at_c_1)).
+obs_cond(share_c_sa_1, a, f_obs, at_a_1).
+obs_cond(share_c_sa_1, a, obl  , neg(at_a_1)).
+obs_cond(share_c_sa_1, b, f_obs, at_b_1).
+obs_cond(share_c_sa_1, b, obl  , neg(at_b_1)).
+obs_cond(share_c_sa_1, c, f_obs, true).
+obs_cond(share_c_sa_1, d, f_obs, at_d_1).
+obs_cond(share_c_sa_1, d, obl  , neg(at_d_1)).
 
 
 action(share_c_sa_2).
-announcement(share_c_sa_2).
+action_type(share_c_sa_2, announcement).
 announces(share_c_sa_2, sa).
-formula(and(b(c,sa),at_c_2)).
-executable(share_c_sa_2, and(b(c,sa),at_c_2)).
-observes(share_c_sa_2, a, at_a_2).
-observes(share_c_sa_2, b, at_b_2).
-observes(share_c_sa_2, c, at_c_2).
-observes(share_c_sa_2, d, at_d_2).
+action_pre(share_c_sa_2, and(neg(dia(c,neg(sa))),at_c_2)).
+obs_cond(share_c_sa_2, a, f_obs, at_a_2).
+obs_cond(share_c_sa_2, a, obl  , neg(at_a_2)).
+obs_cond(share_c_sa_2, b, f_obs, at_b_2).
+obs_cond(share_c_sa_2, b, obl  , neg(at_b_2)).
+obs_cond(share_c_sa_2, c, f_obs, true).
+obs_cond(share_c_sa_2, d, f_obs, at_d_2).
+obs_cond(share_c_sa_2, d, obl  , neg(at_d_2)).
 
 
 action(share_c_sb_1).
-announcement(share_c_sb_1).
+action_type(share_c_sb_1, announcement).
 announces(share_c_sb_1, sb).
-formula(b(c,sb)).
-formula(and(b(c,sb),at_c_1)).
-executable(share_c_sb_1, and(b(c,sb),at_c_1)).
-observes(share_c_sb_1, a, at_a_1).
-observes(share_c_sb_1, b, at_b_1).
-observes(share_c_sb_1, c, at_c_1).
-observes(share_c_sb_1, d, at_d_1).
+action_pre(share_c_sb_1, and(neg(dia(c,neg(sb))),at_c_1)).
+obs_cond(share_c_sb_1, a, f_obs, at_a_1).
+obs_cond(share_c_sb_1, a, obl  , neg(at_a_1)).
+obs_cond(share_c_sb_1, b, f_obs, at_b_1).
+obs_cond(share_c_sb_1, b, obl  , neg(at_b_1)).
+obs_cond(share_c_sb_1, c, f_obs, true).
+obs_cond(share_c_sb_1, d, f_obs, at_d_1).
+obs_cond(share_c_sb_1, d, obl  , neg(at_d_1)).
 
 
 action(share_c_sb_2).
-announcement(share_c_sb_2).
+action_type(share_c_sb_2, announcement).
 announces(share_c_sb_2, sb).
-formula(and(b(c,sb),at_c_2)).
-executable(share_c_sb_2, and(b(c,sb),at_c_2)).
-observes(share_c_sb_2, a, at_a_2).
-observes(share_c_sb_2, b, at_b_2).
-observes(share_c_sb_2, c, at_c_2).
-observes(share_c_sb_2, d, at_d_2).
+action_pre(share_c_sb_2, and(neg(dia(c,neg(sb))),at_c_2)).
+obs_cond(share_c_sb_2, a, f_obs, at_a_2).
+obs_cond(share_c_sb_2, a, obl  , neg(at_a_2)).
+obs_cond(share_c_sb_2, b, f_obs, at_b_2).
+obs_cond(share_c_sb_2, b, obl  , neg(at_b_2)).
+obs_cond(share_c_sb_2, c, f_obs, true).
+obs_cond(share_c_sb_2, d, f_obs, at_d_2).
+obs_cond(share_c_sb_2, d, obl  , neg(at_d_2)).
 
 
 action(share_c_sc_1).
-announcement(share_c_sc_1).
+action_type(share_c_sc_1, announcement).
 announces(share_c_sc_1, sc).
-formula(b(c,sc)).
-formula(and(b(c,sc),at_c_1)).
-executable(share_c_sc_1, and(b(c,sc),at_c_1)).
-observes(share_c_sc_1, a, at_a_1).
-observes(share_c_sc_1, b, at_b_1).
-observes(share_c_sc_1, c, at_c_1).
-observes(share_c_sc_1, d, at_d_1).
+action_pre(share_c_sc_1, and(neg(dia(c,neg(sc))),at_c_1)).
+obs_cond(share_c_sc_1, a, f_obs, at_a_1).
+obs_cond(share_c_sc_1, a, obl  , neg(at_a_1)).
+obs_cond(share_c_sc_1, b, f_obs, at_b_1).
+obs_cond(share_c_sc_1, b, obl  , neg(at_b_1)).
+obs_cond(share_c_sc_1, c, f_obs, true).
+obs_cond(share_c_sc_1, d, f_obs, at_d_1).
+obs_cond(share_c_sc_1, d, obl  , neg(at_d_1)).
 
 
 action(share_c_sc_2).
-announcement(share_c_sc_2).
+action_type(share_c_sc_2, announcement).
 announces(share_c_sc_2, sc).
-formula(and(b(c,sc),at_c_2)).
-executable(share_c_sc_2, and(b(c,sc),at_c_2)).
-observes(share_c_sc_2, a, at_a_2).
-observes(share_c_sc_2, b, at_b_2).
-observes(share_c_sc_2, c, at_c_2).
-observes(share_c_sc_2, d, at_d_2).
+action_pre(share_c_sc_2, and(neg(dia(c,neg(sc))),at_c_2)).
+obs_cond(share_c_sc_2, a, f_obs, at_a_2).
+obs_cond(share_c_sc_2, a, obl  , neg(at_a_2)).
+obs_cond(share_c_sc_2, b, f_obs, at_b_2).
+obs_cond(share_c_sc_2, b, obl  , neg(at_b_2)).
+obs_cond(share_c_sc_2, c, f_obs, true).
+obs_cond(share_c_sc_2, d, f_obs, at_d_2).
+obs_cond(share_c_sc_2, d, obl  , neg(at_d_2)).
 
 
 action(share_c_sd_1).
-announcement(share_c_sd_1).
+action_type(share_c_sd_1, announcement).
 announces(share_c_sd_1, sd).
-formula(b(c,sd)).
-formula(and(b(c,sd),at_c_1)).
-executable(share_c_sd_1, and(b(c,sd),at_c_1)).
-observes(share_c_sd_1, a, at_a_1).
-observes(share_c_sd_1, b, at_b_1).
-observes(share_c_sd_1, c, at_c_1).
-observes(share_c_sd_1, d, at_d_1).
+action_pre(share_c_sd_1, and(neg(dia(c,neg(sd))),at_c_1)).
+obs_cond(share_c_sd_1, a, f_obs, at_a_1).
+obs_cond(share_c_sd_1, a, obl  , neg(at_a_1)).
+obs_cond(share_c_sd_1, b, f_obs, at_b_1).
+obs_cond(share_c_sd_1, b, obl  , neg(at_b_1)).
+obs_cond(share_c_sd_1, c, f_obs, true).
+obs_cond(share_c_sd_1, d, f_obs, at_d_1).
+obs_cond(share_c_sd_1, d, obl  , neg(at_d_1)).
 
 
 action(share_c_sd_2).
-announcement(share_c_sd_2).
+action_type(share_c_sd_2, announcement).
 announces(share_c_sd_2, sd).
-formula(and(b(c,sd),at_c_2)).
-executable(share_c_sd_2, and(b(c,sd),at_c_2)).
-observes(share_c_sd_2, a, at_a_2).
-observes(share_c_sd_2, b, at_b_2).
-observes(share_c_sd_2, c, at_c_2).
-observes(share_c_sd_2, d, at_d_2).
+action_pre(share_c_sd_2, and(neg(dia(c,neg(sd))),at_c_2)).
+obs_cond(share_c_sd_2, a, f_obs, at_a_2).
+obs_cond(share_c_sd_2, a, obl  , neg(at_a_2)).
+obs_cond(share_c_sd_2, b, f_obs, at_b_2).
+obs_cond(share_c_sd_2, b, obl  , neg(at_b_2)).
+obs_cond(share_c_sd_2, c, f_obs, true).
+obs_cond(share_c_sd_2, d, f_obs, at_d_2).
+obs_cond(share_c_sd_2, d, obl  , neg(at_d_2)).
 
 
 action(share_d_sa_1).
-announcement(share_d_sa_1).
+action_type(share_d_sa_1, announcement).
 announces(share_d_sa_1, sa).
-formula(b(d,sa)).
-formula(and(b(d,sa),at_d_1)).
-executable(share_d_sa_1, and(b(d,sa),at_d_1)).
-observes(share_d_sa_1, a, at_a_1).
-observes(share_d_sa_1, b, at_b_1).
-observes(share_d_sa_1, c, at_c_1).
-observes(share_d_sa_1, d, at_d_1).
+action_pre(share_d_sa_1, and(neg(dia(d,neg(sa))),at_d_1)).
+obs_cond(share_d_sa_1, a, f_obs, at_a_1).
+obs_cond(share_d_sa_1, a, obl  , neg(at_a_1)).
+obs_cond(share_d_sa_1, b, f_obs, at_b_1).
+obs_cond(share_d_sa_1, b, obl  , neg(at_b_1)).
+obs_cond(share_d_sa_1, c, f_obs, at_c_1).
+obs_cond(share_d_sa_1, c, obl  , neg(at_c_1)).
+obs_cond(share_d_sa_1, d, f_obs, true).
 
 
 action(share_d_sa_2).
-announcement(share_d_sa_2).
+action_type(share_d_sa_2, announcement).
 announces(share_d_sa_2, sa).
-formula(and(b(d,sa),at_d_2)).
-executable(share_d_sa_2, and(b(d,sa),at_d_2)).
-observes(share_d_sa_2, a, at_a_2).
-observes(share_d_sa_2, b, at_b_2).
-observes(share_d_sa_2, c, at_c_2).
-observes(share_d_sa_2, d, at_d_2).
+action_pre(share_d_sa_2, and(neg(dia(d,neg(sa))),at_d_2)).
+obs_cond(share_d_sa_2, a, f_obs, at_a_2).
+obs_cond(share_d_sa_2, a, obl  , neg(at_a_2)).
+obs_cond(share_d_sa_2, b, f_obs, at_b_2).
+obs_cond(share_d_sa_2, b, obl  , neg(at_b_2)).
+obs_cond(share_d_sa_2, c, f_obs, at_c_2).
+obs_cond(share_d_sa_2, c, obl  , neg(at_c_2)).
+obs_cond(share_d_sa_2, d, f_obs, true).
 
 
 action(share_d_sb_1).
-announcement(share_d_sb_1).
+action_type(share_d_sb_1, announcement).
 announces(share_d_sb_1, sb).
-formula(b(d,sb)).
-formula(and(b(d,sb),at_d_1)).
-executable(share_d_sb_1, and(b(d,sb),at_d_1)).
-observes(share_d_sb_1, a, at_a_1).
-observes(share_d_sb_1, b, at_b_1).
-observes(share_d_sb_1, c, at_c_1).
-observes(share_d_sb_1, d, at_d_1).
+action_pre(share_d_sb_1, and(neg(dia(d,neg(sb))),at_d_1)).
+obs_cond(share_d_sb_1, a, f_obs, at_a_1).
+obs_cond(share_d_sb_1, a, obl  , neg(at_a_1)).
+obs_cond(share_d_sb_1, b, f_obs, at_b_1).
+obs_cond(share_d_sb_1, b, obl  , neg(at_b_1)).
+obs_cond(share_d_sb_1, c, f_obs, at_c_1).
+obs_cond(share_d_sb_1, c, obl  , neg(at_c_1)).
+obs_cond(share_d_sb_1, d, f_obs, true).
 
 
 action(share_d_sb_2).
-announcement(share_d_sb_2).
+action_type(share_d_sb_2, announcement).
 announces(share_d_sb_2, sb).
-formula(and(b(d,sb),at_d_2)).
-executable(share_d_sb_2, and(b(d,sb),at_d_2)).
-observes(share_d_sb_2, a, at_a_2).
-observes(share_d_sb_2, b, at_b_2).
-observes(share_d_sb_2, c, at_c_2).
-observes(share_d_sb_2, d, at_d_2).
+action_pre(share_d_sb_2, and(neg(dia(d,neg(sb))),at_d_2)).
+obs_cond(share_d_sb_2, a, f_obs, at_a_2).
+obs_cond(share_d_sb_2, a, obl  , neg(at_a_2)).
+obs_cond(share_d_sb_2, b, f_obs, at_b_2).
+obs_cond(share_d_sb_2, b, obl  , neg(at_b_2)).
+obs_cond(share_d_sb_2, c, f_obs, at_c_2).
+obs_cond(share_d_sb_2, c, obl  , neg(at_c_2)).
+obs_cond(share_d_sb_2, d, f_obs, true).
 
 
 action(share_d_sc_1).
-announcement(share_d_sc_1).
+action_type(share_d_sc_1, announcement).
 announces(share_d_sc_1, sc).
-formula(b(d,sc)).
-formula(and(b(d,sc),at_d_1)).
-executable(share_d_sc_1, and(b(d,sc),at_d_1)).
-observes(share_d_sc_1, a, at_a_1).
-observes(share_d_sc_1, b, at_b_1).
-observes(share_d_sc_1, c, at_c_1).
-observes(share_d_sc_1, d, at_d_1).
+action_pre(share_d_sc_1, and(neg(dia(d,neg(sc))),at_d_1)).
+obs_cond(share_d_sc_1, a, f_obs, at_a_1).
+obs_cond(share_d_sc_1, a, obl  , neg(at_a_1)).
+obs_cond(share_d_sc_1, b, f_obs, at_b_1).
+obs_cond(share_d_sc_1, b, obl  , neg(at_b_1)).
+obs_cond(share_d_sc_1, c, f_obs, at_c_1).
+obs_cond(share_d_sc_1, c, obl  , neg(at_c_1)).
+obs_cond(share_d_sc_1, d, f_obs, true).
 
 
 action(share_d_sc_2).
-announcement(share_d_sc_2).
+action_type(share_d_sc_2, announcement).
 announces(share_d_sc_2, sc).
-formula(and(b(d,sc),at_d_2)).
-executable(share_d_sc_2, and(b(d,sc),at_d_2)).
-observes(share_d_sc_2, a, at_a_2).
-observes(share_d_sc_2, b, at_b_2).
-observes(share_d_sc_2, c, at_c_2).
-observes(share_d_sc_2, d, at_d_2).
+action_pre(share_d_sc_2, and(neg(dia(d,neg(sc))),at_d_2)).
+obs_cond(share_d_sc_2, a, f_obs, at_a_2).
+obs_cond(share_d_sc_2, a, obl  , neg(at_a_2)).
+obs_cond(share_d_sc_2, b, f_obs, at_b_2).
+obs_cond(share_d_sc_2, b, obl  , neg(at_b_2)).
+obs_cond(share_d_sc_2, c, f_obs, at_c_2).
+obs_cond(share_d_sc_2, c, obl  , neg(at_c_2)).
+obs_cond(share_d_sc_2, d, f_obs, true).
 
 
 action(share_d_sd_1).
-announcement(share_d_sd_1).
+action_type(share_d_sd_1, announcement).
 announces(share_d_sd_1, sd).
-formula(b(d,sd)).
-formula(and(b(d,sd),at_d_1)).
-executable(share_d_sd_1, and(b(d,sd),at_d_1)).
-observes(share_d_sd_1, a, at_a_1).
-observes(share_d_sd_1, b, at_b_1).
-observes(share_d_sd_1, c, at_c_1).
-observes(share_d_sd_1, d, at_d_1).
+action_pre(share_d_sd_1, and(neg(dia(d,neg(sd))),at_d_1)).
+obs_cond(share_d_sd_1, a, f_obs, at_a_1).
+obs_cond(share_d_sd_1, a, obl  , neg(at_a_1)).
+obs_cond(share_d_sd_1, b, f_obs, at_b_1).
+obs_cond(share_d_sd_1, b, obl  , neg(at_b_1)).
+obs_cond(share_d_sd_1, c, f_obs, at_c_1).
+obs_cond(share_d_sd_1, c, obl  , neg(at_c_1)).
+obs_cond(share_d_sd_1, d, f_obs, true).
 
 
 action(share_d_sd_2).
-announcement(share_d_sd_2).
+action_type(share_d_sd_2, announcement).
 announces(share_d_sd_2, sd).
-formula(and(b(d,sd),at_d_2)).
-executable(share_d_sd_2, and(b(d,sd),at_d_2)).
-observes(share_d_sd_2, a, at_a_2).
-observes(share_d_sd_2, b, at_b_2).
-observes(share_d_sd_2, c, at_c_2).
-observes(share_d_sd_2, d, at_d_2).
+action_pre(share_d_sd_2, and(neg(dia(d,neg(sd))),at_d_2)).
+obs_cond(share_d_sd_2, a, f_obs, at_a_2).
+obs_cond(share_d_sd_2, a, obl  , neg(at_a_2)).
+obs_cond(share_d_sd_2, b, f_obs, at_b_2).
+obs_cond(share_d_sd_2, b, obl  , neg(at_b_2)).
+obs_cond(share_d_sd_2, c, f_obs, at_c_2).
+obs_cond(share_d_sd_2, c, obl  , neg(at_c_2)).
+obs_cond(share_d_sd_2, d, f_obs, true).
 
 
 
 
-% *** INITIALLY ***
+% *** INITIAL STATE ***
+w_init(w0). w_init(w1). w_init(w2). w_init(w3).
+w_init(w4). w_init(w5). w_init(w6). w_init(w7).
+w_init(w8). w_init(w9). w_init(w10). w_init(w11).
+w_init(w12). w_init(w13). w_init(w14). w_init(w15).
 
-% ** initial pointed **
-initially(at_a_1).
-initially(-at_a_2).
-initially(at_b_1).
-initially(-at_b_2).
-initially(at_c_1).
-initially(-at_c_2).
-initially(at_d_1).
-initially(-at_d_2).
-initially(sa).
-initially(sb).
-initially(sc).
-initially(sd).
+r_init(W, W, AG) :- w_init(W), agent(AG).
 
-% ** initial beliefs **
-agent_set(all_agents).
-contains_ag(all_agents,a).
-contains_ag(all_agents,b).
-contains_ag(all_agents,c).
-contains_ag(all_agents,d).
-formula(c(all_agents,at_a_1)).
-initially(c(all_agents,at_a_1)).
-formula(c(all_agents,at_b_1)).
-initially(c(all_agents,at_b_1)).
-formula(c(all_agents,at_c_1)).
-initially(c(all_agents,at_c_1)).
-formula(c(all_agents,at_d_1)).
-initially(c(all_agents,at_d_1)).
-formula(c(all_agents,-at_a_2)).
-initially(c(all_agents,-at_a_2)).
-formula(c(all_agents,-at_b_2)).
-initially(c(all_agents,-at_b_2)).
-formula(c(all_agents,-at_c_2)).
-initially(c(all_agents,-at_c_2)).
-formula(c(all_agents,-at_d_2)).
-initially(c(all_agents,-at_d_2)).
-formula(neg(sa)).
-formula(b(a,neg(sa))).
-formula(or(b(a,sa),b(a,neg(sa)))).
-formula(c(all_agents,or(b(a,sa),b(a,neg(sa))))).
-initially(c(all_agents,or(b(a,sa),b(a,neg(sa))))).
-formula(neg(sb)).
-formula(b(b,neg(sb))).
-formula(or(b(b,sb),b(b,neg(sb)))).
-formula(c(all_agents,or(b(b,sb),b(b,neg(sb))))).
-initially(c(all_agents,or(b(b,sb),b(b,neg(sb))))).
-formula(neg(sc)).
-formula(b(c,neg(sc))).
-formula(or(b(c,sc),b(c,neg(sc)))).
-formula(c(all_agents,or(b(c,sc),b(c,neg(sc))))).
-initially(c(all_agents,or(b(c,sc),b(c,neg(sc))))).
-formula(neg(sd)).
-formula(b(d,neg(sd))).
-formula(or(b(d,sd),b(d,neg(sd)))).
-formula(c(all_agents,or(b(d,sd),b(d,neg(sd))))).
-initially(c(all_agents,or(b(d,sd),b(d,neg(sd))))).
+r_init(W1, W2, a) :- w_init(W1), w_init(W2), W1 != W2,     v_init(W1, sa),     v_init(W2, sa).
+r_init(W1, W2, a) :- w_init(W1), w_init(W2), W1 != W2, not v_init(W1, sa), not v_init(W2, sa).
 
+r_init(W1, W2, b) :- w_init(W1), w_init(W2), W1 != W2,     v_init(W1, sb),     v_init(W2, sb).
+r_init(W1, W2, b) :- w_init(W1), w_init(W2), W1 != W2, not v_init(W1, sb), not v_init(W2, sb).
 
+r_init(W1, W2, c) :- w_init(W1), w_init(W2), W1 != W2,     v_init(W1, sc),     v_init(W2, sc).
+r_init(W1, W2, c) :- w_init(W1), w_init(W2), W1 != W2, not v_init(W1, sc), not v_init(W2, sc).
 
-% ** commonly known fluent formulae **
-init_sf(at_a_1).
-init_sf(at_b_1).
-init_sf(at_c_1).
-init_sf(at_d_1).
-init_sf(-at_a_2).
-init_sf(-at_b_2).
-init_sf(-at_c_2).
-init_sf(-at_d_2).
+r_init(W1, W2, d) :- w_init(W1), w_init(W2), W1 != W2,     v_init(W1, sd),     v_init(W2, sd).
+r_init(W1, W2, d) :- w_init(W1), w_init(W2), W1 != W2, not v_init(W1, sd), not v_init(W2, sd).
 
-init_sf(sa).
-init_sf(sb).
-init_sf(sc).
-init_sf(sd).
+v_init(W, at_a_1) :- w_init(W).
+v_init(W, at_b_1) :- w_init(W).
+v_init(W, at_c_1) :- w_init(W).
+v_init(W, at_d_1) :- w_init(W).
+
+v_init(w0, sa).
+v_init(w0, sb).
+v_init(w0, sc).
+v_init(w0, sd).
+
+v_init(w1, sa).
+v_init(w1, sb).
+v_init(w1, sc).
+
+v_init(w2, sa).
+v_init(w2, sb).
+v_init(w2, sd).
+
+v_init(w3, sa).
+v_init(w3, sc).
+v_init(w3, sd).
+
+v_init(w4, sb).
+v_init(w4, sc).
+v_init(w4, sd).
+
+v_init(w5, sa).
+v_init(w5, sb).
+
+v_init(w6, sa).
+v_init(w6, sc).
+
+v_init(w7, sa).
+v_init(w7, sd).
+
+v_init(w8, sb).
+v_init(w8, sc).
+
+v_init(w9, sb).
+v_init(w9, sd).
+
+v_init(w10, sc).
+v_init(w10, sd).
+
+v_init(w11, sa).
+
+v_init(w12, sb).
+
+v_init(w13, sc).
+
+v_init(w14, sd).
+
+dw_init(w0).

@@ -1,3 +1,3 @@
 % *** GOALS ***
-goal(b(a,sb)).
-goal(b(b,sc)).
+goal(neg(dia(a,neg(sb)))).
+goal(neg(dia(b,neg(sc)))).
