@@ -1,6 +1,8 @@
+#program base.
 % *** GOALS ***
-goal(box(b,at_box1_room1)).
-goal(box(b,at_box2_room3)).
-goal(c(all_agents,at_box2_room3)).
-goal(box(a,at_a_room2)).
-goal(box(b,at_a_room2)).
+goal(neg(dia(b,neg(at_box1_room1)))).
+goal(neg(dia(a,neg(at_box3_room3)))).
+goal(at_a_room3).
+
+goal(neg(dia(AG, neg(at_box2_room3)))) :- agent(AG).
+goal(neg(dia(AG1, dia(AG2,neg(at_box2_room3)) ))) :- agent(AG1), agent(AG2), AG1 != AG2.
