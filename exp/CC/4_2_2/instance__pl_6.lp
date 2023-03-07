@@ -1,7 +1,7 @@
 #program base.
 % *** GOALS ***
 goal(neg(dia(b,neg(at_box1_room1)))).
-goal(neg(dia(a,neg(at_box3_room3)))).
+goal(neg(dia(a,neg(at_box3_room3)))).   %%% <- WRONG!!!!!
 goal(at_a_room3).
 
 goal(neg(dia(AG, neg(at_box2_room3)))) :- agent(AG).
