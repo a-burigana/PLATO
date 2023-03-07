@@ -1,6 +1,6 @@
 % *** GOALS ***
-goal(box(b,at_b1_1)).
-goal(box(b,at_b2_3)).
-goal(c(all_agents,at_b2_3)).
-goal(box(a,at_a_2)).
-goal(box(b,at_a_2)).
+goal(box(b,at_box1_room1)).
+goal(box(b,at_box2_room3)).
+goal(c(all_agents,at_box2_room3)).
+goal(box(a,at_a_room2)).
+goal(box(b,at_a_room2)).

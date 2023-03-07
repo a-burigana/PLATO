@@ -1,2 +1,2 @@
 % *** GOALS ***
-goal(c(all_agents,at_b1_1)).
+goal(c(all_agents,at_box1_room1)).

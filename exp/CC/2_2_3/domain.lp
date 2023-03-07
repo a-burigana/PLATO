@@ -1,14 +1,14 @@
 % *** ATOMS ***
-atom(at_a_1).
-atom(at_a_2).
-atom(at_a_3).
-atom(at_b1_1).
-atom(at_b1_3).
-atom(at_b2_1).
-atom(at_b2_3).
-atom(at_b_1).
-atom(at_b_2).
-atom(at_b_3).
+atom(at_a_room1).
+atom(at_a_room2).
+atom(at_a_room3).
+atom(at_box1_room1).
+atom(at_box1_room3).
+atom(at_box2_room1).
+atom(at_box2_room3).
+atom(at_b_room1).
+atom(at_b_room2).
+atom(at_b_room3).
 
 
 % *** AGENTS ***
@@ -19,8 +19,8 @@ agent(b).
 % *** ACTIONS ***
 action(a_check_b1_1).
 action_type(a_check_b1_1, sensing).
-determines(a_check_b1_1, at_b1_1).
-action_pre(a_check_b1_1, neg(dia(a,neg(at_a_1)))).
+determines(a_check_b1_1, at_box1_room1).
+action_pre(a_check_b1_1, at_a_room1).
 
 obs_cond(a_check_b1_1, a, f_obs, true).
 obs_cond(a_check_b1_1, b, obl  , true).
@@ -28,8 +28,8 @@ obs_cond(a_check_b1_1, b, obl  , true).
 
 action(a_check_b1_3).
 action_type(a_check_b1_3, sensing).
-determines(a_check_b1_3, at_b1_3).
-action_pre(a_check_b1_3, neg(dia(a,neg(at_a_3)))).
+determines(a_check_b1_3, at_box1_room3).
+action_pre(a_check_b1_3, at_a_room3).
 
 obs_cond(a_check_b1_3, a, f_obs, true).
 obs_cond(a_check_b1_3, b, obl  , true).
@@ -37,8 +37,8 @@ obs_cond(a_check_b1_3, b, obl  , true).
 
 action(a_check_b2_1).
 action_type(a_check_b2_1, sensing).
-determines(a_check_b2_1, at_b2_1).
-action_pre(a_check_b2_1, neg(dia(a,neg(at_a_1)))).
+determines(a_check_b2_1, at_box2_room1).
+action_pre(a_check_b2_1, at_a_room1).
 
 obs_cond(a_check_b2_1, a, f_obs, true).
 obs_cond(a_check_b2_1, b, obl  , true).
@@ -46,8 +46,8 @@ obs_cond(a_check_b2_1, b, obl  , true).
 
 action(a_check_b2_3).
 action_type(a_check_b2_3, sensing).
-determines(a_check_b2_3, at_b2_3).
-action_pre(a_check_b2_3, neg(dia(a,neg(at_a_3)))).
+determines(a_check_b2_3, at_box2_room3).
+action_pre(a_check_b2_3, at_a_room3).
 
 obs_cond(a_check_b2_3, a, f_obs, true).
 obs_cond(a_check_b2_3, b, obl  , true).
@@ -55,8 +55,8 @@ obs_cond(a_check_b2_3, b, obl  , true).
 
 action(b_check_b1_1).
 action_type(b_check_b1_1, sensing).
-determines(b_check_b1_1, at_b1_1).
-action_pre(b_check_b1_1, neg(dia(b,neg(at_b_1)))).
+determines(b_check_b1_1, at_box1_room1).
+action_pre(b_check_b1_1, at_b_room1).
 
 obs_cond(b_check_b1_1, b, f_obs, true).
 obs_cond(b_check_b1_1, a, obl  , true).
@@ -64,8 +64,8 @@ obs_cond(b_check_b1_1, a, obl  , true).
 
 action(b_check_b1_3).
 action_type(b_check_b1_3, sensing).
-determines(b_check_b1_3, at_b1_3).
-action_pre(b_check_b1_3, neg(dia(b,neg(at_b_3)))).
+determines(b_check_b1_3, at_box1_room3).
+action_pre(b_check_b1_3, at_b_room3).
 
 obs_cond(a_check_b1_3, a, f_obs, true).
 obs_cond(a_check_b1_3, b, obl  , true).
@@ -76,8 +76,8 @@ obs_cond(b_check_b1_3, a, obl  , true).
 
 action(b_check_b2_1).
 action_type(b_check_b2_1, sensing).
-determines(b_check_b2_1, at_b2_1).
-action_pre(b_check_b2_1, neg(dia(b,neg(at_b_1)))).
+determines(b_check_b2_1, at_box2_room1).
+action_pre(b_check_b2_1, at_b_room1).
 
 obs_cond(a_check_b1_3, a, f_obs, true).
 obs_cond(a_check_b1_3, b, obl  , true).
@@ -88,8 +88,8 @@ obs_cond(b_check_b2_1, a, obl  , true).
 
 action(b_check_b2_3).
 action_type(b_check_b2_3, sensing).
-determines(b_check_b2_3, at_b2_3).
-action_pre(b_check_b2_3, neg(dia(b,neg(at_b_3)))).
+determines(b_check_b2_3, at_box2_room3).
+action_pre(b_check_b2_3, at_b_room3).
 
 obs_cond(a_check_b1_3, a, f_obs, true).
 obs_cond(a_check_b1_3, b, obl  , true).
@@ -100,137 +100,153 @@ obs_cond(b_check_b2_3, a, obl  , true).
 
 action(left_a).
 action_type(left_a, ontic).
-ce_causes(left_a, at_a_1, at_a_2).
-ce_causes(left_a, at_a_2, at_a_3).
-causes(left_a, neg(at_a_2), at_a_2).
-causes(left_a, neg(at_a_3), at_a_3).
-action_pre(left_a, neg(at_a_1)).
+causes(left_a, at_a_room1, at_a_room2).
+causes(left_a, at_a_room2, at_a_room3).
+causes(left_a, at_a_room3, false).
+action_pre(left_a, neg(at_a_room1)).
 obs_cond(left_a, a, f_obs, true).
 obs_cond(left_a, b, f_obs, true).
 
 
 action(left_b).
 action_type(left_b, ontic).
-ce_causes(left_b, at_b_1, at_b_2).
-ce_causes(left_b, at_b_2, at_b_3).
-causes(left_b, neg(at_b_2), at_b_2).
-causes(left_b, neg(at_b_3), at_b_3).
-action_pre(left_b, neg(at_b_1)).
+causes(left_b, at_b_room1, at_b_room2).
+causes(left_b, at_b_room2, at_b_room3).
+causes(left_b, at_b_room3, false).
+action_pre(left_b, neg(at_b_room1)).
 obs_cond(left_b, a, f_obs, true).
 obs_cond(left_b, b, f_obs, true).
 
 
 action(right_a).
 action_type(right_a, ontic).
-ce_causes(right_a, neg(at_a_1), at_a_1).
-causes(right_a, at_a_2, at_a_1).
-causes(right_a, neg(at_a_2), at_a_2).
-causes(right_a, at_a_3, at_a_2).
-action_pre(right_a, neg(at_a_3)).
+causes(right_a, at_a_room1, false).
+causes(right_a, at_a_room2, at_a_room1).
+causes(right_a, at_a_room3, at_a_room2).
+action_pre(right_a, neg(at_a_room3)).
 obs_cond(right_a, a, f_obs, true).
 obs_cond(right_a, b, f_obs, true).
 
 
 action(right_b).
 action_type(right_b, ontic).
-ce_causes(right_b, neg(at_b_1), at_b_1).
-causes(right_b, at_b_2, at_b_1).
-causes(right_b, neg(at_b_2), at_b_2).
-causes(right_b, at_b_3, at_b_2).
-action_pre(right_b, neg(at_b_3)).
+causes(right_b, at_b_room1, false).
+causes(right_b, at_b_room2, at_b_room1).
+causes(right_b, at_b_room3, at_b_room2).
+action_pre(right_b, neg(at_b_room3)).
 obs_cond(right_b, a, f_obs, true).
 obs_cond(right_b, b, f_obs, true).
 
 
 action(tell_a_b1_1).
 action_type(tell_a_b1_1, announcement).
-announces(tell_a_b1_1, at_b1_1, true).
-action_pre(tell_a_b1_1, neg(dia(a,neg(at_b1_1)))).
+announces(tell_a_b1_1, at_box1_room1).
+action_pre(tell_a_b1_1, neg(dia(a,neg(at_box1_room1)))).
 obs_cond(tell_a_b1_1, b, f_obs, true).
 obs_cond(tell_a_b1_1, a, f_obs, true).
 
 
 action(tell_a_b1_3).
 action_type(tell_a_b1_3, announcement).
-announces(tell_a_b1_3, at_b1_3, true).
-action_pre(tell_a_b1_3, neg(dia(a,neg(at_b1_3)))).
+announces(tell_a_b1_3, at_box1_room3).
+action_pre(tell_a_b1_3, neg(dia(a,neg(at_box1_room3)))).
 obs_cond(tell_a_b1_3, a, f_obs, true).
 obs_cond(tell_a_b1_3, b, f_obs, true).
 
 
 action(tell_a_b2_1).
 action_type(tell_a_b2_1, announcement).
-announces(tell_a_b2_1, at_b2_1, true).
-action_pre(tell_a_b2_1, neg(dia(a,neg(at_b2_1)))).
+announces(tell_a_b2_1, at_box2_room1).
+action_pre(tell_a_b2_1, neg(dia(a,neg(at_box2_room1)))).
 obs_cond(tell_a_b2_1, a, f_obs, true).
 obs_cond(tell_a_b2_1, b, f_obs, true).
 
 
 action(tell_a_b2_3).
 action_type(tell_a_b2_3, announcement).
-announces(tell_a_b2_3, at_b2_3, true).
-action_pre(tell_a_b2_3, neg(dia(a,neg(at_b2_3)))).
+announces(tell_a_b2_3, at_box2_room3).
+action_pre(tell_a_b2_3, neg(dia(a,neg(at_box2_room3)))).
 obs_cond(tell_a_b2_3, a, f_obs, true).
 obs_cond(tell_a_b2_3, b, f_obs, true).
 
 
 action(tell_b_b1_1).
 action_type(tell_b_b1_1, announcement).
-announces(tell_b_b1_1, at_b1_1, true).
-action_pre(tell_b_b1_1, neg(dia(b,neg(at_b1_1)))).
+announces(tell_b_b1_1, at_box1_room1).
+action_pre(tell_b_b1_1, neg(dia(b,neg(at_box1_room1)))).
 obs_cond(tell_b_b1_1, a, f_obs, true).
 obs_cond(tell_b_b1_1, b, f_obs, true).
 
 
 action(tell_b_b1_3).
 action_type(tell_b_b1_3, announcement).
-announces(tell_b_b1_3, at_b1_3, true).
-action_pre(tell_b_b1_3, neg(dia(b,neg(at_b1_3)))).
+announces(tell_b_b1_3, at_box1_room3).
+action_pre(tell_b_b1_3, neg(dia(b,neg(at_box1_room3)))).
 obs_cond(tell_b_b1_3, a, f_obs, true).
 obs_cond(tell_b_b1_3, b, f_obs, true).
 
 
 action(tell_b_b2_1).
 action_type(tell_b_b2_1, announcement).
-announces(tell_b_b2_1, at_b2_1, true).
-action_pre(tell_b_b2_1, neg(dia(b,neg(at_b2_1)))).
+announces(tell_b_b2_1, at_box2_room1).
+action_pre(tell_b_b2_1, neg(dia(b,neg(at_box2_room1)))).
 obs_cond(tell_b_b2_1, a, f_obs, true).
 obs_cond(tell_b_b2_1, b, f_obs, true).
 
 
 action(tell_b_b2_3).
 action_type(tell_b_b2_3, announcement).
-announces(tell_b_b2_3, at_b2_3, true).
-action_pre(tell_b_b2_3, neg(dia(b,neg(at_b2_3)))).
+announces(tell_b_b2_3, at_box2_room3).
+action_pre(tell_b_b2_3, neg(dia(b,neg(at_box2_room3)))).
 obs_cond(tell_b_b2_3, a, f_obs, true).
 obs_cond(tell_b_b2_3, b, f_obs, true).
 
 
 
 
-% *** INITIALLY ***
+% *** INITIAL STATE ***
 
-% ** initial pointed **
-initially(neg(at_a_1)).
-initially(at_a_2).
-initially(neg(at_a_3)).
-initially(at_b1_1).
-initially(neg(at_b1_3)).
-initially(neg(at_b2_1)).
-initially(at_b2_3).
-initially(neg(at_b_1)).
-initially(at_b_2).
-initially(neg(at_b_3)).
+w_init(w0). w_init(w1). w_init(w2). w_init(w3).
 
-% ** initial beliefs **
-agent_set(all_agents).
-contains_ag(all_agents,a).
-contains_ag(all_agents,b).
-initially(c(all_agents,at_a_2)).
-initially(c(all_agents,at_b_2)).
-initially(c(all_agents,neg(at_a_1))).
-initially(c(all_agents,neg(at_b_1))).
-initially(c(all_agents,neg(at_a_3))).
-initially(c(all_agents,neg(at_b_3))).
-initially(c(all_agents,or(and(at_b1_1,neg(at_b1_3)),and(neg(at_b1_1),at_b1_3)))).
-initially(c(all_agents,or(and(at_b2_1,neg(at_b2_3)),and(neg(at_b2_1),at_b2_3)))).
+r_init(W1, W2, AG) :- w_init(W1), w_init(W2), agent(AG).
+
+v_init(W, at_a_room2) :- w_init(W).
+v_init(W, at_b_room2) :- w_init(W).
+
+v_init(w0, at_box1_room1).
+v_init(w0, at_box2_room3).
+
+v_init(w1, at_box1_room1).
+v_init(w1, at_box2_room1).
+
+v_init(w2, at_box1_room3).
+v_init(w2, at_box2_room1).
+
+v_init(w3, at_box1_room3).
+v_init(w3, at_box2_room3).
+
+dw_init(w0).
+
+% initially(neg(at_a_room1)).
+% initially(at_a_room2).
+% initially(neg(at_a_room3)).
+% initially(at_box1_room1).
+% initially(neg(at_box1_room3)).
+% initially(neg(at_box2_room1)).
+% initially(at_box2_room3).
+% initially(neg(at_b_room1)).
+% initially(at_b_room2).
+% initially(neg(at_b_room3)).
+
+% % ** initial beliefs **
+% agent_set(all_agents).
+% contains_ag(all_agents,a).
+% contains_ag(all_agents,b).
+% initially(c(all_agents,at_a_room2)).
+% initially(c(all_agents,at_b_room2)).
+% initially(c(all_agents,neg(at_a_room1))).
+% initially(c(all_agents,neg(at_b_room1))).
+% initially(c(all_agents,neg(at_a_room3))).
+% initially(c(all_agents,neg(at_b_room3))).
+% initially(c(all_agents,or(and(at_box1_room1,neg(at_box1_room3)),and(neg(at_box1_room1),at_box1_room3)))).
+% initially(c(all_agents,or(and(at_box2_room1,neg(at_box2_room3)),and(neg(at_box2_room1),at_box2_room3)))).
