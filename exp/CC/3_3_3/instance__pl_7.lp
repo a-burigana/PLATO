@@ -1,11 +1,12 @@
+#program base.
 % *** GOALS ***
-goal(box(b,at_box1_room1)).
-goal(box(b,at_box2_room3)).
-agent_set(ab).
-contains_ag(ab,a).
-contains_ag(ab,b).
-goal(c(ab,at_box2_room3)).
-goal(box(a,at_box1_room1)).
-goal(box(a,neg(and(box(b,at_box1_room1),neg(box(b,neg(at_box1_room1))))))).
-goal(box(a,at_a_room2)).
-goal(box(b,at_a_room2)).
+goal(neg(dia(a,neg(at_box1_room1)))).
+goal(neg(dia(b,neg(at_box1_room1)))).
+goal(neg(dia(a,neg(at_box2_room3)))).
+goal(neg(dia(b,neg(at_box2_room3)))).
+
+goal(neg(dia(a,neg(dia(b,neg(at_box2_room3)))))).
+
+goal(at_a_room2).
+
+% Solution: plan(1,left_a). plan(2,a_check_b2_1). plan(3,a_check_b1_1). plan(4,left_b). plan(5,b_check_b2_1). plan(6,right_a). plan(7,b_check_b1_1).
