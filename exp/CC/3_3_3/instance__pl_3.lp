@@ -1,5 +1,4 @@
+#program base.
 % *** GOALS ***
-agent_set(ab).
-contains_ag(ab,a).
-contains_ag(ab,b).
-goal(c(ab,at_box1_room1)).
+goal(neg(dia(AG, neg(at_box1_room1)))) :- agent(AG).
+goal(neg(dia(AG1, dia(AG2,neg(at_box1_room1)) ))) :- agent(AG1), agent(AG2), AG1 != AG2.
