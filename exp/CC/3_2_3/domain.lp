@@ -21,58 +21,124 @@ agent(c).
 
 
 % *** ACTIONS ***
-action(a_check_1).
-action_type(a_check_1, sensing).
-determines(a_check_1, at_box1_room1).
-action_pre(a_check_1, at_a_room1).
-obs_cond(a_check_1, a, f_obs, true).
-obs_cond(a_check_1, b, obl  , true).
-obs_cond(a_check_1, c, obl  , true).
+action(a_check_b1_1).
+action_type(a_check_b1_1, sensing).
+determines(a_check_b1_1, at_box1_room1).
+action_pre(a_check_b1_1, at_a_room1).
+
+obs_cond(a_check_b1_1, a, f_obs, true).
+obs_cond(a_check_b1_1, b, obl  , true).
+obs_cond(a_check_b1_1, c, obl  , true).
 
 
-action(a_check_3).
-action_type(a_check_3, sensing).
-determines(a_check_3, at_box2_room3).
-action_pre(a_check_3, at_a_room3).
-obs_cond(a_check_3, a, f_obs, true).
-obs_cond(a_check_3, b, obl  , true).
-obs_cond(a_check_3, c, obl  , true).
+action(a_check_b1_3).
+action_type(a_check_b1_3, sensing).
+determines(a_check_b1_3, at_box1_room3).
+action_pre(a_check_b1_3, at_a_room3).
+
+obs_cond(a_check_b1_3, a, f_obs, true).
+obs_cond(a_check_b1_3, b, obl  , true).
+obs_cond(a_check_b1_3, c, obl  , true).
 
 
-action(b_check_1).
-action_type(b_check_1, sensing).
-determines(b_check_1, at_box1_room1).
-action_pre(b_check_1, at_b_room1).
-obs_cond(b_check_1, b, f_obs, true).
-obs_cond(b_check_1, a, obl  , true).
-obs_cond(b_check_1, c, obl  , true).
+action(a_check_b2_1).
+action_type(a_check_b2_1, sensing).
+determines(a_check_b2_1, at_box2_room1).
+action_pre(a_check_b2_1, at_a_room1).
+
+obs_cond(a_check_b2_1, a, f_obs, true).
+obs_cond(a_check_b2_1, b, obl  , true).
+obs_cond(a_check_b2_1, c, obl  , true).
 
 
-action(b_check_3).
-action_type(b_check_3, sensing).
-determines(b_check_3, at_box2_room3).
-action_pre(b_check_3, at_b_room3).
-obs_cond(b_check_3, b, f_obs, true).
-obs_cond(b_check_3, a, obl  , true).
-obs_cond(b_check_3, c, obl  , true).
+action(a_check_b2_3).
+action_type(a_check_b2_3, sensing).
+determines(a_check_b2_3, at_box2_room3).
+action_pre(a_check_b2_3, at_a_room3).
+
+obs_cond(a_check_b2_3, a, f_obs, true).
+obs_cond(a_check_b2_3, b, obl  , true).
+obs_cond(a_check_b2_3, c, obl  , true).
 
 
-action(c_check_1).
-action_type(c_check_1, sensing).
-determines(c_check_1, at_box1_room1).
-action_pre(c_check_1, at_c_room1).
-obs_cond(c_check_1, c, f_obs, true).
-obs_cond(c_check_1, a, obl  , true).
-obs_cond(c_check_1, b, obl  , true).
+action(b_check_b1_1).
+action_type(b_check_b1_1, sensing).
+determines(b_check_b1_1, at_box1_room1).
+action_pre(b_check_b1_1, at_b_room1).
+
+obs_cond(b_check_b1_1, b, f_obs, true).
+obs_cond(b_check_b1_1, a, obl  , true).
+obs_cond(b_check_b1_1, c, obl  , true).
 
 
-action(c_check_3).
-action_type(c_check_3, sensing).
-determines(c_check_3, at_box2_room3).
-action_pre(c_check_3, at_c_room3).
-obs_cond(c_check_3, c, f_obs, true).
-obs_cond(c_check_3, a, obl  , true).
-obs_cond(c_check_3, b, obl  , true).
+action(b_check_b1_3).
+action_type(b_check_b1_3, sensing).
+determines(b_check_b1_3, at_box1_room3).
+action_pre(b_check_b1_3, at_b_room3).
+
+obs_cond(b_check_b1_3, b, f_obs, true).
+obs_cond(b_check_b1_3, a, obl  , true).
+obs_cond(b_check_b1_3, c, obl  , true).
+
+
+action(b_check_b2_1).
+action_type(b_check_b2_1, sensing).
+determines(b_check_b2_1, at_box2_room1).
+action_pre(b_check_b2_1, at_b_room1).
+
+obs_cond(b_check_b2_1, b, f_obs, true).
+obs_cond(b_check_b2_1, a, obl  , true).
+obs_cond(b_check_b2_1, c, obl  , true).
+
+
+action(b_check_b2_3).
+action_type(b_check_b2_3, sensing).
+determines(b_check_b2_3, at_box2_room3).
+action_pre(b_check_b2_3, at_b_room3).
+
+obs_cond(b_check_b2_3, b, f_obs, true).
+obs_cond(b_check_b2_3, a, obl  , true).
+obs_cond(b_check_b2_3, c, obl  , true).
+
+
+action(c_check_b1_1).
+action_type(c_check_b1_1, sensing).
+determines(c_check_b1_1, at_box1_room1).
+action_pre(c_check_b1_1, at_c_room1).
+
+obs_cond(c_check_b1_1, c, f_obs, true).
+obs_cond(c_check_b1_1, a, obl  , true).
+obs_cond(c_check_b1_1, b, obl  , true).
+
+
+action(c_check_b1_3).
+action_type(c_check_b1_3, sensing).
+determines(c_check_b1_3, at_box1_room3).
+action_pre(c_check_b1_3, at_c_room3).
+
+obs_cond(c_check_b1_3, c, f_obs, true).
+obs_cond(c_check_b1_3, a, obl  , true).
+obs_cond(c_check_b1_3, b, obl  , true).
+
+
+action(c_check_b2_1).
+action_type(c_check_b2_1, sensing).
+determines(c_check_b2_1, at_box2_room1).
+action_pre(c_check_b2_1, at_c_room1).
+
+obs_cond(c_check_b2_1, c, f_obs, true).
+obs_cond(c_check_b2_1, a, obl  , true).
+obs_cond(c_check_b2_1, b, obl  , true).
+
+
+action(c_check_b2_3).
+action_type(c_check_b2_3, sensing).
+determines(c_check_b2_3, at_box2_room3).
+action_pre(c_check_b2_3, at_c_room3).
+
+obs_cond(c_check_b2_3, c, f_obs, true).
+obs_cond(c_check_b2_3, a, obl  , true).
+obs_cond(c_check_b2_3, b, obl  , true).
 
 
 action(left_a).
