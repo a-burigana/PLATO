@@ -1,11 +1,11 @@
+#program base.
 % *** GOALS ***
-goal(box(a,at_box1_room1)).
-goal(box(b,at_box1_room1)).
-goal(box(a,at_box2_room3)).
-goal(box(b,at_box2_room3)).
-goal(box(a,neg(box(b,at_box2_room3)))).
-goal(box(b,neg(box(a,at_box2_room3)))).
-goal(box(a,neg(box(b,at_box1_room1)))).
-goal(box(b,neg(box(a,at_box1_room1)))).
-goal(box(a,at_a_room3)).
-goal(box(b,at_a_room3)).
+goal(neg(dia(a,neg(at_box1_room1)))).
+goal(neg(dia(b,neg(at_box1_room1)))).
+goal(neg(dia(a,neg(at_box2_room3)))).
+goal(neg(dia(b,neg(at_box2_room3)))).
+
+goal(neg(dia(a,neg(dia(b,neg(at_box2_room3)))))).
+
+goal(at_a_room2).
+goal(at_b_room2).
