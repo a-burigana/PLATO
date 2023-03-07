@@ -71,8 +71,8 @@ action_type(a_check_b2_4, sensing).
 determines(a_check_b2_4, at_box2_room4).
 action_pre(a_check_b2_4, at_a_room4).
 
-obs_cond(a_check_b1_3, a, f_obs, true).
-obs_cond(a_check_b1_3, b, obl  , true).
+obs_cond(a_check_b2_4, a, f_obs, true).
+obs_cond(a_check_b2_4, b, obl  , true).
 
 
 action(b_check_b1_1).
@@ -271,38 +271,78 @@ obs_cond(tell_b_b2_4, b, f_obs, true).
 
 
 
-% *** INITIALLY ***
+% *** INITIAL STATE ***
 
-% ** initial pointed **
-initially(neg(at_a_room1)).
-initially(at_a_room2).
-initially(neg(at_a_room3)).
-initially(neg(at_a_room4)).
-initially(at_box1_room1).
-initially(neg(at_box1_room3)).
-initially(neg(at_box1_room4)).
-initially(neg(at_box2_room1)).
-initially(at_box2_room3).
-initially(neg(at_box2_room4)).
-initially(neg(at_b_room1)).
-initially(at_b_room2).
-initially(neg(at_b_room3)).
-initially(neg(at_b_room4)).
+w_init(w0). w_init(w1). w_init(w2). w_init(w3). w_init(w4).
+w_init(w5). w_init(w6). w_init(w7). w_init(w8).
 
-% ** initial beliefs **
-agent_set(all_agents).
-contains_ag(all_agents,a).
-contains_ag(all_agents,b).
-initially(c(all_agents,at_a_room2)).
-initially(c(all_agents,at_b_room2)).
-initially(c(all_agents,neg(at_a_room1))).
-initially(c(all_agents,neg(at_b_room1))).
-initially(c(all_agents,neg(at_a_room3))).
-initially(c(all_agents,neg(at_b_room3))).
-initially(c(all_agents,neg(at_a_room4))).
-initially(c(all_agents,neg(at_b_room4))).
-initially(c(all_agents,or(and(at_box1_room1,and(neg(at_box1_room3),neg(at_box1_room4))),or(and(neg(at_box1_room1),and(at_box1_room3,neg(at_box1_room4))),and(neg(at_box1_room1),and(neg(at_box1_room3),at_box1_room4)))))).
-initially(c(all_agents,or(and(at_box2_room1,and(neg(at_box2_room3),neg(at_box2_room4))),or(and(neg(at_box2_room1),and(at_box2_room3,neg(at_box2_room4))),and(neg(at_box2_room1),and(neg(at_box2_room3),at_box2_room4)))))).
+r_init(W1, W2, AG) :- w_init(W1), w_init(W2), agent(AG).
+
+v_init(W, at_a_room2) :- w_init(W).
+v_init(W, at_b_room2) :- w_init(W).
+
+v_init(w0, at_box1_room1).
+v_init(w0, at_box2_room1).
+
+v_init(w1, at_box1_room1).
+v_init(w1, at_box2_room3).
+
+v_init(w2, at_box1_room1).
+v_init(w2, at_box2_room4).
+
+v_init(w3, at_box1_room3).
+v_init(w3, at_box2_room1).
+
+v_init(w4, at_box1_room3).
+v_init(w4, at_box2_room3).
+
+v_init(w5, at_box1_room3).
+v_init(w5, at_box2_room4).
+
+v_init(w6, at_box1_room4).
+v_init(w6, at_box2_room1).
+
+v_init(w7, at_box1_room4).
+v_init(w7, at_box2_room3).
+
+v_init(w8, at_box1_room4).
+v_init(w8, at_box2_room4).
+
+dw_init(w1).
+
+
+% % *** INITIALLY ***
+
+% % ** initial pointed **
+% initially(neg(at_a_room1)).
+% initially(at_a_room2).
+% initially(neg(at_a_room3)).
+% initially(neg(at_a_room4)).
+% initially(at_box1_room1).
+% initially(neg(at_box1_room3)).
+% initially(neg(at_box1_room4)).
+% initially(neg(at_box2_room1)).
+% initially(at_box2_room3).
+% initially(neg(at_box2_room4)).
+% initially(neg(at_b_room1)).
+% initially(at_b_room2).
+% initially(neg(at_b_room3)).
+% initially(neg(at_b_room4)).
+
+% % ** initial beliefs **
+% agent_set(all_agents).
+% contains_ag(all_agents,a).
+% contains_ag(all_agents,b).
+% initially(c(all_agents,at_a_room2)).
+% initially(c(all_agents,at_b_room2)).
+% initially(c(all_agents,neg(at_a_room1))).
+% initially(c(all_agents,neg(at_b_room1))).
+% initially(c(all_agents,neg(at_a_room3))).
+% initially(c(all_agents,neg(at_b_room3))).
+% initially(c(all_agents,neg(at_a_room4))).
+% initially(c(all_agents,neg(at_b_room4))).
+% initially(c(all_agents,or(and(at_box1_room1,and(neg(at_box1_room3),neg(at_box1_room4))),or(and(neg(at_box1_room1),and(at_box1_room3,neg(at_box1_room4))),and(neg(at_box1_room1),and(neg(at_box1_room3),at_box1_room4)))))).
+% initially(c(all_agents,or(and(at_box2_room1,and(neg(at_box2_room3),neg(at_box2_room4))),or(and(neg(at_box2_room1),and(at_box2_room3,neg(at_box2_room4))),and(neg(at_box2_room1),and(neg(at_box2_room3),at_box2_room4)))))).
 
 
 

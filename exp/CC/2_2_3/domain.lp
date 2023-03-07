@@ -214,10 +214,10 @@ v_init(W, at_a_room2) :- w_init(W).
 v_init(W, at_b_room2) :- w_init(W).
 
 v_init(w0, at_box1_room1).
-v_init(w0, at_box2_room3).
+v_init(w0, at_box2_room1).
 
 v_init(w1, at_box1_room1).
-v_init(w1, at_box2_room1).
+v_init(w1, at_box2_room3).
 
 v_init(w2, at_box1_room3).
 v_init(w2, at_box2_room1).
@@ -225,28 +225,4 @@ v_init(w2, at_box2_room1).
 v_init(w3, at_box1_room3).
 v_init(w3, at_box2_room3).
 
-dw_init(w0).
-
-% initially(neg(at_a_room1)).
-% initially(at_a_room2).
-% initially(neg(at_a_room3)).
-% initially(at_box1_room1).
-% initially(neg(at_box1_room3)).
-% initially(neg(at_box2_room1)).
-% initially(at_box2_room3).
-% initially(neg(at_b_room1)).
-% initially(at_b_room2).
-% initially(neg(at_b_room3)).
-
-% % ** initial beliefs **
-% agent_set(all_agents).
-% contains_ag(all_agents,a).
-% contains_ag(all_agents,b).
-% initially(c(all_agents,at_a_room2)).
-% initially(c(all_agents,at_b_room2)).
-% initially(c(all_agents,neg(at_a_room1))).
-% initially(c(all_agents,neg(at_b_room1))).
-% initially(c(all_agents,neg(at_a_room3))).
-% initially(c(all_agents,neg(at_b_room3))).
-% initially(c(all_agents,or(and(at_box1_room1,neg(at_box1_room3)),and(neg(at_box1_room1),at_box1_room3)))).
-% initially(c(all_agents,or(and(at_box2_room1,neg(at_box2_room3)),and(neg(at_box2_room1),at_box2_room3)))).
+dw_init(w1).
