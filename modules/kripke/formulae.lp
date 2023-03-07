@@ -16,7 +16,9 @@ formula(F ) :- formula(  dia(_, F  )).
 
 #program check(t).
 
-holds(t, W, E, true)          :- w(t, W, E).
+holds(t, W, E, true) :- w(t, W, E).
+:- holds(t, W, E, false), w(t, W, E).
+
 holds(t, W, E, P)             :- w(t, W, E), v(t, W, E, P), atom(P), formula(P).
 
 holds(t, W, E,   neg(F))      :- w(t, W, E), not holds(t, W, E, F),                      formula(  neg(F)),      formula(F).
