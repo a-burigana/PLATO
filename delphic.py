@@ -116,8 +116,6 @@ def print_states(m):
 
     if (print_states_ == 'false'):
         return 0
-    else:
-        print(output_path)
     
     dir  = os.path.dirname(output_path)
     file = os.path.splitext(os.path.basename(output_path))[0]
@@ -168,7 +166,7 @@ def print_states(m):
     
     os.system('dot -Tpdf ' + dot_file + ' > ' + pdf_file)
     os.remove(dot_file)
-    
+
     # Interrupting clingo search
     return False
 
