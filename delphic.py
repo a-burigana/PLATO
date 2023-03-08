@@ -1,4 +1,4 @@
-import sys, os, time, clingo
+import sys, os, clingo
 from typing           import Optional
 from sortedcontainers import SortedSet, SortedDict
 from clingo           import Function, Number, SolveResult
