@@ -1,12 +1,12 @@
 import sys, os, time, clingo
 from typing           import Optional
 from sortedcontainers import SortedSet, SortedDict
-from clingo           import Function, Number, SymbolType
+from clingo           import Function, Number, SolveResult
 
 
 def main(argv):
     (clingo_args, clingo_files) = parse_arguments(argv)
-    app_name = '################\n#    delphic   #\n################\n\nbuilt on clingo'
+    app_name = '********************\n*      delphic     *\n********************\n\nbuilt on clingo'
     clingo.clingo_main(Application(app_name), clingo_files + clingo_args)
 
 def parse_arguments(argv):
@@ -16,6 +16,7 @@ def parse_arguments(argv):
     semantics   = 'semantics/delphic.lp'
     config      = 'run_config/search.lp'
 
+    print_states_ = False
     i = 0
     n = len(argv)
 
@@ -42,8 +43,16 @@ def parse_arguments(argv):
             config = 'run_config/debug.lp'
         elif opt in ('-p', '--print'):
             clingo_args.append('-c print=true')
+            print_states_ = True
         else:
             clingo_args.append(opt)
+    
+    if (instance == ''):
+        print('Missing input instance')
+        sys.exit()
+    
+    if (print_states_):
+        clingo_args.append('-c output_path="out/' + instance + '"')
     
     clingo_files = [config, semantics, domain, instance]
 
@@ -64,8 +73,6 @@ class Application:
         self.program_name = name
 
     def main(self, ctl, files):
-        # print(ctl._arguments)
-
         if len(files) > 0:
             for f in files:
                 ctl.load(f)
@@ -89,9 +96,7 @@ class Application:
             ctl.ground(parts)
             ctl.assign_external(Function('query', [Number(step)]), True)
 
-            # ret = ctl.solve()
             ret = ctl.solve(on_model=print_states)
-
             step = step + 1
 
 
@@ -105,68 +110,85 @@ class Application:
 
 
 def print_states(m):
-    print_states_ = [s.arguments[0].name for s in m.symbols(atoms=True) if s.name == 'print_states'][0]
+    print_config  = [s for s in m.symbols(atoms=True) if s.name == 'print_config'][0]
+    print_states_ = print_config.arguments[0].name
+    output_path   = print_config.arguments[1].string
 
     if (print_states_ == 'false'):
-        print('hasta la vista')
         return 0
+    else:
+        print(output_path)
     
+    dir  = os.path.dirname(output_path)
+    file = os.path.splitext(os.path.basename(output_path))[0]
+
+    dot_file = dir + os.sep + file + '.dot'
+    pdf_file = dir + os.sep + file + '.pdf'
+    
+    if (not os.path.exists(dir)):
+        os.makedirs(dir)
+    
+    output_file = open(dot_file, 'w')
+
     semantics = [s.arguments[0].string for s in m.symbols(atoms=True) if s.name == 'semantics'][0]
     all_worlds  = {s for s in m.symbols(atoms=True) if s.name == 'w'}
-    # all_rels    = {s for s in m.symbols(atoms=True) if s.name == 'r'}
-    # all_rels    = build_rels(all_worlds, all_rels)
 
     states      = build_states(m, semantics, all_worlds)
     world_names = generate_world_names(all_worlds)
     atoms       = generate_atoms(m)
-    outputfile  = open('out/test.dot', 'w')
     labels      = [s.arguments[1].name for s in m.symbols(atoms=True) if s.name == 'plan']
-    # labels.insert(0, '')
+    labels.insert(0, 's0')
 
     font = '"Helvetica,Arial,sans-serif"'
 
-    print('digraph {',                       end = '\n', file = outputfile)
-    print('\tfontname='       + font + ';',  end = '\n', file = outputfile)
-    print('\tnode [fontname=' + font + '];', end = '\n', file = outputfile)
-    print('\tedge [fontname=' + font + '];', end = '\n', file = outputfile)
-    print('\tlabeljust=l;',                  end = '\n', file = outputfile)
-    print('\trankdir=BT;',                   end = '\n', file = outputfile)
-    print('\tranksep=1.5',                   end = '\n', file = outputfile)
-    print('\tnewrank=true;',                 end = '\n', file = outputfile)
-    # print('\tsize="3.5";',                   end = '\n', file = outputfile)
-    print('\tcompound=true;',                end = '\n', file = outputfile)
+    print('digraph {',                       end = '\n', file = output_file)
+    print('\tfontname='       + font + ';',  end = '\n', file = output_file)
+    print('\tnode [fontname=' + font + '];', end = '\n', file = output_file)
+    print('\tedge [fontname=' + font + '];', end = '\n', file = output_file)
+    print('\tlabeljust=l;',                  end = '\n', file = output_file)
+    print('\trankdir=BT;',                   end = '\n', file = output_file)
+    print('\tranksep=1.5',                   end = '\n', file = output_file)
+    print('\tnewrank=true;',                 end = '\n', file = output_file)
+    # print('\tsize="3.5";',                   end = '\n', file = output_file)
+    print('\tcompound=true;',                end = '\n', file = output_file)
 
     t = 0
     
     for s in states:
-        # label = labels[t] if t == 0 else 's' + str(t) + ' = ' + 's' + str(t-1) + ' * ' + labels[t]
-        print_cluster(semantics, states, t, world_names, atoms, outputfile)
+        label = labels[t] if t == 0 else 's' + str(t) + ' = ' + 's' + str(t-1) + ' * ' + labels[t]
+        print_cluster(semantics, states, t, world_names, atoms, label, output_file)
         t += 1
     
-    print_rels(states, world_names, outputfile)
-    # print_cluster_rels(states, world_names, labels, outputfile)
-    print_vals(semantics, states, all_worlds, world_names, atoms, outputfile)
-    print('}', file = outputfile)
-    outputfile.close()
+    print_rels(states, world_names, output_file)
+    # print_cluster_rels(states, world_names, labels, output_file)
+    print_vals(semantics, states, all_worlds, world_names, atoms, output_file)
+    print('}', file = output_file)
 
-    os.system('dot -Tpdf out/test.dot > out/test.pdf')
+    output_file.close()
+    
+    os.system('dot -Tpdf ' + dot_file + ' > ' + pdf_file)
+    os.remove(dot_file)
+    
+    # Interrupting clingo search
+    return False
 
-def print_cluster(semantics, states, t, world_names, atoms, outputfile):
-    print('',                                   end = '\n',   file = outputfile)
-    print('\tsubgraph cluster_' + str(t)+ ' {', end = '\n',   file = outputfile)
-    print('\t\tlabel="s' + str(t) + '";',       end = '\n',   file = outputfile)
-    print('\t\tmargin=15;',                     end = '\n',   file = outputfile)
-    print('\t\tcolor=red;',                     end = '\n',   file = outputfile)
-    print('\t\tfontcolor=red;',                 end = '\n\n', file = outputfile)
+def print_cluster(semantics, states, t, world_names, atoms, label, output_file):
+    print('',                                   end = '\n',   file = output_file)
+    print('\tsubgraph cluster_' + str(t)+ ' {', end = '\n',   file = output_file)
+    print('\t\tlabel="' + label + '";',         end = '\n',   file = output_file)
+    # print('\t\tlabel="s' + str(t) + '";',       end = '\n',   file = output_file)
+    print('\t\tmargin=15;',                     end = '\n',   file = output_file)
+    print('\t\tcolor=red;',                     end = '\n',   file = output_file)
+    print('\t\tfontcolor=red;',                 end = '\n\n', file = output_file)
 
     s = states[t]
     
-    print_worlds(semantics, t, s[0], s[3], world_names, s[1], outputfile)
-    print('', end ='\n', file = outputfile)
+    print_worlds(semantics, t, s[0], s[3], world_names, s[1], output_file)
+    print('', end ='\n', file = output_file)
 
-    print('\t}', end ='\n', file = outputfile)
+    print('\t}', end ='\n', file = output_file)
 
-def print_worlds(semantics, t, worlds, des, world_names, rels, outputfile):
+def print_worlds(semantics, t, worlds, des, world_names, rels, output_file):
     ranked_worlds = SortedDict()
     
     for w in worlds:
@@ -195,15 +217,15 @@ def print_worlds(semantics, t, worlds, des, world_names, rels, outputfile):
             has_des = w in des
             wr += world_names[w] + shape + '; '
         
-        # print('\t\t' + wr, end = '\n', file = outputfile)
+        # print('\t\t' + wr, end = '\n', file = output_file)
         
         if (semantics == 'delphic'):
             if (has_des):
-                print('\t\t' + '{ rank=source; ' + wr + '}', end = '\n', file = outputfile)
+                print('\t\t' + '{ rank=source; ' + wr + '}', end = '\n', file = output_file)
             else:
-                print('\t\t' + '{ rank=same; ' + wr + '}', end = '\n', file = outputfile)
+                print('\t\t' + '{ rank=same; ' + wr + '}', end = '\n', file = output_file)
         else:
-            print('\t\t' + wr, end = '\n', file = outputfile)
+            print('\t\t' + wr, end = '\n', file = output_file)
 
 def generate_pretty_rels(states):
     pretty_rels = SortedDict()
@@ -228,8 +250,8 @@ def generate_pretty_rels(states):
     
     return pretty_rels
 
-def print_rels(states, world_names, outputfile):
-    print('', end = '\n',  file = outputfile)
+def print_rels(states, world_names, output_file):
+    print('', end = '\n',  file = output_file)
     pretty_rels = generate_pretty_rels(states)
     
     for (w1, w2) in pretty_rels:
@@ -245,13 +267,13 @@ def print_rels(states, world_names, outputfile):
                 label      += ag + ', '
         
         if (label != ''):
-            print('\t' + world_names[w1] + ' -> ' + world_names[w2] + ' [label="' + label[0:-2]      + '"];',          end = '\n', file = outputfile)
+            print('\t' + world_names[w1] + ' -> ' + world_names[w2] + ' [label="' + label[0:-2]      + '"];',          end = '\n', file = output_file)
 
         if (label_both != ''):
-            print('\t' + world_names[w1] + ' -> ' + world_names[w2] + ' [label="' + label_both[0:-2] + '" dir=both];', end = '\n', file = outputfile)
+            print('\t' + world_names[w1] + ' -> ' + world_names[w2] + ' [label="' + label_both[0:-2] + '" dir=both];', end = '\n', file = output_file)
 
-def print_cluster_rels(states, world_names, labels, outputfile):
-    print('', end = '\n', file = outputfile)
+def print_cluster_rels(states, world_names, labels, output_file):
+    print('', end = '\n', file = output_file)
     
     for t in range(len(states)-1):
         s1   = states[t]
@@ -262,13 +284,13 @@ def print_cluster_rels(states, world_names, labels, outputfile):
         wd1  = list(des1)[0]
         wd2  = list(des2)[0]
 
-        # print('\t' + world_names[wd1] + ' -> ' + world_names[wd2] + ' [arrowhead="vee" label="' + labels[t] + '" color=red fontcolor=red];', end = '\n', file = outputfile)
-        print('\t' + world_names[wd1] + ' -> ' + world_names[wd2] + ' [arrowhead="vee" label="' + labels[t] + '" ltail=cluster_' + str(t) + ' lhead=cluster_' + str(t+1) + ' color=red fontcolor=red];', end = '\n', file = outputfile)
+        # print('\t' + world_names[wd1] + ' -> ' + world_names[wd2] + ' [arrowhead="vee" label="' + labels[t] + '" color=red fontcolor=red];', end = '\n', file = output_file)
+        print('\t' + world_names[wd1] + ' -> ' + world_names[wd2] + ' [arrowhead="vee" label="' + labels[t] + '" ltail=cluster_' + str(t) + ' lhead=cluster_' + str(t+1) + ' color=red fontcolor=red];', end = '\n', file = output_file)
 
-def print_vals(semantics, states, all_worlds, world_names, atoms, outputfile):
-    print('',                                                                      end = '\n', file = outputfile)
-    print('\tnode [] val_table [shape=none label=<',                               end = '\n', file = outputfile)
-    print('\t\t<TABLE border="0" cellspacing="0" cellborder="1" cellpadding="2">', end = '\n', file = outputfile)
+def print_vals(semantics, states, all_worlds, world_names, atoms, output_file):
+    print('',                                                                      end = '\n', file = output_file)
+    print('\tnode [] val_table [shape=none label=<',                               end = '\n', file = output_file)
+    print('\t\t<TABLE border="0" cellspacing="0" cellborder="1" cellpadding="2">', end = '\n', file = output_file)
 
     t = -1
     
@@ -279,34 +301,34 @@ def print_vals(semantics, states, all_worlds, world_names, atoms, outputfile):
         for w in val:
             w_val = val[w]
 
-            print('\t\t\t<TR>',                              end = '\n', file = outputfile)
-            print('\t\t\t\t<TD>' + world_names[w] + '</TD>', end = '\n', file = outputfile)
+            print('\t\t\t<TR>',                              end = '\n', file = output_file)
+            print('\t\t\t\t<TD>' + world_names[w] + '</TD>', end = '\n', file = output_file)
             
             if (t == 0):
-                print('\t\t\t\t<TD>-</TD>',                          end = '\n', file = outputfile)
+                print('\t\t\t\t<TD>-</TD>',                          end = '\n', file = output_file)
             else:
                 old_w_args = w.arguments[1].arguments if semantics == 'delphic' else [Number(t-1)] + w.arguments[1].arguments
                 old_w      = world_names[find_world(all_worlds, old_w_args)]
                 e          = w.arguments[2].name
 
-                print('\t\t\t\t<TD>(' + old_w + ', ' + e + ')</TD>', end = '\n', file = outputfile)
+                print('\t\t\t\t<TD>(' + old_w + ', ' + e + ')</TD>', end = '\n', file = output_file)
 
-            print('\t\t\t\t<TD>',                            end = '\n', file = outputfile)
+            print('\t\t\t\t<TD>',                            end = '\n', file = output_file)
 
             for p in atoms:
                 if (p in w_val):
-                    print('\t\t\t\t\t<font color="blue"> ' + p + '</font>', end = '', file = outputfile)
+                    print('\t\t\t\t\t<font color="blue"> ' + p + '</font>', end = '', file = output_file)
                 else:
-                    print('\t\t\t\t\t<font color="red">-'  + p + '</font>', end = '', file = outputfile)
+                    print('\t\t\t\t\t<font color="red">-'  + p + '</font>', end = '', file = output_file)
                 
                 sep = ', ' if atoms.index(p) < len(atoms)-1 else ''
-                print(sep, end = '\n', file = outputfile)
+                print(sep, end = '\n', file = output_file)
 
-            print('\t\t\t\t</TD>', end = '\n', file = outputfile)
-            print('\t\t\t</TR>',   end = '\n', file = outputfile)
+            print('\t\t\t\t</TD>', end = '\n', file = output_file)
+            print('\t\t\t</TR>',   end = '\n', file = output_file)
 
-    print('\t\t</TABLE>', end = '\n', file = outputfile)
-    print('\t>];',        end = '\n', file = outputfile)
+    print('\t\t</TABLE>', end = '\n', file = output_file)
+    print('\t>];',        end = '\n', file = output_file)
 
 def generate_world_names(all_worlds):
     world_names = SortedDict()

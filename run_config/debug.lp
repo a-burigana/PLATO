@@ -1,6 +1,7 @@
 % Print settings
 #const print=true.
-print_states(print).
+#const output_path=".".
+print_config(print, output_path).
 
 
 % ***** INSERT ACTIONS TO TEST HERE *****
