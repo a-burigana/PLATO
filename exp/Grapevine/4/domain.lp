@@ -1,3 +1,5 @@
+#include "../../actions.lp".
+
 % *** ATOMS ***
 atom(at_a_1).
 atom(at_a_2).

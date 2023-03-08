@@ -1,3 +1,5 @@
+#include "../actions.lp".
+
 % *** ATOMS ***
 atom(looking_a).
 atom(looking_b).

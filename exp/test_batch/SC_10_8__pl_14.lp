@@ -7,27 +7,16 @@
 
 % *** ATOMS ***
 atom(at_1).
-formula(at_1).
 atom(at_10).
-formula(at_10).
 atom(at_2).
-formula(at_2).
 atom(at_3).
-formula(at_3).
 atom(at_4).
-formula(at_4).
 atom(at_5).
-formula(at_5).
 atom(at_6).
-formula(at_6).
 atom(at_7).
-formula(at_7).
 atom(at_8).
-formula(at_8).
 atom(at_9).
-formula(at_9).
 atom(q).
-formula(q).
 
 
 % *** AGENTS ***
@@ -43,30 +32,22 @@ agent(h).
 
 % *** ACTIONS ***
 action(left).
-ontic(left).
+action_type(left, ontic).
 causes(left, at_1, at_2).
 causes(left, at_2, at_3).
-formula(-at_2).
-causes(left, -at_2, at_2).
+causes(left, neg(at_2), at_2).
 causes(left, at_3, at_4).
-formula(-at_3).
-causes(left, -at_3, at_3).
+causes(left, neg(at_3), at_3).
 causes(left, at_4, at_5).
-formula(-at_4).
-causes(left, -at_4, at_4).
+causes(left, neg(at_4), at_4).
 causes(left, at_5, at_6).
-formula(-at_5).
-causes(left, -at_5, at_5).
+causes(left, neg(at_5), at_5).
 causes(left, at_6, at_7).
-formula(-at_6).
-causes(left, -at_6, at_6).
+causes(left, neg(at_6), at_6).
 causes(left, at_7, at_8).
-formula(-at_7).
-causes(left, -at_7, at_7).
-formula(-at_8).
-causes(left, -at_8, at_8).
-formula(-at_1).
-executable(left, -at_1).
+causes(left, neg(at_7), at_7).
+causes(left, neg(at_8), at_8).
+action_pre(left, neg(at_1)).
 observes(left, a, true).
 observes(left, b, true).
 observes(left, c, true).
@@ -78,22 +59,22 @@ observes(left, h, true).
 
 
 action(right).
-ontic(right).
-causes(right, -at_1, at_1).
+action_type(right, ontic).
+causes(right, neg(at_1), at_1).
 causes(right, at_2, at_1).
-causes(right, -at_2, at_2).
+causes(right, neg(at_2), at_2).
 causes(right, at_3, at_2).
-causes(right, -at_3, at_3).
+causes(right, neg(at_3), at_3).
 causes(right, at_4, at_3).
-causes(right, -at_4, at_4).
+causes(right, neg(at_4), at_4).
 causes(right, at_5, at_4).
-causes(right, -at_5, at_5).
+causes(right, neg(at_5), at_5).
 causes(right, at_6, at_5).
-causes(right, -at_6, at_6).
+causes(right, neg(at_6), at_6).
 causes(right, at_7, at_6).
-causes(right, -at_7, at_7).
+causes(right, neg(at_7), at_7).
 causes(right, at_8, at_7).
-executable(right, -at_8).
+action_pre(right, neg(at_8)).
 observes(right, a, true).
 observes(right, b, true).
 observes(right, c, true).
@@ -105,9 +86,9 @@ observes(right, h, true).
 
 
 action(sense).
-sensing(sense).
+action_type(sense, sensing).
 determines(sense, q).
-executable(sense, at_8).
+action_pre(sense, at_8).
 observes(sense, a, true).
 oblivious(sense, b).
 oblivious(sense, c).
@@ -119,11 +100,9 @@ oblivious(sense, h).
 
 
 action(shout_1).
-announcement(shout_1).
+action_type(shout_1, announcement).
 announces(shout_1, q).
-formula(b(a,q)).
-formula(and(b(a,q),at_1)).
-executable(shout_1, and(b(a,q),at_1)).
+action_pre(shout_1, and(box(a,q),at_1)).
 observes(shout_1, a, true).
 observes(shout_1, b, true).
 observes(shout_1, f, true).
@@ -135,10 +114,9 @@ oblivious(shout_1, h).
 
 
 action(shout_10).
-announcement(shout_10).
+action_type(shout_10, announcement).
 announces(shout_10, q).
-formula(and(b(a,q),at_10)).
-executable(shout_10, and(b(a,q),at_10)).
+action_pre(shout_10, and(box(a,q),at_10)).
 observes(shout_10, a, true).
 observes(shout_10, h, true).
 oblivious(shout_10, b).
@@ -150,10 +128,9 @@ oblivious(shout_10, g).
 
 
 action(shout_2).
-announcement(shout_2).
+action_type(shout_2, announcement).
 announces(shout_2, q).
-formula(and(b(a,q),at_2)).
-executable(shout_2, and(b(a,q),at_2)).
+action_pre(shout_2, and(box(a,q),at_2)).
 observes(shout_2, a, true).
 observes(shout_2, b, true).
 observes(shout_2, c, true).
@@ -165,10 +142,9 @@ oblivious(shout_2, h).
 
 
 action(shout_3).
-announcement(shout_3).
+action_type(shout_3, announcement).
 announces(shout_3, q).
-formula(and(b(a,q),at_3)).
-executable(shout_3, and(b(a,q),at_3)).
+action_pre(shout_3, and(box(a,q),at_3)).
 observes(shout_3, a, true).
 observes(shout_3, b, true).
 observes(shout_3, c, true).
@@ -180,10 +156,9 @@ oblivious(shout_3, h).
 
 
 action(shout_4).
-announcement(shout_4).
+action_type(shout_4, announcement).
 announces(shout_4, q).
-formula(and(b(a,q),at_4)).
-executable(shout_4, and(b(a,q),at_4)).
+action_pre(shout_4, and(box(a,q),at_4)).
 observes(shout_4, a, true).
 observes(shout_4, c, true).
 observes(shout_4, d, true).
@@ -195,10 +170,9 @@ oblivious(shout_4, h).
 
 
 action(shout_5).
-announcement(shout_5).
+action_type(shout_5, announcement).
 announces(shout_5, q).
-formula(and(b(a,q),at_5)).
-executable(shout_5, and(b(a,q),at_5)).
+action_pre(shout_5, and(box(a,q),at_5)).
 observes(shout_5, a, true).
 observes(shout_5, d, true).
 observes(shout_5, e, true).
@@ -210,10 +184,9 @@ oblivious(shout_5, h).
 
 
 action(shout_6).
-announcement(shout_6).
+action_type(shout_6, announcement).
 announces(shout_6, q).
-formula(and(b(a,q),at_6)).
-executable(shout_6, and(b(a,q),at_6)).
+action_pre(shout_6, and(box(a,q),at_6)).
 observes(shout_6, a, true).
 observes(shout_6, d, true).
 observes(shout_6, e, true).
@@ -225,10 +198,9 @@ oblivious(shout_6, h).
 
 
 action(shout_7).
-announcement(shout_7).
+action_type(shout_7, announcement).
 announces(shout_7, q).
-formula(and(b(a,q),at_7)).
-executable(shout_7, and(b(a,q),at_7)).
+action_pre(shout_7, and(box(a,q),at_7)).
 observes(shout_7, a, true).
 observes(shout_7, e, true).
 observes(shout_7, g, true).
@@ -240,10 +212,9 @@ oblivious(shout_7, f).
 
 
 action(shout_8).
-announcement(shout_8).
+action_type(shout_8, announcement).
 announces(shout_8, q).
-formula(and(b(a,q),at_8)).
-executable(shout_8, and(b(a,q),at_8)).
+action_pre(shout_8, and(box(a,q),at_8)).
 observes(shout_8, a, true).
 observes(shout_8, g, true).
 observes(shout_8, h, true).
@@ -255,10 +226,9 @@ oblivious(shout_8, f).
 
 
 action(shout_9).
-announcement(shout_9).
+action_type(shout_9, announcement).
 announces(shout_9, q).
-formula(and(b(a,q),at_9)).
-executable(shout_9, and(b(a,q),at_9)).
+action_pre(shout_9, and(box(a,q),at_9)).
 observes(shout_9, a, true).
 observes(shout_9, h, true).
 oblivious(shout_9, b).
@@ -275,17 +245,15 @@ oblivious(shout_9, g).
 
 % ** initial pointed **
 initially(at_1).
-formula(-at_10).
-initially(-at_10).
-initially(-at_2).
-initially(-at_3).
-initially(-at_4).
-initially(-at_5).
-initially(-at_6).
-initially(-at_7).
-initially(-at_8).
-formula(-at_9).
-initially(-at_9).
+initially(neg(at_10)).
+initially(neg(at_2)).
+initially(neg(at_3)).
+initially(neg(at_4)).
+initially(neg(at_5)).
+initially(neg(at_6)).
+initially(neg(at_7)).
+initially(neg(at_8)).
+initially(neg(at_9)).
 initially(q).
 
 % ** initial beliefs **
@@ -298,44 +266,22 @@ contains_ag(all_agents,e).
 contains_ag(all_agents,f).
 contains_ag(all_agents,g).
 contains_ag(all_agents,h).
-formula(c(all_agents,at_1)).
 initially(c(all_agents,at_1)).
-formula(c(all_agents,-at_2)).
-initially(c(all_agents,-at_2)).
-formula(c(all_agents,-at_3)).
-initially(c(all_agents,-at_3)).
-formula(c(all_agents,-at_4)).
-initially(c(all_agents,-at_4)).
-formula(c(all_agents,-at_5)).
-initially(c(all_agents,-at_5)).
-formula(c(all_agents,-at_6)).
-initially(c(all_agents,-at_6)).
-formula(c(all_agents,-at_7)).
-initially(c(all_agents,-at_7)).
-formula(c(all_agents,-at_8)).
-initially(c(all_agents,-at_8)).
-formula(c(all_agents,-at_9)).
-initially(c(all_agents,-at_9)).
-formula(c(all_agents,-at_10)).
-initially(c(all_agents,-at_10)).
+initially(c(all_agents,neg(at_2))).
+initially(c(all_agents,neg(at_3))).
+initially(c(all_agents,neg(at_4))).
+initially(c(all_agents,neg(at_5))).
+initially(c(all_agents,neg(at_6))).
+initially(c(all_agents,neg(at_7))).
+initially(c(all_agents,neg(at_8))).
+initially(c(all_agents,neg(at_9))).
+initially(c(all_agents,neg(at_10))).
 
 
 
-% ** commonly known fluent formulae **
-init_sf(at_1).
-init_sf(-at_2).
-init_sf(-at_3).
-init_sf(-at_4).
-init_sf(-at_5).
-init_sf(-at_6).
-init_sf(-at_7).
-init_sf(-at_8).
-init_sf(-at_9).
-init_sf(-at_10).
 
 
 % *** GOALS ***
-formula(b(b,b(a,q))).
-goal(b(b,b(a,q))).
+goal(box(b,box(a,q))).
 
 

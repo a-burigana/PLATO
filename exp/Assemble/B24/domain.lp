@@ -16,7 +16,10 @@ agent(b).
 action(act_assemble).
 action_type(act_assemble, ontic).
 causes(act_assemble, assemble, true).
-action_pre(act_assemble, and(neg(dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,neg(qualify_a))))))))),neg(dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,neg(qualify_b))))))))))).
+action_pre(act_assemble, and(
+    neg(dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,neg(qualify_a)))))))))))))))))))))))))))))))))))))))))))))))))),
+    neg(dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,dia(a,dia(b,neg(qualify_b))))))))))))))))))))))))))))))))))))))))))))))))))
+)).
 obs_cond(act_assemble, a, f_obs, true).
 obs_cond(act_assemble, b, f_obs, true).
 
