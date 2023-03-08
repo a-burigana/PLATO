@@ -10,17 +10,6 @@ agent(a).
 agent(b).
 agent(c).
 
-agent_set(all_agents).
-contains_ag(all_agents,a).
-contains_ag(all_agents,b).
-contains_ag(all_agents,c).
-
-
-% *** OBSERVABILITY GROUPS %%%
-obs_group(f_obs).
-obs_group(p_obs).
-obs_group(obl  ).
-
 
 % *** ACTIONS ***
 action(distract_a_b).
