@@ -1,14 +1,9 @@
 % *** ATOMS ***
 atom(at_1).
-formula(at_1).
 atom(at_2).
-formula(at_2).
 atom(at_3).
-formula(at_3).
 atom(at_4).
-formula(at_4).
 atom(q).
-formula(q).
 
 
 % *** AGENTS ***
@@ -23,148 +18,112 @@ agent(g).
 
 % *** ACTIONS ***
 action(left).
-ontic(left).
+action_type(left, ontic).
 causes(left, at_1, at_2).
 causes(left, at_2, at_3).
-formula(-at_2).
-causes(left, -at_2, at_2).
 causes(left, at_3, at_4).
-formula(-at_3).
-causes(left, -at_3, at_3).
-formula(-at_4).
-causes(left, -at_4, at_4).
-formula(-at_1).
-executable(left, -at_1).
-observes(left, a, true).
-observes(left, b, true).
-observes(left, c, true).
-oblivious(left, d).
-oblivious(left, e).
-oblivious(left, f).
-oblivious(left, g).
+causes(left, at_4, false).
+action_pre(left, neg(at_1)).
+obs_cond(left, a, f_obs, true).
+obs_cond(left, b, f_obs, true).
+obs_cond(left, c, f_obs, true).
+obs_cond(left, d, obl  , true).
+obs_cond(left, e, obl  , true).
+obs_cond(left, f, obl  , true).
+obs_cond(left, g, obl  , true).
 
 
 action(right).
-ontic(right).
-causes(right, -at_1, at_1).
+action_type(right, ontic).
+causes(right, at_1, false).
 causes(right, at_2, at_1).
-causes(right, -at_2, at_2).
 causes(right, at_3, at_2).
-causes(right, -at_3, at_3).
 causes(right, at_4, at_3).
-executable(right, -at_4).
-observes(right, a, true).
-observes(right, b, true).
-observes(right, c, true).
-oblivious(right, d).
-oblivious(right, e).
-oblivious(right, f).
-oblivious(right, g).
+action_pre(right, neg(at_4)).
+obs_cond(right, a, f_obs, true).
+obs_cond(right, b, f_obs, true).
+obs_cond(right, c, f_obs, true).
+obs_cond(right, d, obl  , true).
+obs_cond(right, e, obl  , true).
+obs_cond(right, f, obl  , true).
+obs_cond(right, g, obl  , true).
 
 
 action(sense).
-sensing(sense).
+action_type(sense, sensing).
 determines(sense, q).
-executable(sense, at_2).
-observes(sense, a, true).
-oblivious(sense, b).
-oblivious(sense, c).
-oblivious(sense, d).
-oblivious(sense, e).
-oblivious(sense, f).
-oblivious(sense, g).
+action_pre(sense, at_2).
+obs_cond(sense, a, f_obs, true).
+obs_cond(sense, b, obl  , true).
+obs_cond(sense, c, obl  , true).
+obs_cond(sense, d, obl  , true).
+obs_cond(sense, e, obl  , true).
+obs_cond(sense, f, obl  , true).
+obs_cond(sense, g, obl  , true).
 
 
 action(shout_1).
-announcement(shout_1).
+action_type(shout_1, announcement).
 announces(shout_1, q).
-formula(b(a,q)).
-formula(and(b(a,q),at_1)).
-executable(shout_1, and(b(a,q),at_1)).
-observes(shout_1, a, true).
-observes(shout_1, b, true).
-observes(shout_1, d, true).
-observes(shout_1, e, true).
-observes(shout_1, f, true).
-observes(shout_1, g, true).
-oblivious(shout_1, c).
+action_pre(shout_1, and(neg(dia(a,neg(q))),at_1)).
+obs_cond(shout_1, a, f_obs, true).
+obs_cond(shout_1, b, f_obs, true).
+obs_cond(shout_1, d, f_obs, true).
+obs_cond(shout_1, e, f_obs, true).
+obs_cond(shout_1, f, f_obs, true).
+obs_cond(shout_1, g, f_obs, true).
+obs_cond(shout_1, c, obl  , true).
 
 
 action(shout_2).
-announcement(shout_2).
+action_type(shout_2, announcement).
 announces(shout_2, q).
-formula(and(b(a,q),at_2)).
-executable(shout_2, and(b(a,q),at_2)).
-observes(shout_2, a, true).
-observes(shout_2, b, true).
-observes(shout_2, c, true).
-observes(shout_2, d, true).
-observes(shout_2, e, true).
-observes(shout_2, f, true).
-observes(shout_2, g, true).
+action_pre(shout_2, and(neg(dia(a,neg(q))),at_2)).
+obs_cond(shout_2, a, f_obs, true).
+obs_cond(shout_2, b, f_obs, true).
+obs_cond(shout_2, c, f_obs, true).
+obs_cond(shout_2, d, f_obs, true).
+obs_cond(shout_2, e, f_obs, true).
+obs_cond(shout_2, f, f_obs, true).
+obs_cond(shout_2, g, f_obs, true).
 
 
 action(shout_3).
-announcement(shout_3).
+action_type(shout_3, announcement).
 announces(shout_3, q).
-formula(and(b(a,q),at_3)).
-executable(shout_3, and(b(a,q),at_3)).
-observes(shout_3, a, true).
-observes(shout_3, b, true).
-observes(shout_3, c, true).
-observes(shout_3, d, true).
-observes(shout_3, e, true).
-observes(shout_3, f, true).
-observes(shout_3, g, true).
+action_pre(shout_3, and(neg(dia(a,neg(q))),at_3)).
+obs_cond(shout_3, a, f_obs, true).
+obs_cond(shout_3, b, f_obs, true).
+obs_cond(shout_3, c, f_obs, true).
+obs_cond(shout_3, d, f_obs, true).
+obs_cond(shout_3, e, f_obs, true).
+obs_cond(shout_3, f, f_obs, true).
+obs_cond(shout_3, g, f_obs, true).
 
 
 action(shout_4).
-announcement(shout_4).
+action_type(shout_4, announcement).
 announces(shout_4, q).
-formula(and(b(a,q),at_4)).
-executable(shout_4, and(b(a,q),at_4)).
-observes(shout_4, a, true).
-observes(shout_4, c, true).
-oblivious(shout_4, b).
-oblivious(shout_4, d).
-oblivious(shout_4, e).
-oblivious(shout_4, f).
-oblivious(shout_4, g).
+action_pre(shout_4, and(neg(dia(a,neg(q))),at_4)).
+obs_cond(shout_4, a, f_obs, true).
+obs_cond(shout_4, c, f_obs, true).
+obs_cond(shout_4, b, obl  , true).
+obs_cond(shout_4, d, obl  , true).
+obs_cond(shout_4, e, obl  , true).
+obs_cond(shout_4, f, obl  , true).
+obs_cond(shout_4, g, obl  , true).
 
 
 
 
-% *** INITIALLY ***
+% *** INITIAL STATE ***
 
-% ** initial pointed **
-initially(at_1).
-initially(-at_2).
-initially(-at_3).
-initially(-at_4).
-initially(q).
+w_init(w0). w_init(w1).
 
-% ** initial beliefs **
-agent_set(all_agents).
-contains_ag(all_agents,a).
-contains_ag(all_agents,b).
-contains_ag(all_agents,c).
-contains_ag(all_agents,d).
-contains_ag(all_agents,e).
-contains_ag(all_agents,f).
-contains_ag(all_agents,g).
-formula(c(all_agents,at_1)).
-initially(c(all_agents,at_1)).
-formula(c(all_agents,-at_2)).
-initially(c(all_agents,-at_2)).
-formula(c(all_agents,-at_3)).
-initially(c(all_agents,-at_3)).
-formula(c(all_agents,-at_4)).
-initially(c(all_agents,-at_4)).
+r_init(W1, W2, AG) :- w_init(W1), w_init(W2), agent(AG).
 
+v_init(W, at_1) :- w_init(W).
 
+v_init(w0, q).
 
-% ** commonly known fluent formulae **
-init_sf(at_1).
-init_sf(-at_2).
-init_sf(-at_3).
-init_sf(-at_4).
+dw_init(w0).

@@ -1,15 +1,11 @@
 % *** GOALS ***
-goal(b(a,q)).
-formula(b(h,q)).
-goal(b(h,q)).
-formula(b(j,q)).
-goal(b(j,q)).
-formula(b(g,q)).
-goal(b(g,q)).
-formula(b(d,q)).
-goal(b(d,q)).
-formula(b(e,q)).
-goal(b(e,q)).
-formula(b(f,q)).
-goal(b(f,q)).
+goal(neg(dia(a,neg(q)))).
+goal(neg(dia(h,neg(q)))).
+goal(neg(dia(j,neg(q)))).
+goal(neg(dia(g,neg(q)))).
+goal(neg(dia(d,neg(q)))).
+goal(neg(dia(e,neg(q)))).
+goal(neg(dia(f,neg(q)))).
 goal(at_4).
+
+% Solution: plan(1,left). plan(2,sense). plan(3,left). plan(4,left). plan(5,shout_8). plan(6,left). plan(7,left). plan(8,left). plan(9,shout_5). plan(10,left).

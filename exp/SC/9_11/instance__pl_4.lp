@@ -1,6 +1,6 @@
 % *** GOALS ***
-goal(b(a,q)).
-formula(b(h,q)).
-goal(b(h,q)).
-formula(b(j,q)).
-goal(b(j,q)).
+goal(neg(dia(a,neg(q)))).
+goal(neg(dia(h,neg(q)))).
+goal(neg(dia(j,neg(q)))).
+
+% Solution: plan(1,left). plan(2,sense). plan(3,left). plan(4,shout_9).
