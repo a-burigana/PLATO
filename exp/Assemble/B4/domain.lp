@@ -1,12 +1,8 @@
 % *** ATOMS ***
 atom(assemble).
-formula(assemble).
 atom(qualify_a).
-formula(qualify_a).
 atom(qualify_b).
-formula(qualify_b).
 atom(restart).
-formula(restart).
 
 
 % *** AGENTS ***
@@ -16,85 +12,66 @@ agent(b).
 
 % *** ACTIONS ***
 action(act_assemble).
-ontic(act_assemble).
+action_type(act_assemble, ontic).
 causes(act_assemble, assemble, true).
-formula(b(a,qualify_a)).
-formula(b(b,b(a,qualify_a))).
-formula(b(a,b(b,b(a,qualify_a)))).
-formula(b(b,b(a,b(b,b(a,qualify_a))))).
-formula(b(b,qualify_b)).
-formula(b(a,b(b,qualify_b))).
-formula(b(b,b(a,b(b,qualify_b)))).
-formula(b(a,b(b,b(a,b(b,qualify_b))))).
-formula(and(b(b,b(a,b(b,b(a,qualify_a)))),b(a,b(b,b(a,b(b,qualify_b)))))).
-executable(act_assemble, and(b(b,b(a,b(b,b(a,qualify_a)))),b(a,b(b,b(a,b(b,qualify_b)))))).
-observes(act_assemble, a, true).
-observes(act_assemble, b, true).
+action_pre(act_assemble, and(neg(dia(b,dia(a,dia(b,dia(a,neg(qualify_a)))))),neg(dia(a,dia(b,dia(a,dia(b,neg(qualify_b)))))))).
+obs_cond(act_assemble, a, f_obs, true).
+obs_cond(act_assemble, b, f_obs, true).
 
 
 action(act_res).
-ontic(act_res).
+action_type(act_res, ontic).
 causes(act_res, restart, true).
-formula(-qualify_a).
-formula(b(b,-qualify_a)).
-formula(b(a,b(b,-qualify_a))).
-formula(-qualify_b).
-formula(b(a,-qualify_b)).
-formula(b(b,b(a,-qualify_b))).
-formula(or(b(a,b(b,-qualify_a)),b(b,b(a,-qualify_b)))).
-executable(act_res, or(b(a,b(b,-qualify_a)),b(b,b(a,-qualify_b)))).
-observes(act_res, a, true).
-observes(act_res, b, true).
+action_pre(act_res, or(neg(dia(a,dia(b,qualify_a))),neg(dia(b,dia(a,qualify_b))))).
+obs_cond(act_res, a, f_obs, true).
+obs_cond(act_res, b, f_obs, true).
 
 
 action(sense_a).
-sensing(sense_a).
+action_type(sense_a, sensing).
 determines(sense_a, qualify_a).
-formula(neg(b(a,qualify_a))).
-formula(b(a,-qualify_a)).
-formula(neg(b(a,-qualify_a))).
-formula(and(neg(b(a,qualify_a)),neg(b(a,-qualify_a)))).
-executable(sense_a, and(neg(b(a,qualify_a)),neg(b(a,-qualify_a)))).
-observes(sense_a, a, true).
-oblivious(sense_a, b).
+action_pre(sense_a, and(dia(a,neg(qualify_a)),dia(a,qualify_a))).
+obs_cond(sense_a, a, f_obs, true).
+obs_cond(sense_a, b, obl  , true).
 
 
 action(sense_b).
-sensing(sense_b).
+action_type(sense_b, sensing).
 determines(sense_b, qualify_b).
-formula(neg(b(b,qualify_b))).
-formula(b(b,-qualify_b)).
-formula(neg(b(b,-qualify_b))).
-formula(and(neg(b(b,qualify_b)),neg(b(b,-qualify_b)))).
-executable(sense_b, and(neg(b(b,qualify_b)),neg(b(b,-qualify_b)))).
-observes(sense_b, b, true).
-oblivious(sense_b, a).
+action_pre(sense_b, and(dia(b,neg(qualify_b)),dia(b,qualify_b))).
+obs_cond(sense_b, b, f_obs, true).
+obs_cond(sense_b, a, obl  , true).
 
 
 action(tell_a).
-announcement(tell_a).
+action_type(tell_a, announcement).
 announces(tell_a, qualify_b).
-executable(tell_a, b(b,qualify_b)).
-observes(tell_a, a, true).
-observes(tell_a, b, true).
+action_pre(tell_a, neg(dia(b,neg(qualify_b)))).
+obs_cond(tell_a, a, f_obs, true).
+obs_cond(tell_a, b, f_obs, true).
 
 
 action(tell_b).
-announcement(tell_b).
+action_type(tell_b, announcement).
 announces(tell_b, qualify_a).
-executable(tell_b, b(a,qualify_a)).
-observes(tell_b, a, true).
-observes(tell_b, b, true).
+action_pre(tell_b, neg(dia(a,neg(qualify_a)))).
+obs_cond(tell_b, a, f_obs, true).
+obs_cond(tell_b, b, f_obs, true).
 
 
 
 
-% *** INITIALLY ***
+% *** INITIAL STATE ***
 
-% ** initial pointed **
-formula(-assemble).
-initially(-assemble).
-initially(qualify_a).
-initially(qualify_b).
-formula(-restart).
-initially(-restart).
+w_init(w0). w_init(w1). w_init(w2). w_init(w3).
+
+r_init(W1, W2, AG) :- w_init(W1), w_init(W2), agent(AG).
+
+v_init(w0, qualify_a).
+v_init(w0, qualify_b).
+
+v_init(w1, qualify_a).
+
+v_init(w2, qualify_b).
+
+dw_init(w0).

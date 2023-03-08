@@ -1,5 +1,3 @@
 % *** GOALS ***
-formula(b(a,assemble)).
-goal(b(a,assemble)).
-formula(b(b,assemble)).
-goal(b(b,assemble)).
+goal(neg(dia(a,neg(assemble)))).
+goal(neg(dia(b,neg(assemble)))).
