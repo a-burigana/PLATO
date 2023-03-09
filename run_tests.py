@@ -2,7 +2,7 @@ import sys, os, subprocess, time, pathlib
 
 # RUN TESTS AS FOLLOWS:
 #  >> find exp -name "*instance*.lp" > tests/instances.txt
-#  >> parallel -k --jobs <n> python run_tests.py < tests/domains.txt
+#  >> parallel -k --lb --jobs <n> python run_tests.py < tests/domains.txt
 
 def main(argv):
     sleep_time = 10
@@ -27,7 +27,7 @@ def main(argv):
     
     test_instance(instance, 'kripke', '\n', output_file)
     time.sleep(sleep_time)
-    
+
     output_file.close()
 
 def test_instance(instance, semantics, end, output_file):

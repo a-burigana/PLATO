@@ -29,8 +29,6 @@ goal_at(t) :- not not_goal_at(t).
 
 :- not_goal_at(t), query(t).
 
-% #minimize { W : w(t, W, _) }.
-
 
 % ***** Display *****
 #show plan/2.
