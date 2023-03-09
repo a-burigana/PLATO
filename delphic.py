@@ -6,15 +6,15 @@ from clingo           import Function, Number, SolveResult
 
 def main(argv):
     (clingo_args, clingo_files) = parse_arguments(argv)
-    app_name = '********************\n*      delphic     *\n********************\n\nbuilt on clingo'
+    app_name = 'delphic - built on clingo'
     clingo.clingo_main(Application(app_name), clingo_files + clingo_args)
 
 def parse_arguments(argv):
     clingo_args = ['-t 2', '--configuration=frumpy']
     instance    = ''
     domain      = ''
-    semantics   = 'semantics/delphic.lp'
     config      = 'run_config/search.lp'
+    semantics   = 'semantics/delphic.lp'
 
     print_states_ = False
     i = 0
@@ -44,6 +44,9 @@ def parse_arguments(argv):
         elif opt in ('-p', '--print'):
             clingo_args.append('-c print=true')
             print_states_ = True
+        elif opt == '--test':
+            clingo_args.append('--time-limit=600')
+            clingo_args.append('--verbose=0')
         else:
             clingo_args.append(opt)
     
@@ -117,7 +120,7 @@ def print_states(m):
     if (print_states_ == 'false'):
         return 0
     
-    dir  = os.path.dirname(output_path)
+    dir  = 'graphviz' + os.sep + os.path.dirname(output_path)
     file = os.path.splitext(os.path.basename(output_path))[0]
 
     dot_file = dir + os.sep + file + '.dot'
