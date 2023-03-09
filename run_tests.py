@@ -1,4 +1,4 @@
-import sys, os, subprocess, time, pathlib
+import sys, os, subprocess, time
 
 # RUN TESTS AS FOLLOWS:
 #  >> find exp -name "*instance*.lp" > tests/instances.txt
