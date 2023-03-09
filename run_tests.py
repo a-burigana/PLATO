@@ -37,7 +37,7 @@ def test_instance(instance, semantics, end, output_file):
 
     time_ = str(end_time-start_time) if ret == 0 else 't.o.'
     print(time_, end = end, file = output_file)
-    print(semantics + ' time (exit=' + str(ret) + '): ' + str(time_) + '\n')
+    print(semantics + ' time: ' + str(time_) + '\n')
     
 if __name__ == '__main__':
     main(sys.argv[1:])
