@@ -25,7 +25,7 @@ def parse_arguments(argv):
         i  += 1
 
         if opt in ('-h', '--help'):
-            print('delphic.py TODO')
+            print('Usage: python delphic.py -i|--instance <path/to/instance>')
             sys.exit()
         elif opt in ('-i', '--instance'):
             instance = argv[i]
@@ -116,12 +116,13 @@ def print_states(m):
     print_config  = [s for s in m.symbols(atoms=True) if s.name == 'print_config'][0]
     print_states_ = print_config.arguments[0].name
     output_path   = print_config.arguments[1].string
+    semantics     = [s.arguments[0].string for s in m.symbols(atoms=True) if s.name == 'semantics'][0]
 
     if (print_states_ == 'false'):
         return 0
     
     dir  = 'graphviz' + os.sep + os.path.dirname(output_path)
-    file = os.path.splitext(os.path.basename(output_path))[0]
+    file = os.path.splitext(os.path.basename(output_path))[0] + '_' + semantics
 
     dot_file = dir + os.sep + file + '.dot'
     pdf_file = dir + os.sep + file + '.pdf'
