@@ -13,8 +13,8 @@ def parse_arguments(argv):
     clingo_args = ['-t 2', '--configuration=frumpy']
     instance    = ''
     domain      = ''
-    config      = 'run_config/search.lp'
-    semantics   = 'semantics/delphic.lp'
+    config      = 'run_config' + os.sep + 'search.lp'
+    semantics   = 'semantics' + os.sep + 'delphic.lp'
 
     print_states_ = False
     i = 0
@@ -25,22 +25,22 @@ def parse_arguments(argv):
         i  += 1
 
         if opt in ('-h', '--help'):
-            print('Usage: python delphic.py -i|--instance <path/to/instance>')
+            print('Usage: python delphic.py -i|--instance <path' + os.sep + 'to' + os.sep + 'instance>')
             sys.exit()
         elif opt in ('-i', '--instance'):
             instance = argv[i]
-            domain   = os.path.dirname(instance) + '/domain.lp'
+            domain   = os.path.dirname(instance) + os.sep + 'domain.lp'
             i += 1
         elif opt in ('-s', '--semantics'):
             if (argv[i] == 'delphic'):
-                semantics = 'semantics/delphic.lp'
+                semantics = 'semantics' + os.sep + 'delphic.lp'
             elif (argv[i] == 'kripke'):
-                semantics = 'semantics/kripke.lp'
+                semantics = 'semantics' + os.sep + 'kripke.lp'
             else:
                 print('Error: unknown semantics')
             i += 1
         elif opt in ('-d', '--debug'):
-            config = 'run_config/debug.lp'
+            config = 'run_config' + os.sep + 'debug.lp'
         elif opt in ('-p', '--print'):
             clingo_args.append('-c print=true')
             print_states_ = True
@@ -55,7 +55,7 @@ def parse_arguments(argv):
         sys.exit()
     
     if (print_states_):
-        clingo_args.append('-c output_path="out/' + instance + '"')
+        clingo_args.append('-c output_path="out' + os.sep + 'graphviz' + os.sep + instance + '"')
     
     clingo_files = [config, semantics, domain, instance]
 
@@ -121,7 +121,7 @@ def print_states(m):
     if (print_states_ == 'false'):
         return 0
     
-    dir  = 'graphviz' + os.sep + os.path.dirname(output_path)
+    dir  = os.path.dirname(output_path)
     file = os.path.splitext(os.path.basename(output_path))[0] + '_' + semantics
 
     dot_file = dir + os.sep + file + '.dot'
