@@ -8,6 +8,11 @@ r(0, W1, null, 0, W2, null, AG) :- r_init(W1, W2, AG).
 v(0, W, null, P) :- v_init(W, P).
 dw(0, W, null) :- dw_init(W).
 
+% ***** ACTIONS *****
+-idle(ACT, E) :- precond(ACT, E, F), F != true.
+-idle(ACT, E) :- postcond(ACT, E, _, _).
+idle(ACT, E) :- e(ACT, E), not -idle(ACT, E).
+
 #program step(t).
 
 % ***** CONDITIONS *****
