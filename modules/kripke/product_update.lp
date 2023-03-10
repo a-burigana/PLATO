@@ -1,13 +1,5 @@
 % ********** PRODUCT UPDATE **********
 
-#program base.
-
-% ***** INITIAL STATE *****
-w(0, W, null) :- w_init(W).
-r(0, W1, null, W2, null, AG) :- r_init(W1, W2, AG).
-v(0, W, null, P) :- v_init(W, P).
-dw(0, W, null) :- dw_init(W).
-
 #program step(t).
 
 % ***** CONDITIONS *****
@@ -37,3 +29,11 @@ v(t, (W, Ew), E, P) :- w(t, (W, Ew), E), post(t, E, P, POST), holds(t-1, W, Ew, 
 
 % Inertia in ontic actions
 v(t, (W, Ew), E, P) :- w(t, (W, Ew), E), plan(t, ACT), inertia(ACT, E, P), v(t-1, W, Ew, P).
+
+#program base.
+
+% ***** INITIAL STATE *****
+w(0, W, null) :- w_init(W).
+r(0, W1, null, W2, null, AG) :- r_init(W1, W2, AG).
+v(0, W, null, P) :- v_init(W, P).
+dw(0, W, null) :- dw_init(W).
