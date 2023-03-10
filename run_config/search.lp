@@ -1,11 +1,5 @@
 #defined plan/2.
 
-% Print settings
-#const print=false.
-#const output_path=".".
-print_config(print, output_path).
-
-
 % ***** Generate *****
 #program step(t).
 

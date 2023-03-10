@@ -1,9 +1,3 @@
-% Print settings
-#const print=true.
-#const output_path=".".
-print_config(print, output_path).
-
-
 % ***** INSERT ACTIONS TO TEST HERE *****
 
 % plan(1,action_1).
