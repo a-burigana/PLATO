@@ -1,43 +1,50 @@
-import sys, os, subprocess, time
+import sys, os, subprocess, time, pathlib
 
 # RUN TESTS AS FOLLOWS:
-#  >> find exp -name "*instance*.lp" > tests/instances.txt
-#  >> parallel -k --lb --jobs <n> python run_tests.py < tests/domains.txt
+#  >> python run_tests.py exp/
 
 def main(argv):
-    sleep_time = 10
+    for instance in sorted(pathlib.Path(argv[0]).rglob('*instance*.lp')):
+        test_instance(str(instance))
+    
+def test_instance(instance):
+    sleep_time = 1
 
-    instance = argv[0]
-    dir      = os.path.dirname(instance)
-    test_dir = 'out' + os.sep + 'tests' + os.sep + dir
-    csv_file = test_dir + os.sep + 'results.csv'
-
-    if (not os.path.exists(test_dir)):
-        os.makedirs(test_dir, exist_ok=True)
-
-    output_file = open(csv_file, 'a')
-
-    inst_name = os.path.splitext(os.path.basename(instance))[0]
-
-    print(inst_name, end = ',', file = output_file)
     print('\n#################### RUNNING INSTANCE ' + instance + ' ####################\n')
 
-    test_instance(instance, 'delphic', ',', output_file)
+    test_instance_with_semantics(instance, 'delphic')
     time.sleep(sleep_time)
     
-    test_instance(instance, 'kripke', '\n', output_file)
+    test_instance_with_semantics(instance, 'kripke')
     time.sleep(sleep_time)
 
-    output_file.close()
-
-def test_instance(instance, semantics, end, output_file):
-    start_time = time.time()
+def test_instance_with_semantics(instance, semantics):
     ret = subprocess.call('python delphic.py -i ' + instance + ' -s ' + semantics + ' --test', shell=True)
-    end_time = time.time()
+    
+    if (ret != 0):
+        dir      = os.path.dirname(instance)
+        test_dir = 'out' + os.sep + 'tests' + os.sep + dir
+        csv_file = test_dir + os.sep + 'results_' + semantics + '.csv'
 
-    time_ = str(end_time-start_time) if ret == 0 else 't.o.'
-    print(time_, end = end, file = output_file)
-    print(semantics + ' time: ' + str(time_) + '\n')
+        if (not os.path.exists(test_dir)):
+            os.makedirs(test_dir, exist_ok=True)
+
+        exists_file = os.path.isfile(csv_file)
+        output_file = open(csv_file, 'a')
+
+        if (not exists_file):
+            print('instance,time,atoms', end = '\n', file = output_file)
+
+        inst_name = os.path.splitext(os.path.basename(instance))[0]
+        print(inst_name, end = ',',  file = output_file)
+        print('t.o.',    end = ',',  file = output_file)
+        print('-',       end = '\n', file = output_file)
+    
+        output_file.close()
+
+        print(semantics + ' time:  t.o.')
+        print(semantics + ' atoms: -')
+        print('\n')
     
 if __name__ == '__main__':
     main(sys.argv[1:])

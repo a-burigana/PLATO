@@ -1,4 +1,4 @@
-import sys, os, clingo
+import sys, os, clingo, subprocess
 from typing           import Optional
 from sortedcontainers import SortedSet, SortedDict
 from clingo           import Function, Number, SolveResult
@@ -10,13 +10,24 @@ def main(argv):
     clingo.clingo_main(Application(app_name), clingo_files + clingo_args)
 
 def parse_arguments(argv):
-    clingo_args = ['-t 2', '--configuration=frumpy']
-    instance    = ''
-    domain      = ''
-    config      = 'run_config' + os.sep + 'search.lp'
-    semantics   = 'semantics' + os.sep + 'delphic.lp'
+    global out_graphviz_path
+    global out_tests_path
+    global print_states_
+    global print_tests_
+    global semantics
+
+    config    = 'search'
+    semantics = 'delphic'
+
+    clingo_args    = ['-t 2', '--configuration=frumpy']
+    instance_file  = ''
+    domain_file    = ''
 
     print_states_ = False
+    print_tests_  = False
+
+    time_limit    = 600     # seconds
+
     i = 0
     n = len(argv)
 
@@ -28,36 +39,41 @@ def parse_arguments(argv):
             print('Usage: python delphic.py -i|--instance <path' + os.sep + 'to' + os.sep + 'instance>')
             sys.exit()
         elif opt in ('-i', '--instance'):
-            instance = argv[i]
-            domain   = os.path.dirname(instance) + os.sep + 'domain.lp'
+            instance_file = argv[i]
+            domain_file   = os.path.dirname(instance_file) + os.sep + 'domain.lp'
             i += 1
         elif opt in ('-s', '--semantics'):
-            if (argv[i] == 'delphic'):
-                semantics = 'semantics' + os.sep + 'delphic.lp'
-            elif (argv[i] == 'kripke'):
-                semantics = 'semantics' + os.sep + 'kripke.lp'
-            else:
+            if (argv[i] != 'delphic' and argv[i] != 'kripke'):
                 print('Error: unknown semantics')
+                sys.exit()
+            else:
+                semantics = argv[i]
             i += 1
         elif opt in ('-d', '--debug'):
-            config = 'run_config' + os.sep + 'debug.lp'
+            config = 'debug'
         elif opt in ('-p', '--print'):
-            clingo_args.append('-c print=true')
             print_states_ = True
         elif opt == '--test':
-            clingo_args.append('--time-limit=600')
+            print_tests_ = True
+            clingo_args.append('--time-limit=' + str(time_limit))
             clingo_args.append('--verbose=0')
         else:
             clingo_args.append(opt)
     
-    if (instance == ''):
+    if (instance_file == ''):
         print('Missing input instance')
         sys.exit()
     
+    config_file    = 'run_config' + os.sep + config    + '.lp'
+    semantics_file = 'semantics'  + os.sep + semantics + '.lp'
+
     if (print_states_):
-        clingo_args.append('-c output_path="out' + os.sep + 'graphviz' + os.sep + instance + '"')
+        out_graphviz_path = 'out' + os.sep + 'graphviz' + os.sep + instance_file
+
+    if (print_tests_):
+        out_tests_path = 'out' + os.sep + 'tests' + os.sep + instance_file
     
-    clingo_files = [config, semantics, domain, instance]
+    clingo_files = [config_file, semantics_file, domain_file, instance_file]
 
     return (clingo_args, clingo_files)
 
@@ -85,6 +101,9 @@ class Application:
         step = 0
         ret: Optional[SolveResult] = None
 
+        total_time  = 0.0
+        interrupted = False
+
         while (step == 0 or not ret.satisfiable):
             parts = []
             parts.append(('check', [Number(step)]))
@@ -99,8 +118,59 @@ class Application:
             ctl.ground(parts)
             ctl.assign_external(Function('query', [Number(step)]), True)
 
-            ret = ctl.solve(on_model=print_states)
-            step = step + 1
+            try:
+                ret = ctl.solve(on_model=print_states)
+            except RuntimeError:
+                ctl.interrupt()
+                interrupted = True
+                break
+            step += 1
+
+            total_time += ctl.statistics['summary']['times']['total']
+        
+        atoms = ctl.statistics['problem']['lp']['atoms']
+        print_tests(interrupted, total_time, atoms)
+
+
+
+#############################################################
+#                                                           #
+#                PRINTING TEST RESULTS (CSV)                #
+#                                                           #
+#############################################################
+
+
+
+def print_tests(interrupted, total_time, atoms):
+    if (not print_tests_):
+        return
+
+    dir  = os.path.dirname(out_tests_path)
+    file = os.path.splitext(os.path.basename(out_tests_path))[0]
+
+    csv_file  = dir + os.sep + 'results_' + semantics + '.csv'
+
+    if (not os.path.exists(dir)):
+        os.makedirs(dir)
+    
+    exists_file = os.path.isfile(csv_file)
+    output_file = open(csv_file, 'a')
+
+    if (not exists_file):
+        print('instance,time,atoms', end = '\n', file = output_file)
+
+    output_time  = str(total_time) if not interrupted else 't.o.'
+    output_atoms = str(int(atoms)) if not interrupted else '-'
+
+    print(file,         end = ',',  file = output_file)
+    print(output_time,  end = ',',  file = output_file)
+    print(output_atoms, end = '\n', file = output_file)
+
+    output_file.close()
+
+    print(semantics + ' time:  ' + output_time)
+    print(semantics + ' atoms: ' + output_atoms)
+    print('\n')
 
 
 
@@ -113,16 +183,11 @@ class Application:
 
 
 def print_states(m):
-    print_config  = [s for s in m.symbols(atoms=True) if s.name == 'print_config'][0]
-    print_states_ = print_config.arguments[0].name
-    output_path   = print_config.arguments[1].string
-    semantics     = [s.arguments[0].string for s in m.symbols(atoms=True) if s.name == 'semantics'][0]
-
-    if (print_states_ == 'false'):
-        return 0
+    if (not print_states_):
+        return
     
-    dir  = os.path.dirname(output_path)
-    file = os.path.splitext(os.path.basename(output_path))[0] + '_' + semantics
+    dir  = os.path.dirname(out_graphviz_path)
+    file = os.path.splitext(os.path.basename(out_graphviz_path))[0] + '_' + semantics
 
     dot_file = dir + os.sep + file + '.dot'
     pdf_file = dir + os.sep + file + '.pdf'
@@ -132,7 +197,6 @@ def print_states(m):
     
     output_file = open(dot_file, 'w')
 
-    semantics = [s.arguments[0].string for s in m.symbols(atoms=True) if s.name == 'semantics'][0]
     all_worlds  = {s for s in m.symbols(atoms=True) if s.name == 'w'}
 
     states      = build_states(m, semantics, all_worlds)
