@@ -56,7 +56,7 @@ def parse_arguments(argv):
         elif opt == '--test':
             print_tests_ = True
             clingo_args.append('--time-limit=' + str(time_limit))
-            clingo_args.append('--verbose=0')
+            # clingo_args.append('--verbose=0')
         else:
             clingo_args.append(opt)
     

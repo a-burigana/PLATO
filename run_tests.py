@@ -8,7 +8,7 @@ def main(argv):
         test_instance(str(instance))
     
 def test_instance(instance):
-    sleep_time = 1
+    sleep_time = 10
 
     print('\n#################### RUNNING INSTANCE ' + instance + ' ####################\n')
 
